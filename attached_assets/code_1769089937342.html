@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Influencer Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4725f4",
+              "accent-pink": "#ff2daf",
+              "background-light": "#f6f5f8",
+              "background-dark": "#0a0914",
+              "card-dark": "#131022",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .circuit-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(71, 37, 244, 0.15) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .glass-panel {
+            background: rgba(19, 16, 34, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(71, 37, 244, 0.2);
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.4), 0 0 30px rgba(71, 37, 244, 0.2);
+        }
+        .neon-pink-glow {
+            box-shadow: 0 0 20px rgba(255, 45, 175, 0.5);
+        }
+        .avatar-container {
+            background: radial-gradient(circle at center, rgba(71, 37, 244, 0.1) 0%, transparent 70%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen overflow-x-hidden font-display">
+<!-- Top Navigation -->
+<div class="fixed top-0 w-full z-50 glass-panel">
+<div class="flex items-center p-4 justify-between max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white">arrow_back</span>
+<h2 class="text-white text-lg font-bold tracking-tight">AI Influencer Studio</h2>
+</div>
+<div class="flex items-center gap-2 bg-primary/20 px-3 py-1 rounded-full border border-primary/30">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+<span class="text-xs font-bold text-primary tracking-widest uppercase">Labs</span>
+</div>
+</div>
+</div>
+<main class="pt-20 pb-32 px-4 max-w-md mx-auto relative circuit-bg min-h-screen">
+<!-- Central Stage -->
+<div class="relative w-full aspect-square flex items-center justify-center mb-6">
+<!-- Energy Rings -->
+<div class="absolute inset-0 border-[1px] border-primary/20 rounded-full animate-pulse"></div>
+<div class="absolute inset-4 border-[2px] border-accent-pink/10 rounded-full"></div>
+<div class="absolute inset-8 border-[1px] border-primary/40 rounded-full"></div>
+<!-- 3D Glass Container Placeholder -->
+<div class="relative w-64 h-80 glass-panel rounded-xl overflow-hidden flex flex-col items-center justify-center border-primary/40">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+<div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+<!-- Forming Avatar Visual -->
+<div class="w-48 h-64 bg-slate-800/40 rounded-lg relative overflow-hidden flex items-center justify-center border border-white/5">
+<div class="absolute inset-0 opacity-40 bg-center bg-cover" data-alt="Holographic humanoid figure forming from blue particles" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiHBsX3igSigLkmdaUoVDFkulhdI0vYKxh1gCw-UIsiKtpnHROzyGLUwOwP2ANqciJWGVNz4D-xUikSUJvyCfmggi34hRIXMghRH0fIsGVofqLCUM7bWJVspT16hoTXEwVJfoyQbvM6YKxWNVRX-QLLL_8Z3LLmEab48a0mPGiL-u3tbFWY2IqAJTBag14TbM6TeMOjMKC1xNyVgvqyXYIIrexxaWi28m6yNynU7v_BohHUrrYu--JylYxOINiFvSzwXX13saNY-U');"></div>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-primary text-5xl animate-pulse">generating_tokens</span>
+<p class="text-[10px] uppercase tracking-[0.3em] mt-4 text-primary/80 font-bold">Initializing DNA...</p>
+</div>
+</div>
+<!-- Particle effects bottom -->
+<div class="absolute bottom-4 flex gap-1">
+<div class="w-1 h-1 bg-primary rounded-full"></div>
+<div class="w-1 h-3 bg-accent-pink rounded-full"></div>
+<div class="w-1 h-2 bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- DNA Configuration Section -->
+<div class="space-y-6 mb-8">
+<div class="flex items-center gap-2 px-2">
+<span class="material-symbols-outlined text-primary">genetics</span>
+<h3 class="text-white text-sm font-bold uppercase tracking-widest">DNA Configuration</h3>
+</div>
+<!-- Tabs/Categories -->
+<div class="pb-1">
+<div class="flex border-b border-primary/20 px-2 gap-6">
+<a class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-2" href="#">
+<p class="text-xs font-bold uppercase tracking-wider">Aesthetic</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 pb-2" href="#">
+<p class="text-xs font-bold uppercase tracking-wider">Personality</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 pb-2" href="#">
+<p class="text-xs font-bold uppercase tracking-wider">Niche</p>
+</a>
+</div>
+</div>
+<!-- Aesthetic Chips -->
+<div class="flex gap-2 p-2 flex-wrap">
+<div class="flex h-10 items-center justify-center gap-x-2 rounded-lg bg-primary text-white px-4 border border-primary/50 neon-glow">
+<span class="material-symbols-outlined text-sm">electric_bolt</span>
+<p class="text-sm font-bold">Cyberpunk</p>
+</div>
+<div class="flex h-10 items-center justify-center gap-x-2 rounded-lg bg-card-dark text-slate-400 px-4 border border-white/10">
+<p class="text-sm font-medium">Y2K Retro</p>
+</div>
+<div class="flex h-10 items-center justify-center gap-x-2 rounded-lg bg-card-dark text-slate-400 px-4 border border-white/10">
+<p class="text-sm font-medium">Minimalist</p>
+</div>
+</div>
+<!-- Personality Row -->
+<div class="grid grid-cols-3 gap-3 px-2">
+<div class="glass-panel p-3 rounded-lg flex flex-col items-center border-white/5 opacity-60">
+<span class="material-symbols-outlined text-slate-400 mb-1">sentiment_satisfied</span>
+<p class="text-[10px] font-bold uppercase text-slate-500">Sassy</p>
+</div>
+<div class="glass-panel p-3 rounded-lg flex flex-col items-center border-primary/40 bg-primary/10">
+<span class="material-symbols-outlined text-primary mb-1">support_agent</span>
+<p class="text-[10px] font-bold uppercase text-primary">Helpful</p>
+</div>
+<div class="glass-panel p-3 rounded-lg flex flex-col items-center border-white/5 opacity-60">
+<span class="material-symbols-outlined text-slate-400 mb-1">rocket_launch</span>
+<p class="text-[10px] font-bold uppercase text-slate-500">Hype-beast</p>
+</div>
+</div>
+</div>
+<!-- Brand Synergy Card -->
+<div class="glass-panel p-4 rounded-xl mb-12 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<div class="text-[8px] text-accent-pink font-bold uppercase tracking-tighter animate-pulse">Live Analysis</div>
+</div>
+<div class="flex justify-between items-end mb-4">
+<div>
+<h4 class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Brand Synergy</h4>
+<div class="text-3xl font-bold text-white tracking-tighter">84<span class="text-primary text-xl">%</span></div>
+</div>
+<div class="flex flex-col items-end">
+<div class="flex gap-1 mb-2">
+<div class="h-4 w-1 bg-primary rounded-full"></div>
+<div class="h-4 w-1 bg-primary rounded-full"></div>
+<div class="h-4 w-1 bg-primary rounded-full"></div>
+<div class="h-4 w-1 bg-primary/20 rounded-full"></div>
+<div class="h-4 w-1 bg-primary/20 rounded-full"></div>
+</div>
+<span class="text-[10px] text-slate-500 font-medium uppercase">Trend Alignment</span>
+</div>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-accent-pink w-[84%]"></div>
+</div>
+</div>
+</main>
+<!-- Fixed Action Button Footer -->
+<div class="fixed bottom-0 w-full p-6 pb-8 bg-gradient-to-t from-background-dark via-background-dark to-transparent z-50">
+<div class="max-w-md mx-auto">
+<button class="w-full h-16 bg-gradient-to-r from-primary via-[#6c4eff] to-accent-pink rounded-xl flex items-center justify-center gap-3 relative group overflow-hidden neon-pink-glow">
+<!-- Inner glow/shimmer -->
+<div class="absolute inset-0 bg-white/10 opacity-0 group-active:opacity-100 transition-opacity"></div>
+<div class="absolute top-0 left-0 w-full h-[1px] bg-white/30"></div>
+<span class="material-symbols-outlined text-white">auto_awesome</span>
+<span class="text-white font-bold uppercase tracking-[0.15em] text-sm">Generate Content Pipeline</span>
+<!-- Lightning accent -->
+<div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-30">
+<span class="material-symbols-outlined text-white text-xl">bolt</span>
+</div>
+</button>
+<p class="text-center text-[10px] text-slate-500 mt-4 uppercase tracking-widest font-medium">Estimated compute time: 14s</p>
+</div>
+</div>
+</body></html>

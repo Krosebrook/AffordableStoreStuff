@@ -34,7 +34,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#0a0a0f] z-[9999]">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#0d0b14] z-[9999]">
       <div className="flex flex-col items-center gap-4">
         <Loader2 className="w-10 h-10 animate-spin text-[#4725f4]" />
         <span className="text-sm font-medium text-white/70">Initializing FlashFusion...</span>

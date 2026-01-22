@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Brand Voice Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#1a1022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(157, 37, 244, 0.3);
+            border-color: #9d25f4;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- TopAppBar -->
+<div class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md flex items-center p-4 pb-2 justify-between border-b border-white/5">
+<div class="text-slate-900 dark:text-white flex size-12 shrink-0 items-center">
+<span class="material-symbols-outlined cursor-pointer">arrow_back_ios</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Brand Voice Settings</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-transparent text-primary gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+</div>
+<main class="flex-1 pb-32">
+<!-- SectionHeader -->
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-6">Voice Identity</h3>
+<p class="px-4 text-sm text-slate-500 dark:text-[#ad9cba]">Select a persona that matches your brand's personality.</p>
+</div>
+<!-- Carousel -->
+<div class="flex overflow-x-auto custom-scrollbar">
+<div class="flex items-stretch p-4 gap-4">
+<!-- Item 1 (Selected) -->
+<div class="flex h-full flex-1 flex-col gap-4 rounded-xl min-w-40 glass-card p-3 border-primary neon-border">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex flex-col relative overflow-hidden" data-alt="Abstract purple geometric patterns representing professional tone" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBAoFc6W791SFGYjhooMi8phu__ek7eXclLlD17RFtqp21FcrNLi9EgYgoYOE77O3y7AKCaGTe2nAFbLYn0QCkAO81a9QVotKWEpHJ63xwSKNRiF1pwh7oY7iTtFY41iLH6915Zb6Fa-uObdnURLqEc_r8ECfEWyG0FxT026f_25vGfiQFb6JByb8-tE6uiaSoMCsjVG0Tp-yHgYULWOo5UCdW5w9HVYjHXs1sQsNdWIIY98S-tcYZ8_clhpYXi1QtE9-SJYnNTcmY");'>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl">work</span>
+</div>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-base font-semibold leading-normal">Professional</p>
+<p class="text-slate-500 dark:text-[#ad9cba] text-xs font-normal leading-tight">Formal, expert, and authoritative</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex h-full flex-1 flex-col gap-4 rounded-xl min-w-40 glass-card p-3">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex flex-col relative overflow-hidden" data-alt="Vibrant colorful gradients representing playful tone" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDzCK4m9RTEhbuPy88a9GfylkLTMCQq2BX8KCFqw8ijzuQkKd1s8burd4W-UCW-G6mFvvojQINvfWBE139dPZ0P5PmBVX0ezucw367AwMGPXUrTNYeAoTGwiVAr0t6a9qrTJmVdwWTQTukT9Zt__08RR808Hit9MJXsg551BVeFa7tvOh1LQM1MpLlrGfwiU12hyLgcKhhoD95ll1GVOAkZtfLY0Lzgel10B2WFDTmHlc6WrlKsYZMQQuXmBD7DfAo0owv38zJ_5LQ");'>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl">celebration</span>
+</div>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Playful</p>
+<p class="text-slate-500 dark:text-[#ad9cba] text-xs font-normal leading-tight">Energetic and friendly</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex h-full flex-1 flex-col gap-4 rounded-xl min-w-40 glass-card p-3">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex flex-col relative overflow-hidden" data-alt="Elegant gold and black patterns representing luxury tone" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDR83Hq-Gx7W29UO25rt8YPJ7Hg5oUArA-Nglv0OXuwsZFBuA6BalWxVDt7zmrO5q3ta9nI-7Su43sN_vw_RZkycuzse-CEdzoEpbgSwHviXJW1qpBhMe7XrZSVGsux8ayaF3ozC2jQ8ofMIAJcz1GMsPeEEr-c6yHRvCVI2e8uVxNvHZwKnhac60Xol0rAHqUrtlUtqIfbGiAd7eBlAmHq_vh6GJEGvVNAPKLaorzmDRfEfzf-qlaOiSgSD04QkT6Upxz0Bwui25E");'>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl">diamond</span>
+</div>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Luxury</p>
+<p class="text-slate-500 dark:text-[#ad9cba] text-xs font-normal leading-tight">Premium and exclusive</p>
+</div>
+</div>
+</div>
+</div>
+<!-- SectionHeader -->
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-6">Core Brand Values</h3>
+<p class="px-4 text-sm text-slate-500 dark:text-[#ad9cba]">Keywords the AI will emphasize in your copy.</p>
+</div>
+<!-- Chips -->
+<div class="flex gap-2 p-4 flex-wrap">
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary pl-4 pr-4">
+<p class="text-white text-sm font-medium leading-normal">Authentic</p>
+<span class="material-symbols-outlined text-sm">close</span>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary pl-4 pr-4">
+<p class="text-white text-sm font-medium leading-normal">Innovative</p>
+<span class="material-symbols-outlined text-sm">close</span>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-200 dark:bg-[#322839] pl-4 pr-4">
+<p class="text-slate-700 dark:text-white text-sm font-medium leading-normal">Eco-friendly</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-200 dark:bg-[#322839] pl-4 pr-4">
+<p class="text-slate-700 dark:text-white text-sm font-medium leading-normal">Disruptive</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full border border-dashed border-slate-400 dark:border-white/20 pl-4 pr-4">
+<span class="material-symbols-outlined text-sm text-slate-400 dark:text-white/40">add</span>
+<p class="text-slate-500 dark:text-white/40 text-sm font-medium leading-normal">Add Value</p>
+</div>
+</div>
+<!-- AI Training Upload Section -->
+<div class="px-4 pt-6">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">AI Training</h3>
+<p class="text-sm text-slate-500 dark:text-[#ad9cba] mb-4">Upload existing brand copy to fine-tune the model.</p>
+<div class="w-full border-2 border-dashed border-primary/40 rounded-xl bg-primary/5 p-8 flex flex-col items-center justify-center gap-3">
+<div class="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">cloud_upload</span>
+</div>
+<div class="text-center">
+<p class="text-slate-900 dark:text-white font-semibold">Drop files or click to browse</p>
+<p class="text-xs text-slate-500 dark:text-[#ad9cba]">Support PDF, TXT, DOCX up to 10MB</p>
+</div>
+</div>
+<div class="mt-4 flex flex-col gap-2">
+<div class="flex items-center justify-between glass-card p-3 rounded-lg border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">description</span>
+<div>
+<p class="text-sm font-medium">brand_guidelines_2024.pdf</p>
+<p class="text-[10px] text-[#ad9cba]">Uploaded 2 days ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-lg">delete</span>
+</div>
+</div>
+</div>
+</main>
+<!-- AI Playground Panel (Sticky Bottom) -->
+<div class="fixed bottom-0 left-0 right-0 glass-card border-t border-white/10 rounded-t-xl z-[60] p-4 pb-8">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary animate-pulse"></div>
+<h4 class="text-sm font-bold uppercase tracking-wider text-primary">AI Playground</h4>
+</div>
+<span class="material-symbols-outlined text-slate-400">keyboard_arrow_up</span>
+</div>
+<div class="flex flex-col gap-3">
+<div class="relative">
+<input class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-lg py-3 px-4 text-sm focus:ring-1 focus:ring-primary placeholder-slate-500 dark:placeholder-white/30" placeholder="Prompt: Write a product description..." type="text"/>
+<button class="absolute right-2 top-1.5 size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+<div class="bg-slate-200 dark:bg-black/40 rounded-lg p-4 min-h-[80px]">
+<p class="text-xs text-slate-400 dark:text-white/20 italic mb-2">Live Preview (Professional Tone)</p>
+<p class="text-sm leading-relaxed text-slate-700 dark:text-white/80">
+                        "Experience the subtle elegance of our hand-poured artisan candles. Crafted for the discerning individual, each scent profile is meticulously balanced to enhance your professional workspace..."
+                    </p>
+</div>
+</div>
+</div>
+<!-- Decorative background elements -->
+<div class="fixed top-0 right-0 -z-10 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
+<div class="fixed bottom-0 left-0 -z-10 w-64 h-64 bg-primary/5 blur-[100px] rounded-full"></div>
+</div>
+</body></html>

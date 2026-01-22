@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0d0b14",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-pulse {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.4), 0 0 30px rgba(71, 37, 244, 0.2);
+        }
+        .energy-ring {
+            border: 2px solid rgba(71, 37, 244, 0.3);
+            border-top-color: #4725f4;
+        }
+        .bg-mesh {
+            background-color: #0d0b14;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(71, 37, 244, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="relative flex h-screen w-full flex-col bg-mesh overflow-hidden max-w-[430px] mx-auto border-x border-white/5 shadow-2xl">
+<!-- Top App Bar -->
+<div class="flex items-center p-6 pb-2 justify-between z-10">
+<div class="w-10"></div> <!-- Spacer for balance -->
+<h2 class="text-white text-lg font-bold leading-tight tracking-wider uppercase text-center flex-1">
+                FlashFusion
+            </h2>
+<div class="w-10 flex justify-end">
+<span class="material-symbols-outlined text-white/50 cursor-pointer">help_outline</span>
+</div>
+</div>
+<!-- Hero Content Area -->
+<div class="flex-1 flex flex-col items-center justify-center px-6 relative">
+<!-- Energy Rings Decor -->
+<div class="absolute w-80 h-80 rounded-full energy-ring opacity-20"></div>
+<div class="absolute w-64 h-64 rounded-full energy-ring opacity-40 rotate-45"></div>
+<div class="absolute w-96 h-96 rounded-full border border-primary/10"></div>
+<!-- Mascot Image Container -->
+<div class="relative z-10 mb-8 @container">
+<div class="w-64 h-64 bg-center bg-no-repeat bg-contain flex items-center justify-center" data-alt="Futuristic robot mascot with glowing purple accents and energy rings" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4sMHYVmuCdDJNyCqA-cabMBw83gRA8ihBl4bwv_Ysnt39Rci7Wi5FUv2sJo0PCT23V1p8wLakX-BXOnabjFL8wQcb8gWihh5suZVG-bTi57yxF_HAs9KFVqXtncNmNGFfvF4KOKbc9jqax1LlKAcx4Es_GPMXa7c7RLIRebzdBQ7N_40rPra6qosKfBGD0qXqVgcYprkyFjYQnw20kF8gwCZaQ_UWA4HHyD6ynHQOACPbraxAwauFC9ZLQjIkbkBqhoRoP75_bGY");'>
+</div>
+<!-- Glow Effect behind Mascot -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-primary/20 blur-[60px] rounded-full -z-10"></div>
+</div>
+<!-- Headline Text -->
+<h1 class="text-white tracking-tight text-4xl font-bold leading-tight text-center pb-2 z-10">
+                Welcome to<br/>FlashFusion
+            </h1>
+<!-- Body Text -->
+<p class="text-white/70 text-base font-normal leading-relaxed px-8 text-center max-w-sm z-10">
+                Step into the future of e-commerce. AI-driven, lightning fast, and built for the next generation.
+            </p>
+</div>
+<!-- Bottom Controls -->
+<div class="px-8 pb-12 flex flex-col gap-6 z-10">
+<!-- Page Indicators -->
+<div class="flex w-full flex-row items-center justify-center gap-2">
+<div class="h-1.5 w-6 rounded-full bg-primary shadow-[0_0_8px_rgba(71,37,244,0.6)]"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/20"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/20"></div>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl text-lg flex items-center justify-center gap-2 glow-pulse transition-all active:scale-95">
+<span>Start Fusion</span>
+<span class="material-symbols-outlined">bolt</span>
+</button>
+<!-- Secondary Action -->
+<button class="w-full text-white/50 text-sm font-medium hover:text-white transition-colors py-2">
+                Already have an account? <span class="text-white">Sign In</span>
+</button>
+</div>
+<!-- Aesthetic Bottom Glow -->
+<div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none"></div>
+</div>
+</body></html>
