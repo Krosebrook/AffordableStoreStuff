@@ -51,10 +51,29 @@
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', async () => {
           try {
-            const registration = await navigator.serviceWorker.register('/sw.js', {
+            // Detect development mode based on various signals
+            const isDev = location.hostname === 'localhost' || 
+                          location.hostname.includes('.replit.') ||
+                          location.hostname.includes('-00-') ||
+                          location.port === '5000' ||
+                          location.protocol === 'http:';
+            
+            // Pass dev flag via URL query param so SW can detect on install
+            const swUrl = isDev ? '/sw.js?dev=1' : '/sw.js';
+            const registration = await navigator.serviceWorker.register(swUrl, {
               scope: '/'
             });
-            console.log('[PWA] Service Worker registered:', registration.scope);
+            console.log('[PWA] Service Worker registered:', registration.scope, 'dev:', isDev);
+            
+            // Also send dev mode flag via message for already-active workers
+            if (registration.active) {
+              registration.active.postMessage({ type: 'SET_DEV_MODE', isDev });
+            }
+            navigator.serviceWorker.ready.then((reg) => {
+              if (reg.active) {
+                reg.active.postMessage({ type: 'SET_DEV_MODE', isDev });
+              }
+            });
             
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;

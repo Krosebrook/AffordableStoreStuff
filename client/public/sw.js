@@ -1,7 +1,16 @@
-const CACHE_NAME = 'flashfusion-v1';
-const STATIC_CACHE = 'flashfusion-static-v1';
-const DYNAMIC_CACHE = 'flashfusion-dynamic-v1';
-const API_CACHE = 'flashfusion-api-v1';
+const CACHE_NAME = 'flashfusion-v2';
+const STATIC_CACHE = 'flashfusion-static-v2';
+const DYNAMIC_CACHE = 'flashfusion-dynamic-v2';
+const API_CACHE = 'flashfusion-api-v2';
+
+// Detect dev mode from SW URL query param (set at install time)
+// Also check self.location for replit/localhost patterns as fallback
+const swUrl = new URL(self.location.href);
+let isDevMode = swUrl.searchParams.get('dev') === '1' ||
+                self.location.hostname === 'localhost' ||
+                self.location.hostname.includes('.replit.') ||
+                self.location.hostname.includes('-00-') ||
+                self.location.protocol === 'http:';
 
 const STATIC_ASSETS = [
   '/',
@@ -18,14 +27,31 @@ const API_ROUTES = [
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        console.log('[SW] Pre-caching static assets');
-        return cache.addAll(STATIC_ASSETS);
-      })
-      .then(() => self.skipWaiting())
-  );
+  console.log('[SW] Installing, dev mode:', isDevMode);
+  
+  if (isDevMode) {
+    // In dev mode, skip pre-caching and clear any existing caches
+    event.waitUntil(
+      caches.keys()
+        .then((names) => Promise.all(
+          names.filter(n => n.startsWith('flashfusion-')).map(n => caches.delete(n))
+        ))
+        .then(() => {
+          console.log('[SW] Dev mode: cleared caches, skipping pre-cache');
+          return self.skipWaiting();
+        })
+    );
+  } else {
+    // Production: pre-cache static assets
+    event.waitUntil(
+      caches.open(STATIC_CACHE)
+        .then((cache) => {
+          console.log('[SW] Pre-caching static assets');
+          return cache.addAll(STATIC_ASSETS);
+        })
+        .then(() => self.skipWaiting())
+    );
+  }
 });
 
 self.addEventListener('activate', (event) => {
@@ -77,11 +103,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // In development, use network-first for all assets to avoid stale cache issues
-  if (url.hostname.includes('replit') || url.hostname === 'localhost') {
-    if (request.destination === 'script' || request.destination === 'style') {
-      event.respondWith(networkFirstStrategy(request, DYNAMIC_CACHE));
-      return;
+  // In development mode, bypass caching for scripts and styles entirely
+  if (isDevMode) {
+    if (request.destination === 'script' || 
+        request.destination === 'style' ||
+        request.mode === 'navigate') {
+      return; // Let browser handle directly - no caching
     }
   }
 
@@ -242,6 +269,22 @@ self.addEventListener('notificationclick', (event) => {
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+  
+  if (event.data && event.data.type === 'SET_DEV_MODE') {
+    isDevMode = event.data.isDev;
+    console.log('[SW] Dev mode set to:', isDevMode);
+    // Clear caches in dev mode to prevent stale content
+    if (isDevMode) {
+      caches.keys().then((names) => {
+        names.forEach((name) => {
+          if (name.startsWith('flashfusion-')) {
+            caches.delete(name);
+            console.log('[SW] Cleared dev cache:', name);
+          }
+        });
+      });
+    }
   }
   
   if (event.data && event.data.type === 'CLEAR_CACHE') {
