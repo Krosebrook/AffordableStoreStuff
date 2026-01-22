@@ -123,7 +123,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 glass border-white/10">
+        <Card className="lg:col-span-2 glass border-white/10 hover-lift transition-transform duration-200">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg font-medium">Revenue Overview</CardTitle>
             <Badge variant="secondary" className="glass">
@@ -165,7 +165,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="glass border-white/10">
+        <Card className="glass border-white/10 hover-lift transition-transform duration-200">
           <CardHeader>
             <CardTitle className="text-lg font-medium">Sales by Category</CardTitle>
           </CardHeader>
@@ -209,7 +209,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="glass border-white/10">
+        <Card className="glass border-white/10 hover-lift transition-transform duration-200">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg font-medium">Recent Orders</CardTitle>
             <Link href="/orders">
@@ -251,7 +251,7 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="glass border-white/10">
+        <Card className="glass border-white/10 hover-lift transition-transform duration-200">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg font-medium">Top Products</CardTitle>
             <Link href="/products">

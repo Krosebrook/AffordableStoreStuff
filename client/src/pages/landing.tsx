@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import {
   Zap,
   ShoppingCart,
@@ -12,6 +14,11 @@ import {
   ArrowRight,
   CheckCircle2,
   Star,
+  Shield,
+  Clock,
+  Cpu,
+  Menu,
+  X,
 } from "lucide-react";
 import heroImage from "@assets/generated_images/ai_tech_hero_visualization.png";
 
@@ -96,14 +103,20 @@ const pricingPlans = [
 ];
 
 export default function Landing() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const featuresReveal = useScrollReveal<HTMLDivElement>();
+  const pricingReveal = useScrollReveal<HTMLDivElement>();
+  const ctaReveal = useScrollReveal<HTMLDivElement>();
+  const trustReveal = useScrollReveal<HTMLDivElement>();
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
             <Link href="/" data-testid="link-logo">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="flex items-center gap-2 hover-lift">
+                <div className="w-8 h-8 rounded-lg bg-accent-gradient flex items-center justify-center">
                   <Zap className="w-5 h-5 text-white" />
                 </div>
                 <span className="font-display font-bold text-xl gradient-text">FlashFusion</span>
@@ -111,39 +124,106 @@ export default function Landing() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-6">
-              <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
                 Features
               </a>
-              <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="#trust" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+                Security
+              </a>
+              <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
                 Pricing
               </a>
-              <Link href="/products" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/products" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
                 Shop
               </Link>
             </nav>
 
             <div className="flex items-center gap-3">
-              <Link href="/auth">
-                <Button variant="ghost" data-testid="button-login">
+              <Link href="/auth" className="hidden sm:block">
+                <Button variant="ghost" className="focus-glow" data-testid="button-login">
                   Log in
                 </Button>
               </Link>
-              <Link href="/dashboard">
-                <Button className="btn-gradient-sm" data-testid="button-get-started">
+              <Link href="/dashboard" className="hidden sm:block">
+                <Button variant="gradient" className="focus-glow" data-testid="button-get-started">
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                data-testid="button-mobile-menu"
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenuOpen}
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </Button>
             </div>
           </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden glass border-t border-white/10 animate-fade-in">
+            <nav className="flex flex-col p-4 space-y-1">
+              <a 
+                href="#features" 
+                className="text-sm text-foreground py-2 px-3 rounded-lg hover-elevate"
+                onClick={() => setMobileMenuOpen(false)}
+                data-testid="mobile-link-features"
+              >
+                Features
+              </a>
+              <a 
+                href="#trust" 
+                className="text-sm text-foreground py-2 px-3 rounded-lg hover-elevate"
+                onClick={() => setMobileMenuOpen(false)}
+                data-testid="mobile-link-security"
+              >
+                Security
+              </a>
+              <a 
+                href="#pricing" 
+                className="text-sm text-foreground py-2 px-3 rounded-lg hover-elevate"
+                onClick={() => setMobileMenuOpen(false)}
+                data-testid="mobile-link-pricing"
+              >
+                Pricing
+              </a>
+              <Link 
+                href="/products" 
+                className="text-sm text-foreground py-2 px-3 rounded-lg hover-elevate"
+                onClick={() => setMobileMenuOpen(false)}
+                data-testid="mobile-link-shop"
+              >
+                Shop
+              </Link>
+              <div className="pt-3 border-t border-white/10 space-y-2">
+                <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full glass border-white/20" data-testid="mobile-button-login">
+                    Log in
+                  </Button>
+                </Link>
+                <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="gradient" className="w-full" data-testid="mobile-button-get-started">
+                    Get Started
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </nav>
+          </div>
+        )}
       </header>
 
       <main>
         <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-purple-500/10 via-transparent to-transparent" />
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-hero-radial" />
+          <div className="absolute inset-0 bg-hero-gradient" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: "1.5s" }} />
           
           <div className="max-w-7xl mx-auto relative">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -166,13 +246,13 @@ export default function Landing() {
 
                 <div className="flex flex-wrap gap-4">
                   <Link href="/dashboard">
-                    <Button className="btn-gradient" data-testid="button-hero-cta">
-                      Start Free Trial
+                    <Button variant="gradient" size="lg" className="focus-glow" data-testid="button-hero-cta">
+                      Start Creating
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </Link>
                   <Link href="/products">
-                    <Button variant="outline" className="glass border-white/20" data-testid="button-view-demo">
+                    <Button variant="outline" size="lg" className="glass border-white/20 focus-glow hover-lift" data-testid="button-view-demo">
                       View Demo Store
                     </Button>
                   </Link>
@@ -215,8 +295,12 @@ export default function Landing() {
           </div>
         </section>
 
-        <section id="features" className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
+        <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 relative">
+          <div className="absolute inset-0 bg-surface-gradient-subtle" />
+          <div 
+            ref={featuresReveal.ref}
+            className={`max-w-7xl mx-auto relative reveal ${featuresReveal.isRevealed ? 'revealed' : ''}`}
+          >
             <div className="text-center mb-16">
               <Badge variant="secondary" className="glass border-white/20 px-4 py-1.5 mb-4">
                 Features
@@ -234,8 +318,12 @@ export default function Landing() {
               {features.map((feature, index) => (
                 <Card
                   key={feature.title}
-                  className="glass border-white/10 card-glow overflow-hidden animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="glass border-white/10 card-glow hover-lift transition-transform duration-200"
+                  style={{ 
+                    opacity: featuresReveal.isRevealed ? 1 : 0,
+                    transform: featuresReveal.isRevealed ? 'translateY(0)' : 'translateY(20px)',
+                    transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`
+                  }}
                   data-testid={`feature-card-${index}`}
                 >
                   <CardContent className="p-6">
@@ -253,9 +341,55 @@ export default function Landing() {
           </div>
         </section>
 
+        <section id="trust" className="py-24 px-4 sm:px-6 lg:px-8">
+          <div 
+            ref={trustReveal.ref}
+            className={`max-w-7xl mx-auto reveal ${trustReveal.isRevealed ? 'revealed' : ''}`}
+          >
+            <div className="text-center mb-16">
+              <Badge variant="secondary" className="glass border-white/20 px-4 py-1.5 mb-4">
+                Trust & Security
+              </Badge>
+              <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
+                Built for <span className="gradient-text">Enterprise</span>
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Security and reliability at the core of everything we build.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mx-auto mb-4">
+                  <Shield className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">Secure by Design</h3>
+                <p className="text-muted-foreground text-sm">End-to-end encryption and secure data handling</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">99.9% Uptime</h3>
+                <p className="text-muted-foreground text-sm">Reliable infrastructure you can count on</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mx-auto mb-4">
+                  <Cpu className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">AI-Powered</h3>
+                <p className="text-muted-foreground text-sm">Cutting-edge AI with multiple provider support</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent" />
-          <div className="max-w-7xl mx-auto relative">
+          <div 
+            ref={pricingReveal.ref}
+            className={`max-w-7xl mx-auto relative reveal ${pricingReveal.isRevealed ? 'revealed' : ''}`}
+          >
             <div className="text-center mb-16">
               <Badge variant="secondary" className="glass border-white/20 px-4 py-1.5 mb-4">
                 Pricing
@@ -272,19 +406,26 @@ export default function Landing() {
               {pricingPlans.map((plan, index) => (
                 <Card
                   key={plan.name}
-                  className={`relative overflow-hidden ${
+                  className={`relative overflow-visible hover-lift transition-transform duration-200 ${
                     plan.highlighted
-                      ? "glass border-purple-500/50 scale-105"
+                      ? "glass border-purple-500/50 scale-105 z-10"
                       : "glass border-white/10"
                   } card-glow`}
+                  style={{ 
+                    opacity: pricingReveal.isRevealed ? 1 : 0,
+                    transform: pricingReveal.isRevealed 
+                      ? (plan.highlighted ? 'scale(1.05)' : 'scale(1)') 
+                      : 'translateY(20px)',
+                    transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`
+                  }}
                   data-testid={`pricing-card-${plan.name.toLowerCase()}`}
                 >
                   {plan.highlighted && (
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500" />
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-accent-gradient rounded-t-xl" />
                   )}
                   <CardContent className="p-6">
                     {plan.highlighted && (
-                      <Badge className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 border-0">
+                      <Badge className="absolute top-4 right-4 bg-accent-gradient border-0">
                         Popular
                       </Badge>
                     )}
@@ -303,7 +444,7 @@ export default function Landing() {
                       ))}
                     </ul>
                     <Button
-                      className={`w-full ${plan.highlighted ? "btn-gradient" : ""}`}
+                      className={`w-full focus-glow ${plan.highlighted ? "btn-gradient" : ""}`}
                       variant={plan.highlighted ? "default" : "outline"}
                       data-testid={`button-select-${plan.name.toLowerCase()}`}
                     >
@@ -317,9 +458,12 @@ export default function Landing() {
         </section>
 
         <section className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="glass rounded-2xl border border-white/10 p-8 sm:p-12 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20" />
+          <div 
+            ref={ctaReveal.ref}
+            className={`max-w-4xl mx-auto text-center reveal ${ctaReveal.isRevealed ? 'revealed' : ''}`}
+          >
+            <div className="gradient-border rounded-2xl p-8 sm:p-12 relative overflow-visible">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10" />
               <div className="relative">
                 <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
                   Ready to Transform Your Business?
@@ -329,13 +473,13 @@ export default function Landing() {
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Link href="/dashboard">
-                    <Button className="btn-gradient" data-testid="button-cta-final">
+                    <Button className="btn-gradient focus-glow press-effect" data-testid="button-cta-final">
                       Start Your Free Trial
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </Link>
                   <Link href="/products">
-                    <Button variant="outline" className="glass border-white/20" data-testid="button-explore-products">
+                    <Button variant="outline" className="glass border-white/20 focus-glow hover-lift" data-testid="button-explore-products">
                       Explore Products
                     </Button>
                   </Link>
