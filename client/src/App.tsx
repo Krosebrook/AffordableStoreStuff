@@ -26,6 +26,7 @@ import Generator from "@/pages/generator";
 import IntegrationHub from "@/pages/integration-hub";
 import AIProductCreator from "@/pages/ai-product-creator";
 import AIMarketingEngine from "@/pages/ai-marketing-engine";
+import AIBrandVoice from "@/pages/ai-brand-voice";
 import Auth from "@/pages/auth";
 import NotFound from "@/pages/not-found";
 
@@ -131,7 +132,7 @@ function Router() {
           <Route path="/integrations" component={IntegrationHub} />
           <Route path="/ai-product-creator" component={AIProductCreator} />
           <Route path="/ai-marketing" component={AIMarketingEngine} />
-          <Route path="/ai-brand-voice" component={Dashboard} />
+          <Route path="/ai-brand-voice" component={AIBrandVoice} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/automation" component={Dashboard} />
           <Route path="/customers" component={Dashboard} />
