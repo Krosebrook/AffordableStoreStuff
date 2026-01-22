@@ -29,8 +29,7 @@ export const platformConnectors = pgTable("platform_connectors", {
 export const platformConnections = pgTable("platform_connections", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").references(() => users.id),
-  connectorId: varchar("connector_id").references(() => platformConnectors.id).notNull(),
-  platform: text("platform").notNull(),
+  platform: text("platform").notNull().unique(),
   status: text("status").default("disconnected").notNull(), // 'connected', 'disconnected', 'error', 'pending'
   credentials: jsonb("credentials"), // encrypted credentials
   accessToken: text("access_token"),

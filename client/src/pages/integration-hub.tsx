@@ -4,8 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Plug, 
   CheckCircle2, 
@@ -23,7 +25,7 @@ import {
   Play,
   RefreshCw
 } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 interface Connector {
   id: string;
@@ -77,11 +79,211 @@ const categoryColors: Record<string, string> = {
   productivity: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
 };
 
+function ConnectorCard({ 
+  connector, 
+  isConnected, 
+  connection,
+  onConnect,
+  onDisconnect,
+  onTest,
+  isConnecting,
+  isTesting,
+}: {
+  connector: Connector;
+  isConnected: boolean;
+  connection?: Connection;
+  onConnect: (platform: string, credentials: Record<string, string>) => void;
+  onDisconnect: (platform: string) => void;
+  onTest: (platform: string) => void;
+  isConnecting: boolean;
+  isTesting: boolean;
+}) {
+  const [credentials, setCredentials] = useState<Record<string, string>>({});
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const Icon = categoryIcons[connector.category] || Plug;
+
+  const handleConnect = () => {
+    onConnect(connector.platform, credentials);
+    setDialogOpen(false);
+    setCredentials({});
+  };
+
+  return (
+    <Card 
+      className={`hover-elevate transition-all ${isConnected ? 'ring-1 ring-green-500/30' : ''}`}
+      data-testid={`card-connector-${connector.id}`}
+    >
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <div className={`p-2 rounded-lg ${categoryColors[connector.category]}`}>
+              <Icon className="h-5 w-5" />
+            </div>
+            <div>
+              <CardTitle className="text-base">{connector.displayName}</CardTitle>
+              <Badge variant="outline" className="text-xs mt-1 capitalize">
+                {connector.category}
+              </Badge>
+            </div>
+          </div>
+          {isConnected ? (
+            <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
+          ) : (
+            <XCircle className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <CardDescription className="text-sm line-clamp-2">
+          {connector.description}
+        </CardDescription>
+        
+        <div className="flex flex-wrap gap-1">
+          {connector.features.slice(0, 3).map(feature => (
+            <Badge key={feature} variant="secondary" className="text-xs">
+              {feature}
+            </Badge>
+          ))}
+          {connector.features.length > 3 && (
+            <Badge variant="secondary" className="text-xs">
+              +{connector.features.length - 3}
+            </Badge>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2 pt-2">
+          {isConnected ? (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => onTest(connector.platform)}
+                disabled={isTesting}
+                data-testid={`button-test-${connector.id}`}
+              >
+                {isTesting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Play className="h-4 w-4 mr-1" />
+                )}
+                Test
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onDisconnect(connector.platform)}
+                data-testid={`button-disconnect-${connector.id}`}
+              >
+                <XCircle className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  size="sm"
+                  className="w-full"
+                  data-testid={`button-connect-${connector.id}`}
+                >
+                  <Plug className="h-4 w-4 mr-2" />
+                  Connect
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Connect to {connector.displayName}</DialogTitle>
+                  <DialogDescription>
+                    Enter your API credentials to connect
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-3">
+                    {connector.requiredCredentials.map(cred => (
+                      <div key={cred} className="space-y-2">
+                        <Label htmlFor={cred}>{cred}</Label>
+                        <Input
+                          id={cred}
+                          placeholder={`Enter ${cred}`}
+                          type="password"
+                          value={credentials[cred] || ""}
+                          onChange={(e) => setCredentials(prev => ({
+                            ...prev,
+                            [cred]: e.target.value
+                          }))}
+                          data-testid={`input-${cred}`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  {connector.optionalCredentials && connector.optionalCredentials.length > 0 && (
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-muted-foreground">Optional:</p>
+                      {connector.optionalCredentials.map(cred => (
+                        <div key={cred} className="space-y-2">
+                          <Label htmlFor={cred}>{cred}</Label>
+                          <Input
+                            id={cred}
+                            placeholder={`Enter ${cred}`}
+                            type="password"
+                            value={credentials[cred] || ""}
+                            onChange={(e) => setCredentials(prev => ({
+                              ...prev,
+                              [cred]: e.target.value
+                            }))}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <ExternalLink className="h-4 w-4" />
+                    <a 
+                      href={connector.docsUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
+                      View API Documentation
+                    </a>
+                  </div>
+                  <Button
+                    className="w-full"
+                    onClick={handleConnect}
+                    disabled={isConnecting || connector.requiredCredentials.some(c => !credentials[c])}
+                    data-testid={`button-save-connection-${connector.id}`}
+                  >
+                    {isConnecting ? (
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    ) : (
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                    )}
+                    Save Connection
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+          >
+            <a href={connector.docsUrl} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function IntegrationHub() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [connectingPlatform, setConnectingPlatform] = useState<string | null>(null);
-  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const qc = useQueryClient();
 
   const { data: connectorsData, isLoading: loadingConnectors } = useQuery<{ connectors: Connector[]; categories: any[] }>({
     queryKey: ["/api/integrations/connectors"],
@@ -95,39 +297,74 @@ export default function IntegrationHub() {
     queryKey: ["/api/integrations/stats"],
   });
 
+  const [connectingPlatform, setConnectingPlatform] = useState<string | null>(null);
+  const [testingPlatform, setTestingPlatform] = useState<string | null>(null);
+
   const connectMutation = useMutation({
-    mutationFn: async (platform: string) => {
-      return apiRequest("/api/integrations/connections", {
-        method: "POST",
-        body: JSON.stringify({ platform, credentials: {}, settings: {} }),
+    mutationFn: async ({ platform, credentials }: { platform: string; credentials: Record<string, string> }) => {
+      const res = await apiRequest("POST", "/api/integrations/connections", { platform, credentials, settings: {} });
+      return res.json();
+    },
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({ queryKey: ["/api/integrations/connections"] });
+      qc.invalidateQueries({ queryKey: ["/api/integrations/stats"] });
+      setConnectingPlatform(null);
+      toast({
+        title: "Connected",
+        description: `Successfully connected to ${variables.platform}`,
       });
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/integrations/connections"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/integrations/stats"] });
+    onError: (error: any) => {
       setConnectingPlatform(null);
+      toast({
+        title: "Connection failed",
+        description: error.message || "Failed to connect",
+        variant: "destructive",
+      });
     },
   });
 
   const disconnectMutation = useMutation({
     mutationFn: async (platform: string) => {
-      return apiRequest(`/api/integrations/connections/${platform}`, {
-        method: "DELETE",
-      });
+      return apiRequest("DELETE", `/api/integrations/connections/${platform}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/integrations/connections"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/integrations/stats"] });
+      qc.invalidateQueries({ queryKey: ["/api/integrations/connections"] });
+      qc.invalidateQueries({ queryKey: ["/api/integrations/stats"] });
+      toast({
+        title: "Disconnected",
+        description: "Platform disconnected successfully",
+      });
     },
   });
 
   const testMutation = useMutation({
     mutationFn: async (platform: string) => {
-      return apiRequest(`/api/integrations/connections/${platform}/test`, {
-        method: "POST",
+      setTestingPlatform(platform);
+      const res = await apiRequest("POST", `/api/integrations/connections/${platform}/test`);
+      return res.json();
+    },
+    onSuccess: (data: any) => {
+      setTestingPlatform(null);
+      toast({
+        title: "Connection test passed",
+        description: data.message || "Connection is working",
+      });
+    },
+    onError: () => {
+      setTestingPlatform(null);
+      toast({
+        title: "Connection test failed",
+        description: "Unable to verify connection",
+        variant: "destructive",
       });
     },
   });
+
+  const handleConnect = (platform: string, credentials: Record<string, string>) => {
+    setConnectingPlatform(platform);
+    connectMutation.mutate({ platform, credentials });
+  };
 
   const connectors = connectorsData?.connectors || [];
   
@@ -226,168 +463,19 @@ export default function IntegrationHub() {
 
       <div className="flex-1 overflow-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredConnectors.map(connector => {
-            const connected = isConnected(connector.platform);
-            const connection = getConnectionStatus(connector.platform);
-            const Icon = categoryIcons[connector.category] || Plug;
-            
-            return (
-              <Card 
-                key={connector.id} 
-                className={`hover-elevate transition-all ${connected ? 'ring-1 ring-green-500/30' : ''}`}
-                data-testid={`card-connector-${connector.id}`}
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${categoryColors[connector.category]}`}>
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-base">{connector.displayName}</CardTitle>
-                        <Badge variant="outline" className="text-xs mt-1 capitalize">
-                          {connector.category}
-                        </Badge>
-                      </div>
-                    </div>
-                    {connected ? (
-                      <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
-                    ) : (
-                      <XCircle className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <CardDescription className="text-sm line-clamp-2">
-                    {connector.description}
-                  </CardDescription>
-                  
-                  <div className="flex flex-wrap gap-1">
-                    {connector.features.slice(0, 3).map(feature => (
-                      <Badge key={feature} variant="secondary" className="text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
-                    {connector.features.length > 3 && (
-                      <Badge variant="secondary" className="text-xs">
-                        +{connector.features.length - 3}
-                      </Badge>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2 pt-2">
-                    {connected ? (
-                      <>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1"
-                          onClick={() => testMutation.mutate(connector.platform)}
-                          disabled={testMutation.isPending}
-                          data-testid={`button-test-${connector.id}`}
-                        >
-                          {testMutation.isPending ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <Play className="h-4 w-4 mr-1" />
-                          )}
-                          Test
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => disconnectMutation.mutate(connector.platform)}
-                          disabled={disconnectMutation.isPending}
-                          data-testid={`button-disconnect-${connector.id}`}
-                        >
-                          <XCircle className="h-4 w-4" />
-                        </Button>
-                      </>
-                    ) : (
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button
-                            size="sm"
-                            className="w-full"
-                            data-testid={`button-connect-${connector.id}`}
-                          >
-                            <Plug className="h-4 w-4 mr-2" />
-                            Connect
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Connect to {connector.displayName}</DialogTitle>
-                            <DialogDescription>
-                              Configure your {connector.displayName} integration
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4 py-4">
-                            <div className="space-y-2">
-                              <p className="text-sm font-medium">Required Credentials:</p>
-                              {connector.requiredCredentials.map(cred => (
-                                <Input
-                                  key={cred}
-                                  placeholder={cred}
-                                  type="password"
-                                  data-testid={`input-${cred}`}
-                                />
-                              ))}
-                            </div>
-                            {connector.optionalCredentials && connector.optionalCredentials.length > 0 && (
-                              <div className="space-y-2">
-                                <p className="text-sm font-medium text-muted-foreground">Optional:</p>
-                                {connector.optionalCredentials.map(cred => (
-                                  <Input
-                                    key={cred}
-                                    placeholder={cred}
-                                    type="password"
-                                  />
-                                ))}
-                              </div>
-                            )}
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                              <ExternalLink className="h-4 w-4" />
-                              <a 
-                                href={connector.docsUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="hover:underline"
-                              >
-                                View API Documentation
-                              </a>
-                            </div>
-                            <Button
-                              className="w-full"
-                              onClick={() => connectMutation.mutate(connector.platform)}
-                              disabled={connectMutation.isPending}
-                              data-testid={`button-save-connection-${connector.id}`}
-                            >
-                              {connectMutation.isPending ? (
-                                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                              ) : (
-                                <CheckCircle2 className="h-4 w-4 mr-2" />
-                              )}
-                              Save Connection
-                            </Button>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    )}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      asChild
-                    >
-                      <a href={connector.docsUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+          {filteredConnectors.map(connector => (
+            <ConnectorCard
+              key={connector.id}
+              connector={connector}
+              isConnected={isConnected(connector.platform)}
+              connection={getConnectionStatus(connector.platform)}
+              onConnect={handleConnect}
+              onDisconnect={(platform) => disconnectMutation.mutate(platform)}
+              onTest={(platform) => testMutation.mutate(platform)}
+              isConnecting={connectingPlatform === connector.platform}
+              isTesting={testingPlatform === connector.platform}
+            />
+          ))}
         </div>
 
         {filteredConnectors.length === 0 && (

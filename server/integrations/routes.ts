@@ -98,6 +98,18 @@ export function registerIntegrationRoutes(app: Express) {
         return res.status(400).json({ message: "Invalid platform" });
       }
 
+      // Validate required credentials
+      const missingCredentials = connector.requiredCredentials.filter(
+        cred => !credentials || !credentials[cred]
+      );
+      
+      if (missingCredentials.length > 0) {
+        return res.status(400).json({ 
+          message: "Missing required credentials",
+          missing: missingCredentials 
+        });
+      }
+
       // Check if connection already exists
       const [existing] = await db
         .select()
@@ -125,7 +137,6 @@ export function registerIntegrationRoutes(app: Express) {
         .insert(platformConnections)
         .values({
           platform,
-          connectorId: platform, // Use platform ID as connector ID
           credentials,
           settings,
           status: "connected",
