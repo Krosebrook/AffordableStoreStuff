@@ -33,6 +33,7 @@ export default function StorePulse() {
           <ChevronLeft 
             className="w-6 h-6 cursor-pointer" 
             onClick={() => setLocation("/dashboard")}
+            data-testid="button-back"
           />
         </div>
         <div className="flex flex-col items-center flex-1">
@@ -57,19 +58,11 @@ export default function StorePulse() {
         </div>
         <div className="relative flex items-center justify-center">
           <div 
-            className="absolute size-40 rounded-full bg-[#9d25f4]/10 border border-[#9d25f4]/30"
-            style={{ 
-              boxShadow: '0 0 0 0 rgba(157, 37, 244, 0.7)',
-              animation: 'pulse 2s infinite'
-            }}
+            className="absolute size-40 rounded-full bg-[#9d25f4]/10 border border-[#9d25f4]/30 pulse-ring"
           />
           <div 
-            className="absolute size-28 rounded-full bg-[#9d25f4]/20 border border-[#9d25f4]/40"
-            style={{ 
-              boxShadow: '0 0 0 0 rgba(157, 37, 244, 0.7)',
-              animation: 'pulse 2s infinite',
-              animationDelay: '0.5s'
-            }}
+            className="absolute size-28 rounded-full bg-[#9d25f4]/20 border border-[#9d25f4]/40 pulse-ring"
+            style={{ animationDelay: '0.5s' }}
           />
           <div className="z-10 flex flex-col items-center">
             <h1 className="text-white tracking-tighter text-4xl font-bold leading-tight text-center font-display">Store Core</h1>
@@ -85,6 +78,7 @@ export default function StorePulse() {
             background: 'rgba(157, 37, 244, 0.05)',
             backdropFilter: 'blur(12px)'
           }}
+          data-testid="card-revenue"
         >
           <CardContent className="p-0">
             <div className="flex justify-between items-start">
@@ -92,8 +86,8 @@ export default function StorePulse() {
               <DollarSign className="w-5 h-5 text-[#9d25f4]" />
             </div>
             <div className="flex items-end gap-2 mt-2">
-              <p className="text-white tracking-tight text-3xl font-bold leading-tight font-display">$12,450</p>
-              <p className="text-[#0bda76] text-sm font-bold mb-1.5">+12%</p>
+              <p className="text-white tracking-tight text-3xl font-bold leading-tight font-display" data-testid="text-revenue-value">$12,450</p>
+              <p className="text-[#0bda76] text-sm font-bold mb-1.5" data-testid="text-revenue-change">+12%</p>
             </div>
           </CardContent>
         </Card>
@@ -104,10 +98,11 @@ export default function StorePulse() {
             background: 'rgba(157, 37, 244, 0.05)',
             backdropFilter: 'blur(12px)'
           }}
+          data-testid="card-visitors"
         >
           <CardContent className="p-0 flex flex-col gap-2">
             <p className="text-white/70 text-xs font-medium uppercase tracking-wider">Live Visitors</p>
-            <p className="text-white tracking-tight text-2xl font-bold leading-tight font-display">842</p>
+            <p className="text-white tracking-tight text-2xl font-bold leading-tight font-display" data-testid="text-visitors-value">842</p>
             <p className="text-[#0bda76] text-xs font-medium">+5% vs avg</p>
           </CardContent>
         </Card>
@@ -118,10 +113,11 @@ export default function StorePulse() {
             background: 'rgba(157, 37, 244, 0.05)',
             backdropFilter: 'blur(12px)'
           }}
+          data-testid="card-conversion"
         >
           <CardContent className="p-0 flex flex-col gap-2">
             <p className="text-white/70 text-xs font-medium uppercase tracking-wider">Conv. Velocity</p>
-            <p className="text-white tracking-tight text-2xl font-bold leading-tight font-display">4.2%</p>
+            <p className="text-white tracking-tight text-2xl font-bold leading-tight font-display" data-testid="text-conversion-value">4.2%</p>
             <p className="text-[#0bda76] text-xs font-medium">+0.8% peak</p>
           </CardContent>
         </Card>
@@ -196,25 +192,25 @@ export default function StorePulse() {
       </div>
 
       <div className="h-20 bg-[#0c0810]/80 backdrop-blur-xl border-t border-white/5 flex items-center justify-around px-6 pb-4">
-        <Link href="/store-pulse">
+        <Link href="/store-pulse" data-testid="link-tab-pulse">
           <div className="flex flex-col items-center gap-1 text-[#9d25f4] cursor-pointer">
             <LayoutDashboard className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase tracking-tighter">Pulse</span>
           </div>
         </Link>
-        <Link href="/analytics">
+        <Link href="/analytics" data-testid="link-tab-insights">
           <div className="flex flex-col items-center gap-1 text-white/40 cursor-pointer hover:text-white/60">
             <BarChart3 className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase tracking-tighter">Insights</span>
           </div>
         </Link>
-        <Link href="/products">
+        <Link href="/products" data-testid="link-tab-stock">
           <div className="flex flex-col items-center gap-1 text-white/40 cursor-pointer hover:text-white/60">
             <Package className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase tracking-tighter">Stock</span>
           </div>
         </Link>
-        <Link href="/settings">
+        <Link href="/settings" data-testid="link-tab-config">
           <div className="flex flex-col items-center gap-1 text-white/40 cursor-pointer hover:text-white/60">
             <Settings className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase tracking-tighter">Config</span>

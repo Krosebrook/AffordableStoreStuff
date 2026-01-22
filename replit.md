@@ -1,7 +1,7 @@
-# FlashFusion v2.1 - AI-Powered Ecommerce Hub
+# FlashFusion v2.2 - AI-Powered Ecommerce Hub
 
 ## Overview
-FlashFusion is a modern, premium ecommerce platform with AI-powered features built with React, Express, and PostgreSQL. It features a stunning dark-themed UI with glass-morphism effects, gradient accents, and smooth animations.
+FlashFusion is a modern, premium ecommerce platform with AI-powered features built with React, Express, and PostgreSQL. It features a stunning dark-themed UI with glass-morphism effects, gradient accents, and smooth animations. Version 2.2 introduces a mobile-first futuristic design language with iOS-inspired UI patterns.
 
 ## Recent Changes (January 2026)
 - **Database Migration**: Migrated from Base44 SDK to Replit's built-in PostgreSQL database using Drizzle ORM
@@ -52,6 +52,9 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 │   │   └── theme-toggle.tsx
 │   ├── pages/           # Route pages
 │   │   ├── landing.tsx  # Public landing page
+│   │   ├── onboarding.tsx # Mobile-first onboarding screen
+│   │   ├── store-pulse.tsx # Real-time store dashboard
+│   │   ├── ai-influencer-studio.tsx # AI avatar creator
 │   │   ├── dashboard.tsx
 │   │   ├── products.tsx
 │   │   ├── orders.tsx

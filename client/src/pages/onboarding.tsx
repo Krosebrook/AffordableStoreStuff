@@ -13,7 +13,7 @@ export default function Onboarding() {
           FlashFusion
         </h2>
         <div className="w-10 flex justify-end">
-          <HelpCircle className="w-5 h-5 text-white/50 cursor-pointer" />
+          <HelpCircle className="w-5 h-5 text-white/50 cursor-pointer" data-testid="button-help" />
         </div>
       </div>
 

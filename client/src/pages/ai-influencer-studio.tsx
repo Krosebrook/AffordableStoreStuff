@@ -47,6 +47,7 @@ export default function AIInfluencerStudio() {
             <ArrowLeft 
               className="w-5 h-5 text-white cursor-pointer" 
               onClick={() => setLocation("/dashboard")}
+              data-testid="button-back"
             />
             <h2 className="text-white text-lg font-bold tracking-tight">AI Influencer Studio</h2>
           </div>
@@ -109,6 +110,7 @@ export default function AIInfluencerStudio() {
                       ? "border-[#4725f4] text-[#4725f4]" 
                       : "border-transparent text-slate-500"
                   }`}
+                  data-testid={`button-tab-${tab}`}
                 >
                   <p className="text-xs font-bold uppercase tracking-wider">{tab}</p>
                 </button>
@@ -128,6 +130,7 @@ export default function AIInfluencerStudio() {
                       : "bg-[#131022] text-slate-400 border-white/10"
                   }`}
                   style={selectedAesthetic === option.id ? { boxShadow: '0 0 15px rgba(71, 37, 244, 0.4)' } : {}}
+                  data-testid={`button-aesthetic-${option.id}`}
                 >
                   {option.icon && <option.icon className="w-4 h-4" />}
                   <p className="text-sm font-bold">{option.label}</p>
@@ -151,6 +154,7 @@ export default function AIInfluencerStudio() {
                   backdropFilter: 'blur(12px)', 
                   border: selectedPersonality === option.id ? '1px solid rgba(71, 37, 244, 0.4)' : '1px solid rgba(255, 255, 255, 0.05)' 
                 }}
+                data-testid={`button-personality-${option.id}`}
               >
                 <option.icon className={`w-5 h-5 mb-1 ${selectedPersonality === option.id ? 'text-[#4725f4]' : 'text-slate-400'}`} />
                 <p className={`text-[10px] font-bold uppercase ${selectedPersonality === option.id ? 'text-[#4725f4]' : 'text-slate-500'}`}>
@@ -175,7 +179,7 @@ export default function AIInfluencerStudio() {
             <div className="flex justify-between items-end mb-4">
               <div>
                 <h4 className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Brand Synergy</h4>
-                <div className="text-3xl font-bold text-white tracking-tighter font-display">
+                <div className="text-3xl font-bold text-white tracking-tighter font-display" data-testid="text-synergy-value">
                   84<span className="text-[#4725f4] text-xl">%</span>
                 </div>
               </div>
