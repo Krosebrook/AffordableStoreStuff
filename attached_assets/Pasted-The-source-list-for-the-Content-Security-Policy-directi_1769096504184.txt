@@ -1,0 +1,239 @@
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.Understand this error
+107The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?Understand this error
+107The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.Understand this error
+Ecom-Refactor:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.Understand this error
+Ecom-Refactor:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?Understand this error
+Ecom-Refactor:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.Understand this error
+content-script.js:1 🔍 Setting up token change monitoring...
+d310051b36f58ded.js:2 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+d310051b36f58ded.js:2 Download the Apollo DevTools for a better development experience: https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm
+d310051b36f58ded.js:2 [LaunchDarkly] LaunchDarkly client initialized
+d310051b36f58ded.js:2 [ai-chat] Creating connection with chat proxy enabled
+(anonymous) @ d310051b36f58ded.js:2Understand this warning
+Ecom-Refactor:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 3a43c2a4-dbc3-4bb7-8792-eed3c6c3cc7d Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 7429c16f-3b87-492e-a0d0-cd9aa93313df Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 88d1957f-e5f9-4bbe-8b56-60edc458561a Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 929d2f2e-70e3-407b-b5c7-9b5d4c8e7e20 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 9d8280fb-1a5f-495b-9624-aba982c42205 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension be99dc60-03cc-4c29-ad1c-fe025be1a33a Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 71b9e9dd-9e9b-4615-8d28-3187422a5ba7 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension adccbcd2-c9d6-4778-b0cb-20e1bf289634 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 80d95f9d-da16-441f-90c4-d40e5f9f3a7a Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 857b2e2f-2c57-42be-8033-400c06d95624 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 18327322-d236-4f51-93dd-bd22e040e5e3 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 33a91a8f-b3df-4337-a084-d5efdb39049d Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 64d9f8f8-0c0c-46cb-8245-193024f271c7 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension dd982728-9c3f-41ed-ae69-33c51a7fec20 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 1f5ce3c0-6f99-4d79-8354-ef5cbc8dd034 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 14ed5892-2bf7-41c9-9f19-0bd9464b6e94 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 2f0f7dae-07ec-442f-9c6e-943da7aea8b7 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension a16a4710-bd30-47c5-ba54-cf86cbcfac5f Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension ce79e410-37c7-48d9-88ee-d28b6a4efcd9 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension e2df0c28-20a7-468f-96bb-aec04c9c8ed7 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 6493d527-24ed-4062-9cc6-254ccb66da53 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension cb610a4e-e11a-4432-a603-20cbfeeb4da2 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 3d28c542-4e39-4490-ae8d-b1af85e3affb Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 7636883a-2637-421c-aa98-27ffc46d202b Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension 0749a275-ca72-4284-b752-e8e5d438c460 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension ba92d51c-3374-4917-98d9-ade79224a319 Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+d310051b36f58ded.js:2 Extension Error: An error occurred while loading the extension manifest: Manifest does not exist for extension f69cae31-eabd-4d70-8feb-546b81e35e1a Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+70Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.Understand this error
+ed1e693c96a75807.js:2 Unrecognized feature: 'ambient-light-sensor'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'battery'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'execution-while-not-rendered'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'execution-while-out-of-viewport'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'layout-animations'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'legacy-image-formats'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'navigation-override'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'oversized-images'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'publickey-credentials'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'speaker-selection'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'unoptimized-images'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'unsized-media'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Unrecognized feature: 'pointer-lock'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Allow attribute will take precedence over 'allowfullscreen'.
+z @ ed1e693c96a75807.js:2Understand this warning
+ed1e693c96a75807.js:2 Allow attribute will take precedence over 'allowpaymentrequest'.
+z @ ed1e693c96a75807.js:2Understand this warning
+d310051b36f58ded.js:2 Cache data may be lost when replacing the hostingBuildDeployActionUpdates field of a Subscription object.
+
+This could cause additional (usually avoidable) network requests to fetch data that were otherwise cached.
+
+To address this problem (which is not a bug in Apollo Client), either ensure all objects of type HostingBuildDeployLogAction and HostingBuildDeployStatusAction have an ID or a custom merge function, or define a custom merge function for the Subscription.hostingBuildDeployActionUpdates field, so InMemoryCache can safely merge these objects:
+
+  existing: {"__typename":"HostingBuildDeployLogAction","log":"\r\u001b[38;2;169;169;169m2026-01-22T06:03:45Z\u001b[37m \u001b[32minfo\u001b[37m: Build: e43f9b4b-a144-468e-8e1b-04e417634706\r\n"}
+  incoming: {"__typename":"HostingBuildDeployStatusAction","status":"security_scanning","message":null,"debugSummary":null}
+
+For more information about these options, please refer to the documentation:
+
+  * Ensuring entity objects have IDs: https://go.apollo.dev/c/generating-unique-identifiers
+  * Defining custom merge functions: https://go.apollo.dev/c/merging-non-normalized-objects
+
+(anonymous) @ d310051b36f58ded.js:2Understand this warning
+Ecom-Refactor:1 Unchecked runtime.lastError: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+5Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+stallwart.build.js:1 stallwart: failed ping 1
+12Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+/public/sounds/Achievement_Bell_Replit.wav:1  Failed to load resource: net::ERR_CACHE_OPERATION_NOT_SUPPORTEDUnderstand this error
+35Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+d310051b36f58ded.js:2 [Coframe] Mutation callback infinite loop protection triggered, disconnecting mutation observer Object
+(anonymous) @ d310051b36f58ded.js:2Understand this error
+32Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+803eec1bacc00e5f.js:2 WebSocket connection to 'wss://eval.riker.platform.replit.com/wsv2/v2.public.Q2dZSW8vdkd5d1lTQmdqQ2w4ZkxCaUlGY21sclpYSXdBRHJkQVFva09UYzJPRFUzTlRVdFlqaGhaUzAwWTJRM0xXSmxNRGd0TUdRME5tWmhZMlU0Tm1JMUVnTnVhWGdhRjNKbGNHeHBkQzF5WlhCc0xXWnBiR1Z6TFhKcGEyVnlJZzFGWTI5dExWSmxabUZqZEc5eUtnMXJlV3hsY205elpXSnliMjlyUWxFS0dISmxjR3hwZEMxeVpYQnNMV0pzYjJOcmN5MXlhV3RsY2hJV2NtVndiR2wwTFhKbGNHd3RiV1YwWVMxeWFXdGxjaG9kY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRjbWxyWlhKS0J3ais3OU1URUFGUUFGb0laWGh3Ykc5eVpYSmFEMmx1ZEdWdWRGOXdaWEp6YjI1aGJIZ0FVaVVJQVJDQWdJQ0F...xWjNjME0wdG1jV0YxWTFWck5VcE1KVEpHYUdkbGFEQXdWRVpqY2xCeFZUTkhNSFZyVkdwamNtNDNZbWhyZGtwM05VOTNUMFY1VW5aWGJtcEZNVFJ0TURCVFdXOVljbEIzVG04bE1rSWxNa0p5Ym1oVVJqRXpUVEpuY25OMWQycGtNVTF2U21waWNFZG1SV2x2VkNVeVJtWmpRMXBYT1RjbE1rSlVVbGxxTUhkR2FFTnhXa0V4Y2tvMlVWbFVXbEZVT0hSMk0wTkVTMDlpSlRKQ1IzWTBZVTFwTkVvelFteFFKVEpHTVhSVGVsaFNkV1ZCT1ZGSGRFTkpNMk5OYVhGbWFVVlhWMEpXUzJaYWNrZFBjaVV5UW10QkpUTkVKVE5F6_JU5mUtnYKLfNRAcjd9NqYu1HIXdWYtz7xBs-Vnf53PJPqyAFIghEDuZ3n0HbKqYZy6Oa8to-pjL3eRe4YdDw.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+(anonymous) @ 803eec1bacc00e5f.js:2Understand this error
+71384f2a9026cb22.js:2 WebSocket connection to 'wss://replit.com/graphql_subscriptions' failed: 
+(anonymous) @ 71384f2a9026cb22.js:2Understand this error
+/graphql:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDEDUnderstand this error
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDEDUnderstand this error
+logs.browser-intake-us5-datadoghq.com/api/v2/logs?ddsource=browser&ddtags=sdk_version%3A4.46.0%2Capi%3Afetch%2Cenv%3Aproduction%2Cservice%3Awebsite%2Cversion%3Ac026da27&dd-api-key=pub31a5047a3a4692afb84a423db984dc57&dd-evp-origin-version=4.46.0&dd-evp-origin=browser&dd-request-id=3ccdb413-e17b-4c4b-9c9a-a66022055731:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDEDUnderstand this error
+logs.browser-intake-us5-datadoghq.com/api/v2/logs?ddsource=browser&ddtags=sdk_version%3A4.46.0%2Capi%3Axhr%2Cenv%3Aproduction%2Cservice%3Awebsite%2Cversion%3Ac026da27&dd-api-key=pub31a5047a3a4692afb84a423db984dc57&dd-evp-origin-version=4.46.0&dd-evp-origin=browser&dd-request-id=fd8719ed-8171-4e63-ac14-e76f83788cfc:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDEDUnderstand this error
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDEDUnderstand this error
+124Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+d310051b36f58ded.js:2 WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ d310051b36f58ded.js:2Understand this warning
+19Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+2d310051b36f58ded.js:2 WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ d310051b36f58ded.js:2Understand this warning
+15Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+2d310051b36f58ded.js:2 WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ d310051b36f58ded.js:2Understand this warning
+78Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'ambient-light-sensor'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'battery'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'execution-while-not-rendered'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'layout-animations'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'legacy-image-formats'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'navigation-override'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'oversized-images'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'publickey-credentials'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'speaker-selection'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'unoptimized-images'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Unrecognized feature: 'unsized-media'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Allow attribute will take precedence over 'allowfullscreen'.Understand this warning
+workspace_iframe.html?initialPath=%2F&id=%3Ar5mo%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.Understand this warning
+client:745 WebSocket connection to 'wss://97685755-b8ae-4cd7-be08-0d46face86b5-00-d6ccxoidlpli.riker.replit.dev/vite-hmr?token=J3YSmMoIx4yl' failed: 
+createConnection @ client:745Understand this error
+2chunk-PMKBOVCG.js?v=ff1d8c04:136 Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+printWarning @ chunk-PMKBOVCG.js?v=ff1d8c04:136Understand this error
+chunk-PMKBOVCG.js?v=ff1d8c04:1078 Uncaught TypeError: Cannot read properties of null (reading 'useEffect')
+    at useEffect (chunk-PMKBOVCG.js?v=ff1d8c04:1078:29)
+    at App (App.tsx:176:3)
+    at renderWithHooks (chunk-LPF6KSF2.js?v=ece982aa:11596:26)
+    at mountIndeterminateComponent (chunk-LPF6KSF2.js?v=ece982aa:14974:21)
+    at beginWork (chunk-LPF6KSF2.js?v=ece982aa:15962:22)
+    at HTMLUnknownElement.callCallback2 (chunk-LPF6KSF2.js?v=ece982aa:3680:22)
+    at Object.invokeGuardedCallbackDev (chunk-LPF6KSF2.js?v=ece982aa:3705:24)
+    at invokeGuardedCallback (chunk-LPF6KSF2.js?v=ece982aa:3739:39)
+    at beginWork$1 (chunk-LPF6KSF2.js?v=ece982aa:19818:15)
+    at performUnitOfWork (chunk-LPF6KSF2.js?v=ece982aa:19251:20)Understand this error
+2chunk-PMKBOVCG.js?v=ff1d8c04:136 Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+printWarning @ chunk-PMKBOVCG.js?v=ff1d8c04:136Understand this error
+chunk-PMKBOVCG.js?v=ff1d8c04:1078 Uncaught TypeError: Cannot read properties of null (reading 'useEffect')
+    at useEffect (chunk-PMKBOVCG.js?v=ff1d8c04:1078:29)
+    at App (App.tsx:176:3)
+    at renderWithHooks (chunk-LPF6KSF2.js?v=ece982aa:11596:26)
+    at mountIndeterminateComponent (chunk-LPF6KSF2.js?v=ece982aa:14974:21)
+    at beginWork (chunk-LPF6KSF2.js?v=ece982aa:15962:22)
+    at HTMLUnknownElement.callCallback2 (chunk-LPF6KSF2.js?v=ece982aa:3680:22)
+    at Object.invokeGuardedCallbackDev (chunk-LPF6KSF2.js?v=ece982aa:3705:24)
+    at invokeGuardedCallback (chunk-LPF6KSF2.js?v=ece982aa:3739:39)
+    at beginWork$1 (chunk-LPF6KSF2.js?v=ece982aa:19818:15)
+    at performUnitOfWork (chunk-LPF6KSF2.js?v=ece982aa:19251:20)Understand this error
+chunk-LPF6KSF2.js?v=ece982aa:14080 The above error occurred in the <App> component:
+
+    at App (https://97685755-b8ae-4cd7-be08-0d46face86b5-00-d6ccxoidlpli.riker.replit.dev/src/App.tsx:358:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+logCapturedError @ chunk-LPF6KSF2.js?v=ece982aa:14080Understand this error
+chunk-LPF6KSF2.js?v=ece982aa:19466 Uncaught TypeError: Cannot read properties of null (reading 'useEffect')
+    at useEffect (chunk-PMKBOVCG.js?v=ff1d8c04:1078:29)
+    at App (App.tsx:176:3)
+    at renderWithHooks (chunk-LPF6KSF2.js?v=ece982aa:11596:26)
+    at mountIndeterminateComponent (chunk-LPF6KSF2.js?v=ece982aa:14974:21)
+    at beginWork (chunk-LPF6KSF2.js?v=ece982aa:15962:22)
+    at beginWork$1 (chunk-LPF6KSF2.js?v=ece982aa:19806:22)
+    at performUnitOfWork (chunk-LPF6KSF2.js?v=ece982aa:19251:20)
+    at workLoopSync (chunk-LPF6KSF2.js?v=ece982aa:19190:13)
+    at renderRootSync (chunk-LPF6KSF2.js?v=ece982aa:19169:15)
+    at recoverFromConcurrentError (chunk-LPF6KSF2.js?v=ece982aa:18786:28)Understand this error
+(index):85 [PWA] Service Worker registered: https://97685755-b8ae-4cd7-be08-0d46face86b5-00-d6ccxoidlpli.riker.replit.dev/
+client:755 WebSocket connection to 'wss://localhost:5173/?token=J3YSmMoIx4yl' failed: 
+createConnection @ client:755Understand this error
+client:765 [vite] failed to connect to websocket.
+your current setup:
+  (browser) 97685755-b8ae-4cd7-be08-0d46face86b5-00-d6ccxoidlpli.riker.replit.dev/ <--[HTTP]--> localhost:5173/ (server)
+  (browser) 97685755-b8ae-4cd7-be08-0d46face86b5-00-d6ccxoidlpli.riker.replit.dev:/vite-hmr <--[WebSocket (failing)]--> localhost:5173/ (server)
+Check out your Vite / network configuration and https://vite.dev/config/server-options.html#server-hmr .
+connect @ client:765Understand this error
+3client:809 [vite] TypeError: Cannot read properties of undefined (reading 'send')
+    at Object.send (client:449:7)
+    at Object.send (client:780:16)
+    at Object.send (client:318:23)
+    at Object.send (client:396:30)
+error @ client:809Understand this error
+14Ecom-Refactor:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a

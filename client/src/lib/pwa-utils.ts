@@ -11,7 +11,8 @@ let deferredPrompt: BeforeInstallPromptEvent | null = null;
 
 export function initPWA() {
   window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
+    // We don't preventDefault here by default to let the browser handle it if possible,
+    // or we store it for custom UI
     deferredPrompt = e as BeforeInstallPromptEvent;
     window.dispatchEvent(new CustomEvent('pwa-installable'));
   });
