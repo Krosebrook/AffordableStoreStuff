@@ -34,7 +34,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
   return (
-    <div className="flex items-center justify-center min-h-[400px] w-full bg-background">
+    <div className="fixed inset-0 flex items-center justify-center bg-background z-[100]">
       <div className="flex flex-col items-center gap-4">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
         <span className="text-sm text-muted-foreground">Loading...</span>

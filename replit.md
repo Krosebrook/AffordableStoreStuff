@@ -21,6 +21,13 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
   - IndexedDB storage for offline persistence (drafts, uploads, downloads)
   - Connection status monitoring and graceful offline UI
 - **E2E Test Suite**: Playwright tests for PWA features and core functionality
+- **PWA & Offline Strategy**:
+  - Manifest: `client/public/manifest.json` defines installability and theme
+  - Service Worker: `client/public/sw.js` handles caching (Cache-First/Network-First)
+  - Persistence: `client/src/lib/indexed-db.ts` stores offline state
+  - Sync: Background sync for pending actions via `use-offline` hook
+  - UI: `OfflineIndicator` and `ConnectionStatus` provide real-time feedback
+- **Page Performance**: All routes are lazily loaded with a high-priority global loader to prevent layout shifts and flashes during hydrate/load.
 
 ## Project Architecture
 
