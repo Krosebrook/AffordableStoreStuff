@@ -1,0 +1,380 @@
+{
+  "name": "02-Product-Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-products",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "product-generator-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract parameters from webhook or use defaults\nconst input = $input.first().json;\n\nconst config = {\n  niche: input.niche || 'dog-breed-specific',\n  subNiche: input.subNiche || 'golden-retriever',\n  batchSize: Math.min(input.batchSize || 5, 50), // Max 50 per batch\n  productType: input.productType || 'pod_tshirt',\n  style: input.style || 'minimalist',\n  targetPlatform: input.targetPlatform || 'etsy'\n};\n\n// Generate variations for the batch\nconst variations = [];\nconst designConcepts = [\n  'cute illustration',\n  'funny quote',\n  'vintage style',\n  'minimalist line art',\n  'watercolor style',\n  'retro typography',\n  'bold graphic',\n  'hand-drawn sketch'\n];\n\nfor (let i = 0; i < config.batchSize; i++) {\n  variations.push({\n    ...config,\n    variationId: i + 1,\n    designConcept: designConcepts[i % designConcepts.length],\n    uniqueSeed: Date.now() + i\n  });\n}\n\nreturn variations.map(v => ({ json: v }));"
+      },
+      "id": "prepare-batch",
+      "name": "Prepare Batch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 3,
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "batch-items",
+      "name": "Batch Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "messages": {
+          "values": [
+            {
+              "content": "You are an expert e-commerce product designer specializing in print-on-demand products. Generate creative, unique, and marketable designs."
+            },
+            {
+              "content": "=Generate a product design for:\n\nNiche: {{ $json.niche }}\nSub-niche: {{ $json.subNiche }}\nDesign concept: {{ $json.designConcept }}\nProduct type: {{ $json.productType }}\nStyle: {{ $json.style }}\n\nRespond with JSON:\n{\n  \"imagePrompt\": \"detailed prompt for Flux image generation, 2-3 sentences, focus on visual elements only\",\n  \"title\": \"SEO-optimized product title, max 140 chars, include keywords\",\n  \"description\": \"compelling product description, 150-200 words, highlight benefits\",\n  \"tags\": [\"array\", \"of\", \"13\", \"etsy\", \"tags\"],\n  \"targetAudience\": \"who would buy this\",\n  \"priceRange\": \"low/medium/high\"\n}\n\nIMPORTANT: Be creative and unique. Avoid generic designs. Focus on emotional connection.",
+              "role": "user"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 500
+        }
+      },
+      "id": "generate-copy",
+      "name": "Generate Copy (GPT-4o-mini)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [900, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-creds",
+          "name": "OpenAI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse GPT response and prepare for image generation\nconst response = $input.first().json;\nconst original = $('Batch Items').first().json;\n\nlet parsed;\ntry {\n  // Handle both string and object responses\n  const content = typeof response.message?.content === 'string' \n    ? response.message.content \n    : JSON.stringify(response.message?.content);\n  \n  // Extract JSON from response\n  const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n  parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : {};\n} catch (e) {\n  parsed = {\n    imagePrompt: `cute ${original.subNiche} illustration, ${original.style} style, high quality`,\n    title: `${original.subNiche} ${original.productType} - Unique Design`,\n    description: 'A beautiful, unique design perfect for any occasion.',\n    tags: [original.niche, original.subNiche, 'gift', 'unique'],\n    targetAudience: 'general',\n    priceRange: 'medium'\n  };\n}\n\nreturn [{\n  json: {\n    ...original,\n    ...parsed,\n    generatedAt: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "parse-copy",
+      "name": "Parse Copy Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/predictions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"version\": \"schnell\",\n  \"input\": {\n    \"prompt\": \"{{ $json.imagePrompt }}, professional product design, high resolution, white background, centered composition\",\n    \"num_outputs\": 1,\n    \"aspect_ratio\": \"1:1\",\n    \"output_format\": \"png\",\n    \"output_quality\": 90\n  }\n}",
+        "options": {}
+      },
+      "id": "generate-image",
+      "name": "Generate Image (Flux)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "replicate-auth",
+          "name": "Replicate Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "seconds"
+      },
+      "id": "wait-for-image",
+      "name": "Wait 5s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1560, 200]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Generate Image (Flux)').item.json.urls.get }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "poll-image-status",
+      "name": "Poll Image Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1780, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "replicate-auth",
+          "name": "Replicate Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "status-check",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "succeeded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-status",
+      "name": "Image Ready?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2000, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combine all data for safeguards check\nconst imageResult = $input.first().json;\nconst productData = $('Parse Copy Response').first().json;\n\nconst product = {\n  id: `prod_${Date.now()}_${productData.variationId}`,\n  title: productData.title,\n  description: productData.description,\n  tags: productData.tags,\n  imageUrl: imageResult.output?.[0] || imageResult.urls?.get,\n  imagePrompt: productData.imagePrompt,\n  niche: productData.niche,\n  subNiche: productData.subNiche,\n  productType: productData.productType,\n  targetPlatform: productData.targetPlatform,\n  targetAudience: productData.targetAudience,\n  priceRange: productData.priceRange,\n  designConcept: productData.designConcept,\n  status: 'pending_safeguards',\n  createdAt: new Date().toISOString()\n};\n\nreturn [{ json: product }];"
+      },
+      "id": "prepare-product",
+      "name": "Prepare Product Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2220, 100]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SAFEGUARDS_API_URL }}/api/products/process",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "run-safeguards",
+      "name": "Run Safeguards",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2440, 100]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "approval-check",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "safeguards-passed",
+      "name": "Safeguards Passed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2660, 100]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "generated_products",
+        "columns": "id,title,description,tags,image_url,niche,sub_niche,product_type,target_platform,status,created_at",
+        "options": {}
+      },
+      "id": "save-approved",
+      "name": "Save Approved Product",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [2880, 0],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "rejected_products",
+        "columns": "id,title,rejection_reason,niche,created_at",
+        "options": {}
+      },
+      "id": "save-rejected",
+      "name": "Log Rejected Product",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [2880, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "loopBackNode": "Batch Items"
+      },
+      "id": "loop-back",
+      "name": "Continue Batch",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [3100, 100]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "seconds"
+      },
+      "id": "wait-retry",
+      "name": "Wait & Retry",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [2220, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [{ "node": "Prepare Batch", "type": "main", "index": 0 }]
+      ]
+    },
+    "Prepare Batch": {
+      "main": [
+        [{ "node": "Batch Items", "type": "main", "index": 0 }]
+      ]
+    },
+    "Batch Items": {
+      "main": [
+        [{ "node": "Generate Copy (GPT-4o-mini)", "type": "main", "index": 0 }],
+        [{ "node": "Continue Batch", "type": "main", "index": 0 }]
+      ]
+    },
+    "Generate Copy (GPT-4o-mini)": {
+      "main": [
+        [{ "node": "Parse Copy Response", "type": "main", "index": 0 }]
+      ]
+    },
+    "Parse Copy Response": {
+      "main": [
+        [{ "node": "Generate Image (Flux)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Generate Image (Flux)": {
+      "main": [
+        [{ "node": "Wait 5s", "type": "main", "index": 0 }]
+      ]
+    },
+    "Wait 5s": {
+      "main": [
+        [{ "node": "Poll Image Status", "type": "main", "index": 0 }]
+      ]
+    },
+    "Poll Image Status": {
+      "main": [
+        [{ "node": "Image Ready?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Image Ready?": {
+      "main": [
+        [{ "node": "Prepare Product Data", "type": "main", "index": 0 }],
+        [{ "node": "Wait & Retry", "type": "main", "index": 0 }]
+      ]
+    },
+    "Wait & Retry": {
+      "main": [
+        [{ "node": "Poll Image Status", "type": "main", "index": 0 }]
+      ]
+    },
+    "Prepare Product Data": {
+      "main": [
+        [{ "node": "Run Safeguards", "type": "main", "index": 0 }]
+      ]
+    },
+    "Run Safeguards": {
+      "main": [
+        [{ "node": "Safeguards Passed?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Safeguards Passed?": {
+      "main": [
+        [{ "node": "Save Approved Product", "type": "main", "index": 0 }],
+        [{ "node": "Log Rejected Product", "type": "main", "index": 0 }]
+      ]
+    },
+    "Save Approved Product": {
+      "main": [
+        [{ "node": "Continue Batch", "type": "main", "index": 0 }]
+      ]
+    },
+    "Log Rejected Product": {
+      "main": [
+        [{ "node": "Continue Batch", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "error-handler"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "product-generation" }
+  ]
+}

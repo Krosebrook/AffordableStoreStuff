@@ -15,6 +15,10 @@ import {
   Palette,
   Activity,
   UserCircle,
+  Grid3X3,
+  TrendingUp,
+  Brain,
+  Radar,
 } from "lucide-react";
 import {
   Sidebar,
@@ -32,6 +36,9 @@ import {
 const mainNavItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Store Pulse", url: "/store-pulse", icon: Activity },
+  { title: "Fusion Core", url: "/fusion-core", icon: Brain },
+  { title: "Product Heatmap", url: "/product-pulse-heatmap", icon: Grid3X3 },
+  { title: "AI Insights", url: "/ai-insights", icon: Radar },
   { title: "Products", url: "/products", icon: Package },
   { title: "Orders", url: "/orders", icon: ClipboardList },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
@@ -43,6 +50,7 @@ const aiToolsItems = [
   { title: "Influencer Studio", url: "/ai-influencer-studio", icon: UserCircle },
   { title: "Marketing Engine", url: "/ai-marketing", icon: Megaphone },
   { title: "Brand Voice", url: "/ai-brand-voice", icon: Palette },
+  { title: "Brand Calibration", url: "/brand-calibration", icon: TrendingUp },
   { title: "Integrations", url: "/integrations", icon: Plug },
   { title: "Automation", url: "/automation", icon: Zap },
 ];
@@ -81,7 +89,7 @@ export function AppSidebar() {
                     isActive={location === item.url}
                     className="hover-elevate"
                   >
-                    <Link href={item.url} data-testid={`link-nav-${item.title.toLowerCase()}`}>
+                    <Link href={item.url} data-testid={`link-nav-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
                     </Link>
@@ -105,7 +113,7 @@ export function AppSidebar() {
                     isActive={location === item.url}
                     className="hover-elevate"
                   >
-                    <Link href={item.url} data-testid={`link-nav-${item.title.toLowerCase().replace(' ', '-')}`}>
+                    <Link href={item.url} data-testid={`link-nav-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
                     </Link>
@@ -129,7 +137,7 @@ export function AppSidebar() {
                     isActive={location === item.url}
                     className="hover-elevate"
                   >
-                    <Link href={item.url} data-testid={`link-nav-${item.title.toLowerCase()}`}>
+                    <Link href={item.url} data-testid={`link-nav-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
                     </Link>

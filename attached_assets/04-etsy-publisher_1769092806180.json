@@ -1,0 +1,309 @@
+{
+  "name": "04-Etsy-Publisher",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": "public",
+        "table": "generated_products",
+        "filterType": "string",
+        "filterString": "status=eq.approved&target_platform=eq.etsy&published_printify=eq.true&published_etsy=eq.false",
+        "returnAll": false,
+        "limit": 5,
+        "options": {}
+      },
+      "id": "fetch-ready-products",
+      "name": "Fetch Ready Products",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-products",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-products",
+      "name": "Has Products?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare Etsy listing data from Printify product\nconst product = $input.first().json;\n\n// Etsy category taxonomy IDs\nconst categoryMap = {\n  'pod_tshirt': 1390, // Clothing > Unisex Adult Clothing > Tops & Tees > T-shirts\n  'pod_mug': 505, // Home & Living > Kitchen & Dining > Drink & Barware > Mugs\n  'pod_poster': 897, // Art & Collectibles > Prints > Digital Prints\n  'pod_tote': 543, // Bags & Purses > Tote Bags\n  'pod_hoodie': 1392, // Clothing > Unisex Adult Clothing > Hoodies & Sweatshirts\n  'digital_printable': 895 // Art & Collectibles > Prints > Digital Prints\n};\n\n// Shipping profile IDs (create these in Etsy first)\nconst shippingProfiles = {\n  'pod_standard': process.env.ETSY_SHIPPING_PROFILE_POD || '123456789',\n  'digital': process.env.ETSY_SHIPPING_PROFILE_DIGITAL || '987654321'\n};\n\nconst isDigital = product.product_type.startsWith('digital_');\n\nconst etsyListing = {\n  // Basic info\n  title: product.title.substring(0, 140),\n  description: product.description + `\\n\\n---\\nShop with confidence! All orders are printed and shipped by our trusted partner.\\n\\nQuestions? We're here to help!`,\n  \n  // Categorization\n  taxonomy_id: categoryMap[product.product_type] || 1390,\n  tags: product.tags.slice(0, 13), // Etsy allows max 13 tags\n  \n  // Pricing (in cents)\n  price: product.price_range === 'low' ? 14.99 : \n         product.price_range === 'high' ? 24.99 : 19.99,\n  \n  // Inventory\n  quantity: 999,\n  \n  // Type\n  who_made: 'i_did',\n  when_made: 'made_to_order',\n  is_supply: false,\n  is_digital: isDigital,\n  is_personalizable: false,\n  \n  // Shipping\n  shipping_profile_id: isDigital ? shippingProfiles.digital : shippingProfiles.pod_standard,\n  \n  // Processing time (for POD)\n  processing_min: isDigital ? 0 : 3,\n  processing_max: isDigital ? 0 : 7,\n  \n  // State\n  state: 'draft', // Create as draft first for safety\n  \n  // Metadata for our tracking\n  originalProductId: product.id,\n  printifyProductId: product.printify_product_id,\n  imageUrl: product.image_url\n};\n\nreturn [{ json: etsyListing }];"
+      },
+      "id": "prepare-etsy-listing",
+      "name": "Prepare Etsy Listing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://openapi.etsy.com/v3/application/shops/{{ $env.ETSY_SHOP_ID }}/listings",
+        "authentication": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"title\": \"{{ $json.title }}\",\n  \"description\": \"{{ $json.description }}\",\n  \"price\": {{ $json.price }},\n  \"quantity\": {{ $json.quantity }},\n  \"taxonomy_id\": {{ $json.taxonomy_id }},\n  \"who_made\": \"{{ $json.who_made }}\",\n  \"when_made\": \"{{ $json.when_made }}\",\n  \"is_supply\": {{ $json.is_supply }},\n  \"shipping_profile_id\": {{ $json.shipping_profile_id }},\n  \"processing_min\": {{ $json.processing_min }},\n  \"processing_max\": {{ $json.processing_max }},\n  \"state\": \"{{ $json.state }}\"\n}",
+        "options": {}
+      },
+      "id": "create-etsy-listing",
+      "name": "Create Etsy Draft Listing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 200],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "etsy-oauth",
+          "name": "Etsy OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://openapi.etsy.com/v3/application/shops/{{ $env.ETSY_SHOP_ID }}/listings/{{ $json.listing_id }}/images",
+        "authentication": "oAuth2Api",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "image",
+              "value": "={{ $('Prepare Etsy Listing').item.json.imageUrl }}"
+            },
+            {
+              "name": "rank",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "upload-listing-image",
+      "name": "Upload Listing Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "etsy-oauth",
+          "name": "Etsy OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://openapi.etsy.com/v3/application/shops/{{ $env.ETSY_SHOP_ID }}/listings/{{ $('Create Etsy Draft Listing').item.json.listing_id }}",
+        "authentication": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"tags\": {{ JSON.stringify($('Prepare Etsy Listing').item.json.tags) }}\n}",
+        "options": {}
+      },
+      "id": "add-tags",
+      "name": "Add Tags",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 200],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "etsy-oauth",
+          "name": "Etsy OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://openapi.etsy.com/v3/application/shops/{{ $env.ETSY_SHOP_ID }}/listings/{{ $('Create Etsy Draft Listing').item.json.listing_id }}",
+        "authentication": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"state\": \"active\"\n}",
+        "options": {}
+      },
+      "id": "activate-listing",
+      "name": "Activate Listing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1780, 200],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "etsy-oauth",
+          "name": "Etsy OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "generated_products",
+        "filterType": "string",
+        "filterString": "=id=eq.{{ $('Prepare Etsy Listing').item.json.originalProductId }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "published_etsy",
+              "fieldValue": "true"
+            },
+            {
+              "fieldName": "etsy_listing_id",
+              "fieldValue": "={{ $('Create Etsy Draft Listing').item.json.listing_id }}"
+            },
+            {
+              "fieldName": "status",
+              "fieldValue": "published"
+            },
+            {
+              "fieldName": "published_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "update-status",
+      "name": "Update Product Status",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [2000, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "🎉 *New Etsy Listing Live!*\n\n*Title:* {{ $('Prepare Etsy Listing').item.json.title }}\n*Price:* ${{ $('Prepare Etsy Listing').item.json.price }}\n*Listing ID:* {{ $('Create Etsy Draft Listing').item.json.listing_id }}\n\n🔗 View: https://www.etsy.com/listing/{{ $('Create Etsy Draft Listing').item.json.listing_id }}\n\n_Ready for sales!_ 💰",
+        "otherOptions": {}
+      },
+      "id": "notify-success",
+      "name": "Notify Success",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [2220, 200],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "no-products",
+      "name": "No Products",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [900, 400]
+    }
+  ],
+  "connections": {
+    "Every 6 Hours": {
+      "main": [
+        [{ "node": "Fetch Ready Products", "type": "main", "index": 0 }]
+      ]
+    },
+    "Fetch Ready Products": {
+      "main": [
+        [{ "node": "Has Products?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Has Products?": {
+      "main": [
+        [{ "node": "Prepare Etsy Listing", "type": "main", "index": 0 }],
+        [{ "node": "No Products", "type": "main", "index": 0 }]
+      ]
+    },
+    "Prepare Etsy Listing": {
+      "main": [
+        [{ "node": "Create Etsy Draft Listing", "type": "main", "index": 0 }]
+      ]
+    },
+    "Create Etsy Draft Listing": {
+      "main": [
+        [{ "node": "Upload Listing Image", "type": "main", "index": 0 }]
+      ]
+    },
+    "Upload Listing Image": {
+      "main": [
+        [{ "node": "Add Tags", "type": "main", "index": 0 }]
+      ]
+    },
+    "Add Tags": {
+      "main": [
+        [{ "node": "Activate Listing", "type": "main", "index": 0 }]
+      ]
+    },
+    "Activate Listing": {
+      "main": [
+        [{ "node": "Update Product Status", "type": "main", "index": 0 }]
+      ]
+    },
+    "Update Product Status": {
+      "main": [
+        [{ "node": "Notify Success", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "etsy" },
+    { "name": "publishing" }
+  ]
+}

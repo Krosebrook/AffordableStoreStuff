@@ -32,6 +32,10 @@ const AIInfluencerStudio = lazy(() => import("@/pages/ai-influencer-studio"));
 const AIProductCreator = lazy(() => import("@/pages/ai-product-creator"));
 const AIMarketingEngine = lazy(() => import("@/pages/ai-marketing-engine"));
 const AIBrandVoice = lazy(() => import("@/pages/ai-brand-voice"));
+const ProductPulseHeatmap = lazy(() => import("@/pages/product-pulse-heatmap"));
+const FusionCore = lazy(() => import("@/pages/fusion-core"));
+const BrandCalibration = lazy(() => import("@/pages/brand-calibration"));
+const AIInsights = lazy(() => import("@/pages/ai-insights"));
 const Auth = lazy(() => import("@/pages/auth"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
@@ -137,6 +141,10 @@ function Router() {
     "/ai-brand-voice",
     "/store-pulse",
     "/ai-influencer-studio",
+    "/product-pulse-heatmap",
+    "/fusion-core",
+    "/brand-calibration",
+    "/ai-insights",
   ];
 
   const isDashboardRoute = dashboardRoutes.some((route) =>
@@ -158,6 +166,10 @@ function Router() {
           <Route path="/ai-brand-voice" component={AIBrandVoice} />
           <Route path="/store-pulse" component={StorePulse} />
           <Route path="/ai-influencer-studio" component={AIInfluencerStudio} />
+          <Route path="/product-pulse-heatmap" component={ProductPulseHeatmap} />
+          <Route path="/fusion-core" component={FusionCore} />
+          <Route path="/brand-calibration" component={BrandCalibration} />
+          <Route path="/ai-insights" component={AIInsights} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/automation" component={Dashboard} />
           <Route path="/customers" component={Dashboard} />

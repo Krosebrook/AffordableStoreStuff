@@ -55,6 +55,10 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 │   │   ├── onboarding.tsx # Mobile-first onboarding screen
 │   │   ├── store-pulse.tsx # Real-time store dashboard
 │   │   ├── ai-influencer-studio.tsx # AI avatar creator
+│   │   ├── product-pulse-heatmap.tsx # 3D product treemap with revenue/growth
+│   │   ├── fusion-core.tsx # Mobile core with KPI carousel and live feed
+│   │   ├── brand-calibration.tsx # Neural calibration and brand archetype sync
+│   │   ├── ai-insights.tsx # Cross-platform radar analytics with AI recommendations
 │   │   ├── dashboard.tsx
 │   │   ├── products.tsx
 │   │   ├── orders.tsx

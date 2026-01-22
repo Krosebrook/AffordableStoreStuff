@@ -1,0 +1,200 @@
+{
+  "name": "07-Daily-Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "daily-trigger",
+      "name": "Daily 9 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": "public",
+        "table": "generated_products",
+        "filterType": "string",
+        "filterString": "created_at=gte.{{ $now.minus({ hours: 24 }).toISO() }}",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "fetch-24h-products",
+      "name": "Products Last 24h",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [460, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": "public",
+        "table": "sales_records",
+        "filterType": "string",
+        "filterString": "sale_date=gte.{{ $now.minus({ hours: 24 }).toISO() }}",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "fetch-24h-sales",
+      "name": "Sales Last 24h",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [460, 400],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": "public",
+        "table": "ai_generation_costs",
+        "filterType": "string",
+        "filterString": "created_at=gte.{{ $now.minus({ hours: 24 }).toISO() }}",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "fetch-24h-costs",
+      "name": "API Costs Last 24h",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [460, 600],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-data",
+      "name": "Merge All Data",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [700, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Compile daily report\nconst products = $input.all()[0]?.json || [];\nconst sales = $input.all()[1]?.json || [];\nconst costs = $input.all()[2]?.json || [];\n\n// Products metrics\nconst productStats = {\n  total: Array.isArray(products) ? products.length : 0,\n  approved: Array.isArray(products) ? products.filter(p => p.status === 'approved').length : 0,\n  rejected: Array.isArray(products) ? products.filter(p => p.status === 'rejected').length : 0,\n  published: Array.isArray(products) ? products.filter(p => p.status === 'published').length : 0,\n  byNiche: {}\n};\n\nif (Array.isArray(products)) {\n  products.forEach(p => {\n    productStats.byNiche[p.niche] = (productStats.byNiche[p.niche] || 0) + 1;\n  });\n}\n\n// Sales metrics\nconst salesStats = {\n  count: Array.isArray(sales) ? sales.length : 0,\n  grossRevenue: Array.isArray(sales) ? sales.reduce((sum, s) => sum + parseFloat(s.gross_amount || 0), 0) : 0,\n  netProfit: Array.isArray(sales) ? sales.reduce((sum, s) => sum + parseFloat(s.net_profit || 0), 0) : 0,\n  byPlatform: {}\n};\n\nif (Array.isArray(sales)) {\n  sales.forEach(s => {\n    if (!salesStats.byPlatform[s.platform]) {\n      salesStats.byPlatform[s.platform] = { count: 0, revenue: 0 };\n    }\n    salesStats.byPlatform[s.platform].count++;\n    salesStats.byPlatform[s.platform].revenue += parseFloat(s.gross_amount || 0);\n  });\n}\n\n// Cost metrics\nconst costStats = {\n  totalCost: Array.isArray(costs) ? costs.reduce((sum, c) => sum + parseFloat(c.cost_usd || 0), 0) : 0,\n  imageGeneration: Array.isArray(costs) ? costs.filter(c => c.operation === 'image_generation').reduce((sum, c) => sum + parseFloat(c.cost_usd || 0), 0) : 0,\n  textGeneration: Array.isArray(costs) ? costs.filter(c => c.operation === 'text_generation').reduce((sum, c) => sum + parseFloat(c.cost_usd || 0), 0) : 0,\n  imagesGenerated: Array.isArray(costs) ? costs.reduce((sum, c) => sum + (c.images_generated || 0), 0) : 0\n};\n\n// Calculate daily profit\nconst dailyProfit = salesStats.netProfit - costStats.totalCost;\n\n// Goal progress (monthly)\nconst monthlyGoal = 1000;\nconst daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();\nconst dayOfMonth = new Date().getDate();\nconst projectedMonthly = (dailyProfit > 0) ? dailyProfit * daysInMonth : 0;\nconst onTrack = projectedMonthly >= monthlyGoal;\n\nconst report = {\n  date: new Date().toISOString().split('T')[0],\n  products: productStats,\n  sales: salesStats,\n  costs: costStats,\n  dailyProfit: dailyProfit.toFixed(2),\n  projectedMonthly: projectedMonthly.toFixed(2),\n  monthlyGoal,\n  onTrack,\n  \n  // Recommendations\n  recommendations: []\n};\n\n// Add recommendations\nif (productStats.rejected > productStats.approved) {\n  report.recommendations.push('⚠️ High rejection rate - review quality gates');\n}\nif (costStats.totalCost > salesStats.netProfit) {\n  report.recommendations.push('💸 Costs exceed revenue - reduce batch sizes');\n}\nif (productStats.total < 5) {\n  report.recommendations.push('📈 Low product volume - increase generation');\n}\nif (report.recommendations.length === 0) {\n  report.recommendations.push('✅ All metrics healthy - keep scaling!');\n}\n\nreturn [{ json: report }];"
+      },
+      "id": "compile-report",
+      "name": "Compile Daily Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [920, 400]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "revenue_snapshots",
+        "columns": "period,aggregated_at,platforms,totals,goal_tracking",
+        "options": {}
+      },
+      "id": "save-snapshot",
+      "name": "Save Daily Snapshot",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1140, 400],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "📅 *Daily Report - {{ $json.date }}*\n\n*📦 Products*\n• Generated: {{ $json.products.total }}\n• Approved: {{ $json.products.approved }}\n• Rejected: {{ $json.products.rejected }}\n• Published: {{ $json.products.published }}\n\n*💰 Sales (24h)*\n• Orders: {{ $json.sales.count }}\n• Gross: ${{ $json.sales.grossRevenue.toFixed(2) }}\n• Net Profit: ${{ $json.sales.netProfit.toFixed(2) }}\n\n*🤖 API Costs*\n• Total: ${{ $json.costs.totalCost.toFixed(2) }}\n• Images: {{ $json.costs.imagesGenerated }} (${{ $json.costs.imageGeneration.toFixed(2) }})\n• Text: ${{ $json.costs.textGeneration.toFixed(2) }}\n\n*📊 Daily P&L: ${{ $json.dailyProfit }}*\n\n*🎯 Goal Progress*\n• Monthly Target: ${{ $json.monthlyGoal }}\n• Projected: ${{ $json.projectedMonthly }}\n• Status: {{ $json.onTrack ? '✅ On Track' : '⚠️ Behind Target' }}\n\n*💡 Recommendations*\n{{ $json.recommendations.join('\\n') }}",
+        "otherOptions": {}
+      },
+      "id": "send-slack-report",
+      "name": "Send Daily Report",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1360, 400],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 9 AM": {
+      "main": [
+        [
+          { "node": "Products Last 24h", "type": "main", "index": 0 },
+          { "node": "Sales Last 24h", "type": "main", "index": 0 },
+          { "node": "API Costs Last 24h", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Products Last 24h": {
+      "main": [
+        [{ "node": "Merge All Data", "type": "main", "index": 0 }]
+      ]
+    },
+    "Sales Last 24h": {
+      "main": [
+        [{ "node": "Merge All Data", "type": "main", "index": 1 }]
+      ]
+    },
+    "API Costs Last 24h": {
+      "main": [
+        [{ "node": "Merge All Data", "type": "main", "index": 2 }]
+      ]
+    },
+    "Merge All Data": {
+      "main": [
+        [{ "node": "Compile Daily Report", "type": "main", "index": 0 }]
+      ]
+    },
+    "Compile Daily Report": {
+      "main": [
+        [{ "node": "Save Daily Snapshot", "type": "main", "index": 0 }]
+      ]
+    },
+    "Save Daily Snapshot": {
+      "main": [
+        [{ "node": "Send Daily Report", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "reporting" },
+    { "name": "daily" }
+  ]
+}

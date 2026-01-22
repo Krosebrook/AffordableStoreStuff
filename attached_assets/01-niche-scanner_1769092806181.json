@@ -1,0 +1,175 @@
+{
+  "name": "01-Niche-Scanner",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24,
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Daily 6 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://www.etsy.com/api/v3/application/buyer-taxonomy/nodes",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {}
+      },
+      "id": "etsy-trends",
+      "name": "Fetch Etsy Trends",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 200],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "etsy-oauth",
+          "name": "Etsy OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://trends.google.com/trends/api/dailytrends?geo=US",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "google-trends",
+      "name": "Fetch Google Trends",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse and score niches from multiple sources\nconst etsyData = $input.all()[0]?.json || {};\nconst googleData = $input.all()[1]?.json || {};\n\n// Evergreen niches with proven profitability\nconst evergreenNiches = [\n  { name: 'pet-portraits', category: 'pets', products: ['mugs', 'posters', 'tshirts'], demandScore: 85 },\n  { name: 'dog-breed-specific', category: 'pets', products: ['mugs', 'tshirts', 'totes'], demandScore: 90 },\n  { name: 'teacher-appreciation', category: 'occupation', products: ['totes', 'mugs', 'stickers'], demandScore: 80 },\n  { name: 'nurse-healthcare', category: 'occupation', products: ['tumblers', 'tshirts', 'badges'], demandScore: 78 },\n  { name: 'plant-parent', category: 'lifestyle', products: ['mugs', 'totes', 'stickers'], demandScore: 75 },\n  { name: 'astrology-zodiac', category: 'spiritual', products: ['posters', 'journals', 'jewelry'], demandScore: 82 },\n  { name: 'gaming-retro', category: 'hobby', products: ['posters', 'mousepads', 'hoodies'], demandScore: 88 },\n  { name: 'minimalist-quotes', category: 'decor', products: ['posters', 'printables', 'mugs'], demandScore: 70 },\n  { name: 'eco-activism', category: 'values', products: ['totes', 'stickers', 'tshirts'], demandScore: 72 },\n  { name: 'mom-life-humor', category: 'parenting', products: ['mugs', 'tshirts', 'tumblers'], demandScore: 85 }\n];\n\n// Seasonal boost calculations\nconst today = new Date();\nconst month = today.getMonth();\nconst seasonalBoosts = {\n  // Back to school (Aug-Sep)\n  'teacher-appreciation': month >= 7 && month <= 8 ? 1.3 : 1.0,\n  // Holiday season (Nov-Dec)\n  'pet-portraits': month >= 10 && month <= 11 ? 1.4 : 1.0,\n  // New Year (Jan)\n  'minimalist-quotes': month === 0 ? 1.2 : 1.0,\n  // Valentine's (Feb)\n  'astrology-zodiac': month === 1 ? 1.25 : 1.0\n};\n\n// Score and rank niches\nconst scoredNiches = evergreenNiches.map(niche => {\n  const seasonalMultiplier = seasonalBoosts[niche.name] || 1.0;\n  const competitionPenalty = Math.random() * 10; // Simulated - replace with actual API data\n  \n  return {\n    ...niche,\n    seasonalBoost: seasonalMultiplier,\n    finalScore: Math.round(niche.demandScore * seasonalMultiplier - competitionPenalty),\n    recommendedProducts: niche.products.slice(0, 2),\n    scannedAt: new Date().toISOString()\n  };\n}).sort((a, b) => b.finalScore - a.finalScore);\n\n// Return top 5 niches for this batch\nreturn scoredNiches.slice(0, 5).map(niche => ({ json: niche }));"
+      },
+      "id": "score-niches",
+      "name": "Score & Rank Niches",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "trending_niches",
+        "columns": "name,category,products,demand_score,seasonal_boost,final_score,recommended_products,scanned_at",
+        "options": {
+          "onConflict": "name",
+          "conflictAction": "update"
+        }
+      },
+      "id": "save-to-supabase",
+      "name": "Save to Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [920, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.finalScore }}",
+              "operation": "largerEqual",
+              "value2": 75
+            }
+          ]
+        }
+      },
+      "id": "filter-high-potential",
+      "name": "Filter High Potential",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [1140, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "🔥 *High-Potential Niche Found*\n\n*Niche:* {{ $json.name }}\n*Category:* {{ $json.category }}\n*Score:* {{ $json.finalScore }}/100\n*Seasonal Boost:* {{ $json.seasonalBoost }}x\n*Recommended Products:* {{ $json.recommendedProducts.join(', ') }}\n\n_Ready for product generation!_",
+        "otherOptions": {}
+      },
+      "id": "slack-notification",
+      "name": "Notify Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1360, 300],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 6 AM": {
+      "main": [
+        [
+          { "node": "Fetch Etsy Trends", "type": "main", "index": 0 },
+          { "node": "Fetch Google Trends", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Fetch Etsy Trends": {
+      "main": [
+        [{ "node": "Score & Rank Niches", "type": "main", "index": 0 }]
+      ]
+    },
+    "Fetch Google Trends": {
+      "main": [
+        [{ "node": "Score & Rank Niches", "type": "main", "index": 0 }]
+      ]
+    },
+    "Score & Rank Niches": {
+      "main": [
+        [{ "node": "Save to Supabase", "type": "main", "index": 0 }]
+      ]
+    },
+    "Save to Supabase": {
+      "main": [
+        [{ "node": "Filter High Potential", "type": "main", "index": 0 }]
+      ]
+    },
+    "Filter High Potential": {
+      "main": [
+        [{ "node": "Notify Slack", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "niche-research" }
+  ]
+}
