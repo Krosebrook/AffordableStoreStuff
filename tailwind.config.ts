@@ -81,6 +81,18 @@ export default {
           busy: "rgb(239 68 68)",
           offline: "rgb(156 163 175)",
         },
+        ff: {
+          purple: "hsl(var(--ff-purple) / <alpha-value>)",
+          pink: "hsl(var(--ff-pink) / <alpha-value>)",
+          cyan: "hsl(var(--ff-cyan) / <alpha-value>)",
+          navy: "hsl(var(--ff-navy) / <alpha-value>)",
+        },
+        brand: {
+          purple: "#4725f4",
+          pink: "#ec4899",
+          cyan: "#22d3ee",
+          navy: "#0d0b14",
+        },
       },
       fontFamily: {
         sans: ["var(--font-sans)"],

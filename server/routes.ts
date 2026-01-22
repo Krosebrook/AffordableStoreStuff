@@ -5,6 +5,7 @@ import { insertUserSchema, insertProductSchema, insertCategorySchema, insertCart
 import { z } from "zod";
 import { randomUUID } from "crypto";
 import { registerIntegrationRoutes } from "./integrations/routes";
+import aiToolsRouter from "./integrations/ai-tools-routes";
 
 // Helper function to get or create session ID from cookies
 function getSessionId(req: Request, res: Response): string {
@@ -29,6 +30,9 @@ export async function registerRoutes(
 
   // Register integration routes
   registerIntegrationRoutes(app);
+  
+  // Register AI tools routes
+  app.use("/api/ai", aiToolsRouter);
 
   // ============ AUTH ROUTES ============
   app.post("/api/auth/register", async (req, res) => {

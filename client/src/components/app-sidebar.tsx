@@ -10,6 +10,9 @@ import {
   BarChart3,
   Zap,
   Plug,
+  Wand2,
+  Megaphone,
+  Palette,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,6 +36,9 @@ const mainNavItems = [
 
 const aiToolsItems = [
   { title: "AI Generator", url: "/generator", icon: Sparkles },
+  { title: "Product Creator", url: "/ai-product-creator", icon: Wand2 },
+  { title: "Marketing Engine", url: "/ai-marketing", icon: Megaphone },
+  { title: "Brand Voice", url: "/ai-brand-voice", icon: Palette },
   { title: "Integrations", url: "/integrations", icon: Plug },
   { title: "Automation", url: "/automation", icon: Zap },
 ];

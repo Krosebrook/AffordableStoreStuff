@@ -24,6 +24,7 @@ import Checkout from "@/pages/checkout";
 import Analytics from "@/pages/analytics";
 import Generator from "@/pages/generator";
 import IntegrationHub from "@/pages/integration-hub";
+import AIProductCreator from "@/pages/ai-product-creator";
 import Auth from "@/pages/auth";
 import NotFound from "@/pages/not-found";
 
@@ -108,6 +109,9 @@ function Router() {
     "/customers",
     "/settings",
     "/checkout",
+    "/ai-product-creator",
+    "/ai-marketing",
+    "/ai-brand-voice",
   ];
 
   const isDashboardRoute = dashboardRoutes.some((route) =>
@@ -124,6 +128,9 @@ function Router() {
           <Route path="/analytics" component={Analytics} />
           <Route path="/generator" component={Generator} />
           <Route path="/integrations" component={IntegrationHub} />
+          <Route path="/ai-product-creator" component={AIProductCreator} />
+          <Route path="/ai-marketing" component={Dashboard} />
+          <Route path="/ai-brand-voice" component={Dashboard} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/automation" component={Dashboard} />
           <Route path="/customers" component={Dashboard} />

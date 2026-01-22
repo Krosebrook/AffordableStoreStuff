@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LIGHT MODE - Premium Light Theme */
+/* LIGHT MODE - FlashFusion Premium Theme */
 :root {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
@@ -12,50 +12,55 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
+  --background: 246 33% 97%;
+  --foreground: 249 84% 6%;
 
-  --border: 240 5.9% 90%;
+  --border: 249 10% 88%;
 
   --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --card-border: 240 5.9% 90%;
+  --card-foreground: 249 84% 6%;
+  --card-border: 249 10% 88%;
 
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-border: 240 5.9% 90%;
-  --sidebar-primary: 262 83% 58%;
+  --sidebar: 249 20% 96%;
+  --sidebar-foreground: 249 30% 30%;
+  --sidebar-border: 249 10% 88%;
+  --sidebar-primary: 255 89% 55%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-ring: 262 83% 58%;
+  --sidebar-accent: 249 15% 93%;
+  --sidebar-accent-foreground: 249 30% 15%;
+  --sidebar-ring: 255 89% 55%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --popover-border: 240 5.9% 90%;
+  --popover-foreground: 249 84% 6%;
+  --popover-border: 249 10% 88%;
 
-  --primary: 262 83% 58%;
+  --primary: 255 89% 55%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
+  --secondary: 249 15% 93%;
+  --secondary-foreground: 249 30% 15%;
 
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
+  --muted: 249 15% 93%;
+  --muted-foreground: 249 10% 45%;
 
-  --accent: 262 83% 58%;
+  --accent: 330 81% 60%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 100%;
 
-  --input: 240 5.9% 90%;
-  --ring: 262 83% 58%;
-  --chart-1: 262 83% 58%;
-  --chart-2: 199 89% 48%;
-  --chart-3: 160 84% 39%;
-  --chart-4: 330 81% 60%;
+  --input: 249 10% 88%;
+  --ring: 255 89% 55%;
+  --chart-1: 255 89% 55%;
+  --chart-2: 330 81% 60%;
+  --chart-3: 186 94% 50%;
+  --chart-4: 160 84% 39%;
   --chart-5: 35 92% 50%;
+  
+  --ff-purple: 255 89% 55%;
+  --ff-pink: 330 81% 60%;
+  --ff-cyan: 186 94% 50%;
+  --ff-navy: 249 84% 6%;
 
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Space Grotesk', sans-serif;
@@ -89,7 +94,7 @@
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
-/* DARK MODE - Premium Futuristic Theme */
+/* DARK MODE - FlashFusion Futuristic Theme */
 .dark {
   --button-outline: rgba(255,255,255, .10);
   --badge-outline: rgba(255,255,255, .05);
@@ -99,50 +104,55 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 240 10% 4%;
+  --background: 260 60% 5%;
   --foreground: 0 0% 95%;
 
-  --border: 240 3.7% 15.9%;
+  --border: 260 20% 15%;
 
-  --card: 240 6% 8%;
+  --card: 260 40% 8%;
   --card-foreground: 0 0% 95%;
-  --card-border: 240 3.7% 15.9%;
+  --card-border: 260 20% 18%;
 
-  --sidebar: 240 6% 6%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-primary: 262 83% 58%;
+  --sidebar: 260 50% 6%;
+  --sidebar-foreground: 260 10% 85%;
+  --sidebar-border: 260 20% 15%;
+  --sidebar-primary: 255 89% 55%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-ring: 262 83% 58%;
+  --sidebar-accent: 260 30% 15%;
+  --sidebar-accent-foreground: 260 10% 90%;
+  --sidebar-ring: 255 89% 55%;
 
-  --popover: 240 6% 8%;
+  --popover: 260 40% 8%;
   --popover-foreground: 0 0% 95%;
-  --popover-border: 240 3.7% 15.9%;
+  --popover-border: 260 20% 18%;
 
-  --primary: 262 83% 58%;
+  --primary: 255 89% 55%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 240 3.7% 15.9%;
+  --secondary: 260 30% 15%;
   --secondary-foreground: 0 0% 98%;
 
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
+  --muted: 260 20% 15%;
+  --muted-foreground: 260 10% 65%;
 
-  --accent: 262 83% 58%;
+  --accent: 330 81% 60%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 62.8% 50.6%;
   --destructive-foreground: 0 0% 100%;
 
-  --input: 240 3.7% 20%;
-  --ring: 262 83% 58%;
-  --chart-1: 262 83% 58%;
-  --chart-2: 199 89% 48%;
-  --chart-3: 160 84% 39%;
-  --chart-4: 330 81% 60%;
+  --input: 260 25% 18%;
+  --ring: 255 89% 55%;
+  --chart-1: 255 89% 55%;
+  --chart-2: 330 81% 60%;
+  --chart-3: 186 94% 50%;
+  --chart-4: 160 84% 39%;
   --chart-5: 35 92% 50%;
+  
+  --ff-purple: 255 89% 55%;
+  --ff-pink: 330 81% 60%;
+  --ff-cyan: 186 94% 50%;
+  --ff-navy: 260 60% 5%;
 
   --shadow-2xs: 0px 1px 2px 0px rgba(0,0,0,0.3);
   --shadow-xs: 0px 1px 3px 0px rgba(0,0,0,0.4);
@@ -168,33 +178,85 @@
   }
 }
 
-/* Gradient text utility */
+/* Gradient text utility - FlashFusion brand colors */
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500;
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #4725f4 0%, #ec4899 100%);
 }
 
-.gradient-text-blue {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-400;
+.gradient-text-cyan {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #4725f4 0%, #22d3ee 100%);
 }
 
-/* Glass morphism utilities */
+/* Glass morphism utilities - FlashFusion style */
 .glass {
-  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  background: rgba(29, 27, 39, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: rgba(29, 27, 39, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(71, 37, 244, 0.2);
 }
 
 .glass-hover {
   @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
 }
 
-/* Gradient button */
+/* Neon border effects */
+.neon-border-purple {
+  border: 1px solid rgba(71, 37, 244, 0.4);
+  box-shadow: 0 0 15px rgba(71, 37, 244, 0.3);
+}
+
+.neon-border-pink {
+  border: 1px solid rgba(236, 72, 153, 0.4);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+}
+
+.neon-border-cyan {
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+}
+
+/* Glow effects */
+.glow-purple {
+  box-shadow: 0 0 20px rgba(71, 37, 244, 0.4), 0 0 40px rgba(71, 37, 244, 0.2);
+}
+
+.glow-pink {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.4), 0 0 40px rgba(236, 72, 153, 0.2);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(71, 37, 244, 0.5);
+}
+
+/* Gradient button - FlashFusion brand */
 .btn-gradient {
-  @apply bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg px-6 py-3 transition-all duration-300;
-  @apply hover:from-purple-500 hover:to-pink-500 hover:shadow-lg hover:shadow-purple-500/25;
+  background: linear-gradient(135deg, #4725f4 0%, #ec4899 100%);
+  @apply text-white font-bold rounded-xl px-6 py-3 transition-all duration-300;
+  box-shadow: 0 0 20px rgba(71, 37, 244, 0.4);
+}
+
+.btn-gradient:hover {
+  box-shadow: 0 0 30px rgba(71, 37, 244, 0.6), 0 0 60px rgba(236, 72, 153, 0.3);
+  transform: scale(1.02);
+}
+
+.btn-gradient:active {
+  transform: scale(0.98);
 }
 
 .btn-gradient-sm {
-  @apply bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium rounded-md px-4 py-2 text-sm transition-all duration-300;
-  @apply hover:from-purple-500 hover:to-pink-500 hover:shadow-lg hover:shadow-purple-500/25;
+  background: linear-gradient(135deg, #4725f4 0%, #ec4899 100%);
+  @apply text-white font-bold rounded-lg px-4 py-2 text-sm transition-all duration-300;
+  box-shadow: 0 0 15px rgba(71, 37, 244, 0.3);
 }
 
 /* Card glow effect on hover */
@@ -208,7 +270,7 @@
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0) 0%, rgba(139, 92, 246, 0) 100%);
+  background: linear-gradient(135deg, rgba(71, 37, 244, 0) 0%, rgba(71, 37, 244, 0) 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -219,8 +281,22 @@
 }
 
 .card-glow:hover::before {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.5) 0%, rgba(236, 72, 153, 0.5) 100%);
+  background: linear-gradient(135deg, rgba(71, 37, 244, 0.5) 0%, rgba(236, 72, 153, 0.5) 100%);
   opacity: 1;
+}
+
+/* Mesh background for hero sections */
+.bg-mesh {
+  background-color: hsl(260 60% 5%);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(71, 37, 244, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+}
+
+/* Canvas grid for workflow builder */
+.canvas-grid {
+  background-image: radial-gradient(circle, rgba(71, 37, 244, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Scrollbar styling */
@@ -253,8 +329,18 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.5); }
+  0%, 100% { box-shadow: 0 0 20px rgba(71, 37, 244, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(71, 37, 244, 0.5); }
+}
+
+@keyframes pulse-pink {
+  0%, 100% { box-shadow: 0 0 15px rgba(236, 72, 153, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.5); }
+}
+
+@keyframes energy-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
 }
 
 .animate-fade-in {

@@ -115,6 +115,130 @@ export const aiGenerations = pgTable("ai_generations", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// ============================================================================
+// AI TOOLS - Brand Voice, Marketing, Product Creator
+// ============================================================================
+
+// Brand voice profiles for AI consistency
+export const brandVoiceProfiles = pgTable("brand_voice_profiles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  name: text("name").notNull(),
+  description: text("description"),
+  isDefault: boolean("is_default").default(false),
+  // Voice characteristics
+  tone: text("tone").default("professional"), // 'professional', 'casual', 'playful', 'authoritative', 'friendly'
+  personality: text("personality").array().default(sql`ARRAY[]::text[]`), // ['innovative', 'trustworthy', 'bold']
+  targetAudience: text("target_audience"),
+  brandValues: text("brand_values").array().default(sql`ARRAY[]::text[]`),
+  // Language preferences
+  writingStyle: text("writing_style").default("conversational"), // 'formal', 'conversational', 'technical', 'creative'
+  vocabularyLevel: text("vocabulary_level").default("intermediate"), // 'simple', 'intermediate', 'advanced', 'technical'
+  avoidWords: text("avoid_words").array().default(sql`ARRAY[]::text[]`),
+  preferredPhrases: text("preferred_phrases").array().default(sql`ARRAY[]::text[]`),
+  // Examples for AI training
+  exampleContent: jsonb("example_content"), // { headlines: [], descriptions: [], emails: [] }
+  // Metadata
+  industry: text("industry"),
+  colorPalette: text("color_palette").array().default(sql`ARRAY[]::text[]`),
+  logoUrl: text("logo_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// AI-generated product concepts
+export const productConcepts = pgTable("product_concepts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  brandVoiceId: varchar("brand_voice_id").references(() => brandVoiceProfiles.id),
+  // Input
+  prompt: text("prompt").notNull(),
+  marketplace: text("marketplace").default("general"), // 'tech', 'fashion', 'lifestyle', 'home', 'sports'
+  targetPlatforms: text("target_platforms").array().default(sql`ARRAY[]::text[]`), // ['shopify', 'etsy', 'amazon']
+  priceRange: text("price_range"), // 'budget', 'mid', 'premium', 'luxury'
+  // AI Generated Content
+  generatedTitle: text("generated_title"),
+  generatedDescription: text("generated_description"),
+  generatedTags: text("generated_tags").array().default(sql`ARRAY[]::text[]`),
+  generatedFeatures: text("generated_features").array().default(sql`ARRAY[]::text[]`),
+  // Generated Images
+  generatedImages: jsonb("generated_images"), // [{ url, prompt, style }]
+  heroImageUrl: text("hero_image_url"),
+  thumbnailUrl: text("thumbnail_url"),
+  // SEO
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  seoKeywords: text("seo_keywords").array().default(sql`ARRAY[]::text[]`),
+  // Status & metadata
+  status: text("status").default("draft"), // 'draft', 'generating', 'ready', 'published', 'archived'
+  qualityScore: real("quality_score"),
+  aiProvider: text("ai_provider"),
+  generationCost: decimal("generation_cost", { precision: 10, scale: 4 }),
+  publishedToProducts: boolean("published_to_products").default(false),
+  productId: varchar("product_id").references(() => products.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Marketing campaigns with AI-generated assets
+export const marketingCampaigns = pgTable("marketing_campaigns", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  brandVoiceId: varchar("brand_voice_id").references(() => brandVoiceProfiles.id),
+  // Campaign basics
+  name: text("name").notNull(),
+  objective: text("objective"), // 'awareness', 'traffic', 'engagement', 'conversions', 'sales'
+  description: text("description"),
+  // Targeting
+  targetAudience: jsonb("target_audience"), // { age, gender, interests, locations }
+  channels: text("channels").array().default(sql`ARRAY[]::text[]`), // ['email', 'social', 'ads', 'sms']
+  platforms: text("platforms").array().default(sql`ARRAY[]::text[]`), // ['instagram', 'facebook', 'tiktok', 'email']
+  // Schedule
+  startDate: timestamp("start_date"),
+  endDate: timestamp("end_date"),
+  status: text("status").default("draft"), // 'draft', 'scheduled', 'active', 'paused', 'completed'
+  // Generated content
+  generatedAssets: jsonb("generated_assets"), // { emails: [], socialPosts: [], adCopy: [], headlines: [] }
+  // Metrics
+  budget: decimal("budget", { precision: 10, scale: 2 }),
+  spent: decimal("spent", { precision: 10, scale: 2 }).default("0"),
+  impressions: integer("impressions").default(0),
+  clicks: integer("clicks").default(0),
+  conversions: integer("conversions").default(0),
+  revenue: decimal("revenue", { precision: 10, scale: 2 }).default("0"),
+  // AI metadata
+  aiProvider: text("ai_provider"),
+  generationCost: decimal("generation_cost", { precision: 10, scale: 4 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// AI content library - reusable generated content
+export const aiContentLibrary = pgTable("ai_content_library", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  brandVoiceId: varchar("brand_voice_id").references(() => brandVoiceProfiles.id),
+  // Content details
+  contentType: text("content_type").notNull(), // 'headline', 'description', 'email', 'social_post', 'ad_copy', 'image', 'video_script'
+  title: text("title"),
+  content: text("content"),
+  mediaUrl: text("media_url"),
+  // Organization
+  tags: text("tags").array().default(sql`ARRAY[]::text[]`),
+  category: text("category"),
+  isFavorite: boolean("is_favorite").default(false),
+  usageCount: integer("usage_count").default(0),
+  // AI metadata
+  prompt: text("prompt"),
+  aiProvider: text("ai_provider"),
+  model: text("model"),
+  generationCost: decimal("generation_cost", { precision: 10, scale: 4 }),
+  // Quality
+  rating: integer("rating"), // 1-5 user rating
+  qualityScore: real("quality_score"), // AI-assessed quality
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Product publishing queue
 export const publishingQueue = pgTable("publishing_queue", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -279,6 +403,12 @@ export const insertWorkflowExecutionSchema = createInsertSchema(workflowExecutio
 export const insertAiGenerationSchema = createInsertSchema(aiGenerations).omit({ id: true, createdAt: true });
 export const insertPublishingQueueSchema = createInsertSchema(publishingQueue).omit({ id: true, createdAt: true });
 
+// AI Tools insert schemas
+export const insertBrandVoiceProfileSchema = createInsertSchema(brandVoiceProfiles).omit({ id: true, createdAt: true, updatedAt: true });
+export const insertProductConceptSchema = createInsertSchema(productConcepts).omit({ id: true, createdAt: true, updatedAt: true });
+export const insertMarketingCampaignSchema = createInsertSchema(marketingCampaigns).omit({ id: true, createdAt: true, updatedAt: true });
+export const insertAiContentLibrarySchema = createInsertSchema(aiContentLibrary).omit({ id: true, createdAt: true });
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -345,6 +475,19 @@ export type InsertAiGeneration = z.infer<typeof insertAiGenerationSchema>;
 
 export type PublishingQueueItem = typeof publishingQueue.$inferSelect;
 export type InsertPublishingQueueItem = z.infer<typeof insertPublishingQueueSchema>;
+
+// AI Tools types
+export type BrandVoiceProfile = typeof brandVoiceProfiles.$inferSelect;
+export type InsertBrandVoiceProfile = z.infer<typeof insertBrandVoiceProfileSchema>;
+
+export type ProductConcept = typeof productConcepts.$inferSelect;
+export type InsertProductConcept = z.infer<typeof insertProductConceptSchema>;
+
+export type MarketingCampaign = typeof marketingCampaigns.$inferSelect;
+export type InsertMarketingCampaign = z.infer<typeof insertMarketingCampaignSchema>;
+
+export type AiContentItem = typeof aiContentLibrary.$inferSelect;
+export type InsertAiContentItem = z.infer<typeof insertAiContentLibrarySchema>;
 
 // Connector categories
 export type ConnectorCategory = 'ai' | 'ecommerce' | 'automation' | 'infrastructure' | 'business' | 'productivity';
