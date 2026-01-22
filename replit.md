@@ -12,6 +12,8 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 - **AI Tools Suite**: AI Product Creator, AI Marketing Engine, AI Brand Voice Settings pages with full CRUD
 - **Real-time Streaming**: SSE-based streaming generation with progress indicators and live content preview
 - **AI Service Layer**: Multi-provider AI service (OpenAI, Anthropic, Gemini, ElevenLabs, Grok, Perplexity)
+- **Observability Module**: Structured logging, metrics collection, error tracking, circuit breakers, retry logic
+- **Health & Metrics Endpoints**: /api/ai/health and /api/ai/metrics for monitoring
 
 ## Project Architecture
 
@@ -100,6 +102,8 @@ GET/POST/PATCH/DELETE /api/ai/campaigns            - Marketing campaigns
 POST                  /api/ai/campaigns/:id/generate-assets - Generate assets
 GET/POST              /api/ai/stream/generate      - SSE streaming generation
 GET/POST              /api/ai/content-library      - AI content library
+GET                   /api/ai/health               - Health check with provider status
+GET                   /api/ai/metrics              - Metrics and error tracking
 
 Seed:
 POST /api/seed          - Seed demo data
