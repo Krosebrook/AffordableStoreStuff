@@ -14,6 +14,9 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 - **AI Service Layer**: Multi-provider AI service (OpenAI, Anthropic, Gemini, ElevenLabs, Grok, Perplexity)
 - **Observability Module**: Structured logging, metrics collection, error tracking, circuit breakers, retry logic
 - **Health & Metrics Endpoints**: /api/ai/health and /api/ai/metrics for monitoring
+- **Progressive Web App**: Full PWA with service worker, offline support, caching, lazy loading
+- **IndexedDB Storage**: Offline data persistence for drafts, uploads, downloads
+- **E2E Test Suite**: Playwright tests for PWA features and core functionality
 
 ## Project Architecture
 
@@ -23,6 +26,8 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 - **Database**: PostgreSQL with Drizzle ORM
 - **State Management**: TanStack Query (React Query v5)
 - **Forms**: React Hook Form with Zod validation
+- **PWA**: Service Worker, Web App Manifest, IndexedDB
+- **Testing**: Playwright for E2E tests
 
 ### Project Structure
 ```

@@ -10,25 +10,38 @@ import { CartDrawer } from "@/components/cart-drawer";
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Bell, User } from "lucide-react";
+import { Bell, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useState } from "react";
+import { useState, Suspense, lazy, useEffect } from "react";
 import type { CartItemWithProduct } from "@shared/schema";
+import { OfflineIndicator, UpdatePrompt, ConnectionStatus } from "@/components/offline-indicator";
+import { initPWA } from "@/lib/pwa-utils";
 
-import Landing from "@/pages/landing";
-import Dashboard from "@/pages/dashboard";
-import Products from "@/pages/products";
-import Orders from "@/pages/orders";
-import Checkout from "@/pages/checkout";
-import Analytics from "@/pages/analytics";
-import Generator from "@/pages/generator";
-import IntegrationHub from "@/pages/integration-hub";
-import AIProductCreator from "@/pages/ai-product-creator";
-import AIMarketingEngine from "@/pages/ai-marketing-engine";
-import AIBrandVoice from "@/pages/ai-brand-voice";
-import Auth from "@/pages/auth";
-import NotFound from "@/pages/not-found";
+const Landing = lazy(() => import("@/pages/landing"));
+const Dashboard = lazy(() => import("@/pages/dashboard"));
+const Products = lazy(() => import("@/pages/products"));
+const Orders = lazy(() => import("@/pages/orders"));
+const Checkout = lazy(() => import("@/pages/checkout"));
+const Analytics = lazy(() => import("@/pages/analytics"));
+const Generator = lazy(() => import("@/pages/generator"));
+const IntegrationHub = lazy(() => import("@/pages/integration-hub"));
+const AIProductCreator = lazy(() => import("@/pages/ai-product-creator"));
+const AIMarketingEngine = lazy(() => import("@/pages/ai-marketing-engine"));
+const AIBrandVoice = lazy(() => import("@/pages/ai-brand-voice"));
+const Auth = lazy(() => import("@/pages/auth"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+
+function PageLoader() {
+  return (
+    <div className="flex items-center justify-center h-full min-h-[400px]">
+      <div className="flex flex-col items-center gap-4">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <span className="text-sm text-muted-foreground">Loading...</span>
+      </div>
+    </div>
+  );
+}
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [cartOpen, setCartOpen] = useState(false);
@@ -70,6 +83,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
               <SidebarTrigger data-testid="button-sidebar-toggle" />
             </div>
             <div className="flex items-center gap-2">
+              <ConnectionStatus />
               <CartDrawer
                 items={cartItems}
                 onUpdateQuantity={(itemId, quantity) =>
@@ -90,7 +104,11 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
               </Avatar>
             </div>
           </header>
-          <main className="flex-1 overflow-auto">{children}</main>
+          <main className="flex-1 overflow-auto">
+            <Suspense fallback={<PageLoader />}>
+              {children}
+            </Suspense>
+          </main>
         </SidebarInset>
       </div>
     </SidebarProvider>
@@ -144,19 +162,27 @@ function Router() {
   }
 
   return (
-    <Switch>
-      <Route path="/" component={Landing} />
-      <Route path="/auth" component={Auth} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
+        <Route path="/" component={Landing} />
+        <Route path="/auth" component={Auth} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
 function App() {
+  useEffect(() => {
+    initPWA();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
+          <OfflineIndicator />
+          <UpdatePrompt />
           <Toaster />
           <Router />
         </TooltipProvider>
