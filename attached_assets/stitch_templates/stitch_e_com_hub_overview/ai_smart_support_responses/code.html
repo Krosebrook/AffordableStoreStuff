@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#25d1f4",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0a1112",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card-active {
+            background: rgba(37, 209, 244, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(37, 209, 244, 0.4);
+        }
+        .bg-gradient-mesh {
+            background-color: #0a1112;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 209, 244, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 209, 244, 0.1) 0px, transparent 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen font-display">
+<!-- Background Decoration -->
+<div class="fixed inset-0 bg-gradient-mesh -z-10"></div>
+<!-- Top Navigation Bar -->
+<div class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-white/10">
+<div class="flex items-center p-4 justify-between max-w-md mx-auto">
+<div class="text-white flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-base font-bold leading-tight tracking-tight">Order #1234 • Alex Smith</h2>
+<span class="text-[10px] text-primary/80 uppercase tracking-widest font-semibold">Shopify Plus</span>
+</div>
+<div class="flex w-10 items-center justify-end">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-white/10 transition-colors text-white">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<main class="max-w-md mx-auto pb-32">
+<!-- Customer Section Header -->
+<div class="px-4 pt-6">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-white/60 text-xs font-bold uppercase tracking-wider">Customer Inquiry</h3>
+<span class="text-white/40 text-xs">2m ago</span>
+</div>
+<!-- Sentiment Badge -->
+<div class="flex gap-3 mb-4">
+<div class="flex h-7 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 pl-2 pr-3">
+<span class="material-symbols-outlined text-orange-500 text-[18px]">sentiment_dissatisfied</span>
+<p class="text-orange-500 text-[11px] font-bold uppercase tracking-wide">Frustrated</p>
+</div>
+<div class="flex h-7 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-red-500/10 border border-red-500/30 pl-2 pr-3">
+<span class="material-symbols-outlined text-red-500 text-[18px]">priority_high</span>
+<p class="text-red-500 text-[11px] font-bold uppercase tracking-wide">High Priority</p>
+</div>
+</div>
+</div>
+<!-- Customer Message Bubble -->
+<div class="px-4 mb-8">
+<div class="flex items-start gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0 border-2 border-primary/20" data-alt="Profile picture of a customer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAlELpKTdtuTzAgKFCgU4vKU4JYNu5GOKPwG8HivCRMfS82-PqwwCgDTwjMEghUhlAVEi5weQpE0S6jg5hL3aSSauvsisakUon4Abg1j_lxwwPgqd1RRjYr52P4EXd3RRx0hm01iKNshRGNPhCXoBdUTfrn1wSmwl1j9_ccC7WJfRoji0QwU5DRBrkqlkEPsYi8lRWrYmXuHHRZJ71STI6xXmRAyTX_Hyt4wD87KNz6a12GlE3RoFgNnspoD0AFGy35yYbO0YPv4zY");'></div>
+<div class="flex flex-1 flex-col gap-1.5">
+<div class="glass-card rounded-2xl rounded-tl-none px-4 py-3">
+<p class="text-[15px] leading-relaxed text-white/90">
+                            Where is my order #1234? It's been two weeks and I haven't heard anything. I need this for a birthday this weekend! 🎂
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Section Header -->
+<div class="px-4 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h3 class="text-white text-lg font-bold tracking-tight">AI Generated Responses</h3>
+</div>
+<p class="text-white/50 text-xs mt-1">Select the best tone to resolve this inquiry.</p>
+</div>
+<!-- Response Options -->
+<div class="px-4 space-y-4">
+<!-- Option 1: Empathetic (Selected) -->
+<div class="glass-card-active rounded-xl p-4 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+</div>
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Empathetic Update</span>
+</div>
+<p class="text-white/90 text-sm leading-relaxed mb-4">
+                    "I am so incredibly sorry about the delay, Alex. I completely understand how stressful it is waiting for a birthday gift. I've personally upgraded your shipping to Overnight today so it arrives by Friday. I've also included a 20% discount code for your next order as a gesture of goodwill."
+                </p>
+<div class="flex items-center gap-1.5 py-2 px-3 bg-primary/5 rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-primary text-sm">info</span>
+<p class="text-primary/80 text-[11px] font-medium italic">
+                        Context: User mentioned a birthday. This response prioritizes speed and emotional recovery.
+                    </p>
+</div>
+</div>
+<!-- Option 2: Professional Refund -->
+<div class="glass-card rounded-xl p-4">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-white/10 text-white/70 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Professional Refund</span>
+</div>
+<p class="text-white/70 text-sm leading-relaxed mb-4">
+                    "Hello Alex, thank you for reaching out. We apologize for the delay in order #1234. Our records show it will arrive by Saturday. As per our policy, I have issued a full refund for your shipping costs today. Please let us know if we can assist further."
+                </p>
+<div class="flex items-center gap-1.5 py-2 px-3 bg-white/5 rounded-lg border border-white/5">
+<span class="material-symbols-outlined text-white/40 text-sm">info</span>
+<p class="text-white/40 text-[11px] font-medium italic">
+                        Context: Aligns with standard SOP for shipping delays exceeding 10 days.
+                    </p>
+</div>
+</div>
+<!-- Option 3: Concise Status -->
+<div class="glass-card rounded-xl p-4">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-white/10 text-white/70 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Concise Status</span>
+</div>
+<p class="text-white/70 text-sm leading-relaxed mb-4">
+                    "Order #1234 was delayed due to regional logistics. It is now out for delivery and should arrive by Friday evening. Tracking: bit.ly/track-1234. Sorry for the wait!"
+                </p>
+<div class="flex items-center gap-1.5 py-2 px-3 bg-white/5 rounded-lg border border-white/5">
+<span class="material-symbols-outlined text-white/40 text-sm">info</span>
+<p class="text-white/40 text-[11px] font-medium italic">
+                        Context: Minimalist approach for quick information delivery.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom Actions -->
+<div class="fixed bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-xl border-t border-white/10 p-4 pb-8">
+<div class="max-w-md mx-auto flex gap-3">
+<button class="flex-1 flex items-center justify-center gap-2 h-14 rounded-xl border border-white/20 text-white font-bold text-base bg-white/5 hover:bg-white/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+                Edit
+            </button>
+<button class="flex-[2] flex items-center justify-center gap-2 h-14 rounded-xl bg-primary text-background-dark font-black text-base shadow-[0_0_20px_rgba(37,209,244,0.3)] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">send</span>
+                Send Response
+            </button>
+</div>
+</div>
+</body></html>

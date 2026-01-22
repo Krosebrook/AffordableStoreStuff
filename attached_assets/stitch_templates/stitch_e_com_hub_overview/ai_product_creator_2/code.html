@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Product Creator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0a0a0f",
+                        "card-dark": "#161427",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glow-accent {
+            box-shadow: 0 0 15px 2px rgba(71, 37, 244, 0.3);
+        }
+        .glass-panel {
+            background: rgba(22, 20, 39, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<!-- iOS Status Bar Placeholder -->
+<div class="h-10 w-full bg-background-dark flex items-center justify-between px-6">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-symbols-outlined text-xs">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-xs">wifi</span>
+<span class="material-symbols-outlined text-xs rotate-90">battery_full</span>
+</div>
+</div>
+<!-- Top Navigation Bar -->
+<div class="flex items-center bg-background-dark/80 backdrop-blur-md sticky top-0 z-50 p-4 pb-2 justify-between">
+<div class="text-white flex size-10 shrink-0 items-center justify-center rounded-full bg-card-dark border border-white/10">
+<span class="material-symbols-outlined text-[24px]">auto_fix_high</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Creative Studio</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[24px]">bolt</span>
+</button>
+</div>
+</div>
+<main class="flex flex-col pb-40">
+<!-- Input Section -->
+<section class="px-4 pt-4">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-white text-base font-bold leading-tight tracking-tight">Design Prompt</h3>
+<span class="text-xs text-primary font-medium px-2 py-0.5 bg-primary/20 rounded-full">AI Ready</span>
+</div>
+<div class="flex flex-col gap-4">
+<label class="flex flex-col w-full">
+<div class="relative group">
+<textarea class="form-input flex w-full resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-white/10 bg-card-dark placeholder:text-gray-500 p-4 text-base font-normal leading-relaxed min-h-[120px] shadow-inner" placeholder="Describe your vision (e.g. Minimalist glass water bottle with neon highlights...)"></textarea>
+<button class="absolute bottom-3 right-3 flex items-center gap-1.5 bg-primary px-3 py-1.5 rounded-lg text-sm font-bold shadow-lg shadow-primary/40 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm">magic_button</span>
+                            Generate
+                        </button>
+</div>
+</label>
+</div>
+</section>
+<!-- Niche Selector -->
+<section class="mt-6">
+<h3 class="text-white text-sm font-semibold uppercase tracking-wider px-4 mb-3 opacity-60">Target Niche</h3>
+<div class="flex gap-3 px-4 overflow-x-auto custom-scrollbar">
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-primary px-5 border border-primary/50 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">devices</span>
+<p class="text-white text-sm font-semibold">Tech</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-card-dark px-5 border border-white/10">
+<span class="material-symbols-outlined text-lg text-gray-400">styler</span>
+<p class="text-gray-300 text-sm font-medium">Fashion</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-card-dark px-5 border border-white/10">
+<span class="material-symbols-outlined text-lg text-gray-400">home</span>
+<p class="text-gray-300 text-sm font-medium">Home</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-card-dark px-5 border border-white/10">
+<span class="material-symbols-outlined text-lg text-gray-400">fitness_center</span>
+<p class="text-gray-300 text-sm font-medium">Active</p>
+</div>
+</div>
+</section>
+<!-- Product Mockup Carousel -->
+<section class="mt-8">
+<div class="flex items-center justify-between px-4 mb-4">
+<h3 class="text-white text-lg font-bold">Generated Variations</h3>
+<div class="flex gap-2">
+<div class="size-2 rounded-full bg-primary glow-accent"></div>
+<div class="size-2 rounded-full bg-white/20"></div>
+<div class="size-2 rounded-full bg-white/20"></div>
+</div>
+</div>
+<div class="flex gap-4 px-4 overflow-x-auto custom-scrollbar snap-x snap-mandatory">
+<!-- Card 1 -->
+<div class="min-w-[85%] snap-center">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden border border-primary/40 glow-accent group">
+<img alt="AI generated premium headphones mockup" class="w-full h-full object-cover" data-alt="Futuristic high-end noise-canceling headphones product render" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXI8n0R8bzb9MECtkZ81TWigr7cSqOMp450BJrySSPlxe26KdT07JWlif-ds2OOmbplOaLDiJscfOSN891QgioTUVrmbhEZjboId19CZKtUUXp8jGQhw4kbb1D884BXiiqwgOKcxXk-C9q9R4iOR23IYlVHBIXfxqZjYrqrHmt0Nd8zItRh9GmiQdbeDeOFCzcYmV2uwlvDnLgsnGvjl1qoRocPYIiklXKHxc3fCaGWO2RaSoGNgJO07UFslA9KIAqCXphTRoFFSQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-xs font-bold text-primary bg-primary/20 px-2 py-1 rounded backdrop-blur-md mb-1 inline-block">VARIATION A</p>
+<h4 class="text-lg font-bold">Zenith Alpha V1</h4>
+</div>
+<button class="absolute top-4 right-4 size-10 rounded-full glass-panel flex items-center justify-center">
+<span class="material-symbols-outlined text-white">favorite</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[85%] snap-center">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 opacity-70">
+<img alt="Alternative AI product mockup" class="w-full h-full object-cover" data-alt="Modern tablet or high-tech accessory dark mockup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfXI6qUAVL49i01r7tF5CBPE6A-jnehU2qJE3gKBk5cPVbmg7xaiqRKtQSoowbDxfsF_03j5EA9Gb7SgfaynDGEULdFL4P2G11TCvtze3H6qoTZgLnVWAy7rLGU0Y-dOaZ6yM0zuUvTDsIjF9laD3V4w26fOrFfJMV8FlrC3qAFpj5oW8ugoC6yOHkWJH2eVe4spW4YLS0uLtxV6XnEQXtMaOHPUxEC3CtENBaPWyEQZ2lh-hza1yFzWlwhXZ4DRIbabd3QgEVQ4g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-xs font-bold text-gray-400 bg-white/10 px-2 py-1 rounded backdrop-blur-md mb-1 inline-block">VARIATION B</p>
+<h4 class="text-lg font-bold">Horizon Slate</h4>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Copy Section -->
+<section class="mt-8 px-4 pb-12">
+<div class="glass-panel rounded-2xl p-5 border border-white/5 space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h3 class="text-base font-bold">AI Suggestions</h3>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Product Title</label>
+<input class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none" type="text" value="Zenith Alpha Pro - Next Gen Audio"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">SEO Description</label>
+<textarea class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none min-h-[100px] leading-relaxed">Elevate your listening experience with the Zenith Alpha Pro. Engineered with AI-enhanced acoustics and a sleek, carbon-fiber frame for the modern nomad. Perfectly compatible with all major streaming platforms.</textarea>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-xl border-t border-white/10 p-6 z-[60]">
+<div class="flex items-center justify-between mb-4">
+<div class="flex -space-x-2">
+<div class="size-8 rounded-full border-2 border-background-dark bg-white flex items-center justify-center overflow-hidden">
+<img alt="Shopify" class="w-5 h-5" data-alt="Shopify icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-nJSbeWmi97I21TTSN3poCrqlYofqWYrQaK3ydFSteEII2MNC4OGhIjuflioaMJFlk506jmEX-YHAGdh8pn-YzS9UU1r61_uXObqN4RHWXSeEuKclIzZt-QUye2G1yo86U9EO7ZiUEwIlgMuSr17HXzlfetwwdqRQHhy900TM342U1cSTBaj1bM50ae_ocwlNhxqqYfJ0w-EEv22J10oSaRLwz4vaUdUsyXIvqwkn7iJX-31OpHHCpZSUsddNt6TT3eSf6qUrgQg"/>
+</div>
+<div class="size-8 rounded-full border-2 border-background-dark bg-white flex items-center justify-center overflow-hidden">
+<img alt="Amazon" class="w-5 h-5" data-alt="Amazon icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqOPzMIy0EYfBJYCV2F9EBNjCghplRJ_rESx3nPnGjlKLv8CvOjftmdxUqJnx5DgsKwCIrk2_S1Q77qghSXy5oQ7MUo5svCtcf5x__wVSf1-XFk2pkFOBmQ4c4EpfxFq4_Qcspndf8h71nmDUlD7nli9fMfYrpTjDYsiqepteYaLr0HbwTLGVYkoo0pJ7zTL0wUrLWoE1NcbVPiwz74BmSa323ZbW7We8buGfwpMwyI6YOAq1Fr2SBJ93cm00ewxC5coK0OgoRFns"/>
+</div>
+<div class="size-8 rounded-full border-2 border-background-dark bg-white flex items-center justify-center overflow-hidden">
+<img alt="Ebay" class="w-5 h-5" data-alt="eBay icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7ZB40AOQZhB9FGT0F4f2kOS6SgP7m8o-jAlvZ5OWpvL4-Ay67wzQuQZC92YSM8Xhun3uW0N8hJw_62OQgvFlM3xeMBR1jsgrW4sZomNBvxJxTNwqUMC4NFXJDFliB5f25NwU1IGaDgMYzTdSnVcgz1j-vtS8oYQsjGC6I3tLXmePJVgyr3OZziLzNkg0vCXFYdkYE3HcrBvLGbNoVpBQEN1odIgf4FF9TX1g4jCczvdFlinKN680-ySatmGk52MUkONVe_ytnks4"/>
+</div>
+<div class="size-8 rounded-full border-2 border-background-dark bg-gray-800 flex items-center justify-center">
+<span class="text-[10px] font-bold">+2</span>
+</div>
+</div>
+<p class="text-xs text-gray-400 font-medium">Ready for 5 platforms</p>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 shadow-2xl shadow-primary/40 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">rocket_launch</span>
+            Publish to All Platforms
+        </button>
+<div class="mt-4 w-1/3 h-1.5 bg-white/20 rounded-full mx-auto"></div> <!-- iOS Home Indicator -->
+</div>
+</body></html>

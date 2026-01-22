@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mobile Ad Optimizer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "secondary": "#a855f7",
+                        "accent": "#ec4899",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#050a0a",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(13, 242, 242, 0.4);
+        }
+        .dial-gradient {
+            background: conic-gradient(from 180deg at 50% 50%, #0df2f2 0deg, rgba(13, 242, 242, 0.1) 300deg);
+        }
+        .data-stream {
+            background-image: linear-gradient(0deg, transparent 24%, rgba(13, 242, 242, 0.05) 25%, rgba(13, 242, 242, 0.05) 26%, transparent 27%, transparent 74%, rgba(13, 242, 242, 0.05) 75%, rgba(13, 242, 242, 0.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<!-- Main Container -->
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden data-stream">
+<!-- Top App Bar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between z-10">
+<div class="text-primary flex size-12 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-[32px]">bolt</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">FlashFusion AI</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-white/5 text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+<!-- Optimizer Core Dial Section -->
+<div class="flex flex-col items-center justify-center py-8 px-4 relative">
+<!-- Dial Visual -->
+<div class="relative flex items-center justify-center size-64">
+<!-- Decorative rings -->
+<div class="absolute inset-0 rounded-full border border-primary/20 animate-pulse"></div>
+<div class="absolute inset-4 rounded-full border border-primary/10"></div>
+<!-- Main Dial -->
+<div class="size-48 rounded-full dial-gradient p-1">
+<div class="size-full rounded-full bg-background-dark flex flex-col items-center justify-center shadow-[inset_0_0_20px_rgba(13,242,242,0.2)]">
+<span class="text-primary text-4xl font-bold">94%</span>
+<span class="text-primary/60 text-[10px] uppercase tracking-widest font-bold">Core Efficiency</span>
+</div>
+</div>
+<!-- Neon bits -->
+<div class="absolute top-0 size-3 bg-primary rounded-full neon-glow"></div>
+</div>
+<!-- Quick Trend -->
+<div class="mt-4 flex flex-col items-center gap-1">
+<p class="text-white/60 text-sm font-medium">Optimizer Core Status</p>
+<div class="flex items-center gap-2">
+<span class="text-primary text-xs font-bold px-2 py-0.5 rounded bg-primary/10">PEAK PERFORMANCE</span>
+<span class="text-[#0bda50] flex items-center text-xs font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span> +12%
+                    </span>
+</div>
+</div>
+</div>
+<!-- Glassmorphic Stats Grid -->
+<div class="flex overflow-x-auto gap-4 px-4 py-2 no-scrollbar">
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl p-4 glass-card">
+<p class="text-white/60 text-xs font-medium uppercase tracking-wider">Daily Spend</p>
+<p class="text-white text-xl font-bold">$12,450</p>
+<p class="text-accent text-xs font-medium">-5.2%</p>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl p-4 glass-card border-primary/30">
+<p class="text-white/60 text-xs font-medium uppercase tracking-wider">Target ROAS</p>
+<p class="text-white text-xl font-bold">4.2x</p>
+<p class="text-primary text-xs font-medium">+0.4x</p>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl p-4 glass-card">
+<p class="text-white/60 text-xs font-medium uppercase tracking-wider">AI Saved</p>
+<p class="text-white text-xl font-bold">$1,820</p>
+<p class="text-primary text-xs font-bold">+15%</p>
+</div>
+</div>
+<!-- Active Campaigns Header -->
+<div class="flex items-center justify-between px-4 pt-8 pb-4">
+<h3 class="text-white text-lg font-bold tracking-tight">Active Campaigns</h3>
+<button class="text-primary text-sm font-bold">View All</button>
+</div>
+<!-- Campaign List -->
+<div class="flex flex-col gap-3 px-4 pb-32">
+<!-- Facebook Card -->
+<div class="flex items-center gap-4 glass-card px-4 min-h-[80px] py-3 justify-between rounded-xl">
+<div class="flex items-center gap-4">
+<div class="text-[#1877F2] flex items-center justify-center rounded-lg bg-white/5 shrink-0 size-12">
+<span class="material-symbols-outlined text-[28px]">social_leaderboard</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-white text-base font-bold leading-tight">Meta Ads Global</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-primary/20 text-primary text-[10px] px-1.5 py-0.5 rounded font-bold">SCORE: 92</span>
+<p class="text-white/40 text-xs">$4.2k spend</p>
+</div>
+</div>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full bg-primary/20 p-1 shadow-[0_0_10px_rgba(13,242,242,0.1)]">
+<div class="h-full w-[20px] rounded-full bg-primary neon-glow ml-auto"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<!-- Google Card -->
+<div class="flex items-center gap-4 glass-card px-4 min-h-[80px] py-3 justify-between rounded-xl">
+<div class="flex items-center gap-4">
+<div class="text-[#EA4335] flex items-center justify-center rounded-lg bg-white/5 shrink-0 size-12">
+<span class="material-symbols-outlined text-[28px]">ads_click</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-white text-base font-bold leading-tight">Google Search</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-primary/20 text-primary text-[10px] px-1.5 py-0.5 rounded font-bold">SCORE: 88</span>
+<p class="text-white/40 text-xs">$3.8k spend</p>
+</div>
+</div>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full bg-primary/20 p-1">
+<div class="h-full w-[20px] rounded-full bg-primary neon-glow ml-auto"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<!-- TikTok Card -->
+<div class="flex items-center gap-4 glass-card px-4 min-h-[80px] py-3 justify-between rounded-xl border-accent/20">
+<div class="flex items-center gap-4">
+<div class="text-white flex items-center justify-center rounded-lg bg-white/5 shrink-0 size-12">
+<span class="material-symbols-outlined text-[28px]">movie</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-white text-base font-bold leading-tight">TikTok Brand Pulse</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-accent/20 text-accent text-[10px] px-1.5 py-0.5 rounded font-bold">SCORE: 64</span>
+<p class="text-white/40 text-xs">$2.1k spend</p>
+</div>
+</div>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full bg-white/10 p-1">
+<div class="h-full w-[20px] rounded-full bg-white/40"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Action -->
+<div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-dark via-background-dark/90 to-transparent z-50">
+<button class="w-full h-16 rounded-2xl bg-gradient-to-r from-secondary to-accent shadow-[0_8px_32px_rgba(168,85,247,0.4)] flex flex-col items-center justify-center gap-0 border-t border-white/20 active:scale-95 transition-transform">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined font-bold">auto_fix_high</span>
+<span class="text-white font-bold text-lg">Apply AI Recommendations</span>
+</div>
+<span class="text-white/70 text-[10px] font-medium tracking-widest uppercase">5 High-Impact optimizations pending</span>
+</button>
+<!-- iOS Home Indicator Spacing -->
+<div class="h-4"></div>
+</div>
+</div>
+</body></html>

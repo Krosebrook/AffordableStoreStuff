@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Intelligence Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#1a1022",
+                        "glass-dark": "rgba(34, 27, 39, 0.6)",
+                        "accent-green": "#0bda76",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass {
+            background: rgba(45, 30, 60, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .mesh-gradient {
+            background: radial-gradient(circle at 0% 0%, #3e1b6b 0%, transparent 50%),
+                        radial-gradient(circle at 100% 100%, #1a1022 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, #2e1547 0%, #1a1022 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen mesh-gradient">
+<!-- Top Navigation Bar -->
+<div class="sticky top-0 z-50 glass px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined cursor-pointer">arrow_back_ios</span>
+<h1 class="text-lg font-bold tracking-tight">Intelligence Profile</h1>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined cursor-pointer">share</span>
+<span class="material-symbols-outlined cursor-pointer">more_vert</span>
+</div>
+</div>
+<main class="p-4 pb-24 space-y-6">
+<!-- Profile Header Section -->
+<section class="flex flex-col items-center gap-4 py-4">
+<div class="relative">
+<div class="size-28 rounded-full border-4 border-primary/30 p-1 bg-gradient-to-tr from-primary to-accent-green">
+<div class="w-full h-full rounded-full bg-cover bg-center bg-no-repeat border-2 border-background-dark" data-alt="Professional portrait of a male customer Alex Harrison" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDqanHHEQT05BG6vBo3dQCh9b6M0SkTKcpfI5psR_aQWEwz4MqpG_pezk3UWzAxHALrhJEr4pnyYwkn_IJ6V4moBPpPBVWGQrgEwWk_kfkRZB0ueS5lHGqdeb4KEr3aU2uZRFGU7Uk_Owq-SY1HChRCpiqtT2fDnd6JyI4AmEmYRalBM_SvtjMX6JpdJxKGn2cwdDGCf9cWcY86daGcM3C6RB9zBqJgC56Z99ZNa1WmDMbLlij-t0yLgjSNimMPe2RVHJbNUoZU8E")'>
+</div>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-accent-green text-black px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Active</div>
+</div>
+<div class="text-center">
+<h2 class="text-2xl font-bold">Alex Harrison</h2>
+<div class="flex items-center justify-center gap-1 text-[#ad9cba] text-sm mt-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+<span>New York, USA</span>
+<span class="mx-1">•</span>
+<span>ID: #882910</span>
+</div>
+</div>
+<!-- AI LTV Badge -->
+<div class="w-full glass rounded-xl p-5 flex items-center justify-between border-l-4 border-l-accent-green">
+<div>
+<p class="text-[#ad9cba] text-xs font-medium uppercase tracking-widest mb-1">AI Predicted LTV</p>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold text-white">$12,450.00</span>
+<span class="text-accent-green text-sm font-bold">+24.8%</span>
+</div>
+</div>
+<div class="bg-accent-green/10 p-3 rounded-full">
+<span class="material-symbols-outlined text-accent-green text-3xl">trending_up</span>
+</div>
+</div>
+</section>
+<!-- AI Insights Grid -->
+<section>
+<h3 class="text-sm font-bold text-[#ad9cba] uppercase tracking-widest px-1 mb-3">Predictive Insights</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass p-4 rounded-xl flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-green text-sm">shield</span>
+<span class="text-xs text-[#ad9cba] font-medium">Churn Risk</span>
+</div>
+<div>
+<p class="text-xl font-bold">Low</p>
+<div class="w-full bg-white/10 h-1.5 rounded-full mt-2">
+<div class="bg-accent-green h-full w-[15%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="glass p-4 rounded-xl flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+<span class="text-xs text-[#ad9cba] font-medium">Next Best Product</span>
+</div>
+<div>
+<p class="text-sm font-bold leading-tight">Pro Wireless Headphones</p>
+<p class="text-[10px] text-primary mt-1 font-semibold">92% Match Score</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Charts -->
+<section class="space-y-4">
+<h3 class="text-sm font-bold text-[#ad9cba] uppercase tracking-widest px-1">Behavioral Trends</h3>
+<div class="grid grid-cols-1 gap-4">
+<!-- Chart Card 1 -->
+<div class="glass p-4 rounded-xl">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-xs text-[#ad9cba] font-medium">Avg Order Value</p>
+<p class="text-lg font-bold">$142.50</p>
+</div>
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<div class="h-24 w-full flex items-end gap-1">
+<!-- Mock Area Chart -->
+<div class="bg-primary/20 w-full h-[40%] rounded-t-sm"></div>
+<div class="bg-primary/30 w-full h-[55%] rounded-t-sm"></div>
+<div class="bg-primary/40 w-full h-[45%] rounded-t-sm"></div>
+<div class="bg-primary/50 w-full h-[70%] rounded-t-sm"></div>
+<div class="bg-primary/60 w-full h-[60%] rounded-t-sm"></div>
+<div class="bg-primary/70 w-full h-[85%] rounded-t-sm border-t-2 border-primary"></div>
+<div class="bg-primary/80 w-full h-[95%] rounded-t-sm border-t-2 border-primary"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Unified Order History -->
+<section class="space-y-4">
+<div class="flex justify-between items-center px-1">
+<h3 class="text-sm font-bold text-[#ad9cba] uppercase tracking-widest">Order History</h3>
+<span class="text-xs text-primary font-bold">View All</span>
+</div>
+<div class="space-y-3">
+<!-- Order Item 1 -->
+<div class="glass p-4 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+<img class="size-6" data-alt="Shopify platform logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDghiqEfmRbrxg7-OLNAozYajJ2Ee6Erj93fm8op3jdHl5reim4PvEQPaEDYq1s0jOoMASlfDL5XmjpYqPvRXRxIk7jMQwCTy-0pfTeDOuhymJ9b6jNx3TUy-yuVs11E7Mj1bvU6Y7D_Q2PmOAb4WcNXDYzxmS78dJMNUjSVU7eb6YJ3GZlpARLBM1jWWKSaVi3Hz8ZDrNyC7XJ0ZbAdleSkjW30Ja7SeYF-OYyGcGuWoJN5nQec19QY2BzVj8UW0g9tqO9orikeY8"/>
+</div>
+<div>
+<p class="text-sm font-bold">#ORD-9921</p>
+<p class="text-[10px] text-[#ad9cba]">Oct 12, 2023 • Shopify</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$299.00</p>
+<span class="text-[10px] text-accent-green bg-accent-green/10 px-2 py-0.5 rounded-full">Delivered</span>
+</div>
+</div>
+<!-- Order Item 2 -->
+<div class="glass p-4 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+<img class="size-6" data-alt="Amazon platform logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPj_cEXepGafSXBlpwCHlNVbOOlH5OFIxpl9jQxj7B9SPEfeNNImeSYP4Y2biPr6Xd9ID8DUEkp7eBYn9tR6rLIYu_m5va4VDYgGWYmdw9yCVIPE-slOuGF5mSw1ZknoBfQL8ovkZKyaq-LGpROEKmH0iH2t2Js8p-58xptWkEShV2Wic8bWJ6H4CIeJwKbGLBDTNBHqyrbs6yp8dMMOdhs-NJnjdi-8BtYoJA2A8K9YkEfMZYDdIy40lv1eIsNXzFizulBxW0I8c"/>
+</div>
+<div>
+<p class="text-sm font-bold">#AMZ-4402</p>
+<p class="text-[10px] text-[#ad9cba]">Sep 28, 2023 • Amazon</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$85.20</p>
+<span class="text-[10px] text-accent-green bg-accent-green/10 px-2 py-0.5 rounded-full">Delivered</span>
+</div>
+</div>
+<!-- Order Item 3 -->
+<div class="glass p-4 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+<img class="size-6" data-alt="Shopify platform logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIN5oVSKffsRVb8nV66grhxLsNR5vmQnsAp9dbveWY5L6yOgfKpq3S7OMaxH_LpuR4KwBY_sI1z6_1eg1WyCq4tktFxT7SRu1P20eDVouGNaFasFNf8UpzOpw0tyemw_BrDBjfiax6MHmkU-8cpXUO2xznifk5fqlV-gxNp2qsAWOGUXWAXJ_T63o8wsiQlpYwa2krUOm5qvPmEc8EkhG8fE5rBeWqhzCc6VJ6l95yP8irhe97sxK5jQzI7sagjEZNOE9lo-W47N8"/>
+</div>
+<div>
+<p class="text-sm font-bold">#ORD-8812</p>
+<p class="text-[10px] text-[#ad9cba]">Aug 15, 2023 • Shopify</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$1,450.00</p>
+<span class="text-[10px] text-accent-green bg-accent-green/10 px-2 py-0.5 rounded-full">Delivered</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar (iOS Style) -->
+<div class="fixed bottom-0 left-0 right-0 p-4 pb-8 glass border-t border-white/10 flex gap-3">
+<button class="flex-1 bg-primary text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-xl">mail</span>
+<span>Reach Out</span>
+</button>
+<button class="size-14 glass flex items-center justify-center rounded-xl">
+<span class="material-symbols-outlined text-white">download</span>
+</button>
+</div>
+</body></html>

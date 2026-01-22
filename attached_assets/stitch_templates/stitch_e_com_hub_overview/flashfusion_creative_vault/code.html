@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Creative Vault</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a0510", // Deeper space black
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(157, 37, 244, 0.2);
+            box-shadow: 0 0 15px rgba(157, 37, 244, 0.1);
+        }
+        .neon-pulse {
+            box-shadow: 0 0 0 0 rgba(157, 37, 244, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(157, 37, 244, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(157, 37, 244, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(157, 37, 244, 0); }
+        }
+        .digital-fragment {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #9d25f4;
+            opacity: 0.3;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30 min-h-screen relative overflow-x-hidden">
+<!-- Digital Fragment Background Elements -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="digital-fragment top-10 left-10 rotate-45"></div>
+<div class="digital-fragment top-1/4 right-20 w-1 h-8 opacity-10"></div>
+<div class="digital-fragment bottom-1/3 left-1/4 w-4 h-1 opacity-20"></div>
+<div class="digital-fragment top-1/2 right-1/3 rotate-12"></div>
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[100px] rounded-full"></div>
+</div>
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-white/5">
+<div class="flex items-center p-4 justify-between max-w-lg mx-auto">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary border border-primary/20">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight flex-1 text-center">Creative Archives</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-white/5 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-white text-[24px]">tune</span>
+</button>
+</div>
+</div>
+</header>
+<main class="relative z-10 max-w-lg mx-auto pb-24">
+<!-- Fusion Search Bar -->
+<div class="px-4 py-4">
+<label class="flex flex-col w-full group">
+<div class="flex w-full items-stretch rounded-xl h-14 glass-card border-primary/40 transition-all duration-300 neon-pulse">
+<div class="text-primary flex items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent text-white focus:ring-0 placeholder:text-white/40 px-4 text-base font-medium" placeholder="Fusion Search..." value=""/>
+<div class="flex items-center pr-3">
+<div class="bg-primary/20 p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+</div>
+</div>
+</div>
+</label>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-3 px-4 py-2 overflow-x-auto no-scrollbar">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-primary px-5 shadow-[0_0_15px_rgba(157,37,244,0.4)]">
+<p class="text-white text-sm font-bold">High Performance</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white/5 border border-white/10 px-5 hover:bg-white/10 transition-colors">
+<p class="text-white/80 text-sm font-medium">Recently Generated</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white/5 border border-white/10 px-5 hover:bg-white/10 transition-colors">
+<p class="text-white/80 text-sm font-medium">Brand Kit</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-white/5 border border-white/10 px-5 hover:bg-white/10 transition-colors">
+<p class="text-white/80 text-sm font-medium">Social</p>
+</button>
+</div>
+<!-- Section Header -->
+<div class="flex items-center justify-between px-4 mt-6">
+<h3 class="text-white text-lg font-bold tracking-tight">AI Asset Vault</h3>
+<span class="text-primary text-xs font-bold tracking-widest uppercase">324 Total</span>
+</div>
+<!-- Masonry Grid of AI Assets -->
+<div class="grid grid-cols-2 gap-4 p-4">
+<!-- Asset Card 1 -->
+<div class="group relative flex flex-col gap-3 rounded-xl overflow-hidden glass-card aspect-[3/4]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Modern luxury perfume bottle with neon highlights and reflective surface" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 60%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDngrTJgi2Ei95KQFD0fUsWLRfcghWOxHys1LJvMoRgJHWmwT0DxeA1y7ajaT5fKrPeGfN9ovJSA4a-F6jMtQ6MIrsvQgAouaDbZGBNenZu5vRuDV3Qm0lhjWjpUozZK4ZycfGLakf15Qs9s8wV2-x5PsrN0h554VInIFBqi0pHUmPcKTQUYfzO_0B4oyqSZdAWxYo78rPKD8KtK3mY7KyJAJZbLMzA-GV-C2RHaRN706ncv-uuY9ldViwwwJiD3tijRNmMW04-QVA");'>
+</div>
+<!-- AI Metadata Hover Effect (Simulated via visible elements for this layout) -->
+<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background-dark/80 backdrop-blur-sm p-4 flex flex-col justify-center">
+<p class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Prompt</p>
+<p class="text-xs text-white/90 line-clamp-3 italic mb-3">"Hyper-realistic obsidian perfume bottle floating in purple nebula..."</p>
+<p class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Model</p>
+<p class="text-xs text-white/90 mb-3">Flash-Gen v4.2</p>
+<div class="flex gap-1">
+<span class="px-2 py-0.5 rounded bg-primary/20 text-[9px] font-bold text-primary">LUXURY</span>
+<span class="px-2 py-0.5 rounded bg-white/10 text-[9px] font-bold text-white/60">DARK</span>
+</div>
+</div>
+<div class="mt-auto p-4 z-10 group-hover:opacity-0 transition-opacity">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-white text-sm font-bold leading-tight">Vanta Black Scent</p>
+<p class="text-white/40 text-[10px] font-medium mt-1">E-commerce Pack</p>
+</div>
+<span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+</div>
+</div>
+</div>
+<!-- Asset Card 2 -->
+<div class="group relative flex flex-col gap-3 rounded-xl overflow-hidden glass-card aspect-[3/5]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Minimalist wireless headphones in futuristic charging stand" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDFAQNcqJYvBZ4RUTVE9LxrmMcS45H-4vfxznReGh7fKc7moaBsSmNB8PQkD3Pg5zQRqCS0Opy1DA_QH7FS_DVhje46qLyxhiU4rf6hv1xxGblMVTptFJW4z4ROnde9PIHeDla6pBzaV5W0pj2lGF7fm_pVXsdYqdhTnSidj259tRsdcGqipjDZ9xfOnMMoxSpFRqRdjKjNcz9bULWnGra8gbGzww4e-odd3KlLTAaKVJ-ug_b1E6Upkg3H_-Q4MWuWzN3K2adpWLM");'>
+</div>
+<div class="mt-auto p-4 z-10">
+<p class="text-white text-sm font-bold leading-tight">Sonic Aura Gen-3</p>
+<p class="text-white/40 text-[10px] font-medium mt-1">Product Mockup</p>
+</div>
+</div>
+<!-- Asset Card 3 -->
+<div class="group relative flex flex-col gap-3 rounded-xl overflow-hidden glass-card aspect-square">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Cyberpunk style sneaker with glowing purple laces" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5ilzeM3q9jtIUfLvcfXQLk-8anCzspAQX-DRTDrEY3N5Lz2-PA7YaTdsLZOG1_7KtnGS2pjylAPCfLeUunhFfZZ0tDss0l_4xGqHLBa1vw1ehqb5eUNbl1BOHKUka9rR4KDhT2cVB7mPdmksMh6IhblnYnKy5jRkW4D6F80-544lbhOYIArT8W47Rw5vz5DXDmgw4Q0q31b7Uuy1bMWkE3kfoGOZAo3WCFmd4qNQotMX9F6MS6I55lja2WStEWojN1xT4aCIjqwY");'>
+</div>
+<div class="mt-auto p-4 z-10">
+<p class="text-white text-sm font-bold leading-tight">Neon Strider X</p>
+<p class="text-white/40 text-[10px] font-medium mt-1">Ad Campaign</p>
+</div>
+</div>
+<!-- Asset Card 4 -->
+<div class="group relative flex flex-col gap-3 rounded-xl overflow-hidden glass-card aspect-[3/4]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Futuristic organic energy drink can in splash" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOUvQ7H69zrBoeE2fNwbj-j5N-5i3RkKPFYOLmcTpo9X4DcWp4DS_1wbhMksUbE4vnbZhbcuyN6m78kAbhWBczn_xvCIxpGWYnAODD0hWBJHZSxK9imxTGUKGfZ4yvG0e_V47XvVGJqWVbnO9GbRMQv0EPSiAekJX8EAc1RfEEy2rSjuvxMdsrwl13XxeSZVkyQQ80HBRW7utl8abQuFckxh7RdICaTK0uF3BIvYCrO_nrhwMR6ry9gBEaQNHU3_E3CLlbCjKBDUs");'>
+</div>
+<div class="mt-auto p-4 z-10">
+<p class="text-white text-sm font-bold leading-tight">Bio-Pulse Energy</p>
+<p class="text-white/40 text-[10px] font-medium mt-1">Social Reel</p>
+</div>
+</div>
+<!-- Asset Card 5 -->
+<div class="group relative flex flex-col gap-3 rounded-xl overflow-hidden glass-card aspect-[4/5] col-span-2">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Tech workspace with holographic interface projections" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBMDP6nbIkwa28kyc4IUbdWboiH3E4JFATQ0IPQEMQ0yv1ejWF2dlFlMCsy2ybRS4EsJ0_UEdzSNKXUTI5LJC3Fzf4Ez52ss3Z-q0ZudxL8aBkE3cUkI2QK58NGh81HUNJ9Kk3eJa-puP-AdFsUj34VBtrm1pjnrzppXt2zBnl51tt3dZMw-BJ2OfioCEqCQ0PChZGNWDiAgymglTWAYt6vO4p4rfMlfSziECPl1-xjMriH2wGgXRnDme2-5WP1IbGrJimom_tPPMU");'>
+</div>
+<div class="mt-auto p-6 z-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded-full bg-primary text-[10px] font-bold">PREMIUM</span>
+<span class="px-2 py-0.5 rounded-full bg-white/10 text-[10px] font-bold">4K EXPORT</span>
+</div>
+<p class="text-white text-xl font-bold leading-tight">Digital Nomad Station</p>
+<p class="text-white/40 text-xs font-medium mt-1">Hero Asset | Main Campaign</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (iOS Style) -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-background-dark/90 backdrop-blur-xl border-t border-white/5 pb-8 pt-2">
+<div class="flex justify-around items-center max-w-lg mx-auto">
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">folder_open</span>
+<span class="text-[10px] font-medium">Vault</span>
+</button>
+<button class="relative -top-4 flex items-center justify-center size-14 rounded-full bg-primary shadow-[0_0_20px_rgba(157,37,244,0.6)] border-4 border-background-dark">
+<span class="material-symbols-outlined text-white text-3xl">add</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-[10px] font-medium">FlashFusion</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</div>
+</nav>
+</body></html>

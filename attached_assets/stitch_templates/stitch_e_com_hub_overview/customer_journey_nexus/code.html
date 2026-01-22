@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Journey Nexus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#1a1022",
+                        "accent-pink": "#f4258d",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .hex-grid {
+            background-image: radial-gradient(circle at center, #9d25f422 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-pulse {
+            box-shadow: 0 0 20px rgba(157, 37, 244, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-white/5">
+<div class="flex items-center p-4 justify-between max-w-md mx-auto">
+<div class="text-white flex size-10 items-center justify-center rounded-full bg-white/5" data-icon="menu">
+<span class="material-symbols-outlined">menu</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-sm font-bold tracking-widest uppercase opacity-70">Nexus Journey</h2>
+<div class="flex items-center gap-1">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-[10px] font-medium uppercase tracking-tighter">Live Stream</span>
+</div>
+</div>
+<button class="flex size-10 items-center justify-center rounded-full bg-white/5 text-white">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-24 max-w-md mx-auto min-h-screen relative overflow-hidden">
+<!-- Hexagonal/Grid Background Decorative Layer -->
+<div class="fixed inset-0 hex-grid pointer-events-none opacity-40"></div>
+<!-- Headline -->
+<div class="px-6 py-4 relative z-10">
+<h1 class="text-3xl font-bold leading-tight bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">AI-Powered Energy Flow</h1>
+<p class="text-white/60 text-sm mt-1">Real-time attribution for FlashFusion</p>
+</div>
+<!-- Main Visualization Map Area -->
+<div class="relative w-full aspect-[3/4] px-4 my-2">
+<div class="w-full h-full glass-card rounded-3xl relative overflow-hidden flex items-center justify-center shadow-2xl">
+<!-- Map Background Image -->
+<div class="absolute inset-0 opacity-40 bg-center bg-cover scale-110" data-location="Abstract Cyber City" style='background-image: url("https://placeholder.pics/svg/300");'>
+</div>
+<!-- Energy Streams (Visualized via SVGs/Gradients) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 400 500">
+<defs>
+<lineargradient id="streamGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#9d25f4" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#f4258d"></stop>
+</lineargradient>
+</defs>
+<!-- Simulated Data Streams -->
+<path class="opacity-60" d="M50,100 Q150,250 200,300" fill="none" stroke="url(#streamGrad)" stroke-width="4"></path>
+<path d="M350,100 Q250,250 200,300" fill="none" stroke="url(#streamGrad)" stroke-width="8"></path>
+<path class="opacity-40" d="M50,450 Q150,350 200,300" fill="none" stroke="url(#streamGrad)" stroke-width="2"></path>
+<path d="M350,450 Q250,350 200,300" fill="none" stroke="url(#streamGrad)" stroke-width="6"></path>
+</svg>
+<!-- Journey Nodes -->
+<!-- Awareness (Top Left) -->
+<div class="absolute top-12 left-8 glass-card p-3 rounded-2xl flex flex-col items-center gap-1 border-primary/40">
+<span class="material-symbols-outlined text-primary text-xl">campaign</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Social</span>
+</div>
+<!-- Interest (Top Right) -->
+<div class="absolute top-12 right-8 glass-card p-3 rounded-2xl flex flex-col items-center gap-1 border-accent-pink/40">
+<span class="material-symbols-outlined text-accent-pink text-xl">search</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Search</span>
+</div>
+<!-- Conversion Core -->
+<div class="relative z-20 flex flex-col items-center">
+<div class="size-24 rounded-full bg-primary/20 flex items-center justify-center p-4 glow-pulse border border-primary/50 relative">
+<div class="size-16 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_#9d25f4]">
+<span class="material-symbols-outlined text-white text-3xl">hub</span>
+</div>
+</div>
+<p class="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-white">Conversion Core</p>
+<p class="text-2xl font-bold">$142.8k</p>
+</div>
+<!-- Consideration (Bottom Left) -->
+<div class="absolute bottom-12 left-8 glass-card p-3 rounded-2xl flex flex-col items-center gap-1 border-white/20">
+<span class="material-symbols-outlined text-white text-xl">mail</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Email</span>
+</div>
+<!-- Direct (Bottom Right) -->
+<div class="absolute bottom-12 right-8 glass-card p-3 rounded-2xl flex flex-col items-center gap-1 border-white/20">
+<span class="material-symbols-outlined text-white text-xl">bolt</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Direct</span>
+</div>
+</div>
+</div>
+<!-- AI Stats Panel -->
+<div class="px-4 py-2">
+<div class="flex flex-wrap gap-3">
+<div class="flex min-w-[120px] flex-1 flex-col gap-1 rounded-2xl p-4 glass-card border-l-4 border-l-primary">
+<p class="text-white/60 text-[11px] font-bold uppercase tracking-wider">High-Velocity</p>
+<div class="flex items-end gap-2">
+<p class="text-2xl font-bold leading-tight">1.2k</p>
+<p class="text-[#0bda76] text-xs font-bold mb-1">+12%</p>
+</div>
+</div>
+<div class="flex min-w-[120px] flex-1 flex-col gap-1 rounded-2xl p-4 glass-card border-l-4 border-l-accent-pink">
+<p class="text-white/60 text-[11px] font-bold uppercase tracking-wider">Avg. Conversion</p>
+<div class="flex items-end gap-2">
+<p class="text-2xl font-bold leading-tight">4.8%</p>
+<p class="text-[#0bda76] text-xs font-bold mb-1">+0.5%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Attribution Insights Side-Panel Style Section -->
+<div class="mx-4 mt-6 p-5 rounded-3xl glass-card border-white/10 bg-gradient-to-br from-primary/10 to-transparent">
+<div class="flex items-center gap-3 mb-4">
+<div class="size-8 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+</div>
+<h3 class="font-bold text-lg">AI Attribution Insights</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
+<div class="pt-1">
+<span class="material-symbols-outlined text-accent-pink">trending_up</span>
+</div>
+<div>
+<p class="text-sm font-bold">Search Velocity Spike</p>
+<p class="text-xs text-white/60 leading-relaxed mt-1">Search is currently driving 40% more high-velocity traffic than the last 24h baseline.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
+<div class="pt-1 text-yellow-400">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div>
+<p class="text-sm font-bold">Email Bottleneck</p>
+<p class="text-xs text-white/60 leading-relaxed mt-1">Consideration phase drop-off detected in 'Newsletter-A' segment.</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 bg-primary rounded-xl font-bold text-sm shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform">
+                Optimize Touchpoints
+            </button>
+</div>
+<!-- Journey Stage Grid -->
+<div class="px-4 py-8">
+<h4 class="px-2 mb-4 text-xs font-bold uppercase tracking-widest text-white/40">Journey Milestones</h4>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-cover bg-center flex flex-col gap-1 rounded-2xl justify-end p-4 aspect-square border border-white/10" data-alt="Abstract purple energy wave for Awareness" style='background-image: linear-gradient(180deg, rgba(26, 16, 34, 0.2) 0%, rgba(157, 37, 244, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3RAzRNhZRfVyl4JyHJLNZ-EFCjOt4LB04yaRMckjeMC4CmQBvI1IoPAb2HCW3oXNtI-vCqRrXVBulVWRUKaSSpILsVOTfXtdYnkA_7nIci709zbAIcPVzxEytj24a6Iw3hTBJb7JshHUjCix9De_mrWqPBLZ5r9yHr2Fem0g2_3D7lymGC7YZNOZkHtgo1Yl5NO3XCllrVNUFqiTzgYmvhmYjh8o_yMksK8X7z8XNnucJr6IXylLKo64tT4WvQrLan1BC06_cJXE");'>
+<p class="text-white text-xs font-bold uppercase tracking-tighter opacity-70">Stage 01</p>
+<p class="text-white text-lg font-bold leading-tight">Awareness</p>
+</div>
+<div class="bg-cover bg-center flex flex-col gap-1 rounded-2xl justify-end p-4 aspect-square border border-white/10" data-alt="Glowing node visual for Interest" style='background-image: linear-gradient(180deg, rgba(26, 16, 34, 0.2) 0%, rgba(244, 37, 141, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAv5Vai0L5ubPb1UbMPqRvt3_tYEMVSpN3XQ5KLNFI1Cyll3zvgXbyZaNubY15ir3BKC-aT6-xI0PKqdQgL5xBozX-6hPi-357WiioMIGZEWdrW1zxuy6cT1k5OUE4lKnOSdIKIwYXi42HiHE26dYDyW5QGz8YMH6vdYPZzb60e12reFsRtUZtJ6i42_CSr5do0546xypri6CIjt8IMTpoW6poYJoeNMHPfS_mO4xLmhAorqYqs2DT5sws_FjewsG2UVo0PKV-NjtI");'>
+<p class="text-white text-xs font-bold uppercase tracking-tighter opacity-70">Stage 02</p>
+<p class="text-white text-lg font-bold leading-tight">Interest</p>
+</div>
+<div class="bg-cover bg-center flex flex-col gap-1 rounded-2xl justify-end p-4 aspect-square border border-white/10" data-alt="Digital grid patterns for Consideration" style='background-image: linear-gradient(180deg, rgba(26, 16, 34, 0.2) 0%, rgba(157, 37, 244, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVb79KxkamHhAlYtCAJYEipcGdk4ym0k2GVi-pQDS6QslQ7WibFJ-qfcVa9fmsdsZ9baoYqfIbrKVx06Q9zgoeVp2vqstnbO-RoW78bB1ybY451BTNHJsCX8Ee81LmDtEh4YSaTyjIPlc0SfUkOVlzqPPBAPe1Kgjboihi4bl_N5lzGVnRhGQspOVbiDaDd-8j40AaR5y2X3WTUUyzdemYdHvotkuLexeI2yelySVcxs4xwvhN9TvOyZN6lD4rsEjbeyMgVPaoqEA");'>
+<p class="text-white text-xs font-bold uppercase tracking-tighter opacity-70">Stage 03</p>
+<p class="text-white text-lg font-bold leading-tight">Consideration</p>
+</div>
+<div class="bg-cover bg-center flex flex-col gap-1 rounded-2xl justify-end p-4 aspect-square border border-white/10" data-alt="Bright light core for Purchase" style='background-image: linear-gradient(180deg, rgba(26, 16, 34, 0.2) 0%, rgba(244, 37, 141, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4rYQ-E46C7rR8rFe2JzOxLC_7Tqb3F1vV0hNRjKF6iE7h8zJy0e3oEH0kFXYmo2KS3gg9tmu-9LNh9jTDlCsL5Y4z0k4OL7iRURZ8sljGuZnCkjHgHotWGpq01d1d8LffH5sBtc3ZFjjyxY0PA1NtV9BRa5P5bxVXKQqaZPaj1vWA4fJrv-JlNht_ZuPc6ZBkWT4wV81RmIN8pYj-m6APs10wCFKJ0u1i-n-pmO1MHb-gFrEDy9vHktsAY78WQW0xtgC-EJlvzxQ");'>
+<p class="text-white text-xs font-bold uppercase tracking-tighter opacity-70">Stage 04</p>
+<p class="text-white text-lg font-bold leading-tight">Purchase</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-background-dark/90 backdrop-blur-xl border-t border-white/10">
+<div class="max-w-md mx-auto flex justify-around items-center p-4">
+<button class="text-primary flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase">Map</span>
+</button>
+<button class="text-white/40 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-[10px] font-bold uppercase">Signals</span>
+</button>
+<button class="text-white/40 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">bolt</span>
+<span class="text-[10px] font-bold uppercase">Fusion</span>
+</button>
+<button class="text-white/40 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase">Config</span>
+</button>
+</div>
+<div class="h-6 w-full flex justify-center items-center pb-2">
+<div class="w-32 h-1 bg-white/20 rounded-full"></div>
+</div>
+</nav>
+</body></html>

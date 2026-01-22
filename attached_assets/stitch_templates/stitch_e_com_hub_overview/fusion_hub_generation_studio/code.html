@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fusion Hub Generation Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#8B5CF6", // Vibrant Purple
+                        cyan: "#06B6D4",
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0B0E14",
+                    },
+                    fontFamily: {
+                        display: ["Orbitron", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                        'xl': '20px',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+        .neon-glow-purple {
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+        .circuit-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, #06B6D4, transparent);
+            height: 1px;
+            width: 100%;
+            opacity: 0.3;
+        }
+        .robot-pulse {
+            animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+        .float-node {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-sans min-h-screen overflow-x-hidden">
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+<div class="absolute top-[-10%] left-[-10%] w-72 h-72 bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-80 h-80 bg-cyan/20 rounded-full blur-[100px]"></div>
+<div class="circuit-line top-1/4"></div>
+<div class="circuit-line top-2/3 rotate-12"></div>
+</div>
+<header class="sticky top-0 z-50 px-6 py-4 flex justify-between items-center glass-panel border-b border-white/10">
+<div class="flex items-center gap-3">
+<img alt="FlashFusion Robot Mascot" class="w-10 h-10 rounded-full neon-glow-purple bg-background-dark p-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEMeNRcLQvRMpnDM28ofkXzVhSoB5S6PAyxkBZjcwrG6fQWghZJT8efPpNqWxi_2E6i5rJAUfz5nflzER7Vlk-H5NRssxLNwyO0-BnMO3zUYvEGlTLYCF2u1vvM27Idxol93poX5w5gClGjzgdFmRTY5CZ0LYiUeWJsM_lsDY1kZt4jORaSIG9oLMouHeKAwdr0HIojG1T54k-LdyzwesnJPmzt-54vNZueBe20grAIqeahauxr4Ifqmo1CNSmqa9_39RGUUayCpQ"/>
+<div>
+<h1 class="font-display text-sm font-bold tracking-wider bg-gradient-to-r from-primary to-cyan bg-clip-text text-transparent">FLASHFUSION</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">Generation Studio</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10">
+<span class="material-icons-round text-primary">analytics</span>
+</button>
+</header>
+<main class="relative z-10 p-6 space-y-8">
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center border-l-4 border-l-cyan">
+<span class="text-[10px] font-bold text-cyan uppercase tracking-tighter mb-1">Generation Speed</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-display font-bold">0.8</span>
+<span class="text-xs text-slate-400">ms/p</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-800 h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-cyan h-full w-[85%] neon-glow-cyan"></div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center border-l-4 border-l-primary">
+<span class="text-[10px] font-bold text-primary uppercase tracking-tighter mb-1">Market Match</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-display font-bold">98</span>
+<span class="text-xs text-slate-400">%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-800 h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[98%] neon-glow-purple"></div>
+</div>
+</div>
+</div>
+<div class="relative py-12 flex justify-center items-center">
+<div class="absolute top-0 left-4 float-node bg-background-dark/80 p-2 rounded-lg border border-cyan/30 text-[10px] flex items-center gap-2">
+<span class="material-icons-round text-[14px] text-cyan">psychology</span>
+<span>Neural Mesh Active</span>
+</div>
+<div class="absolute bottom-4 right-4 float-node bg-background-dark/80 p-2 rounded-lg border border-primary/30 text-[10px] flex items-center gap-2" style="animation-delay: 1s;">
+<span class="material-icons-round text-[14px] text-primary">bolt</span>
+<span>Fusion Core: 100%</span>
+</div>
+<div class="relative w-full aspect-square max-w-[300px]">
+<div class="absolute inset-0 rounded-full bg-gradient-to-b from-primary/10 to-transparent border border-white/5 transform rotate-x-45 scale-y-50 translate-y-24 blur-md"></div>
+<div class="absolute inset-0 rounded-full border border-cyan/20 transform rotate-x-45 scale-y-50 translate-y-20"></div>
+<div class="relative w-full h-full flex flex-col items-center justify-center">
+<img alt="FlashFusion Hub Logo" class="w-48 h-48 object-contain drop-shadow-[0_0_30px_rgba(139,92,246,0.4)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuRqw64cSvwtP3Y2wCagm3L38tif82hSlMg8k4AKmuwcQcc2URg_t_DNxtPSbB5Q85r711J6t7uKvUepfGQOlSPSCR0Qw4JFDGD-OSiDZovacfSZnQjRGiWpf5HiKXdyUeVHknm2ceIlJI-Lqa9we_SsEHLFm9S_k9jLtAIEbfQjUNUzuWYrdtNUlYZw6Cz4pViXTcRr8mVWsQpqX27-RXCnwMwUWb_1eVMZqqXU6gv1qLC11T2ijAXqrBSzgc43xK2C1c6rjKA04"/>
+<div class="mt-4 flex flex-col items-center">
+<div class="flex gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" style="animation-delay: 0.2s"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" style="animation-delay: 0.4s"></div>
+</div>
+<p class="text-xs font-medium text-slate-400 mt-2">Synthesizing Creative Data...</p>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="glass-panel p-5 rounded-2xl">
+<label class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-3 block">Fusion Prompt</label>
+<div class="relative">
+<textarea class="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none min-h-[100px]" placeholder="Describe the e-commerce product to generate..."></textarea>
+<div class="absolute bottom-3 right-3 flex gap-2">
+<button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-sm text-slate-300">image</span>
+</button>
+<button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-sm text-slate-300">mic</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 py-4 bg-white/5 border border-white/10 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+<span class="material-icons-round text-lg">auto_awesome_motion</span>
+                    Presets
+                </button>
+<button class="flex-[1.5] py-4 bg-primary text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-icons-round text-lg">rocket_launch</span>
+                    Ignite Fusion
+                </button>
+</div>
+</div>
+<section class="space-y-3 pb-8">
+<div class="flex justify-between items-center">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Recent Creations</h3>
+<span class="text-[10px] text-primary font-bold uppercase">View All</span>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+<div class="min-w-[120px] aspect-square rounded-xl glass-panel p-1 group">
+<div class="w-full h-full rounded-lg bg-slate-800 overflow-hidden relative">
+<img alt="Recent Generation 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_w02a3YQatm4wsKkMh4D0RfvSk0QTVsaRFF2SJO-xeiQtS5I2f6esCq2Za7inviPMrYM3r_elYzNPzLwG_zCkPX5ZXu2WFRH7A4CDtnk7ZGGo11yMUMZ0NjP-061uW1eX-FB1j_wwS3eEKw1McNYHeWXMUYSoWw4pROLDokGo4zuzkwYbcNYPJGzbXkR6DQdp2e6hZSfXsIZBqi2EoNMdjDOtJPk-zavdfLTbmoFKQMvP4mUj9D9t192AcZcuz1IYWyTsCw2Z7Cw"/>
+</div>
+</div>
+<div class="min-w-[120px] aspect-square rounded-xl glass-panel p-1 group">
+<div class="w-full h-full rounded-lg bg-slate-800 overflow-hidden relative">
+<img alt="Recent Generation 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkguhNAZV_Vs1RQt_F44tbZaOp0yQpz3CPx6b2P2RVM6yszFS5I6m890o_3eskN4ceA6MrnARh2EyDnWP0iMxoTSCd2o2qJNhkHtdPBmhkRfi9gEb9YhYBpc4-cytOvXXeDpqjdVC6IMQ2_KRy76H9wfuEs5SWumMNg8Nbsl4WoShxx_JBDt_G9KCVO5_mUoVJJuroNlSkA2f1EKWRJztZKk9HTYC4rxCktLHafOe--vizyGdQTDZ4IRjG01F3K_SZQuHsfbv8zkk"/>
+</div>
+</div>
+<div class="min-w-[120px] aspect-square rounded-xl glass-panel p-1 group">
+<div class="w-full h-full rounded-lg bg-slate-800 overflow-hidden relative">
+<img alt="Recent Generation 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaYBEA5ynXO65Acc-_u8n_hkVlljTV4Bjz5kiLsuum2T4zmWB4B_DaaDaXiOP5__c1A8pFY0yQFWUrtbJMN-Pisn0ukW14khdwDBmYh3NQSjCD--K6NC_pUVik2FPmmaJSLkcQRK1lOyIWfJYurjZi-Z-iVOOOjOg4nwQpxxzh8deqYOLppP-mGNS0190S4n61wiwm-9Mbz1FKG6GipDNPOzYxofscBm2_aAuqsttZgfdXqzxu_UkDJrIAFGXysnDnWVzLt64zW5Q"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-50 glass-panel border-t border-white/10 px-8 py-3 pb-8 flex justify-between items-center">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round">hub</span>
+<span class="text-[10px] font-bold uppercase">Hub</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-icons-round">auto_fix_high</span>
+<span class="text-[10px] font-bold uppercase">Edit</span>
+</button>
+<div class="relative -top-6">
+<button class="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-cyan shadow-xl shadow-primary/30 flex items-center justify-center text-white border-4 border-background-dark">
+<span class="material-icons-round text-3xl">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-icons-round">inventory_2</span>
+<span class="text-[10px] font-bold uppercase">Vault</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-icons-round">settings</span>
+<span class="text-[10px] font-bold uppercase">Node</span>
+</button>
+</nav>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+</body></html>

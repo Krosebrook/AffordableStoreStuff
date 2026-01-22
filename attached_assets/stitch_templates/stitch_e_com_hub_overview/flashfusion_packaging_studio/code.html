@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Packaging Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7f0df2",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#050505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(33, 27, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(127, 13, 242, 0.2);
+        }
+        .neon-pulse {
+            box-shadow: 0 0 15px rgba(127, 13, 242, 0.6);
+        }
+        .bg-space {
+            background: radial-gradient(circle at center, #191022 0%, #050505 100%);
+        }
+        .fragment {
+            position: absolute;
+            background: linear-gradient(45deg, rgba(127, 13, 242, 0.1), transparent);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30 overflow-hidden">
+<!-- Background Decoration -->
+<div class="fixed inset-0 z-0 bg-space overflow-hidden pointer-events-none">
+<div class="fragment w-32 h-32 top-10 left-[-20px] opacity-20 rotate-12"></div>
+<div class="fragment w-48 h-48 bottom-20 right-[-40px] opacity-10 -rotate-12"></div>
+<div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(#7f0df2 0.5px, transparent 0.5px); background-size: 30px 30px;"></div>
+</div>
+<div class="relative z-10 flex flex-col h-screen">
+<!-- TopAppBar -->
+<header class="flex items-center bg-transparent p-4 pb-2 justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[24px]">rocket_launch</span>
+</div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-tight">FlashFusion Studio</h1>
+</div>
+<button class="flex items-center gap-2 bg-primary neon-pulse px-4 py-2 rounded-full border border-primary/50 transition-all hover:scale-105">
+<span class="text-white text-xs font-bold uppercase tracking-widest">Sync to Print</span>
+<span class="material-symbols-outlined text-white text-[18px]">print</span>
+</button>
+</header>
+<!-- Main Studio Area -->
+<main class="flex-1 relative flex flex-col">
+<!-- 3D Mockup Center -->
+<div class="flex-1 flex items-center justify-center p-6 relative">
+<!-- Mockup Container -->
+<div class="relative w-full max-w-sm aspect-square">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-3xl opacity-40"></div>
+<div class="w-full h-full bg-center bg-no-repeat bg-contain relative z-10 drop-shadow-[0_35px_35px_rgba(127,13,242,0.25)]" data-alt="3D product packaging box with neon cyberpunk graphics" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3Vjw2SOeCYxSwvSMbgEfj3D-JEOhJ2ZaxYoCFHHeWTRLfOArTbs0hL_aMYlWlrjZkNeWSewMvKf3vaQt6H6IHjRW_XOeOpArlpvz-W8Ut2_hwZntDzhU4eL2xxb0waLU-_lhC4wanf0aEASV6PIwtmI-QU0FEfnpZGhhxMdJch0vEU9HWq57xVljXao6KdsE-6GgGKIfOxXG7PM75SKr5p69yhxw28VbJq8Y-0Lge-qOrIL_lttqYdN84ZZprtjGC11yJZ43PLl8");'>
+</div>
+</div>
+<!-- Material Calibration (Floating Right) -->
+<div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-4 glass-panel p-3 rounded-2xl">
+<div class="flex flex-col items-center gap-1">
+<span class="text-[10px] text-primary font-bold uppercase">Mat</span>
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white">blur_on</span>
+</button>
+</div>
+<button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10">
+<span class="material-symbols-outlined text-white/60">waves</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10">
+<span class="material-symbols-outlined text-white/60">grain</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10">
+<span class="material-symbols-outlined text-white/60">flare</span>
+</button>
+</div>
+</div>
+<!-- Composer (Design Prompts) -->
+<div class="px-4 py-2">
+<div class="glass-panel rounded-2xl overflow-hidden">
+<div class="px-4 pt-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+<h3 class="text-white text-xs font-bold uppercase tracking-wider">Design Prompts</h3>
+</div>
+<div class="flex items-center px-4 py-3 gap-3">
+<label class="flex flex-col flex-1">
+<div class="flex w-full flex-1 items-stretch">
+<div class="flex flex-1 flex-col">
+<textarea class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-12 placeholder:text-white/30 text-base font-normal leading-tight pt-2" placeholder="Cyberpunk aesthetics, neon foil accents..."></textarea>
+</div>
+<div class="flex items-center gap-2 pl-2">
+<button class="p-2 bg-primary rounded-xl transition-transform active:scale-95">
+<span class="material-symbols-outlined text-white">magic_button</span>
+</button>
+</div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Camera Filmstrip -->
+<div class="w-full pb-8 pt-4">
+<div class="flex overflow-x-auto gap-4 px-4 no-scrollbar">
+<div class="flex-shrink-0 w-24 aspect-video rounded-lg border-2 border-primary bg-white/10 overflow-hidden relative" data-alt="Front view camera angle">
+<div class="absolute inset-0 bg-cover bg-center opacity-60" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdfxwtf5Br7yOMfsAi56sS1pPEvIeltuRLazPfbf_Fs5IuuXM-p5N72UGNpwcC90QH8vVahRneMZCgR3UgZfliDL74TDstQfryYohmw8wM3EO47eot1SlyAriLvH7AB7dXnPw8NkVggYhWqs4MV3rH5SmrSq0S7svYUN3ToCOvAojg89yFNvjtBC8kjKgQjEp6nfXy3EE_HXcS9nIj-5vF8DVZ_WlrVLafLH-R4z188vWske0tx-Hy4jq7lowX4Zoo3-OWH0aVGBs");'></div>
+<span class="absolute bottom-1 left-2 text-[10px] font-bold uppercase">Front</span>
+</div>
+<div class="flex-shrink-0 w-24 aspect-video rounded-lg border border-white/10 bg-white/5 overflow-hidden relative" data-alt="Isometric view camera angle">
+<div class="absolute inset-0 bg-cover bg-center opacity-40" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAstGcLoo2cVNKY32OrtF4RKK5oTDwyXv9jRehWZueagsCS_bKC5sy4Ovalj5og8JMffy8Mw7iGIc5PVoZMY9-FZ7xJC9Q1Ru0qpxuVnwqYhDiDCcAT3i6EzteUf6Fpza3wYyOzVibn5FE_jVtgi3owrsFyB7F1DymBruO4C5Xv9bX18F7Iz8Hot1-f7O1TUDVCb5nO-LPa2N68EFPsNUZGWeR_5_mRpvhRM7HYQLNi9xWTuxxDLqe7tpCMY97hAV5gk-oFOijW6xc");'></div>
+<span class="absolute bottom-1 left-2 text-[10px] font-bold uppercase text-white/60">Iso</span>
+</div>
+<div class="flex-shrink-0 w-24 aspect-video rounded-lg border border-white/10 bg-white/5 overflow-hidden relative" data-alt="Top view camera angle">
+<div class="absolute inset-0 bg-cover bg-center opacity-40" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDf_1YywrHs6dQsdwYURg9PahhLzbvp9-UGEgwWeitTh_eUieKP9oNXhtsd3OeW4B7z0hYu7hX1r97LDdnprFok3IZxrnQq_5RxgY9t3s7xVbhiI2wCDItTCMW8FBxx2XwP31GXIqoUXZhJCV1lUv7Vnt44piwTxrIFopyhn5YrKDxx_OW6EU9kJTXGR1k_H0yLGdF7Ila7pYIjw5GEuI6edjfC4LGSWS__P2_Ij4aBTkuUym_GAXTEI5ZVsIDDgckC5Hs0JBmNAA");'></div>
+<span class="absolute bottom-1 left-2 text-[10px] font-bold uppercase text-white/60">Top</span>
+</div>
+<div class="flex-shrink-0 w-24 aspect-video rounded-lg border border-white/10 bg-white/5 overflow-hidden relative" data-alt="Macro detail camera angle">
+<div class="absolute inset-0 bg-cover bg-center opacity-40" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJlE9Mp60BjLXT1gP_lJF7OPSLTkOySKAzCYIRw7dCEFvRc7pPMMsxJK5BNYjGODZbRUdM--lerURNxgXcY7YInmEFFLdf-88PPy6_nB964Lc4iI-n8EJ0y4tgXNdnvu_wJHXB3xKALKdLNy9vRQP5GZY7Iv19NJ_O-BkYaeFSGwJgodh6p10E3FKwQ5ZfF93fvBGZaxiPlaXgu3HPLCHmQPez1XItsU9DyOD-UloHy7fKEqj2c6IqgAJvZiszmEDO6M-Gx900bF4");'></div>
+<span class="absolute bottom-1 left-2 text-[10px] font-bold uppercase text-white/60">Detail</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Navigation Bar (iOS style) -->
+<nav class="glass-panel border-t border-white/10 pb-6 pt-2 flex justify-around items-center">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">view_in_ar</span>
+<span class="text-[10px] font-medium">Studio</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-medium">Projects</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</nav>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

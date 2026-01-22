@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Trend Hunter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "accent-pink": "#f425b0",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#050505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .vortex-gradient {
+            background: radial-gradient(circle, rgba(157,37,244,0.4) 0%, rgba(244,37,176,0.2) 50%, rgba(5,5,5,0) 70%);
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(157, 37, 244, 0.05) 1px, transparent 1px),
+                linear-gradient(90px, rgba(157, 37, 244, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(157, 37, 244, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen overflow-x-hidden">
+<!-- Top Navigation -->
+<nav class="sticky top-0 z-50 flex items-center justify-between p-4 glass-card border-b border-white/5">
+<div class="flex items-center gap-2">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center neon-glow">
+<span class="material-symbols-outlined text-white text-xl">bolt</span>
+</div>
+<div>
+<h1 class="text-sm font-bold tracking-tight uppercase">FlashFusion</h1>
+<div class="flex items-center gap-1">
+<span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Labs Live</span>
+</div>
+</div>
+</div>
+<button class="size-10 rounded-full glass-card flex items-center justify-center">
+<span class="material-symbols-outlined text-white">analytics</span>
+</button>
+</nav>
+<!-- Main Content Area -->
+<main class="relative">
+<!-- Holographic Grid Background -->
+<div class="absolute inset-0 grid-bg pointer-events-none opacity-40"></div>
+<!-- Trend Vortex Section -->
+<div class="relative h-[45vh] flex items-center justify-center overflow-hidden">
+<!-- Animated Vortex Background Elements -->
+<div class="absolute w-full h-full vortex-gradient opacity-60"></div>
+<!-- Central Visual -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-64 h-64 relative">
+<!-- Rotating Ring 1 -->
+<div class="absolute inset-0 rounded-full border-2 border-dashed border-primary/40 animate-[spin_10s_linear_infinite]"></div>
+<!-- Rotating Ring 2 -->
+<div class="absolute inset-4 rounded-full border border-accent-pink/30 animate-[spin_15s_linear_infinite_reverse]"></div>
+<!-- Core Vortex Content -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-1">Scanning</span>
+<h2 class="text-4xl font-bold tracking-tighter bg-gradient-to-r from-white to-primary/50 bg-clip-text text-transparent">Trend Vortex</h2>
+<div class="mt-4 flex gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase">AI Active</span>
+</div>
+</div>
+<!-- Particle Overlay Image Placeholder -->
+<div class="absolute inset-0 opacity-40 pointer-events-none mix-blend-screen" data-alt="Neon purple and pink data particles swirling in a circle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCSiZRlNCThnwdajUyfcYJejTRG5JfDyQSCkH_bXyCEocLcSNkHdJ8EGDb5txdkH_akceNNP5hLYtjkTEm76lgcZAICIVMW26WDU-lRuz1buH1Qo9yiqfyaf16OoXD7P8ny5AuKVHcOWK2N6kR83GP2LBNyxVQXzsSYyXMVGTyFtQ9ePe2hghydYfvQfn0lrlt0J7KWVS2AHNYV7nX1k0Y_aNNFaz-wPOOjvnIraqID7eMydsGOqKcUtmKu3vhIc-Cxs4KcAMn0v2Q'); background-size: cover;">
+</div>
+</div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="px-4 pb-4 flex items-center justify-between relative z-20">
+<h3 class="text-xl font-bold tracking-tight">Emerging Niches</h3>
+<span class="text-xs text-primary font-medium flex items-center gap-1">
+                View All <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</span>
+</div>
+<!-- Trend Cards Horizontal Scroll -->
+<div class="flex overflow-x-auto gap-4 px-4 pb-12 snap-x snap-mandatory no-scrollbar relative z-20">
+<!-- Card 1 -->
+<div class="flex-none w-[85%] snap-center glass-card rounded-xl p-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex flex-col items-end">
+<span class="text-[10px] font-bold text-accent-pink uppercase tracking-tighter">Match Score</span>
+<span class="text-2xl font-bold text-white">94%</span>
+</div>
+</div>
+<div class="mb-6">
+<span class="px-2 py-1 rounded bg-white/5 text-[10px] text-slate-400 font-bold uppercase">Home &amp; Living</span>
+<h4 class="text-2xl font-bold mt-2 text-white">Retro-Futurist Decor</h4>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<div class="flex items-center gap-1 text-primary mb-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-[10px] font-bold uppercase">Velocity</span>
+</div>
+<p class="text-lg font-bold">98.2%</p>
+</div>
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<div class="flex items-center gap-1 text-accent-pink mb-1">
+<span class="material-symbols-outlined text-sm">gate</span>
+<span class="text-[10px] font-bold uppercase">Market Gap</span>
+</div>
+<p class="text-lg font-bold">15%</p>
+</div>
+</div>
+<div class="w-full aspect-[16/9] rounded-lg mb-6 overflow-hidden bg-[#221b27]" data-alt="Futuristic living room with neon accents and retro chrome furniture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCct4wHV2Cz2uo2_uipDgnGgpkLixjPQB2B-pnLgG1dJjZNhrGeW_sOsb26BTzAJlOQmS1_byl_C5UVp9Uotvtq4ncFo2tznxmx5wVzxE3Irbijr_yheBcxsLa4Er2kGyFGKnqOLibj_PHWYIZSd8ITBb-K_i5TYTHtcG6SMzj34ArjgxfV1isWLULDjehQDbww4mHcL9cTkjI4Ud54RyTVdAUzo_2V34pufWKQLSLXaxGRjoI-zoLM6uP1KuRQETtug5CEu3zd_gQ'); background-size: cover; background-position: center;">
+</div>
+<button class="w-full bg-primary hover:bg-primary/80 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all neon-glow">
+<span class="material-symbols-outlined">sync</span>
+                    Sync to Generator
+                </button>
+</div>
+<!-- Card 2 -->
+<div class="flex-none w-[85%] snap-center glass-card rounded-xl p-5 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex flex-col items-end">
+<span class="text-[10px] font-bold text-accent-pink uppercase tracking-tighter">Match Score</span>
+<span class="text-2xl font-bold text-white">82%</span>
+</div>
+</div>
+<div class="mb-6">
+<span class="px-2 py-1 rounded bg-white/5 text-[10px] text-slate-400 font-bold uppercase">Fashion</span>
+<h4 class="text-2xl font-bold mt-2 text-white">Eco-Cyber Apparel</h4>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<div class="flex items-center gap-1 text-primary mb-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-[10px] font-bold uppercase">Velocity</span>
+</div>
+<p class="text-lg font-bold">85.4%</p>
+</div>
+<div class="bg-black/20 p-3 rounded-lg border border-white/5">
+<div class="flex items-center gap-1 text-accent-pink mb-1">
+<span class="material-symbols-outlined text-sm">gate</span>
+<span class="text-[10px] font-bold uppercase">Market Gap</span>
+</div>
+<p class="text-lg font-bold">42%</p>
+</div>
+</div>
+<div class="w-full aspect-[16/9] rounded-lg mb-6 overflow-hidden bg-[#221b27]" data-alt="Digital garment with bioluminescent green patterns and organic textures" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJyJiQ77RbLID5aoJoLUXeZWEwbfheBgNxUXgLYgIJw8gOlVqTV61hoXoi_dYx65khoGa0Z8i6ShiC2vzRzh5_GSwzKjEIuUcnQU6B77jZm6zkxI-xceA0uVD1TUAnjyPmxfmrUT8vT92s8I7paaaYLVt7JwxRuJ1lDtIq02NAbYGANa8fmJFwZpbryIRL2uIhRWDS5DTizARvxG-5CxY_I_JwSbca-hjcCgd8T2WfM8ozcnNJVcm3dfb-0alL73QpiQ4IT37DUVY'); background-size: cover; background-position: center;">
+</div>
+<button class="w-full bg-primary hover:bg-primary/80 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined">sync</span>
+                    Sync to Generator
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-50 px-6 pb-8 pt-4 glass-card border-t border-white/5">
+<div class="flex items-center justify-between max-w-md mx-auto">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined fill-1">explore</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Discovery</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Vault</span>
+</button>
+<div class="relative -mt-12">
+<button class="size-16 rounded-full bg-primary neon-glow flex items-center justify-center border-4 border-background-dark text-white">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">psychology</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Generator</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Settings</span>
+</button>
+</div>
+</div>
+<!-- Background Decorative Light -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10">
+<div class="absolute top-1/4 -left-20 w-80 h-80 bg-primary/20 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-1/4 -right-20 w-80 h-80 bg-accent-pink/20 rounded-full blur-[120px]"></div>
+</div>
+</body></html>

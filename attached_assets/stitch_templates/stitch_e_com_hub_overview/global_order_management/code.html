@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global Order Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0a0911",
+                        "glass-dark": "rgba(255, 255, 255, 0.03)",
+                        "glass-border": "rgba(255, 255, 255, 0.08)",
+                        "shopify": "#95bf47",
+                        "amazon": "#ff9900",
+                        "risk-high": "#ff4d4d",
+                        "risk-med": "#ff9f43",
+                        "risk-low": "#0bda6c"
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glowing-chip {
+            box-shadow: 0 0 8px currentColor;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<!-- Top Navigation Bar -->
+<nav class="sticky top-0 z-50 flex items-center bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-white/5">
+<div class="text-white flex size-10 shrink-0 items-center justify-center rounded-xl bg-glass-dark border border-glass-border">
+<span class="material-symbols-outlined">grid_view</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-base font-bold leading-tight">Global Orders</h2>
+<p class="text-[10px] text-primary font-bold uppercase tracking-widest">AI Management</p>
+</div>
+<div class="flex size-10 items-center justify-end relative">
+<span class="material-symbols-outlined text-white">notifications</span>
+<div class="absolute top-2 right-2 size-2 bg-primary rounded-full border border-background-dark"></div>
+</div>
+</nav>
+<!-- Scrollable Content Area -->
+<main class="pb-24">
+<!-- AI KPIs Section -->
+<div class="flex flex-nowrap gap-3 p-4 overflow-x-auto">
+<div class="flex min-w-[140px] flex-1 flex-col gap-3 rounded-xl p-4 glass-card">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-risk-low text-sm">speed</span>
+<span class="text-risk-low text-xs font-bold">+1.2%</span>
+</div>
+<div>
+<p class="text-white/60 text-[10px] uppercase font-bold tracking-wider">On-Time %</p>
+<p class="text-white text-xl font-bold leading-tight">94.2%</p>
+</div>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-3 rounded-xl p-4 glass-card">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-risk-high text-sm">warning</span>
+<span class="text-risk-high text-xs font-bold">+2</span>
+</div>
+<div>
+<p class="text-white/60 text-[10px] uppercase font-bold tracking-wider">Risk Flagged</p>
+<p class="text-white text-xl font-bold leading-tight">12</p>
+</div>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-3 rounded-xl p-4 glass-card border-primary/30 bg-primary/5">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary text-sm">neurology</span>
+<span class="text-primary text-xs font-bold">+0.3</span>
+</div>
+<div>
+<p class="text-white/60 text-[10px] uppercase font-bold tracking-wider">AI Sentiment</p>
+<p class="text-white text-xl font-bold leading-tight">4.8<span class="text-sm font-normal text-white/40">/5.0</span></p>
+</div>
+</div>
+</div>
+<!-- Search and Filters -->
+<div class="px-4 py-2 space-y-3">
+<label class="flex flex-col min-w-40 h-11 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl glass-card overflow-hidden">
+<div class="text-white/40 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 text-white placeholder:text-white/30 px-3 text-sm font-normal" placeholder="Search orders, SKU, or customers..."/>
+<div class="flex items-center px-3 border-l border-white/10">
+<span class="material-symbols-outlined text-white/40 text-lg">tune</span>
+</div>
+</div>
+</label>
+<div class="flex gap-2 overflow-x-auto pb-1">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-primary/20 border border-primary/30 px-4">
+<span class="text-primary text-[11px] font-bold uppercase tracking-wider">All Platforms</span>
+<span class="material-symbols-outlined text-primary text-sm">keyboard_arrow_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-glass-dark border border-glass-border px-4">
+<span class="text-white/70 text-[11px] font-bold uppercase tracking-wider">High Risk</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-glass-dark border border-glass-border px-4">
+<span class="text-white/70 text-[11px] font-bold uppercase tracking-wider">Shopify</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-glass-dark border border-glass-border px-4">
+<span class="text-white/70 text-[11px] font-bold uppercase tracking-wider">Amazon</span>
+</button>
+</div>
+</div>
+<!-- Order Table Header -->
+<div class="flex items-center justify-between px-4 mt-4 pb-2">
+<h3 class="text-white text-sm font-bold tracking-tight">Active Orders</h3>
+<span class="text-white/40 text-xs">Sorted by Risk</span>
+</div>
+<!-- Order List (Dense Table View) -->
+<div class="px-4 space-y-2">
+<!-- Order Row 1 -->
+<div class="flex items-center justify-between p-3 glass-card rounded-xl border-l-4 border-l-risk-high">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-amazon/10 border border-amazon/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="Amazon marketplace logo abstraction" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDED9L-d7hkFGqLeN0QpH7i5hcvGGTopUxu7GzwAPd_rnbn4JzFmKbFjjWrulTDw80kp_eHHIo-tL9y7ppNv10OoBLGrW4H5avN6qAUj-89TgGLgmV9Rsz79xBtEP23vqpPHSmn1EcTT5eTqw8RyaedQz6x73xmNKdJB2RId30GQmih4YcbEXGPCipek7fADiXmyT9kJNp4pHge7EvIuB9SncCuZNbAy5T467MmihD_8cwSgdhUN9OLWNBFNCjcBPzSEb67gd5QLGY"/>
+</div>
+<div>
+<p class="text-white text-sm font-bold">#AMZ-8291</p>
+<p class="text-white/40 text-[11px]">Alex Rivers • 14m ago</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-white text-sm font-bold">$124.50</p>
+<div class="flex items-center justify-end gap-1">
+<span class="size-1.5 rounded-full bg-risk-high animate-pulse"></span>
+<p class="text-risk-high text-[10px] font-bold uppercase tracking-tighter">High Risk</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white/20">chevron_right</span>
+</div>
+</div>
+<!-- Order Row 2 -->
+<div class="flex items-center justify-between p-3 glass-card rounded-xl border-l-4 border-l-risk-med">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-shopify/10 border border-shopify/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="Shopify ecommerce logo abstraction" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnJwHOy5tCuA59kAj1xaO4iejCiHjsdoBVUXjHbNreSkLPZC4cRyFlqDpMxIJ1KkTd2TcPGglcmZCrVEDgp86mdHkeMlT33EY85ZEtvgXCdYFxe5DqOrmHSz5gna07nfUOWhTxnRtKGvTll-GV5d6H-xAzI0CHdnqCON3rVkgTBKRG_nUalqG4AW779O9zJX6gb0zZCGpnvOfXVDQHJe5VrS0RCLcnp3uz4cbeiDYz06BBCLLso1_ZU6VeEH62ln3IiGQnSUk6COw"/>
+</div>
+<div>
+<p class="text-white text-sm font-bold">#SHP-4402</p>
+<p class="text-white/40 text-[11px]">Elena Vance • 1h ago</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-white text-sm font-bold">$49.99</p>
+<div class="flex items-center justify-end gap-1">
+<span class="size-1.5 rounded-full bg-risk-med"></span>
+<p class="text-risk-med text-[10px] font-bold uppercase tracking-tighter">Medium</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white/20">chevron_right</span>
+</div>
+</div>
+<!-- Order Row 3 -->
+<div class="flex items-center justify-between p-3 glass-card rounded-xl border-l-4 border-l-risk-low">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-shopify/10 border border-shopify/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="Shopify logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaXQTXl3xyxZWnvR9vuf63K-OfBkXPqge_4sqDrZ9SjmtBV7l8QOY-20d2myOnTHgPxN8pOeu43t7PMc1A5AfrsPU5Opmfk390cD31_1exPWkHmlKkYUEIb7_TIxIvvBN6r0R-G1LNVyznz9XSmvkLzgJAPrlboV9l4xiTB-Jd80cO42cX1Kwgi0aPHls8XkEPCKL_nwFmjOZfcPgczRCb8ugMr8VN8flTmEnrNVpVgozEQGmbLRJvtB-DSTzWPMvY3ejKQSugtmc"/>
+</div>
+<div>
+<p class="text-white text-sm font-bold">#SHP-3921</p>
+<p class="text-white/40 text-[11px]">Marcus Wright • 3h ago</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-white text-sm font-bold">$892.00</p>
+<div class="flex items-center justify-end gap-1">
+<span class="size-1.5 rounded-full bg-risk-low"></span>
+<p class="text-risk-low text-[10px] font-bold uppercase tracking-tighter">Stable</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white/20">chevron_right</span>
+</div>
+</div>
+<!-- Order Row 4 -->
+<div class="flex items-center justify-between p-3 glass-card rounded-xl border-l-4 border-l-risk-high">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-lg bg-amazon/10 border border-amazon/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-125" data-alt="Amazon logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB58dXk8WHsf8ONcW-Nuf6Xuh_MRkfy1q5x9RzJ-Jct6XhKDGBbP259szIXgOpzw8vQRQcsDyemQyCnOSRrieOy_z50_GT8Wt1d_zd-bMkDu5xzWcZ1fmnj8QlGaEi31iemhHoIVCFch0s6N2kO4fZfucFF8oQvsSkVLrLd47iMrsmzOIuT7K7zhSwvgjej1NSPQJ6ZHYY0OztoJVCwThoX3sMahXm2ayypVzMY_s1zYW6W-w3fTzIPWpWOHKMUyhZCwFAYEJGmfzA"/>
+</div>
+<div>
+<p class="text-white text-sm font-bold">#AMZ-1104</p>
+<p class="text-white/40 text-[11px]">Sarah Chen • 5h ago</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-white text-sm font-bold">$1,240.00</p>
+<div class="flex items-center justify-end gap-1">
+<span class="size-1.5 rounded-full bg-risk-high animate-pulse"></span>
+<p class="text-risk-high text-[10px] font-bold uppercase tracking-tighter">Critical</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white/20">chevron_right</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Side-Peek Panel (Order Detail Simulation) -->
+<!-- In a real app, this would slide in from the right/bottom -->
+<div class="fixed inset-x-0 bottom-0 z-[60] glass-card rounded-t-3xl border-t border-white/20 shadow-2xl overflow-hidden h-[75vh]">
+<div class="flex justify-center pt-3 pb-1">
+<div class="w-10 h-1 rounded-full bg-white/20"></div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h4 class="text-white text-xl font-bold">Order #AMZ-8291</h4>
+<p class="text-risk-high font-semibold text-sm flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm">emergency_home</span>
+                        Address Verification Failed
+                    </p>
+</div>
+<div class="flex gap-2">
+<button class="size-9 flex items-center justify-center rounded-full bg-glass-dark border border-glass-border">
+<span class="material-symbols-outlined text-white/60">close</span>
+</button>
+</div>
+</div>
+<!-- AI Real-time Tracking Map Mockup -->
+<div class="w-full h-40 rounded-xl bg-background-dark border border-glass-border relative overflow-hidden mb-6">
+<div class="absolute inset-0 bg-primary/5">
+<img class="w-full h-full object-cover opacity-30 grayscale invert" data-alt="Abstract digital city map with tracking lines" data-location="Chicago" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuQJHov71COuuR_9yqi6yiytHWkzPAVhnmyx_Fgv8xgEVt9kvnIXN4zlUhsxKkH_GmCqMLoTrIzL9DoAkhMf4mw2dQZCSgycCRrnb9ypIEfvByNQgG5CKbAMNmNt8njBz4lq-YBxo68K_j04pw11Zz9LMAKVl1sYNt2kRXJ_S1lkrQl0bxb60n_WEccGAd87FAOFVte6QydjqVVJLJ-gkXgpFHTwY9umOO9X-A7u5peJryf7az6aFtjNY9dF3nXI_HG5tehCOPcAM"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-[10px] text-primary font-bold uppercase tracking-wider">AI Prediction</p>
+<p class="text-white text-sm font-bold">Oct 24 • Delayed 12h</p>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="size-3 bg-primary rounded-full animate-ping"></div>
+<div class="size-3 bg-primary rounded-full absolute top-0 left-0"></div>
+</div>
+</div>
+<!-- Smart Response Area -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h5 class="text-white/60 text-[10px] font-bold uppercase tracking-widest">AI Smart Response</h5>
+<span class="text-primary text-[10px] font-bold bg-primary/10 px-2 py-0.5 rounded">AUTO-DRAFTED</span>
+</div>
+<div class="p-4 rounded-xl bg-background-dark/50 border border-primary/20 italic text-white/80 text-sm leading-relaxed">
+                    "Hello Alex, we noticed a minor delay in your shipment due to an address verification flag. Our AI has already prioritized your ticket. Could you confirm if '123 Tech Lane' is correct?"
+                </div>
+<div class="flex gap-3">
+<button class="flex-1 h-12 bg-primary hover:bg-primary/90 rounded-xl font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">send</span>
+                        Send Response
+                    </button>
+<button class="size-12 rounded-xl bg-glass-dark border border-glass-border flex items-center justify-center">
+<span class="material-symbols-outlined text-white/60">edit</span>
+</button>
+</div>
+</div>
+<!-- Customer Details -->
+<div class="mt-8 pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
+<div>
+<p class="text-white/40 text-[10px] uppercase font-bold tracking-wider">Customer</p>
+<p class="text-white text-sm mt-1">Alex Rivers</p>
+</div>
+<div>
+<p class="text-white/40 text-[10px] uppercase font-bold tracking-wider">Sentiment</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-risk-med text-sm">sentiment_neutral</span>
+<p class="text-risk-med text-sm font-bold">Concerned</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Tab Bar -->
+<div class="fixed bottom-0 inset-x-0 h-20 bg-background-dark/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-around px-6 z-50">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined fill-[1]">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Orders</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Insights</span>
+</div>
+<div class="relative flex items-center justify-center size-14 -mt-10 bg-primary rounded-full shadow-lg shadow-primary/40 border-4 border-background-dark">
+<span class="material-symbols-outlined text-white text-2xl">neurology</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Stock</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Config</span>
+</div>
+</div>
+</body></html>

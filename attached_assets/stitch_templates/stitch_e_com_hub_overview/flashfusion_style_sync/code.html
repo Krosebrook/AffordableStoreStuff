@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Style Sync</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a050e",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-pulse {
+            box-shadow: 0 0 20px rgba(157, 37, 244, 0.4), 0 0 40px rgba(157, 37, 244, 0.2);
+        }
+        .holographic-blob {
+            background: radial-gradient(circle, rgba(157, 37, 244, 0.15) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(40px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen relative overflow-x-hidden">
+<!-- Holographic Background Elements -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute top-20 -left-20 w-64 h-64 holographic-blob"></div>
+<div class="absolute bottom-40 -right-20 w-80 h-80 holographic-blob"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+<!-- Floating Typography Samples -->
+<span class="absolute top-[15%] right-[10%] text-primary/10 text-9xl font-bold select-none">F</span>
+<span class="absolute bottom-[20%] left-[5%] text-primary/10 text-8xl font-bold select-none">S</span>
+<span class="absolute top-[40%] left-[12%] text-white/5 text-6xl font-light select-none italic">Style</span>
+</div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex items-center bg-transparent p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Style Sync</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-12 cursor-pointer items-center justify-center rounded-xl bg-transparent text-white p-0">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</div>
+</header>
+<main class="flex-1 pb-32">
+<!-- Headline Section -->
+<div class="px-4 py-6 text-center">
+<h1 class="text-white text-3xl font-bold tracking-tight mb-2">Visual Fusion</h1>
+<p class="text-primary/80 text-sm font-medium">Syncing active: FlashFusion V2.4</p>
+</div>
+<!-- Central Source Brand Card -->
+<div class="p-4">
+<div class="glass-card rounded-xl p-6 relative overflow-hidden">
+<div class="flex flex-col items-center gap-4">
+<div class="size-20 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20" data-alt="FlashFusion corporate logo with vibrant gradients">
+<span class="material-symbols-outlined text-white text-4xl">bolt</span>
+</div>
+<div class="text-center">
+<p class="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-1">Source Brand</p>
+<h3 class="text-white text-2xl font-bold">Master Identity</h3>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-2 gap-4">
+<div class="bg-white/5 rounded-lg p-3 border border-white/10">
+<p class="text-slate-400 text-[10px] uppercase font-bold mb-2">Typography</p>
+<p class="text-white text-sm font-medium">Space Grotesk</p>
+</div>
+<div class="bg-white/5 rounded-lg p-3 border border-white/10">
+<p class="text-slate-400 text-[10px] uppercase font-bold mb-2">Primary Color</p>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-primary"></div>
+<p class="text-white text-sm font-medium">#9D25F4</p>
+</div>
+</div>
+</div>
+<div class="mt-4 flex justify-center gap-2">
+<div class="size-6 rounded-full bg-[#f4258d]"></div>
+<div class="size-6 rounded-full bg-[#25e2f4]"></div>
+<div class="size-6 rounded-full bg-white"></div>
+<div class="size-6 rounded-full bg-slate-800"></div>
+</div>
+</div>
+</div>
+<!-- Energy Lines Visual (Conceptual) -->
+<div class="flex justify-center py-2">
+<div class="w-px h-12 bg-gradient-to-b from-primary to-transparent opacity-50"></div>
+</div>
+<!-- Target Storefronts Section -->
+<div class="px-4 pb-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white text-lg font-bold">Target Storefronts</h3>
+<span class="text-primary text-xs font-bold px-2 py-1 bg-primary/10 rounded-full">4 Connected</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Shopify -->
+<div class="glass-card rounded-xl p-4 flex flex-col gap-3">
+<div class="w-full h-24 bg-cover bg-center rounded-lg" data-alt="Shopify storefront mockup with colorful layout" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDB-h27Okdcu54Dy-pI_q_X-Tlsl2eR_lET3jRlIKxn-CddlGxOupc-xv-e4jNNg9e6DnuFtG1R6zW6Ko_NjPyMxHvsJi-jOOeSvYjmzv5apX4BX5-vkndIsE-auKpRRt1mylOW4SPxYPtk82wWdnoOxll8yB3JUCXqnxs_8WVG2fr6auT5qw1WPJTbPV6nCD6Q_hFGjQSFHS37rg-mcXpdXrLiPJw_Wg11Ic6wfuS2ADCxIfHDGdIbTkcuJR-nNAB0UreCyyzYd6g");'></div>
+<div>
+<p class="text-white text-base font-bold">Shopify</p>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="size-1.5 rounded-full bg-green-400"></div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">In Sync</p>
+</div>
+</div>
+</div>
+<!-- Etsy -->
+<div class="glass-card rounded-xl p-4 flex flex-col gap-3">
+<div class="w-full h-24 bg-cover bg-center rounded-lg" data-alt="Etsy artisan shop layout with organic shapes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA37vA0GaiwHV2LTx_Fq7P6E3JB4CMx-by9CUhzPDaX9En5YaKKqlW6OJndftWcNmUQt_Js6cz4oiMKWnt4-m7lwLMmgbaKitA51Tr8bv9KjzGSSfbCyGPlhlgXzvFgU3Xu1NKNr1j_AcWmHsYPsIA42q6IxsqTJga5QP5d8Qn9teUZwHy5K_jAADOxjXXYlGPFqeQz3C29gdndTIuQE_OsQjctivuamcTL2UKeiIMbGf1SGrJUY-tRK08XzulOCLZXWNTMA6ed7Og");'></div>
+<div>
+<p class="text-white text-base font-bold">Etsy</p>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="size-1.5 rounded-full bg-yellow-400 animate-pulse"></div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Pending</p>
+</div>
+</div>
+</div>
+<!-- Amazon -->
+<div class="glass-card rounded-xl p-4 flex flex-col gap-3">
+<div class="w-full h-24 bg-cover bg-center rounded-lg" data-alt="Amazon store interface showing product grid" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7BjQRoVutcnoY7bc46cM7dp41gG-O_FLzESoywWZmOsGQjtO71fE83QOLyY2a5iLk94VRFQh4zvCJrxOTJwawwlJtXhcLB0VD73mR9qq8oVmqOMcdBAmpyOD1Suk7kOKJ8FWXlHdBLUdY7G1AR5se9-WTEkfRZD6EDncYwSyWHmuorZFYtNkxg_xxpFXOSQ1ujy7sizHoz5yDcUjXJyBr5zvjlaLnNTbS1QyEVm8vDsxgfqGgZBVrewIA8vmiO7xCoUCurwddlnM");'></div>
+<div>
+<p class="text-white text-base font-bold">Amazon</p>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="size-1.5 rounded-full bg-green-400"></div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">In Sync</p>
+</div>
+</div>
+</div>
+<!-- WooCommerce -->
+<div class="glass-card rounded-xl p-4 flex flex-col gap-3 opacity-60">
+<div class="w-full h-24 bg-cover bg-center rounded-lg grayscale" data-alt="WooCommerce admin dashboard grayed out" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAcM-a1qTlIsdS7YDkCrP28BBCKlMstIHa4JRd1eTBLYfKnZlry2DvXm2eJuCcQSnVhEuBCgI-NgcaIqjVUq_w4Mgp6E8PrNAonqtReYx6fulEVE4BPQwqK6w9RpNk9ZCUF51zBy8dhxpFVQb9IlCkJ8NzE-Jw3dylKRt8HYy3MjNpg3jdSNh1mNTZOTCGzb69IVFDod3VDX4I8oNlyL9HYyZQfCe5Ic05cTIxBSy4uJyaPYTvePMiJMZKxlzGjLz1CZM3Y2M5JR1Q");'></div>
+<div>
+<p class="text-white text-base font-bold">WooCommerce</p>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="size-1.5 rounded-full bg-red-500"></div>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Disconnected</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Footer Action -->
+<div class="fixed bottom-0 left-0 w-full p-6 bg-gradient-to-t from-background-dark via-background-dark/95 to-transparent pt-10">
+<button class="w-full bg-primary neon-pulse h-16 rounded-xl flex items-center justify-center gap-3 active:scale-95 transition-transform duration-100">
+<span class="material-symbols-outlined text-white text-2xl">auto_fix_high</span>
+<span class="text-white text-lg font-bold uppercase tracking-widest">Initiate Visual Fusion</span>
+</button>
+<div class="mt-4 flex justify-center">
+<div class="w-32 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="w-2/3 h-full bg-primary"></div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

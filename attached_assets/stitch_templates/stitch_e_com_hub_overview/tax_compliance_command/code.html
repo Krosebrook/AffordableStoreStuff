@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#050a0a",
+                        "glass": "rgba(255, 255, 255, 0.05)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .holographic-grid {
+            background-image: 
+                linear-gradient(rgba(13, 242, 242, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(13, 242, 242, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            perspective: 1000px;
+            transform: perspective(500px) rotateX(20deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+        .tax-shield-glow {
+            box-shadow: 0 0 40px 10px rgba(13, 242, 242, 0.2);
+            backdrop-filter: blur(12px);
+        }
+        .filing-gradient {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30 min-h-screen">
+<div class="relative overflow-hidden min-h-screen flex flex-col">
+<!-- Holographic Grid Background -->
+<div class="holographic-grid opacity-40 h-[200%] w-full"></div>
+<!-- TopAppBar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between sticky top-0 z-50 backdrop-blur-md">
+<div class="text-primary flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-[28px]">shield_with_heart</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Tax Compliance Command</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-transparent text-white gap-2 text-base font-bold leading-normal p-0">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</div>
+<!-- Main Scrollable Content -->
+<main class="flex-1 overflow-y-auto px-4 pb-32">
+<!-- Hero: Tax Shield Visualization -->
+<div class="relative flex flex-col items-center justify-center py-8">
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- The "3D" Glass Shield -->
+<div class="absolute inset-0 tax-shield-glow rounded-full border border-primary/30 bg-primary/10 animate-pulse"></div>
+<div class="relative z-10 text-primary flex flex-col items-center">
+<span class="material-symbols-outlined text-[80px] drop-shadow-[0_0_15px_rgba(13,242,242,0.8)]">verified_user</span>
+<span class="text-[10px] font-bold tracking-[0.2em] uppercase mt-2">Shield Active</span>
+</div>
+</div>
+<!-- HeadlineText & MetaText -->
+<div class="mt-6">
+<h1 class="text-white tracking-light text-[40px] font-bold leading-tight text-center">$42,850.00</h1>
+<p class="text-primary/70 text-sm font-medium leading-normal text-center flex items-center justify-center gap-2">
+<span class="size-2 bg-primary rounded-full animate-ping"></span>
+                        Estimated Tax Liability
+                    </p>
+</div>
+</div>
+<!-- Stats: Global Breakdown -->
+<div class="flex flex-wrap gap-3 mb-6">
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 bg-white/5 border border-white/10 backdrop-blur-md">
+<p class="text-primary/60 text-xs font-medium uppercase tracking-wider">VAT</p>
+<p class="text-white tracking-tight text-xl font-bold">$12.4k</p>
+</div>
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 bg-white/5 border border-white/10 backdrop-blur-md">
+<p class="text-primary/60 text-xs font-medium uppercase tracking-wider">Sales Tax</p>
+<p class="text-white tracking-tight text-xl font-bold">$18.2k</p>
+</div>
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 bg-white/5 border border-white/10 backdrop-blur-md">
+<p class="text-primary/60 text-xs font-medium uppercase tracking-wider">Corporate</p>
+<p class="text-white tracking-tight text-xl font-bold">$12.2k</p>
+</div>
+</div>
+<!-- Regional Compliance Cards -->
+<div class="space-y-4 mb-8">
+<h3 class="text-white/60 text-xs font-bold uppercase tracking-[0.2em] px-1">Regional Status</h3>
+<!-- USA Card (Safe) -->
+<div class="flex items-center justify-between p-4 bg-white/5 border border-primary/20 rounded-xl backdrop-blur-xl">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">flag</span>
+</div>
+<div>
+<p class="text-white font-bold">United States</p>
+<p class="text-xs text-white/50">Next filing: Oct 15</p>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30">
+<span class="size-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-primary text-[10px] font-bold uppercase">Safe</span>
+</div>
+</div>
+<!-- EU Card (Warning) -->
+<div class="flex items-center justify-between p-4 bg-white/5 border border-orange-500/20 rounded-xl backdrop-blur-xl">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-500">
+<span class="material-symbols-outlined">euro_symbol</span>
+</div>
+<div>
+<p class="text-white font-bold">European Union</p>
+<p class="text-xs text-white/50">Missing VAT ID (DE)</p>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30">
+<span class="material-symbols-outlined text-[14px] text-orange-500">warning</span>
+<span class="text-orange-500 text-[10px] font-bold uppercase">Action</span>
+</div>
+</div>
+<!-- UK Card (Safe) -->
+<div class="flex items-center justify-between p-4 bg-white/5 border border-primary/20 rounded-xl backdrop-blur-xl">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">currency_pound</span>
+</div>
+<div>
+<p class="text-white font-bold">United Kingdom</p>
+<p class="text-xs text-white/50">Fully Compliant</p>
+</div>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30">
+<span class="size-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-primary text-[10px] font-bold uppercase">Safe</span>
+</div>
+</div>
+</div>
+<!-- Deduction Finder Panel -->
+<div class="bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-2xl p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-primary/30 text-4xl">psychology</span>
+</div>
+<div class="relative z-10">
+<h4 class="text-primary font-bold text-lg mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+                        AI Deduction Finder
+                    </h4>
+<p class="text-white/70 text-sm mb-4">Scanning real-time transactions for potential write-offs.</p>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-[10px] text-white/40 uppercase tracking-widest font-bold">New Savings Found</p>
+<p class="text-2xl font-bold text-white">+$2,140.50</p>
+</div>
+<button class="bg-primary text-background-dark font-bold text-xs px-4 py-2 rounded-lg">Review All</button>
+</div>
+</div>
+<!-- Scanning line effect -->
+<div class="absolute inset-x-0 h-[1px] bg-primary/40 top-0 animate-[bounce_3s_infinite]"></div>
+</div>
+</main>
+<!-- Fixed Bottom Action Area -->
+<div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-dark via-background-dark to-transparent z-50">
+<button class="w-full h-16 filing-gradient rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-white text-2xl">electric_bolt</span>
+<span class="text-white font-bold text-lg tracking-tight uppercase">One-Click Filing</span>
+</button>
+<p class="text-center text-[10px] text-white/30 mt-3 uppercase tracking-[0.3em]">SECURE ENCRYPTED GATEWAY</p>
+</div>
+</div>
+</body></html>

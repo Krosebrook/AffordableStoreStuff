@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "accent-pink": "#ff2ec7",
+                        "accent-cyan": "#00f2ff",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#05040a",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(29, 27, 39, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pipeline-glow {
+            box-shadow: 0 0 20px rgba(71, 37, 244, 0.4);
+        }
+        .electric-pulse {
+            border: 2px solid #ff2ec7;
+            box-shadow: 0 0 15px rgba(255, 46, 199, 0.6), inset 0 0 10px rgba(255, 46, 199, 0.4);
+        }
+        .data-stream {
+            background: linear-gradient(180deg, transparent 0%, rgba(71, 37, 244, 0.05) 50%, transparent 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-x-hidden min-h-screen">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center bg-background-dark/80 backdrop-blur-md p-4 pb-2 justify-between border-b border-white/5">
+<div class="text-primary flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-3xl">memory</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-sm font-bold leading-tight tracking-[0.2em] uppercase">Pipeline Active</h2>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="size-2 rounded-full bg-accent-cyan animate-pulse"></span>
+<span class="text-accent-cyan text-[10px] font-bold tracking-widest uppercase">System Autonomous</span>
+</div>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-2xl">insights</span>
+</button>
+</div>
+</header>
+<main class="relative flex flex-col pb-24">
+<!-- Background Energy Particles (Decorative) -->
+<div class="fixed inset-0 pointer-events-none opacity-20 data-stream"></div>
+<div class="fixed top-1/4 -right-20 w-64 h-64 bg-primary/20 blur-[100px] rounded-full"></div>
+<div class="fixed bottom-1/4 -left-20 w-64 h-64 bg-accent-pink/10 blur-[100px] rounded-full"></div>
+<!-- Quick Stats -->
+<div class="flex flex-wrap gap-3 p-4">
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl p-4 glass-card border-primary/20">
+<p class="text-white/60 text-xs font-medium uppercase tracking-wider">Posts in Queue</p>
+<div class="flex items-end justify-between">
+<p class="text-white text-2xl font-bold leading-tight">08</p>
+<p class="text-accent-cyan text-xs font-medium mb-1">+24%</p>
+</div>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl p-4 glass-card border-accent-pink/20">
+<p class="text-white/60 text-xs font-medium uppercase tracking-wider">Next Sync</p>
+<div class="flex items-end justify-between">
+<p class="text-white text-2xl font-bold leading-tight">12:45</p>
+<span class="material-symbols-outlined text-accent-pink text-sm mb-1">bolt</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row px-4 gap-6 relative">
+<!-- Left Side: Automation Rules -->
+<div class="flex flex-col flex-1 gap-4 z-10">
+<div class="flex items-center justify-between">
+<h3 class="text-white text-lg font-bold leading-tight tracking-tight">Automation Rules</h3>
+<span class="text-primary text-xs font-bold uppercase cursor-pointer hover:underline">Edit All</span>
+</div>
+<!-- Rule 1 -->
+<div class="flex items-stretch justify-between gap-4 rounded-xl glass-card p-4 transition-transform hover:scale-[1.02]">
+<div class="flex flex-col gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<p class="text-white text-base font-bold leading-tight">Engagement Trigger</p>
+<p class="text-white/50 text-xs font-normal leading-normal">If Interaction &gt; 5% → $50 Ad Boost</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1 bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold border border-primary/30 uppercase">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> Active
+                            </span>
+<span class="text-white/30 text-[10px]">Updated 2m ago</span>
+</div>
+</div>
+</div>
+<!-- Rule 2 -->
+<div class="flex items-stretch justify-between gap-4 rounded-xl glass-card p-4 transition-transform hover:scale-[1.02]">
+<div class="flex flex-col gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<p class="text-white text-base font-bold leading-tight">AI Tone Sync</p>
+<p class="text-white/50 text-xs font-normal leading-normal">Global Style: Cyber/Hype captions</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1 bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold border border-primary/30 uppercase">
+<span class="material-symbols-outlined text-[12px]">magic_button</span> Smart
+                            </span>
+<span class="text-white/30 text-[10px]">Active</span>
+</div>
+</div>
+</div>
+<!-- Rule 3 (Mini) -->
+<div class="flex items-stretch justify-between gap-4 rounded-xl glass-card p-4 transition-transform hover:scale-[1.02]">
+<div class="flex flex-col gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<p class="text-white text-base font-bold leading-tight">Platform Bridging</p>
+<p class="text-white/50 text-xs font-normal leading-normal">Cross-post TikTok to Reels via AI Optimizer</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1 bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold border border-primary/30 uppercase">
+<span class="material-symbols-outlined text-[12px]">sync</span> Synced
+                            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Central Pipeline Visual (Mobile Column, Tablet/Desktop Row) -->
+<div class="relative flex flex-col items-center py-4 w-12 md:w-20">
+<!-- Glowing Rail -->
+<div class="absolute inset-y-0 w-1 bg-gradient-to-b from-primary via-accent-pink to-primary rounded-full pipeline-glow opacity-80"></div>
+<!-- Nodes along the rail -->
+<div class="flex flex-col gap-16 z-10 py-8">
+<div class="size-10 rounded-full bg-background-dark border-2 border-primary flex items-center justify-center shadow-[0_0_15px_rgba(71,37,244,0.6)]">
+<span class="material-symbols-outlined text-primary text-xl">play_circle</span>
+</div>
+<div class="size-12 rounded-full bg-background-dark border-2 border-accent-pink flex items-center justify-center shadow-[0_0_20px_rgba(255,46,199,0.8)] relative">
+<span class="material-symbols-outlined text-accent-pink text-2xl">video_stable</span>
+<div class="absolute -right-16 text-[10px] font-bold text-accent-pink bg-accent-pink/10 px-2 py-0.5 rounded border border-accent-pink/30 whitespace-nowrap">NEXT UP</div>
+</div>
+<div class="size-10 rounded-full bg-background-dark border-2 border-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white/40 text-xl">image</span>
+</div>
+<div class="size-10 rounded-full bg-background-dark border-2 border-white/10 flex items-center justify-center opacity-50">
+<span class="material-symbols-outlined text-white/20 text-xl">tag</span>
+</div>
+</div>
+</div>
+<!-- Right Side: Live Preview -->
+<div class="flex flex-col flex-1 gap-4 z-10">
+<h3 class="text-white text-lg font-bold leading-tight tracking-tight">Live Preview</h3>
+<div class="relative rounded-2xl overflow-hidden electric-pulse aspect-[9/16] max-h-[400px]">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="High energy cyberpunk style video frame preview" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCv0Bwhvh67sWaOoSUWq1mvGBuGdlLwpCNYGw9KWrAbeYImCJHusAirIEB8SOMRLE6D-Rdaw5qYZJVfrkgtfqKGuGrwmCCiahA7kPLZwF3K2p31qxTiTANyFd87DrjR9V0PmLxwF5hTwA6QpY83BirDeSYhJOrykhRI1g0nCF5DKr0FevYcoqF_mOho9qNSB4j6591M6rC810TOouGGabJ-JD-4ukZXOM7cOibOVio2FGCLiI2fl97CPDFYLxWqa2W_BwVyTFR5tQ4');"></div>
+<!-- Overlay Info -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 p-4 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="bg-black/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold tracking-widest border border-white/10">STAGING</span>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-white text-sm">favorite</span>
+<span class="material-symbols-outlined text-white text-sm">share</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="bg-black/40 backdrop-blur-sm p-3 rounded-xl border border-white/5">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-xs">auto_awesome</span>
+<span class="text-[10px] font-bold text-primary uppercase">AI Caption Active</span>
+</div>
+<p class="text-white text-xs line-clamp-2">"Pushing boundaries at the edge of the digital frontier. Are you ready for the next level? ⚡️ #FutureNow #TechVibes"</p>
+</div>
+<button class="w-full py-3 bg-primary rounded-xl font-bold text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors">
+                                Deploy Now
+                            </button>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between px-2">
+<div class="flex flex-col">
+<span class="text-[10px] text-white/50 uppercase tracking-tighter">Publishing In</span>
+<span class="text-xl font-bold tracking-tight text-accent-pink">12:44:59</span>
+</div>
+<div class="flex -space-x-2">
+<div class="size-8 rounded-full border-2 border-background-dark bg-[#181725] flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">youtube_trending</span>
+</div>
+<div class="size-8 rounded-full border-2 border-background-dark bg-[#181725] flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">photo_camera</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Navigation Bar (iOS Style) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-2xl border-t border-white/5 p-4 flex justify-around items-center z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined font-variation-fill">hub</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Pipeline</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40 hover:text-white transition-colors">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Metrics</span>
+</button>
+<div class="relative -top-4">
+<button class="size-14 rounded-full bg-primary flex items-center justify-center shadow-[0_0_20px_rgba(71,37,244,0.6)] border-4 border-background-dark">
+<span class="material-symbols-outlined text-white text-3xl">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-white/40 hover:text-white transition-colors">
+<span class="material-symbols-outlined">extension</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Rules</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40 hover:text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">System</span>
+</button>
+</nav>
+<!-- Bottom Safe Area Padding -->
+<div class="h-8 bg-background-dark"></div>
+</body></html>

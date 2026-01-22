@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connect Store: Select Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0a090f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: #4725f4;
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.3);
+            background: rgba(71, 37, 244, 0.05);
+        }
+        .active-card {
+            border-color: #4725f4;
+            box-shadow: 0 0 20px rgba(71, 37, 244, 0.4);
+            background: rgba(71, 37, 244, 0.1) !important;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white antialiased">
+<!-- Top Navigation Bar -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-white/5">
+<div class="text-white flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-white/10 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<h2 class="text-white text-lg font-semibold leading-tight tracking-[-0.015em] flex-1 text-center pr-10">Add New Store</h2>
+</div>
+<main class="max-w-md mx-auto pb-24">
+<!-- Progress Bar Component -->
+<div class="flex flex-col gap-3 p-4 pt-6">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-white text-sm font-medium leading-normal">Step 1: Selection</p>
+<p class="text-[#a19cba] text-xs font-normal leading-normal uppercase tracking-wider">1 of 3</p>
+</div>
+<div class="rounded-full bg-white/10 overflow-hidden h-1.5">
+<div class="h-full rounded-full bg-primary" style="width: 33.33%;"></div>
+</div>
+</div>
+<!-- Headline & Body Text -->
+<div class="px-4 pt-4">
+<h2 class="text-white tracking-tight text-3xl font-bold leading-tight pb-2">Connect Your First Store</h2>
+<p class="text-[#a19cba] text-base font-normal leading-relaxed">Choose a platform to begin syncing your products and AI insights.</p>
+</div>
+<!-- Search Bar -->
+<div class="px-4 py-6">
+<label class="flex flex-col w-full">
+<div class="flex w-full items-stretch rounded-xl h-14 glass-card group">
+<div class="text-[#a19cba] flex items-center justify-center pl-4 pr-2">
+<span class="material-symbols-outlined text-[22px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 text-white placeholder:text-[#6b6684] px-2 text-base font-normal" placeholder="Search platforms..."/>
+</div>
+</label>
+</div>
+<!-- Platform Grid -->
+<div class="px-4 grid grid-cols-2 gap-4">
+<!-- Platform Card: Shopify -->
+<div class="glass-card active-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer">
+<div class="size-16 flex items-center justify-center">
+<img alt="Shopify logo" class="w-full h-full object-contain" data-alt="Shopify e-commerce platform logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpF4pW_du6s7Z3XBs7dzpMfUZcuCrm6ndBbszV-PY6wi7wIGsBIErwfRVp5GyKLW0ZG0uTCc_ZQUAc8XCAjyt11FyaO4maDbfOFD-9bvG8EBSWhIy6bCWsHB1AuX-W7sb_1rv2WwQgxjTeoskmb08b8wTsTirh9wzAksC2pknpRjCZqbEB-w5BOaENgjKJ8R-Pd5WouXGpkTeDHoepE1g8RpkPWUFD-WjU_IWIOFglSdK7OPv2NofHECy3aNEbQTIoZc1vBOcR1KE"/>
+</div>
+<span class="font-medium text-sm">Shopify</span>
+</div>
+<!-- Platform Card: Amazon -->
+<div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer">
+<div class="size-16 flex items-center justify-center">
+<img alt="Amazon logo" class="w-full h-full object-contain" data-alt="Amazon seller central logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOvA6CyMMAFDXsnD4L2egTPDJIWw-778jRWIAxaEvroN1eArocLndy_5IRDxNA5wd2HN_Gn1ND8KLi9oFxYzywKOG6TzoIUyPP3yx5648S7XLAfH3VFjl1c8WzRTPMHtoNfYAik3lZkXrg5z2ulgGSocGgARy89CkTTUxaLtnTpWF2a5lc_838pkT8wHfIHtQ3W4y3XbUEgo1MWYnNllQzISmTXMjkc6nLtZk6oP62H8rHjCmEjymir4B5P3TF6OFq0aYvsc9qGSI"/>
+</div>
+<span class="font-medium text-sm">Amazon</span>
+</div>
+<!-- Platform Card: Etsy -->
+<div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer">
+<div class="size-16 flex items-center justify-center">
+<img alt="Etsy logo" class="w-full h-full object-contain" data-alt="Etsy marketplace platform logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu9vFZNGEBy8pqna4bGBE55W68tWkCxivjnBqdNSuA3B8u0g1l8Y4njtkw38cC-u4YsbbLGM8CWJ6QZELBRpV3OCCRpIZAzkpao2hIzuMVrBlxzY2zh15mfMHGJncEBjbgEEH1NYHnCHRr5iXXt25sqGs2hrkfH1uW0WEBqkefG9zRKbEmCpCRPV9--HXSwh5k5EDpWbRj5Qtki9Jqkw7SxUuuIE2TZ5XxmUYLsQXWECXBFln2mRMzdlu8oBSx9AaFCMJvErnYQ34"/>
+</div>
+<span class="font-medium text-sm">Etsy</span>
+</div>
+<!-- Platform Card: TikTok Shop -->
+<div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer">
+<div class="size-16 flex items-center justify-center">
+<img alt="TikTok Shop logo" class="w-full h-full object-contain" data-alt="TikTok Shop social commerce logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_bVoVt7ynOtOqwvsTB9keVjExdKvFEjtIqpyNmfhZimE5EPkYkrVKyliQWjH4c2mLOkEH4sIepmHBagbBA4PMVJdxPGRs4d_t5yeiGAS_aLIJnbf_0YdTRppdkGVPqNDDhKgvvrE4DwI_1HajZt89LfPyfWsy0gC1tx2sDVTqPywDyizMr2quPAuz2IuVyiajIJrUBkVL7L06ADeNIQSvA0ZnJsu5qUzlEjx4rFeLRDuxDLP0020fgVvAu1cQ1sA1hcsCGZZ_S_k"/>
+</div>
+<span class="font-medium text-sm">TikTok Shop</span>
+</div>
+<!-- Platform Card: WooCommerce -->
+<div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer">
+<div class="size-16 flex items-center justify-center">
+<img alt="WooCommerce logo" class="w-full h-full object-contain" data-alt="WooCommerce wordpress plugin logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm0oJKs7gwioFEb7dPwwU0LVEVrfh69TN9yuOZTbFWBQ_KHDfWcsknkW4MPy9hTR5E3PDqprpAN0MazBs4MjC-4Yw1AcGfA6h1pSPo75p5WKYEcH15Ul3SvUnE6eFbAIWaQ_8xEMB73fdO66ifvvhIBI4URjz7UfLaYZRF8GkIYv7qrtcEomWjEVZHx2_sZ-qOQSkhQsAae0NJFbUwdqFbLGdOLemtrB_blgM12u91ftQjO6BjxWwsBSyIrh7s-Txai-bI7PoEV5w"/>
+</div>
+<span class="font-medium text-sm">WooCommerce</span>
+</div>
+<!-- Platform Card: Custom API -->
+<div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer border-dashed border-white/20">
+<div class="size-16 flex items-center justify-center bg-white/5 rounded-full">
+<span class="material-symbols-outlined text-white/50 text-3xl">api</span>
+</div>
+<span class="font-medium text-sm text-white/50">Custom API</span>
+</div>
+</div>
+<div class="px-4 py-8">
+<p class="text-center text-[#6b6684] text-xs">
+                Don't see your platform? <a class="text-primary font-semibold hover:underline" href="#">Request a connection</a>
+</p>
+</div>
+</main>
+<!-- Bottom Navigation Area -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-dark via-background-dark to-transparent pb-8">
+<div class="max-w-md mx-auto">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                Continue to Integration
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</body></html>

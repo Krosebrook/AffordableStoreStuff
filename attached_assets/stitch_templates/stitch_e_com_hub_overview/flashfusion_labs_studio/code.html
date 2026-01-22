@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Labs Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0d0b14",
+                        "accent-purple": "#a855f7",
+                        "lab-dark": "#131022",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .circuit-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(71, 37, 244, 0.15) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .glow-border {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.3);
+        }
+        .neon-text {
+            text-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen text-white selection:bg-primary/30">
+<!-- Top Navigation -->
+<div class="relative flex h-auto w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-primary/10">
+<div class="text-primary flex size-12 shrink-0 items-center justify-center cursor-pointer" data-icon="Menu" data-size="24px" data-weight="regular">
+<span class="material-symbols-outlined">menu</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-tight">FlashFusion Labs</h2>
+<span class="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Underground Access</span>
+</div>
+<div class="text-primary flex size-12 shrink-0 items-center justify-center cursor-pointer" data-icon="Person" data-size="24px" data-weight="regular">
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+</div>
+</div>
+<!-- Hero / Mascot Section -->
+<div class="relative px-6 py-8 overflow-hidden bg-background-light dark:bg-background-dark">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -z-10"></div>
+<div class="absolute bottom-0 left-0 w-48 h-48 bg-accent-purple/10 rounded-full blur-[60px] -z-10"></div>
+<div class="flex flex-col items-center gap-4">
+<div class="relative">
+<div class="w-32 h-32 rounded-full bg-gradient-to-tr from-primary to-accent-purple p-1 glow-border">
+<div class="w-full h-full rounded-full bg-background-dark flex items-center justify-center overflow-hidden">
+<!-- Robot Mascot Placeholder -->
+<img alt="FlashFusion mascot wearing a neon scientist visor" class="w-full h-full object-cover grayscale brightness-125" data-alt="FlashFusion robot mascot with glowing scientist visor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcoRUNMqN8t3hf_GzinirurUgTKzaLTioHKxjcPT86RrrCsG21TTMBDOEWncGSBZ1HsqszhKXSegL5wK9oTZTP5I_cB0Xhi4X7ov9rmWHPQ1MeqOEMHRuojx5YjVTGmiRUdcpG_jEi5vuVCw1E1ZVyYRCpDeDF80ZJOhPlDH5o8reYjkPbVVGzFSBRjkZXf5-KKHano5375VK_2DUI-80zxUSahheWXWdj05qkOhyx7U4scTOQD-EKLJa6GusC7wlZFf5lkd5Uxiw"/>
+</div>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                    Lab Head
+                </div>
+</div>
+<div class="text-center">
+<h1 class="text-black dark:text-white tracking-tight text-[32px] font-bold leading-tight pb-1 pt-2">Experimental Beta</h1>
+<p class="text-gray-600 dark:text-[#a19cba] text-base font-normal leading-normal max-w-[280px] mx-auto">
+                    Deploy cutting-edge AI technologies in our high-energy underground lab.
+                </p>
+</div>
+</div>
+</div>
+<!-- Experimental Feature Cards -->
+<div class="flex flex-col gap-6 px-4 pb-12 circuit-bg">
+<!-- Card 1: AI Influencer -->
+<div class="p-0 @container">
+<div class="flex flex-col items-stretch justify-start rounded-xl shadow-2xl bg-white dark:bg-lab-dark border border-primary/20 overflow-hidden">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover relative" data-alt="Glowing digital human silhouette in purple aura" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDFGyTednXzvkQYbhTOSeBVMthciYQmK1nHZAR2upVrzc15_lhLUIsca7jGi3Yr2-cFHsdFPAjbQeySLq_JIUl8Hmx1bXxNN2H0dhaBM_QKNp-5eiTxi07e4KY8ZznRPrj5ETNTwMa_BV0PmK0MKUPG8PsjYDBhmhUp0y-iraDM9cZyYcHY8PN9CYdrjuOP5eWXAflvj5yQ7jpe-eOA8U8RJjFhmtCw96ZKVwodUW_cjHebJUzHK5-0faLXh4B8gFG-uCdJXGt39Vc");'>
+<div class="absolute inset-0 bg-gradient-to-t from-lab-dark/80 to-transparent"></div>
+<div class="absolute top-3 left-3 bg-primary/90 px-2 py-1 rounded text-[10px] font-bold text-white uppercase tracking-widest">Active Test</div>
+</div>
+<div class="flex w-full grow flex-col items-stretch justify-center gap-1 py-5 px-5">
+<div class="flex justify-between items-start mb-1">
+<p class="text-black dark:text-white text-xl font-bold leading-tight tracking-tight">AI Influencer Generation</p>
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<!-- Energy Meter 1 -->
+<div class="flex flex-col gap-2 my-4">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-gray-500 dark:text-[#a19cba] text-xs font-medium uppercase tracking-widest">Risk vs Reward Meter</p>
+<p class="text-primary text-sm font-bold leading-normal">85%</p>
+</div>
+<div class="rounded-full bg-gray-200 dark:bg-[#3f3b54] h-1.5 w-full overflow-hidden">
+<div class="h-full rounded-full bg-gradient-to-r from-primary to-accent-purple" style="width: 85%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-3 justify-between mt-2">
+<div class="flex flex-col gap-0.5">
+<p class="text-gray-600 dark:text-[#a19cba] text-sm font-normal">Synthesis Energy: High</p>
+<p class="text-gray-400 dark:text-[#6a667d] text-[11px]">System stability: Fluctuating</p>
+</div>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(71,37,244,0.4)]">
+<span class="truncate">Activate</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Ad Optimization -->
+<div class="p-0 @container">
+<div class="flex flex-col items-stretch justify-start rounded-xl shadow-2xl bg-white dark:bg-lab-dark border border-primary/20 overflow-hidden">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover relative" data-alt="Abstract data streams flowing into a central core" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBh3wXYE0fTORrZ9Mpo7zDGlRbdLs6PNWE9JTnoPKTV8udgOwVEVtHGxssEcUTVMvfTtlqBhvzccLjMEIu66rV7NmshSUtsQyaJ_YDFszQDdMx9_X4Q3jib3m8SdFHTpm_vp4DL2e1HDeuu3fCrCU2vkwF2DLH9NlFyJy_h9xp4Kluki3-EaU4Fkc5q094_jZ8nPe1-4lwPidH88W7mePSCxSTA2ddEjnH6Xlkfnzf368wngDQo5D_VzryQSxbeJoQX99HlQO_LPZM");'>
+<div class="absolute inset-0 bg-gradient-to-t from-lab-dark/80 to-transparent"></div>
+<div class="absolute top-3 left-3 bg-accent-purple/90 px-2 py-1 rounded text-[10px] font-bold text-white uppercase tracking-widest">Optimization</div>
+</div>
+<div class="flex w-full grow flex-col items-stretch justify-center gap-1 py-5 px-5">
+<div class="flex justify-between items-start mb-1">
+<p class="text-black dark:text-white text-xl font-bold leading-tight tracking-tight">Autonomous Ad Optimization</p>
+<span class="material-symbols-outlined text-accent-purple">bolt</span>
+</div>
+<!-- Energy Meter 2 -->
+<div class="flex flex-col gap-2 my-4">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-gray-500 dark:text-[#a19cba] text-xs font-medium uppercase tracking-widest">Risk vs Reward Meter</p>
+<p class="text-accent-purple text-sm font-bold leading-normal">42%</p>
+</div>
+<div class="rounded-full bg-gray-200 dark:bg-[#3f3b54] h-1.5 w-full overflow-hidden">
+<div class="h-full rounded-full bg-gradient-to-r from-accent-purple to-pink-500" style="width: 42%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-3 justify-between mt-2">
+<div class="flex flex-col gap-0.5">
+<p class="text-gray-600 dark:text-[#a19cba] text-sm font-normal">Synthesis Energy: Mid</p>
+<p class="text-gray-400 dark:text-[#6a667d] text-[11px]">Core efficiency: Optimized</p>
+</div>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(71,37,244,0.4)]">
+<span class="truncate">Activate</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Market Disruption -->
+<div class="p-0 @container">
+<div class="flex flex-col items-stretch justify-start rounded-xl shadow-2xl bg-white dark:bg-lab-dark border border-primary/20 overflow-hidden">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover relative" data-alt="Purple neon grid lines bending in space" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOxIiO_VVc6slZ5msCo-LfTTykL7onT21Jbcqv2WW48gDafzqIb1FqT7K34jxuzv5J2EvXdxtcUkq2zvF4znXPFgs8SpkIJ0pUOnfHMfOG9nlVZYRcETxp_8KCPp8B1xGZwv2-9LGsvF31yIc84N3fYgUUooTQRoCSOiCJ36gXKHd2b_QxuNWqCnpq9HI5QMDAph2ZU4QWSAfoDaaoBICWrDAiCNlAAi_9t6IWAFjVtCC9zVdP95dR3cZ6InNwtdBIGXwlPLZKFd4");'>
+<div class="absolute inset-0 bg-gradient-to-t from-lab-dark/80 to-transparent"></div>
+<div class="absolute top-3 left-3 bg-red-500/90 px-2 py-1 rounded text-[10px] font-bold text-white uppercase tracking-widest">Critical Alpha</div>
+</div>
+<div class="flex w-full grow flex-col items-stretch justify-center gap-1 py-5 px-5">
+<div class="flex justify-between items-start mb-1">
+<p class="text-black dark:text-white text-xl font-bold leading-tight tracking-tight">Predictive Market Disruption</p>
+<span class="material-symbols-outlined text-red-500">warning</span>
+</div>
+<!-- Energy Meter 3 -->
+<div class="flex flex-col gap-2 my-4">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-gray-500 dark:text-[#a19cba] text-xs font-medium uppercase tracking-widest">Risk vs Reward Meter</p>
+<p class="text-red-500 text-sm font-bold leading-normal">98%</p>
+</div>
+<div class="rounded-full bg-gray-200 dark:bg-[#3f3b54] h-1.5 w-full overflow-hidden">
+<div class="h-full rounded-full bg-gradient-to-r from-red-500 to-orange-500" style="width: 98%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-3 justify-between mt-2">
+<div class="flex flex-col gap-0.5">
+<p class="text-gray-600 dark:text-[#a19cba] text-sm font-normal">Synthesis Energy: Critical</p>
+<p class="text-gray-400 dark:text-[#6a667d] text-[11px]">Anomaly detected: Proceed with caution</p>
+</div>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(71,37,244,0.4)]">
+<span class="truncate">Activate</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Disclaimer -->
+<div class="mt-8 mb-12 border-t border-primary/10 pt-6 text-center">
+<div class="inline-flex items-center gap-2 mb-4">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-mono text-primary uppercase tracking-[0.3em]">Lab Status: Operational</span>
+</div>
+<p class="text-gray-500 dark:text-[#6a667d] text-[11px] font-normal leading-relaxed max-w-[240px] mx-auto italic">
+                All features in FlashFusion Labs are experimental. Exposure to digital radiation is simulated. Use at your own risk.
+            </p>
+</div>
+</div>
+<!-- Bottom Action Bar (Floating Canister Effect) -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm h-16 bg-white/10 dark:bg-lab-dark/80 backdrop-blur-xl border border-white/20 dark:border-primary/30 rounded-full flex items-center justify-around px-6 shadow-2xl z-50">
+<div class="text-primary flex flex-col items-center">
+<span class="material-symbols-outlined text-[28px]">home</span>
+</div>
+<div class="relative">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-[0_0_25px_rgba(71,37,244,0.6)]">
+<span class="material-symbols-outlined text-white text-3xl">add</span>
+</div>
+</div>
+<div class="text-gray-400 dark:text-[#a19cba] flex flex-col items-center opacity-50">
+<span class="material-symbols-outlined text-[28px]">monitoring</span>
+</div>
+</div>
+<div class="h-24"></div>
+</body></html>

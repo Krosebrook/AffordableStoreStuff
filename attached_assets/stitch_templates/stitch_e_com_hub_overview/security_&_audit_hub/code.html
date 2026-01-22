@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Security &amp; Audit Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#050a0a",
+                        "glass-border": "rgba(13, 242, 242, 0.2)",
+                        "security-blue": "#3b82f6",
+                        "security-amber": "#f59e0b",
+                        "security-red": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(16, 34, 34, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(13, 242, 242, 0.15);
+        }
+        .holographic-grid {
+            background-image: 
+                linear-gradient(to right, rgba(13, 242, 242, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(13, 242, 242, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        .glow-pulse {
+            box-shadow: 0 0 20px rgba(13, 242, 242, 0.4);
+        }
+        .pulse-red { box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
+        .pulse-amber { box-shadow: 0 0 10px rgba(245, 158, 11, 0.6); }
+        .pulse-blue { box-shadow: 0 0 10px rgba(59, 130, 246, 0.6); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Holographic Background Layer -->
+<div class="fixed inset-0 holographic-grid pointer-events-none opacity-40"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-transparent via-background-dark/50 to-background-dark pointer-events-none"></div>
+<!-- TopAppBar -->
+<div class="sticky top-0 z-50 flex items-center bg-background-dark/80 backdrop-blur-md p-4 pb-2 justify-between border-b border-primary/10">
+<div class="text-primary flex size-12 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-3xl">shield_person</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">FlashFusion</h2>
+<span class="text-[10px] text-primary/70 tracking-widest uppercase font-bold">Security Hub</span>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="relative flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+<span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-security-red"></span>
+</button>
+</div>
+</div>
+<!-- Security Shield Visualization -->
+<div class="relative px-4 py-8 flex flex-col items-center justify-center overflow-hidden">
+<div class="relative z-10 flex flex-col items-center">
+<div class="relative group">
+<!-- Main Shield Glow -->
+<div class="absolute inset-0 bg-primary/20 blur-[60px] rounded-full scale-125"></div>
+<div class="relative w-32 h-32 rounded-full border-2 border-primary/50 flex items-center justify-center bg-background-dark/80 glow-pulse">
+<span class="material-symbols-outlined text-6xl text-primary font-light">verified_user</span>
+</div>
+</div>
+<div class="mt-6 text-center">
+<h1 class="text-3xl font-bold tracking-tight text-white">System Secure</h1>
+<p class="text-primary/70 text-sm mt-1 flex items-center justify-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                        AI Real-Time Monitoring Active
+                    </p>
+</div>
+</div>
+</div>
+<!-- Stats Section -->
+<div class="flex flex-wrap gap-3 p-4">
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 glass-card">
+<p class="text-white/60 text-xs font-medium uppercase tracking-wider">Active Shields</p>
+<div class="flex items-end justify-between">
+<p class="text-white text-xl font-bold leading-tight">12/12</p>
+<span class="text-primary text-xs font-medium">+100%</span>
+</div>
+</div>
+<div class="flex min-w-[100px] flex-1 flex-col gap-1 rounded-xl p-4 glass-card">
+<p class="text-white/60 text-xs font-medium uppercase tracking-wider">Risk Level</p>
+<div class="flex items-end justify-between">
+<p class="text-security-blue text-xl font-bold leading-tight">LOW</p>
+<span class="text-security-blue text-xs font-medium">Safe</span>
+</div>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-3 px-4 py-2 overflow-x-auto no-scrollbar">
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-5 shadow-lg shadow-primary/20">
+<p class="text-background-dark text-sm font-bold">All Events</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-security-red/10 border border-security-red/30 px-5">
+<p class="text-security-red text-sm font-medium">Critical</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-security-amber/10 border border-security-amber/30 px-5">
+<p class="text-security-amber text-sm font-medium">Warning</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full glass-card px-5">
+<p class="text-white/80 text-sm font-medium">Access Logs</p>
+</div>
+</div>
+<!-- Audit Timeline -->
+<div class="px-4 py-6">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] mb-4">Security Audit Timeline</h3>
+<div class="space-y-4 relative">
+<!-- Timeline Vertical Line -->
+<div class="absolute left-[19px] top-4 bottom-4 w-px bg-gradient-to-b from-primary/50 via-primary/10 to-transparent"></div>
+<!-- Event Entry: Critical -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-3 w-10 h-10 flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-security-red pulse-red"></div>
+</div>
+<div class="glass-card rounded-xl p-4 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white font-bold text-sm">Unauthorized Login Attempt</h4>
+<p class="text-white/50 text-[11px] font-medium uppercase tracking-tighter mt-0.5">2 mins ago • AI Detected Risk: 94%</p>
+</div>
+<span class="bg-security-red/20 text-security-red text-[10px] font-bold px-2 py-0.5 rounded border border-security-red/30">CRITICAL</span>
+</div>
+<div class="grid grid-cols-2 gap-2 text-[11px] font-mono text-primary/80">
+<div class="bg-black/30 p-2 rounded border border-white/5">
+<span class="text-white/40 block">SOURCE IP</span>
+                                192.168.1.144
+                            </div>
+<div class="bg-black/30 p-2 rounded border border-white/5">
+<span class="text-white/40 block">LOCATION</span>
+                                Unknown (Proxy)
+                            </div>
+</div>
+<div class="flex items-center gap-2 text-[11px] text-white/50 pt-1 border-t border-white/5">
+<span class="material-symbols-outlined text-sm">laptop_chromebook</span>
+<span>iPhone 15 Pro • Safari Mobile</span>
+</div>
+</div>
+</div>
+<!-- Event Entry: Warning -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-3 w-10 h-10 flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-security-amber pulse-amber"></div>
+</div>
+<div class="glass-card rounded-xl p-4 space-y-3 opacity-90">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white font-bold text-sm">Store Credentials Updated</h4>
+<p class="text-white/50 text-[11px] font-medium uppercase tracking-tighter mt-0.5">45 mins ago • User: Admin_Kael</p>
+</div>
+<span class="bg-security-amber/20 text-security-amber text-[10px] font-bold px-2 py-0.5 rounded border border-security-amber/30">WARNING</span>
+</div>
+<div class="grid grid-cols-2 gap-2 text-[11px] font-mono text-primary/80">
+<div class="bg-black/30 p-2 rounded border border-white/5">
+<span class="text-white/40 block">OBJECT</span>
+                                Store_OAuth_Secret
+                            </div>
+<div class="bg-black/30 p-2 rounded border border-white/5">
+<span class="text-white/40 block">ACTION</span>
+                                Patch_Rotate
+                            </div>
+</div>
+</div>
+</div>
+<!-- Event Entry: Info -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-3 w-10 h-10 flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-security-blue pulse-blue"></div>
+</div>
+<div class="glass-card rounded-xl p-4 space-y-3 opacity-80">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white font-bold text-sm">API Key Rotation</h4>
+<p class="text-white/50 text-[11px] font-medium uppercase tracking-tighter mt-0.5">3 hours ago • Scheduled Task</p>
+</div>
+<span class="bg-security-blue/20 text-security-blue text-[10px] font-bold px-2 py-0.5 rounded border border-security-blue/30">INFO</span>
+</div>
+</div>
+</div>
+<!-- Event Entry: Info 2 -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-3 w-10 h-10 flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-security-blue pulse-blue"></div>
+</div>
+<div class="glass-card rounded-xl p-4 space-y-3 opacity-70">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-white font-bold text-sm">Cloudflare WAF Sync</h4>
+<p class="text-white/50 text-[11px] font-medium uppercase tracking-tighter mt-0.5">5 hours ago • Automated</p>
+</div>
+<span class="bg-security-blue/20 text-security-blue text-[10px] font-bold px-2 py-0.5 rounded border border-security-blue/30">INFO</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Spacer -->
+<div class="h-24 bg-transparent"></div>
+<!-- iOS Bottom Bar Simulation -->
+<div class="fixed bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-xl border-t border-primary/10 px-8 py-4 flex justify-between items-center z-50">
+<button class="text-primary flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px]">Home</span>
+</button>
+<button class="text-white/40 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px]">Logs</span>
+</button>
+<div class="size-14 -mt-10 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30 border-4 border-background-dark">
+<span class="material-symbols-outlined text-background-dark text-3xl font-bold">qr_code_scanner</span>
+</div>
+<button class="text-white/40 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px]">Risk</span>
+</button>
+<button class="text-white/40 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px]">Setup</span>
+</button>
+</div>
+</div>
+</body></html>

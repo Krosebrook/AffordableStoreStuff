@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connected Storefronts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#050505",
+                        "card-dark": "rgba(25, 22, 45, 0.6)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pulse-glow {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .glow-button {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen">
+<!-- Top Navigation Bar -->
+<div class="sticky top-0 z-50 w-full glass-card border-b-0">
+<div class="flex items-center p-4 justify-between max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<div class="bg-primary/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary text-2xl">grid_view</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Stores</h1>
+</div>
+<div class="flex gap-2">
+<button class="size-10 flex items-center justify-center rounded-full glass-card">
+<span class="material-symbols-outlined text-xl">search</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full glass-card relative">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+</button>
+</div>
+</div>
+</div>
+<main class="max-w-md mx-auto pb-24">
+<!-- Stats Summary Section -->
+<div class="p-4">
+<div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 size-24 bg-primary/10 rounded-full blur-2xl"></div>
+<div class="relative z-10">
+<p class="text-slate-400 text-sm font-medium mb-1">Total Daily Revenue</p>
+<div class="flex items-end gap-2">
+<p class="text-3xl font-bold tracking-tight">$22,760.00</p>
+<span class="text-green-400 text-sm font-bold mb-1 flex items-center">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                            12.5%
+                        </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Title -->
+<div class="px-4 py-2 flex items-center justify-between">
+<h3 class="text-lg font-bold">Connected Platforms</h3>
+<span class="text-primary text-sm font-semibold">View All</span>
+</div>
+<!-- Grid of Stores -->
+<div class="grid grid-cols-1 gap-4 p-4">
+<!-- Shopify Card -->
+<div class="glass-card rounded-2xl p-5 flex flex-col gap-4 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<div class="size-12 rounded-xl bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-green-400 text-3xl">shopping_bag</span>
+</div>
+<div class="flex items-center gap-2 bg-green-500/10 px-3 py-1 rounded-full">
+<div class="size-2 rounded-full bg-green-500 pulse-glow"></div>
+<span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Healthy</span>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-bold">Shopify Store</h4>
+<p class="text-slate-400 text-sm">Main Global Channel</p>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-white/5">
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">Revenue</p>
+<p class="text-base font-bold">$12,450.00</p>
+</div>
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">Orders</p>
+<p class="text-base font-bold">84</p>
+</div>
+</div>
+</div>
+<!-- Amazon Card -->
+<div class="glass-card rounded-2xl p-5 flex flex-col gap-4 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<div class="size-12 rounded-xl bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-400 text-3xl">package_2</span>
+</div>
+<div class="flex items-center gap-2 bg-green-500/10 px-3 py-1 rounded-full">
+<div class="size-2 rounded-full bg-green-500 pulse-glow"></div>
+<span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Healthy</span>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-bold">Amazon Central</h4>
+<p class="text-slate-400 text-sm">US &amp; Canada Region</p>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-white/5">
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">Revenue</p>
+<p class="text-base font-bold">$8,210.00</p>
+</div>
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">Orders</p>
+<p class="text-base font-bold">142</p>
+</div>
+</div>
+</div>
+<!-- TikTok Shop Card -->
+<div class="glass-card rounded-2xl p-5 flex flex-col gap-4 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<div class="size-12 rounded-xl bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-pink-500 text-3xl">music_note</span>
+</div>
+<div class="flex items-center gap-2 bg-green-500/10 px-3 py-1 rounded-full">
+<div class="size-2 rounded-full bg-green-500 pulse-glow"></div>
+<span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Healthy</span>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-bold">TikTok Shop</h4>
+<p class="text-slate-400 text-sm">Creator Affiliate Sync</p>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-white/5">
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">Revenue</p>
+<p class="text-base font-bold">$2,100.00</p>
+</div>
+<div>
+<p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">Orders</p>
+<p class="text-base font-bold">31</p>
+</div>
+</div>
+</div>
+<!-- Add New Store Button Section -->
+<div class="mt-4 px-2">
+<div class="flex flex-col items-center gap-6 rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 px-6 py-12 transition-all hover:border-primary/60">
+<div class="flex flex-col items-center gap-2 text-center">
+<p class="text-lg font-bold tracking-tight">Expand your reach</p>
+<p class="text-slate-400 text-sm max-w-[240px]">Connect another storefront to sync your AI management dashboard.</p>
+</div>
+<button class="glow-button flex items-center justify-center gap-2 min-w-[180px] rounded-xl h-14 bg-primary text-white text-base font-bold tracking-wide transition-transform active:scale-95">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Add New Store</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (iOS Style) -->
+<div class="fixed bottom-0 w-full glass-card border-t-0 py-3 px-8 flex justify-between items-center max-w-md left-1/2 -translate-x-1/2">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">grid_view</span>
+<span class="text-[10px] font-bold uppercase">Stores</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl">analytics</span>
+<span class="text-[10px] font-bold uppercase">Analytics</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl">smart_toy</span>
+<span class="text-[10px] font-bold uppercase">AI Agent</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<span class="text-[10px] font-bold uppercase">Settings</span>
+</button>
+</div>
+</body></html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Event Radar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0a0a0e", // Deeper black for high-energy contrast
+                        "neon-green": "#39ff14",
+                        "neon-amber": "#ffbf00",
+                        "neon-pink": "#ff007f",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(29, 27, 39, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .radar-sweep {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 200vmax;
+            height: 200vmax;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(71, 37, 244, 0.15) 10%, transparent 20%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-green { box-shadow: 0 0 15px rgba(57, 255, 20, 0.2), inset 0 0 10px rgba(57, 255, 20, 0.1); border-color: rgba(57, 255, 20, 0.4); }
+        .glow-amber { box-shadow: 0 0 15px rgba(255, 191, 0, 0.2), inset 0 0 10px rgba(255, 191, 0, 0.1); border-color: rgba(255, 191, 0, 0.4); }
+        .glow-pink { box-shadow: 0 0 15px rgba(255, 0, 127, 0.2), inset 0 0 10px rgba(255, 0, 127, 0.1); border-color: rgba(255, 0, 127, 0.4); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-white overflow-x-hidden selection:bg-primary/30">
+<!-- Radar Background Effect -->
+<div class="radar-sweep"></div>
+<div class="fixed inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(#4725f4 1px, transparent 1px); background-size: 40px 40px;"></div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-white/5">
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="text-primary flex size-10 shrink-0 items-center justify-center bg-primary/10 rounded-full" data-icon="smart_toy">
+<span class="material-symbols-outlined text-2xl">smart_toy</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 ml-3 font-display uppercase italic">
+                    FlashFusion <span class="text-primary">Radar</span>
+</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-10 items-center justify-center rounded-lg bg-white/5 text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+<!-- Priority Filter (Chips) -->
+<div class="flex gap-3 p-4 overflow-x-auto no-scrollbar">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-4 shadow-[0_0_15px_rgba(71,37,244,0.4)]">
+<span class="material-symbols-outlined text-sm">sensors</span>
+<p class="text-white text-xs font-bold uppercase tracking-wider">All Events</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 px-4 border border-white/10 hover:border-neon-green/50 transition-all">
+<span class="material-symbols-outlined text-sm text-neon-green">payments</span>
+<p class="text-white text-xs font-bold uppercase tracking-wider">Sales</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 px-4 border border-white/10 hover:border-neon-amber/50 transition-all">
+<span class="material-symbols-outlined text-sm text-neon-amber">warning</span>
+<p class="text-white text-xs font-bold uppercase tracking-wider">Stock</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 px-4 border border-white/10 hover:border-neon-pink/50 transition-all">
+<span class="material-symbols-outlined text-sm text-neon-pink">memory</span>
+<p class="text-white text-xs font-bold uppercase tracking-wider">AI Tasks</p>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 py-2 space-y-4 pb-24">
+<!-- SectionHeader -->
+<div class="flex items-center justify-center py-2">
+<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+<h4 class="text-primary text-[10px] font-black leading-normal tracking-[0.3em] px-4 uppercase whitespace-nowrap">
+                    System Monitor: Active
+                </h4>
+<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+</div>
+<!-- Event Stream: Neon Green (Sales) -->
+<div class="glass-card rounded-xl p-4 glow-green transition-transform active:scale-[0.98]">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-neon-green animate-pulse"></span>
+<p class="text-neon-green text-[10px] font-bold tracking-widest uppercase">Just Now</p>
+</div>
+<p class="text-white text-lg font-bold leading-tight font-display">New High-Value Sale</p>
+<p class="text-white/60 text-sm font-normal leading-normal">
+<span class="text-white font-medium">$1,249.00</span> — Autonomous checkout complete for <span class="italic">"Fusion Core Elite"</span>.
+                            </p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-neon-green text-black gap-2 text-xs font-bold uppercase tracking-tight">
+<span class="material-symbols-outlined text-sm">receipt_long</span>
+<span>Invoice</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-white/5 border border-white/10 text-white gap-2 text-xs font-bold uppercase tracking-tight">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span>Details</span>
+</button>
+</div>
+</div>
+<div class="w-20 h-20 bg-center bg-no-repeat bg-cover rounded-lg border border-white/10 shadow-lg" data-alt="Futuristic glowing energy core component" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMY5wTAytjtjPXnRd1timPs7nzI1ijqmW6ZaKHnSlRvuTnYbVG8Bv5Y75Mvgd5in3xOyNfADblkYeFoOclci0eB5E8ORLBp1OglWZimiXLQtMSGL_W62GuQmBur9qyFtyuaqfjhYi5hqEmCO-BTUaGT3ciBzUPBuxFpe2KMBTGMQY00uae9oGnzSurLg7iEI70kKiMnlziO1jhqtdFGPP9GvrmdyFwezDluQjy6KEs42MtKI9glJyM4EAT6gYhnh7JBKnsU-TB8X8");'>
+</div>
+</div>
+</div>
+<!-- Event Stream: Neon Amber (Stock Warning) -->
+<div class="glass-card rounded-xl p-4 glow-amber transition-transform active:scale-[0.98]">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-neon-amber animate-pulse"></span>
+<p class="text-neon-amber text-[10px] font-bold tracking-widest uppercase">4 Min Ago</p>
+</div>
+<p class="text-white text-lg font-bold leading-tight font-display">Critical Stock Warning</p>
+<p class="text-white/60 text-sm font-normal leading-normal">
+                                Inventory for <span class="text-neon-amber font-medium">Neural Link v4</span> is below 5 units. AI predicted stockout in 2 hours.
+                            </p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-neon-amber text-black gap-2 text-xs font-bold uppercase tracking-tight">
+<span class="material-symbols-outlined text-sm">inventory_2</span>
+<span>Auto-Restock</span>
+</button>
+</div>
+</div>
+<div class="w-20 h-20 bg-center bg-no-repeat bg-cover rounded-lg border border-white/10 opacity-80" data-alt="Electronic circuit board close up with amber lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCeXaxWIp6mPG9P-HSiE_Ao3GJd0oGUGD2VL0JvgUN31Nl5t5ajJLt_RQ3ce0339HvyZs_W-iCULkq2kao0OJ1dVAc0hc1WlVBsCAgyfJsQSeuWJXJxuGq_GqVgeDj4xzvf-PyaN8nrQw9y-Fpx3j3y83Hogxv641BTl4-yLR8vJVwxNUg7BanRR9jtt2Ni4RP6TFZRI57JctztYgtOMIrdF8c1w-ZKGFCGc2Pj-rYcC72SaOuRRAm5bypotTZ9Qq7IxsIBduTxcsg");'>
+</div>
+</div>
+</div>
+<!-- Event Stream: Neon Pink (AI Task) -->
+<div class="glass-card rounded-xl p-4 glow-pink transition-transform active:scale-[0.98]">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-neon-pink animate-pulse"></span>
+<p class="text-neon-pink text-[10px] font-bold tracking-widest uppercase">12 Min Ago</p>
+</div>
+<p class="text-white text-lg font-bold leading-tight font-display">AI Campaign Published</p>
+<p class="text-white/60 text-sm font-normal leading-normal">
+<span class="text-neon-pink font-medium">Cyber-Monday Surge</span> campaign is now live on 4 social channels.
+                            </p>
+</div>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-neon-pink/20 border border-neon-pink/30 text-neon-pink gap-2 text-xs font-bold uppercase tracking-tight w-fit">
+<span class="material-symbols-outlined text-sm">analytics</span>
+<span>Track Reach</span>
+</button>
+</div>
+<div class="w-20 h-20 bg-center bg-no-repeat bg-cover rounded-lg border border-white/10" data-alt="Abstract pink neon waves of data" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBg62EXFypaGdhTxHq8twFouvswBh3QHJPWk9xf0Uk-mDZcxLW9auBC4b2P5-9zH9jlx-Tzh9bWWyO93Px2vofhTmPekfZquQF8Ch3C3oK_m3b9MUMuTFrsDBAhAcunloTlFBi3aNNMtGwS6At0Yxv21jWjTNND1woc67u9o__Zc-8-RwMViLiGJ6pkJO9sa7GI3ZHg-wgfim896vVZqyDLfCXIW3lMZ5MSgetbyQlKWny_zt4O1vRVbtca9ogGKV0hXMltOh22HKw");'>
+</div>
+</div>
+</div>
+<!-- Event Stream: Neon Green (Automation) -->
+<div class="glass-card rounded-xl p-4 glow-green transition-transform active:scale-[0.98]">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-neon-green"></span>
+<p class="text-neon-green text-[10px] font-bold tracking-widest uppercase">24 Min Ago</p>
+</div>
+<p class="text-white text-lg font-bold leading-tight font-display">Shipment Batch Optimized</p>
+<p class="text-white/60 text-sm font-normal leading-normal">
+                                Routes recalculated. Savings: <span class="text-neon-green font-medium">14.2%</span> fuel efficiency.
+                            </p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-white/5 border border-white/10 text-white gap-2 text-xs font-bold uppercase tracking-tight">
+<span class="material-symbols-outlined text-sm">map</span>
+<span>Route Map</span>
+</button>
+</div>
+</div>
+<div class="w-20 h-20 rounded-lg border border-white/10 flex items-center justify-center bg-background-dark" data-alt="Digital map of logistics routes in Tokyo" data-location="Tokyo" style="https://lh3.googleusercontent.com/aida-public/AB6AXuCUPWgqvAJbH3YUy1k_dOorDCTvOxmQ9qzhK-P5aOZV3bKx3ejEDBbqCz0ql5YrV_Ws3RnIjDkZfFAFWEjOEcwZXJzmGGKcNAAUzc-ICwROdo7UhjR7WA05GMq4O3PwOz7UMoJapLzpXPmxy0WLv70EWwypdYV91I3BbxlI0coSh7MPighL553Ikko3KLwjk_sInMJUbmrRQMkaLanjFWKKanToYCUdl4wW9-LPBB_cEFFcb0jdxqtwHQk4eus367Cf8ddu0mzryP0">
+<span class="material-symbols-outlined text-neon-green text-3xl opacity-50">route</span>
+</div>
+</div>
+</div>
+</main>
+<!-- System Monitor Mascot (Bottom Right) -->
+<div class="fixed bottom-6 right-6 z-[60]">
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/40 blur-xl rounded-full scale-110 group-hover:scale-150 transition-transform duration-500"></div>
+<div class="relative bg-background-dark border border-primary/50 p-3 rounded-2xl flex flex-col items-center gap-1 shadow-2xl backdrop-blur-xl">
+<div class="relative">
+<span class="material-symbols-outlined text-4xl text-primary leading-none">robot_2</span>
+<span class="absolute top-0 right-0 size-3 bg-neon-green rounded-full border-2 border-background-dark"></span>
+</div>
+<span class="text-[8px] font-black uppercase tracking-tighter text-primary">Live Ops</span>
+</div>
+</div>
+</div>
+<!-- Navigation Bar (iOS Style) -->
+<nav class="fixed bottom-0 inset-x-0 bg-background-dark/90 backdrop-blur-xl border-t border-white/5 h-20 flex items-center justify-around px-6 z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined font-variation-fill-1">radar</span>
+<span class="text-[10px] font-bold uppercase">Radar</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">data_thresholding</span>
+<span class="text-[10px] font-bold uppercase">Stats</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-[10px] font-bold uppercase">Nodes</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px] font-bold uppercase">Profile</span>
+</button>
+</nav>
+</div>
+</body></html>

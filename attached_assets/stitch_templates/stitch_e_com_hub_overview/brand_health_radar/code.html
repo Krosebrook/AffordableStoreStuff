@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Brand Health Radar - FlashFusion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#05040a",
+                        "neon-pink": "#ff2d55",
+                        "neon-cyan": "#00f2ff",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .holographic-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(71, 37, 244, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(71, 37, 244, 0.05) 1px, transparent 1px);
+        }
+        .glow-pulse {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen relative overflow-x-hidden">
+<!-- Background Layer: Holographic Grid & Particles -->
+<div class="fixed inset-0 holographic-grid pointer-events-none opacity-50"></div>
+<div class="fixed inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(71,37,244,0.15),transparent_70%)] pointer-events-none"></div>
+<!-- Top Navigation -->
+<div class="relative flex items-center p-4 pt-8 justify-between z-10">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/20 border border-primary/30">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="Abstract vibrant e-commerce logo with a lightning bolt shape" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1bFYZFfA4gTkO0n7NEk1lMt6zdNAHCg7tTdn8wi-d1iWUA7qS-EPxjwoWBIpdgFMWEFU1hHMCfxy6DlPP1RuTW-HcE-A46YO5uYxAvUaj82ZnOSlbNFaQRauEtcmPkflaAVVX_aKc-JfI3XBG--vzCw3WxRYSAfzBfdqs0af6YNhH0v23e8MSiDRSijhFzzzcX6iCw-aXtmL16zURJxcHHmHEboocWB6lSfujg4UdCFxmT7VF2yqXlFFG0o_YCOnx0EhIHfHmMk8");'></div>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-sm font-bold tracking-[0.2em] uppercase leading-tight">FlashFusion</h2>
+<div class="flex items-center gap-1">
+<span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-[10px] text-white/50 font-medium">SYSTEM LIVE</span>
+</div>
+</div>
+<div class="flex w-10 items-center justify-end">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full glassmorphism">
+<span class="material-symbols-outlined text-white text-xl">notifications</span>
+</button>
+</div>
+</div>
+<!-- Headline Section -->
+<div class="relative z-10 mt-4">
+<h1 class="text-white tracking-tight text-3xl font-bold px-6">Brand Health</h1>
+<p class="px-6 text-white/50 text-sm mt-1">Real-time Global Analytics Dashboard</p>
+</div>
+<!-- Segmented Time Control -->
+<div class="relative z-10 px-6 mt-6">
+<div class="flex h-11 items-center justify-center rounded-xl bg-white/5 p-1 glassmorphism">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:shadow-lg has-[:checked]:text-white text-white/50 text-xs font-bold tracking-wider">
+<span>LIVE</span>
+<input checked="" class="invisible w-0" name="timeframe" type="radio" value="LIVE"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:text-white text-white/50 text-xs font-bold tracking-wider">
+<span>24H</span>
+<input class="invisible w-0" name="timeframe" type="radio" value="24H"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:text-white text-white/50 text-xs font-bold tracking-wider">
+<span>7D</span>
+<input class="invisible w-0" name="timeframe" type="radio" value="7D"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:text-white text-white/50 text-xs font-bold tracking-wider">
+<span>30D</span>
+<input class="invisible w-0" name="timeframe" type="radio" value="30D"/>
+</label>
+</div>
+</div>
+<!-- Central Radar Chart Area -->
+<div class="relative z-10 flex flex-col items-center justify-center py-8 px-4 min-h-[420px]">
+<!-- Radar SVG Visualization -->
+<div class="relative w-full max-w-[340px] aspect-square">
+<svg class="w-full h-full drop-shadow-[0_0_15px_rgba(71,37,244,0.3)]" viewbox="0 0 200 200">
+<!-- Circular background rings -->
+<circle cx="100" cy="100" fill="none" r="90" stroke="rgba(255,255,255,0.05)" stroke-width="1"></circle>
+<circle cx="100" cy="100" fill="none" r="70" stroke="rgba(255,255,255,0.05)" stroke-width="1"></circle>
+<circle cx="100" cy="100" fill="none" r="50" stroke="rgba(255,255,255,0.05)" stroke-width="1"></circle>
+<circle cx="100" cy="100" fill="none" r="30" stroke="rgba(255,255,255,0.05)" stroke-width="1"></circle>
+<!-- Axis Lines -->
+<line stroke="rgba(255,255,255,0.1)" stroke-width="1" x1="100" x2="100" y1="100" y2="10"></line>
+<line stroke="rgba(255,255,255,0.1)" stroke-width="1" x1="100" x2="185.5" y1="100" y2="72"></line>
+<line stroke="rgba(255,255,255,0.1)" stroke-width="1" x1="100" x2="152.9" y1="100" y2="171.3"></line>
+<line stroke="rgba(255,255,255,0.1)" stroke-width="1" x1="100" x2="47.1" y1="100" y2="171.3"></line>
+<line stroke="rgba(255,255,255,0.1)" stroke-width="1" x1="100" x2="14.5" y1="100" y2="72"></line>
+<!-- The Radar Web -->
+<polygon fill="rgba(71,37,244,0.2)" points="100,25 170,80 140,150 60,160 30,75" stroke="#4725f4" stroke-linejoin="round" stroke-width="2"></polygon>
+<polygon fill="rgba(255,45,85,0.15)" points="100,35 150,85 130,140 75,145 45,80" stroke="#ff2d55" stroke-dasharray="4" stroke-width="1.5"></polygon>
+<!-- Radar Points -->
+<circle class="glow-pulse" cx="100" cy="25" fill="#4725f4" r="3"></circle>
+<circle class="glow-pulse" cx="170" cy="80" fill="#4725f4" r="3"></circle>
+<circle class="glow-pulse" cx="140" cy="150" fill="#4725f4" r="3"></circle>
+<circle class="glow-pulse" cx="60" cy="160" fill="#4725f4" r="3"></circle>
+<circle class="glow-pulse" cx="30" cy="75" fill="#4725f4" r="3"></circle>
+</svg>
+<!-- Floating Labels -->
+<div class="absolute top-[-5px] left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-widest text-white uppercase">Awareness</div>
+<div class="absolute top-[35%] right-[-10px] text-[10px] font-bold tracking-widest text-white uppercase">Loyalty</div>
+<div class="absolute bottom-[5%] right-[10%] text-[10px] font-bold tracking-widest text-white uppercase">Innovation</div>
+<div class="absolute bottom-[5%] left-[10%] text-[10px] font-bold tracking-widest text-white uppercase">Margin</div>
+<div class="absolute top-[35%] left-[-15px] text-[10px] font-bold tracking-widest text-white uppercase">Reach</div>
+<!-- Central Score -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="text-4xl font-bold text-white tracking-tighter">94.2</span>
+<span class="text-[10px] text-primary font-bold tracking-widest">RADAR INDEX</span>
+</div>
+</div>
+</div>
+<!-- Quick Metrics Section Header -->
+<div class="relative z-10 px-6 flex items-center justify-between mb-2">
+<h3 class="text-white text-lg font-bold tracking-tight">Key Insights</h3>
+<button class="text-primary text-xs font-bold">VIEW ALL</button>
+</div>
+<!-- Glassmorphic Grid -->
+<div class="relative z-10 grid grid-cols-2 gap-4 px-6 pb-12">
+<!-- Metric Card 1 -->
+<div class="glassmorphism rounded-2xl p-4 flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20">
+<span class="material-symbols-outlined text-neon-cyan">trending_up</span>
+</div>
+<p class="text-white/50 text-[10px] font-bold tracking-widest uppercase">Sentiment</p>
+<div class="flex items-end gap-1">
+<p class="text-2xl font-bold text-white">88%</p>
+<p class="text-[10px] text-green-400 font-bold mb-1">+4.2</p>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-neon-cyan" style="width: 88%"></div>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="glassmorphism rounded-2xl p-4 flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-20">
+<span class="material-symbols-outlined text-neon-pink">payments</span>
+</div>
+<p class="text-white/50 text-[10px] font-bold tracking-widest uppercase">LTV Ratio</p>
+<div class="flex items-end gap-1">
+<p class="text-2xl font-bold text-white">4.2x</p>
+<p class="text-[10px] text-neon-pink font-bold mb-1">-0.3</p>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full mt-2 overflow-hidden">
+<div class="h-full bg-neon-pink" style="width: 65%"></div>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="glassmorphism rounded-2xl p-4 flex flex-col gap-2 relative overflow-hidden col-span-2">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-white/50 text-[10px] font-bold tracking-widest uppercase">Market Dominance</p>
+<p class="text-2xl font-bold text-white">Tier 1 Elite</p>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-primary text-[10px] font-bold tracking-widest uppercase">Region</p>
+<p class="text-white font-bold">Global</p>
+</div>
+</div>
+<div class="flex gap-2 mt-1">
+<div class="flex-1 h-1.5 bg-primary rounded-full"></div>
+<div class="flex-1 h-1.5 bg-primary/30 rounded-full"></div>
+<div class="flex-1 h-1.5 bg-primary/30 rounded-full"></div>
+<div class="flex-1 h-1.5 bg-primary/30 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Bottom Tab Bar (iOS Style) -->
+<div class="fixed bottom-0 left-0 right-0 h-20 glassmorphism border-t border-white/5 z-50 px-8 flex items-center justify-between pb-4">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+<span class="text-[9px] font-bold tracking-widest">RADAR</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined text-2xl">analytics</span>
+<span class="text-[9px] font-bold tracking-widest">DATA</span>
+</button>
+<div class="relative -top-6">
+<button class="size-14 bg-primary rounded-2xl shadow-[0_8px_30px_rgb(71,37,244,0.4)] flex items-center justify-center border border-white/20">
+<span class="material-symbols-outlined text-white text-3xl">bolt</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined text-2xl">language</span>
+<span class="text-[9px] font-bold tracking-widest">MAPS</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<span class="text-[9px] font-bold tracking-widest">AI</span>
+</button>
+</div>
+</body></html>

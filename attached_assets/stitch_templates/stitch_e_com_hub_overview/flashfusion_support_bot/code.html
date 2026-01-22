@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Support Bot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "accent-pink": "#ff00e5",
+                        "accent-cyan": "#00FFFF",
+                        "neon-green": "#39FF14",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#050505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-ai {
+            background: rgba(50, 40, 57, 0.4);
+            backdrop-filter: blur(12px);
+            border-left: 2px solid #9d25f4;
+            position: relative;
+        }
+        .glass-ai::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(to bottom, #9d25f4, #ff00e5);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .glass-user {
+            background: rgba(0, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+        }
+        .particle-bg {
+            background: radial-gradient(circle at 50% 50%, #1a1022 0%, #050505 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(1px);
+        }
+        .neon-glow-btn {
+            box-shadow: 0 0 10px rgba(157, 37, 244, 0.4);
+        }
+        .pulse-green {
+            box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden">
+<div class="particle-bg">
+<!-- Abstract energy particles -->
+<div class="particle w-1 h-1 top-20 left-10"></div>
+<div class="particle w-2 h-2 top-40 right-20"></div>
+<div class="particle w-1 h-1 bottom-60 left-1/4"></div>
+<div class="particle w-1.5 h-1.5 top-1/3 right-1/3"></div>
+<div class="particle w-1 h-1 bottom-20 right-10"></div>
+</div>
+<!-- Main Mobile Container -->
+<div class="relative flex flex-col h-screen max-w-md mx-auto overflow-hidden">
+<!-- TopAppBar -->
+<div class="flex items-center bg-background-dark/80 backdrop-blur-md p-4 pt-12 pb-4 justify-between border-b border-white/10 sticky top-0 z-20">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-primary/50" data-alt="Futuristic sleek white robot avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBAow23-Cm-gdExm8TOSqYyjU68-nvUybGF5zTtNfsGejlZx0Q2ZOvJEBXYX6SjEUWFC-_RC1nERrBdRbPEQ4R1Pn6GApf3MSDyGd0F8H7zENOZRsHt4cfpJ3dqRlp5tND0EMu8Xc3d8yXdhRa9EBa2JhPyTDeMI5T42kL5oEtBzo7wtZTysZtcjIStZXJG8p4xRCJmfJv9vn6u2w-nvknlUvS7izYs3zOolPHSh6Ng9OGLwIXES0QsU-fg1fmRsHUVQT6dgyOk-S8");'>
+</div>
+<div class="absolute bottom-0 right-0 size-3 bg-neon-green rounded-full border-2 border-background-dark pulse-green"></div>
+</div>
+<div class="flex flex-col">
+<h2 class="text-white text-base font-bold leading-tight tracking-tight">FlashFusion Robot</h2>
+<span class="text-neon-green text-[10px] font-medium tracking-widest uppercase">Online</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-white/5 hover:bg-white/10 text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-white/5 hover:bg-white/10 text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth pb-32">
+<!-- Date Divider -->
+<div class="flex justify-center">
+<span class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Today</span>
+</div>
+<!-- SingleMessage: AI -->
+<div class="flex items-end gap-3 max-w-[85%]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 h-8 shrink-0 border border-primary/30" data-alt="FlashFusion AI robot face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJIyuGtKYIc9bUOtluJvp9CFjnC6hjmvMKIgzVyuIeJDqXVSUScmEClwLo4em4h17mG66BR2XDKtHNs4YYPo35RbB30Tdd3cIcXhk6KBl7k1QLR-4yI_F9xpKd4Eis0H4KzSVxaXQG9pCxwhEK_FR8q4byDhSjbcz3mD4HPLJf48CMmuCZ1PsdAOs3YpJEGOKmmIgzpGUP4LnMcGwZbkHMcYUAJeeZGImbSw1zborPjrz0NlQvEpTAhPUQC68tWdtPKqlTXvwgqtk");'></div>
+<div class="flex flex-col gap-1 items-start">
+<p class="text-white/40 text-[11px] font-medium ml-1">FlashFusion Robot</p>
+<div class="text-sm font-normal leading-relaxed rounded-xl rounded-bl-none px-4 py-3 glass-ai text-white">
+                        Hello! I'm your AI-powered assistant for the FlashFusion ecosystem. High energy today! How can I accelerate your experience?
+                    </div>
+</div>
+</div>
+<!-- SingleMessage: User -->
+<div class="flex items-end gap-3 justify-end ml-auto max-w-[85%]">
+<div class="flex flex-col gap-1 items-end">
+<p class="text-white/40 text-[11px] font-medium mr-1 text-right">You</p>
+<div class="text-sm font-normal leading-relaxed rounded-xl rounded-br-none px-4 py-3 glass-user text-white">
+                        I need to track my last order. It's taking a bit longer than expected.
+                    </div>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 h-8 shrink-0 border border-accent-cyan/30" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCvwwVShuni1_t07Yg3C788IpCEjJQecHF4CZL3GuO2LdXq6neeimVNzOLqBSSgxBpuvHwPUSIiEFTcaOIDn6vcUnXBktR0-k0LyVS1r8fK-NNFnBTDUxKiSoW1Vozjr-qlAe71HWuNOJc0EzvFoM7pSR_owQR9Oz-UOzqY8vK6-dkXKL2Yo1EE7RaMZvSE4XTy6uMoN0dz1iNMkhiOjOkCkQEaNmEypZ12IVZ0Bz-Wg54cWWekR2zDH9mrqFo6Ow64orb6CgzfO4w");'></div>
+</div>
+<!-- SingleMessage: AI -->
+<div class="flex items-end gap-3 max-w-[85%]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 h-8 shrink-0 border border-primary/30" data-alt="FlashFusion AI robot face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBFcLXEtS_0wPapq--1G4F6RFiHxaOSxV5-X4wD074GPRKVeo6gzWaURpT1HB7VSJmHWK-jLJOffttysrwjc1ocDMpXSkyMW9HPGxaoiZoLMpctW4K2P-cSS5uUgTZWlxrq1C5SsjdSnFCdhoGhnpkz0bJfdS_e9sWYVIAoSFwW74ue7NuNjtO0XUa7ciAu5P-3Q7xgeS-fRyPecuNR1VUHJ56ZaJ_nkSajhWjrY3e_RAtwc503LnAOgyaeSkpTe8BsehzutXFkTmo");'></div>
+<div class="flex flex-col gap-1 items-start">
+<p class="text-white/40 text-[11px] font-medium ml-1">FlashFusion Robot</p>
+<div class="text-sm font-normal leading-relaxed rounded-xl rounded-bl-none px-4 py-3 glass-ai text-white">
+                        I'm scanning the fusion grid for your package... ⚡️
+                    </div>
+</div>
+</div>
+<!-- SingleMessage: AI (Loading/Thinking State) -->
+<div class="flex items-end gap-3 max-w-[85%]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-8 h-8 shrink-0 border border-primary/30" data-alt="FlashFusion AI robot face" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA6tCTqk181if6t7sYHn2K62G7xfmsIiT0y9Ac_zlqqWlV2hFPtdZyp7lSPAN7aqGGMPNeYnCR_PhkMDCcUcUprFoDOE-M-hAJAYHddI-x3fuHk4dnm18mWulTiB25Lncsb22biebxHmO3K9dlvUy-t4oJI9PLwuDcPvgrS12Jc-PwcaYLawK0Vuc_QVfCo4iUkTuZwTLuzce5K4PEVed43Z06-ttW9zjX9tlDzBsM-QaT139BGWD8k1rmLwP0pi0e-pj6hZBjSWK0");'></div>
+<div class="flex flex-col gap-1 items-start">
+<div class="flex gap-1 px-4 py-3 glass-ai rounded-xl rounded-bl-none">
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-bounce"></div>
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:0.2s]"></div>
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:0.4s]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Fixed Bottom Interaction Area -->
+<div class="absolute bottom-0 w-full bg-background-dark/90 backdrop-blur-xl border-t border-white/10 pb-8">
+<!-- Chips (Quick Prompts) -->
+<div class="flex gap-2 p-3 overflow-x-auto no-scrollbar whitespace-nowrap">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white/5 border border-primary/40 pl-3 pr-4 transition-all hover:bg-primary/20 neon-glow-btn">
+<span class="material-symbols-outlined text-primary text-[18px]">package_2</span>
+<p class="text-white text-[13px] font-medium">Track Last Order</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white/5 border border-white/10 pl-3 pr-4 transition-all hover:bg-white/10">
+<span class="material-symbols-outlined text-accent-pink text-[18px]">receipt_long</span>
+<p class="text-white text-[13px] font-medium">Refund Policy</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white/5 border border-white/10 pl-3 pr-4 transition-all hover:bg-white/10">
+<span class="material-symbols-outlined text-accent-cyan text-[18px]">headset_mic</span>
+<p class="text-white text-[13px] font-medium">Speak to Human</p>
+</button>
+</div>
+<!-- Input Bar -->
+<div class="px-4 pb-2">
+<div class="flex items-center gap-2 bg-white/5 rounded-xl border border-white/10 p-1.5 focus-within:border-primary/50 transition-all">
+<button class="flex items-center justify-center w-10 h-10 text-white/50 hover:text-white transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-white placeholder:text-white/30 font-display" placeholder="Type a message..." type="text"/>
+<button class="flex items-center justify-center w-10 h-10 bg-primary rounded-lg text-white shadow-lg shadow-primary/40 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+<!-- iOS Home Indicator Spacing -->
+<div class="h-2"></div>
+</div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Overview Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#a855f7",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f0618",
+                        "glass-white": "rgba(255, 255, 255, 0.05)",
+                        "glass-purple": "rgba(168, 85, 247, 0.1)",
+                    },
+                    fontFamily: {
+                        display: ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1.25rem",
+                        'xl': '1.5rem',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0f0618;}
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0) 100%);
+        }
+        .bg-blob {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="bg-blob bg-purple-600 top-[-100px] left-[-100px]"></div>
+<div class="bg-blob bg-pink-600 bottom-[-100px] right-[-100px]"></div>
+<nav class="sticky top-0 z-50 px-6 py-4 flex justify-between items-center glass-card border-b border-white/10">
+<div class="flex items-center gap-2">
+<img alt="FlashFusion Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTXTfcEt5V5tzIBRYyxhnx4OF64F9UEDZ8DFIw58UxXWJKIphrHqjgtvQ_BTdj6A_qdCOhAGhXf3P0V6oByr4q5xE73EY5NMohu0y46FRjgHmCAX5Gzgrg89ojeUbnHonLLobDHqVtiSZQDjA6c_fJVEm_MjDULQdS8trz_mOAze7VVjGrBLs9u2IQxz4l0qEuqL5hnFoMn7Q6kdTj3wwtKx6k9uo9VGqguqpoSvEUZKQq6Eg6JrY6WcU6Nuo_TR1oPaKGDCpAlNA"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full bg-white/5 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+<span class="material-icons-round text-xl">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfUKK0_Luvfyvbe77PLkrGVqpLuBLnXHiuh4Fho_prXCPnNcXDlVzBg_6ve38aAMI1_m8tdXTiJ6IpQAbwsSwomuoANhbawGZcyZU7MmLWJ7il0UdxxFPB8UZQ5calvjlzbrgE62yhhntfPqbn0aaB3LLVg2uGZxncc3YwFeMaiGBVWhvNfvcd4nq_QB1XLGO-pcpkhishYbemZgdcWqK5Cebyo-WYw7MQq-m1W30FxdBDEAF-uOZ-_-Qm1N2d3SERudK5uHVoVk0"/>
+</div>
+</div>
+</nav>
+<main class="px-6 py-6 space-y-6 pb-24">
+<div>
+<h1 class="text-2xl font-bold tracking-tight">Overview Dashboard</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Welcome back, here's your AI summary.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card p-5 rounded-xl">
+<div class="flex justify-between items-start mb-3">
+<span class="p-2 bg-purple-500/10 rounded-lg">
+<span class="material-icons-round text-primary text-xl">payments</span>
+</span>
+<span class="text-xs font-medium text-emerald-500">+12%</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total Revenue</p>
+<h3 class="text-xl font-bold mt-1 tracking-tight">$42,920</h3>
+</div>
+<div class="glass-card p-5 rounded-xl">
+<div class="flex justify-between items-start mb-3">
+<span class="p-2 bg-pink-500/10 rounded-lg">
+<span class="material-icons-round text-pink-500 text-xl">shopping_bag</span>
+</span>
+<span class="text-xs font-medium text-emerald-500">+8%</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total Orders</p>
+<h3 class="text-xl font-bold mt-1 tracking-tight">1,284</h3>
+</div>
+</div>
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-semibold">Revenue Growth</h2>
+<select class="bg-transparent text-xs border-none focus:ring-0 text-slate-400">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+</select>
+</div>
+<div class="h-40 w-full relative">
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 40">
+<defs>
+<linearGradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:rgba(168, 85, 247, 0.4); stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:rgba(168, 85, 247, 0); stop-opacity:0"></stop>
+</linearGradient>
+</defs>
+<path d="M0,35 Q10,32 20,38 T40,30 T60,25 T80,32 T100,20 L100,40 L0,40 Z" fill="url(#gradient)"></path>
+<path d="M0,35 Q10,32 20,38 T40,30 T60,25 T80,32 T100,20" fill="none" stroke="#a855f7" stroke-linecap="round" stroke-width="2"></path>
+<circle class="animate-pulse" cx="60" cy="25" fill="#a855f7" r="1.5"></circle>
+<circle cx="100" cy="20" fill="#ec4899" r="1.5"></circle>
+</svg>
+<div class="flex justify-between mt-2 px-1">
+<span class="text-[10px] text-slate-500 uppercase">Mon</span>
+<span class="text-[10px] text-slate-500 uppercase">Wed</span>
+<span class="text-[10px] text-slate-500 uppercase">Fri</span>
+<span class="text-[10px] text-slate-500 uppercase">Sun</span>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="absolute inset-0 bg-primary/20 blur-2xl rounded-full"></div>
+<div class="glass-card p-6 rounded-2xl relative border-primary/30">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-icons-round text-primary">auto_awesome</span>
+<h2 class="font-bold gradient-text">FlashFusion Insights</h2>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-1 bg-primary rounded-full"></div>
+<p class="text-sm text-slate-300 leading-relaxed">
+                            Inventory for <span class="text-white font-medium">Summer Tees</span> is 15% below threshold. Recommend restocking by Tuesday.
+                        </p>
+</div>
+<div class="flex gap-4">
+<div class="w-1 bg-pink-500 rounded-full"></div>
+<p class="text-sm text-slate-300 leading-relaxed">
+                            Conversion rate increased by <span class="text-white font-medium">2.4%</span> after implementing the new checkout AI flow.
+                        </p>
+</div>
+<button class="w-full py-3 bg-primary text-white rounded-xl font-semibold shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+                        Optimize Catalog
+                    </button>
+</div>
+</div>
+</div>
+<div class="glass-card p-6 rounded-2xl">
+<h2 class="font-semibold mb-4">Recent Sales</h2>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center">
+<span class="material-icons-round text-indigo-400">check_circle</span>
+</div>
+<div>
+<p class="text-sm font-medium">Ultra-Light Sneaker</p>
+<p class="text-xs text-slate-500">2 minutes ago</p>
+</div>
+</div>
+<p class="text-sm font-bold text-emerald-500">+$89.00</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-icons-round text-primary">check_circle</span>
+</div>
+<div>
+<p class="text-sm font-medium">Neon Mesh Cap</p>
+<p class="text-xs text-slate-500">14 minutes ago</p>
+</div>
+</div>
+<p class="text-sm font-bold text-emerald-500">+$35.00</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center">
+<span class="material-icons-round text-pink-400">check_circle</span>
+</div>
+<div>
+<p class="text-sm font-medium">Fusion Tech Jacket</p>
+<p class="text-xs text-slate-500">1 hour ago</p>
+</div>
+</div>
+<p class="text-sm font-bold text-emerald-500">+$124.00</p>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-6 left-6 right-6 z-50">
+<div class="glass-card p-2 rounded-2xl flex items-center justify-between px-6 shadow-2xl backdrop-blur-2xl">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round">dashboard</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-round">inventory_2</span>
+<span class="text-[10px] font-medium">Catalog</span>
+</button>
+<button class="w-12 h-12 -mt-10 bg-gradient-to-tr from-primary to-pink-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary/40 ring-4 ring-background-dark">
+<span class="material-icons-round">add</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-round">auto_graph</span>
+<span class="text-[10px] font-medium">Analytics</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-round">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</div>
+</div>
+
+</body></html>

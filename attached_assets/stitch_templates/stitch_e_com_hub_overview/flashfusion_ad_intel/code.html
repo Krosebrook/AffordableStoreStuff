@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Ad Intel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "accent-cyan": "#00f2ff",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a060e", // Deeper space black
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(34, 27, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(157, 37, 244, 0.3);
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(157, 37, 244, 0.4), inset 0 0 5px rgba(157, 37, 244, 0.2);
+        }
+        .tech-grid {
+            background-image: 
+                linear-gradient(to right, rgba(157, 37, 244, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(157, 37, 244, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .hologram-glow {
+            text-shadow: 0 0 8px rgba(0, 242, 255, 0.6);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/40 min-h-screen">
+<div class="fixed inset-0 tech-grid pointer-events-none"></div>
+<!-- TopAppBar -->
+<div class="relative z-10 flex items-center bg-background-dark/80 backdrop-blur-md p-4 pb-2 justify-between border-b border-primary/20 sticky top-0">
+<div class="text-primary flex size-12 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</div>
+<div class="flex flex-col flex-1">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">FlashFusion Ad Intel</h2>
+<div class="flex items-center gap-1.5">
+<span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
+<span class="text-[10px] text-accent-cyan uppercase tracking-widest font-bold">System Status: Online</span>
+</div>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-10 items-center justify-center rounded-full bg-primary/10 border border-primary/30 text-white">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<!-- Market Saturation Gauge Section -->
+<div class="relative z-10 p-4 pt-6">
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="text-[10px] text-primary font-mono uppercase">Node: US-EAST-1</span>
+</div>
+<div class="flex flex-col items-center justify-center gap-4">
+<div class="relative size-40 flex items-center justify-center">
+<svg class="size-full transform -rotate-90">
+<circle class="text-primary/10" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="110" stroke-width="10"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<p class="text-accent-cyan text-3xl font-bold tracking-tighter hologram-glow">74%</p>
+<p class="text-white/60 text-[10px] uppercase font-bold">Saturation</p>
+</div>
+</div>
+<div class="text-center">
+<h3 class="text-white text-xl font-bold">Market Saturation: <span class="text-primary">High</span></h3>
+<p class="text-white/50 text-sm mt-1">Activity up 12% in your niche this hour</p>
+</div>
+</div>
+<div class="flex gap-2 mt-6">
+<div class="flex-1 bg-primary/10 rounded-lg p-3 border border-primary/20">
+<p class="text-[10px] text-primary font-bold uppercase">Ads Tracked</p>
+<p class="text-lg font-bold">1,482</p>
+</div>
+<div class="flex-1 bg-accent-cyan/10 rounded-lg p-3 border border-accent-cyan/20">
+<p class="text-[10px] text-accent-cyan font-bold uppercase">Competitors</p>
+<p class="text-lg font-bold">24 Active</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="relative z-10 sticky top-[72px] bg-background-dark/90 backdrop-blur-sm">
+<div class="flex border-b border-primary/20 px-4 gap-8">
+<a class="flex flex-col items-center justify-center border-b-2 border-primary text-white pb-3 pt-4" href="#">
+<p class="text-sm font-bold tracking-wide">Intelligence Stream</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-white/40 pb-3 pt-4" href="#">
+<p class="text-sm font-bold tracking-wide">Social</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-white/40 pb-3 pt-4" href="#">
+<p class="text-sm font-bold tracking-wide">Search</p>
+</a>
+</div>
+</div>
+<!-- Intelligence Stream Feed -->
+<div class="relative z-10 p-4 space-y-6 pb-24">
+<!-- Ad Card 1 -->
+<div class="glass-panel rounded-xl neon-border overflow-hidden">
+<div class="relative group">
+<div class="w-full aspect-video bg-cover bg-center" data-alt="Futuristic neon aesthetic sneaker advertisement" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBC30msdEJ2INR6Gk5zGEi0fBgMeWK-JfA5r-pEq5ZL46Y4SOH2skeT6O945Bbbg0zWr3i-s6u1TNwCCmPcyLxff4Ps2CIgFGpbl9sRkrcW-9P4RoH-5bM7gtksQAVsJUvwAn2-4VIy7M4uEga-xFxF5evyuaq5aZN_sCIHOPVIssXI4lFRiJg_1lwlO3MDOJBPsQBG16GvFgmbaFQ7x_rsRQiDg4nsWGrjWAywh1zyhmjks9pwmT51SRLeZ7F3lhWURdSRx87xNG0');">
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary px-2 py-1 rounded text-[10px] font-bold uppercase">LIVE</span>
+<span class="bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase border border-white/20">META ADS</span>
+</div>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-accent-cyan text-[10px] font-bold tracking-widest uppercase">IMPACT BORDER: NEON VIOLET</p>
+<h4 class="text-white text-lg font-bold tracking-tight">Competitor Ad #842 - Velocity</h4>
+<p class="text-white/40 text-xs">Captured 2m ago via AI Neural Link</p>
+</div>
+<div class="size-10 rounded-full border border-primary/30 flex items-center justify-center bg-primary/10">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+</div>
+<!-- AI Breakdown Overlay Integration -->
+<div class="bg-black/40 rounded-lg p-4 border border-white/5 space-y-3">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-accent-cyan text-sm">analytics</span>
+<p class="text-[11px] font-bold uppercase tracking-wider text-accent-cyan">AI Deep Analysis</p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<p class="text-white/40 text-[10px] uppercase font-bold">Hooks Used</p>
+<p class="text-xs text-white/90">FOMO, Visual Contrast, High-Energy</p>
+</div>
+<div>
+<p class="text-white/40 text-[10px] uppercase font-bold">Est. Daily Spend</p>
+<p class="text-xs text-white/90 font-mono">$1,200 - $1,500</p>
+</div>
+</div>
+<div class="pt-2 border-t border-white/5">
+<p class="text-white/40 text-[10px] uppercase font-bold">Target Demographics</p>
+<p class="text-xs text-white/90">Gen Z, Urban Dwellers, Fitness Enthusiasts</p>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<button class="flex-1 bg-primary text-white text-sm font-bold py-2.5 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                        View Content
+                    </button>
+<button class="px-3 bg-white/5 text-white/60 rounded-lg border border-white/10">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Ad Card 2 -->
+<div class="glass-panel rounded-xl overflow-hidden opacity-90">
+<div class="relative">
+<div class="w-full aspect-video bg-cover bg-center" data-alt="Sleek minimalist tech gadget advertisement" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAeWrGCh8M9ftqYjbcCcKVtrZSqdyDeoxmedBJjA6PBJqkUiljKSgZFqQm2gDaExkJZGYr0ok5jlGqIo3qk5t3PTXUO2ioMFZ0Z8KMt3xxqdzLBTMnuoRPfgI2V5jYcC91Y90wRnPrIXE2iozCaZNZyCE7HLyN5Z8-ExPMvHN5fuCCbpU9F6IvB2kU5Vq2M2Fq8YUSZD82kN8DSAklMCmtUZSuIFLBjQtylbCeNl_LOmaVM7kQCf3YAPPR2-cA2Vu1CEx5noGOVtQA');">
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-gray-600 px-2 py-1 rounded text-[10px] font-bold uppercase">PAUSED</span>
+<span class="bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold uppercase border border-white/20">TIKTOK</span>
+</div>
+</div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-primary text-[10px] font-bold tracking-widest uppercase">IMPACT BORDER: GHOST WHITE</p>
+<h4 class="text-white text-lg font-bold tracking-tight">Competitor Ad #839 - Nexus</h4>
+<p class="text-white/40 text-xs">Captured 14m ago • Low Saturation Zone</p>
+</div>
+</div>
+<div class="bg-black/40 rounded-lg p-4 border border-white/5 space-y-3">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-accent-cyan text-sm">flash_on</span>
+<p class="text-[11px] font-bold uppercase tracking-wider text-accent-cyan">AI Deep Analysis</p>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<p class="text-white/40 text-[10px] uppercase font-bold">Hooks Used</p>
+<p class="text-xs text-white/90">Problem/Solution, Direct Callout</p>
+</div>
+<div>
+<p class="text-white/40 text-[10px] uppercase font-bold">Est. Daily Spend</p>
+<p class="text-xs text-white/90 font-mono">$400 - $600</p>
+</div>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<button class="flex-1 border border-primary/40 text-primary text-sm font-bold py-2.5 rounded-lg flex items-center justify-center gap-2">
+                        AI Breakdown Full Report
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- iOS Style Bottom Nav -->
+<div class="fixed bottom-0 left-0 right-0 z-50 px-4 pb-8 pt-4 bg-gradient-to-t from-background-dark to-transparent">
+<div class="glass-panel rounded-full flex items-center justify-around p-2 border border-primary/20 shadow-2xl">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">stream</span>
+<span class="text-[10px] font-bold uppercase">Stream</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase">Insights</span>
+</button>
+<button class="size-12 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-primary/40 -mt-10 border-4 border-background-dark">
+<span class="material-symbols-outlined text-white">center_focus_strong</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold uppercase">Vault</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase">Config</span>
+</button>
+</div>
+</div>
+</body></html>

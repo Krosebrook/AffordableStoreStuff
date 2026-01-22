@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neon Command Center - FlashFusion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#a855f7",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f0618",
+                        brand: {
+                            pink: "#f472bc",
+                            cyan: "#22d3ee",
+                            purple: "#a855f7",
+                            navy: "#1e1b4b"
+                        }
+                    },
+                    fontFamily: {
+                        display: ["Outfit", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1.5rem',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark .glass-card {
+            background: rgba(15, 6, 24, 0.6);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        .neon-border-pink {
+            box-shadow: 0 0 15px rgba(244, 114, 188, 0.3);
+            border: 1px solid rgba(244, 114, 188, 0.5);
+        }
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+            border: 1px solid rgba(34, 211, 238, 0.5);
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        }
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-sans min-h-screen">
+<div class="h-12 w-full"></div>
+<header class="px-6 py-4 flex items-center justify-between sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<img alt="FlashFusion Logo" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpUfdunHMK5VDmfp26EItvVz6yJnnc7Yw2HMHdFu54XExKOz--gkLxw-mr-ZY6UV00RhqP-jRzr_0QlxdCrDJRZQAeWdHb90EtUjH6Ab6bgh9piaDmNJMRk0ULs5cCqx32BgDLTMH4Luo-v97pFWXrQ26qaUQOXQYBl88DxVmvRSyARvV6ZekowOuMWswZu6YwmdvE23GAC-3uOnUamZXMjio3Pz7METaSdVfqsl4dL3Wu-xS1EXSD3Obsyw8Sja7Qxu10Dfse6oc"/>
+<span class="font-display font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-purple to-brand-cyan">FlashFusion</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center glass-card">
+<span class="material-icons-round text-primary">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary/30 p-0.5">
+<img alt="User Avatar" class="rounded-full bg-slate-200 dark:bg-slate-800" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuF3AxVKr9CPBGb8-u8CvxEVkxKiyhHYSJ1tA7YROCZQlwJCGRWgMJu3d9SMhAAVWuxVKDL6C24msTJWq6N4g4qfT2U419sHtGlZPq_h4xSJrIhbPU236dH-A8OlPNouhurAeOf-k_4FgnH24rHTSkF4llL0v4KtXM_Xca1y6bya2PHZPPJnQhuEj2B-Yn3-LxtvSYdxPWEljtFwxD6x5y1vMHy40oZAkYC0rjd0lF_0hTL4t4koQi2THmmgxlPggIcaJKk_MJquk"/>
+</div>
+</div>
+</header>
+<main class="px-6 pb-24 space-y-6">
+<section class="mt-4">
+<h1 class="text-2xl font-display font-bold">Command Center</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Monitoring 4 active channels</p>
+</section>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card neon-border-cyan p-5 rounded-xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="material-icons-round text-brand-cyan">storefront</span>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-cyan/20 text-brand-cyan">+12%</span>
+</div>
+<div>
+<div class="text-3xl font-display font-bold glow-text">08</div>
+<div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Active Stores</div>
+</div>
+</div>
+<div class="glass-card neon-border-pink p-5 rounded-xl flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="material-icons-round text-brand-pink">analytics</span>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-pink/20 text-brand-pink">+4.2%</span>
+</div>
+<div>
+<div class="text-3xl font-display font-bold glow-text">3.8%</div>
+<div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Conversion</div>
+</div>
+</div>
+</div>
+<section class="glass-card p-6 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[60px] rounded-full"></div>
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="font-display font-bold text-lg">Revenue Stream</h3>
+<p class="text-xs text-slate-400">Total $42,500.00 this month</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-[10px] font-bold rounded-full bg-primary text-white">W</button>
+<button class="px-3 py-1 text-[10px] font-bold rounded-full bg-slate-200 dark:bg-white/10 text-slate-400">M</button>
+</div>
+</div>
+<div class="h-40 w-full flex items-end justify-between gap-1 relative">
+<div class="absolute inset-0 flex flex-col justify-between opacity-10 pointer-events-none">
+<div class="w-full h-px bg-white"></div>
+<div class="w-full h-px bg-white"></div>
+<div class="w-full h-px bg-white"></div>
+</div>
+<div class="w-full h-full flex items-end gap-2 px-2">
+<div class="flex-1 bg-brand-purple/40 h-24 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-brand-purple text-[8px] px-1 rounded transition-all">12k</div>
+</div>
+<div class="flex-1 bg-brand-cyan/40 h-32 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-brand-cyan text-black text-[8px] px-1 rounded transition-all">18k</div>
+</div>
+<div class="flex-1 bg-brand-pink/40 h-20 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-brand-pink text-[8px] px-1 rounded transition-all">10k</div>
+</div>
+<div class="flex-1 bg-brand-purple/60 h-36 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-brand-purple text-[8px] px-1 rounded transition-all">22k</div>
+</div>
+<div class="flex-1 bg-brand-cyan/60 h-28 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-brand-cyan text-black text-[8px] px-1 rounded transition-all">15k</div>
+</div>
+<div class="flex-1 bg-brand-pink/60 h-40 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-brand-pink text-[8px] px-1 rounded transition-all">25k</div>
+</div>
+<div class="flex-1 bg-primary h-24 rounded-t-sm relative group">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-primary text-[8px] px-1 rounded transition-all">12k</div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 px-2 text-[10px] text-slate-500 font-medium">
+<span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-display font-bold text-lg">AI Insights</h3>
+<span class="text-xs text-primary font-semibold flex items-center gap-1">View All <span class="material-icons-round text-sm">arrow_forward</span></span>
+</div>
+<div class="space-y-4">
+<div class="glass-card p-4 rounded-xl flex items-start gap-4 border-l-4 border-l-brand-cyan">
+<div class="w-10 h-10 rounded-lg bg-brand-cyan/10 flex items-center justify-center flex-shrink-0">
+<span class="material-icons-round text-brand-cyan text-xl">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-bold text-sm">Optimization Suggestion</h4>
+<p class="text-xs text-slate-400 mt-1">High drop-off rate detected in Checkout. Suggesting "Express Pay" activation for TikTok Shop.</p>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl flex items-start gap-4 border-l-4 border-l-brand-pink">
+<div class="w-10 h-10 rounded-lg bg-brand-pink/10 flex items-center justify-center flex-shrink-0">
+<span class="material-icons-round text-brand-pink text-xl">trending_up</span>
+</div>
+<div>
+<h4 class="font-bold text-sm">Trend Alert</h4>
+<p class="text-xs text-slate-400 mt-1">Viral product match: "Neon Tech Sleeves" trending in your niche. Low inventory at supplier.</p>
+</div>
+</div>
+</div>
+</section>
+<div class="fixed top-1/4 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-1/4 -right-20 w-64 h-64 bg-brand-pink/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+</main>
+<nav class="fixed bottom-6 left-6 right-6 h-16 glass-card rounded-2xl flex items-center justify-around px-2 z-50">
+<button class="flex flex-col items-center justify-center w-12 h-12 text-primary">
+<span class="material-icons-round">dashboard</span>
+<span class="text-[10px] font-bold mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center w-12 h-12 text-slate-500">
+<span class="material-icons-round">shopping_bag</span>
+<span class="text-[10px] font-bold mt-1">Stores</span>
+</button>
+<button class="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white shadow-lg shadow-primary/40 -translate-y-4">
+<span class="material-icons-round">add</span>
+</button>
+<button class="flex flex-col items-center justify-center w-12 h-12 text-slate-500">
+<span class="material-icons-round">psychology</span>
+<span class="text-[10px] font-bold mt-1">AI</span>
+</button>
+<button class="flex flex-col items-center justify-center w-12 h-12 text-slate-500">
+<span class="material-icons-round">settings</span>
+<span class="text-[10px] font-bold mt-1">Settings</span>
+</button>
+</nav>
+<div class="fixed bottom-1 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-slate-300 dark:bg-white/20 rounded-full z-50"></div>
+
+</body></html>

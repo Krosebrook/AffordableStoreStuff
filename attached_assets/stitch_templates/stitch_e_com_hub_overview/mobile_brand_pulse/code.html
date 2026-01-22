@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mobile Brand Pulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#050505",
+                        "neon-gold": "#FFD700",
+                        "neon-green": "#39FF14",
+                        "neon-red": "#FF3131",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .holographic-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(157, 37, 244, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(157, 37, 244, 0.05) 1px, transparent 1px);
+        }
+        .glow-purple { box-shadow: 0 0 15px rgba(157, 37, 244, 0.4); }
+        .glow-gold { box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+        .sparkline-container svg { filter: drop-shadow(0 0 3px #9d25f4); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen relative overflow-x-hidden">
+<!-- Background Layer -->
+<div class="fixed inset-0 holographic-grid pointer-events-none"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-primary/10 via-transparent to-black/50 pointer-events-none"></div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-background-light/80 dark:bg-background-dark/80 border-b border-primary/20">
+<div class="flex items-center p-4 justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center glow-purple">
+<span class="material-symbols-outlined text-white text-xl">bolt</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">FlashFusion</h1>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 pb-20">
+<!-- Header Image / Top Performer Badge -->
+<div class="px-4 py-6">
+<div class="relative group">
+<div class="absolute -inset-0.5 bg-gradient-to-r from-neon-gold to-yellow-500 rounded-xl blur opacity-30 group-hover:opacity-50 transition"></div>
+<div class="relative bg-cover bg-center flex flex-col justify-end overflow-hidden bg-background-dark rounded-xl min-h-[160px] border border-neon-gold/30" data-alt="Abstract golden energy waves represent top performance" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 60%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIDSg2tJbHaGCT2JNPKR_4w-TKcm7PMBU_106EpYNa2_TVg6ir6v8JdhwwcE54pRFvbwPCRMxkba_zehvzCszyPW1YrT_Rb98RtaG3QuggvpcHyltAWzmNManf68ri5KSUYH8QzCgxst8FsZUF76bTRV-ZQv76bmgeHoFwI1CGsvWX3K7AmcOj29rCKWoeJZi2Y78wnJFjpP26pBZJQxU057O5hwobu9qX_2nO8gdT9jcLzdZQcuv0i4Frxa5cp0IFW_VCqB0CWtE");'>
+<div class="p-5">
+<div class="inline-flex items-center gap-1.5 bg-neon-gold/20 backdrop-blur-sm border border-neon-gold/50 px-2 py-0.5 rounded-full mb-2">
+<span class="material-symbols-outlined text-[14px] text-neon-gold">military_tech</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-neon-gold">Top Performer</span>
+</div>
+<h2 class="text-white text-3xl font-bold leading-tight">Brand Alpha <span class="text-neon-gold">+24.8%</span></h2>
+<p class="text-slate-300 text-sm mt-1">Leading the pulse for the last 24 hours.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- SegmentedButtons / Filters -->
+<div class="flex px-4 py-2 sticky top-[72px] z-40 bg-background-light dark:bg-background-dark">
+<div class="flex h-12 flex-1 items-center justify-center rounded-xl bg-slate-200 dark:bg-white/5 p-1 border border-primary/10">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:text-white text-slate-500 dark:text-slate-400 text-sm font-semibold transition-all">
+<span class="truncate">Best Performing</span>
+<input checked="" class="hidden" name="filter-type" type="radio" value="Best Performing"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:text-white text-slate-500 dark:text-slate-400 text-sm font-semibold transition-all">
+<span class="truncate">Highest Risk</span>
+<input class="hidden" name="filter-type" type="radio" value="Highest Risk"/>
+</label>
+</div>
+</div>
+<!-- Brand Pulse List -->
+<div class="mt-4 px-4 flex flex-col gap-3">
+<div class="flex items-center justify-between text-[10px] uppercase tracking-widest text-slate-500 font-bold px-2">
+<span>Managed Brand</span>
+<div class="flex gap-12 mr-2">
+<span>Pulse</span>
+<span>Revenue</span>
+</div>
+</div>
+<!-- List Item 1 -->
+<div class="flex items-center gap-3 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-primary/40 glow-purple" data-alt="Futuristic tech logo for Brand Alpha" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuApEBVkiqYrgFtxTHqtz1IYGTSVFurQATB69dQSOd1H4dXcyq0vL4Ldk8bcPNw-YinX6KrK5SpRPJkmUDLADC5-AgdiNo5h8DOSmr0mQVy17eWxg0b8y96ue0r_eiYvp4s7ITiVKC9z-t-eNwHzASireauGV7pkwWFgRyKdlmXmhk-Jrq2Cmcjb9g1bEvbxhnzg1TEQBvRKJbYQHDQvE7CDnFn6_uAEuLioqP7ydoerlu7AqAnmB3ReM40y_RPnVZmJyCFoYvJ_pys");'></div>
+<div class="absolute -bottom-1 -right-1 bg-neon-green h-3 w-3 rounded-full border-2 border-background-dark"></div>
+</div>
+<div class="flex flex-1 flex-col min-w-0">
+<p class="text-white text-sm font-bold truncate">Brand Alpha</p>
+<p class="text-neon-green text-[11px] font-medium leading-tight flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            24.8% Growth
+                        </p>
+</div>
+<!-- Pulse Sparkline -->
+<div class="shrink-0 sparkline-container w-20 h-10 flex items-center">
+<svg class="w-full h-full stroke-primary fill-none stroke-[2.5]" viewbox="0 0 100 40">
+<path d="M0,35 Q10,25 20,30 T40,15 T60,25 T80,5 T100,10" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="shrink-0 text-right min-w-[65px]">
+<p class="text-white text-sm font-bold">$124.5k</p>
+<p class="text-slate-500 text-[10px]">24h Revenue</p>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center gap-3 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-primary/20" data-alt="Cosmetic brand logo for Glowly" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC435bNbCl5UAaMc0JGG8K_J99ouJj1ySgpahzcJ9VochGZjX4Jov1J1SBetqOMBmddboCzfUvu3RDajTCbq1lppvzYSTkyNrj1Ze5jk8lf67C8MQnBNS6uO_xQDwyMmxYdhukw0sMYREUz-y26PCs2Celbp8djlnun7LJ1MkbTIcOWKcz-nGS7cG7nHYqtEJV30wOUm1lJmDwuN50SlBdyHMRqFQ_Gt-HQEMCzZiXjJRvKoeBWtXBI-ouZwx1-5CTH5uwISdjerjE");'></div>
+<div class="absolute -bottom-1 -right-1 bg-neon-green h-3 w-3 rounded-full border-2 border-background-dark"></div>
+</div>
+<div class="flex flex-1 flex-col min-w-0">
+<p class="text-white text-sm font-bold truncate">Glowly Beauty</p>
+<p class="text-neon-green text-[11px] font-medium leading-tight flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            12.4% Growth
+                        </p>
+</div>
+<div class="shrink-0 sparkline-container w-20 h-10 flex items-center">
+<svg class="w-full h-full stroke-primary/80 fill-none stroke-[2.5]" viewbox="0 0 100 40">
+<path d="M0,30 Q15,35 30,20 T50,25 T75,10 T100,15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="shrink-0 text-right min-w-[65px]">
+<p class="text-white text-sm font-bold">$89.2k</p>
+<p class="text-slate-500 text-[10px]">24h Revenue</p>
+</div>
+</div>
+<!-- List Item 3 (Lower growth) -->
+<div class="flex items-center gap-3 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-primary/10" data-alt="Lifestyle brand logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAFG8zRRcw-c4VoeFJn3uQc7_8o9XHy_ktYXUCpcDYlyNIMYylMBY21dgRMO3E1EoXHn-9kvCc-Tsoagycm_zAXvxm51hmyXRxPF1qGdOVbRC6m-D8rPjLpPcqOvMRnVLQzi1CpjWQYEfzBLqY_tR852yL653lxCzVWGvFn-VUNuMryBexvSj95eMaksXCknNptwRaWSaGqk-HSzVrcK2Y-mEbALPu7HuJCCyQV2vn6CHTccZx2hzv0odTB3Vz0YnBkyWk9pooVSqk");'></div>
+<div class="absolute -bottom-1 -right-1 bg-yellow-400 h-3 w-3 rounded-full border-2 border-background-dark"></div>
+</div>
+<div class="flex flex-1 flex-col min-w-0">
+<p class="text-white text-sm font-bold truncate">Urban Sync</p>
+<p class="text-yellow-400 text-[11px] font-medium leading-tight flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_flat</span>
+                            2.1% Growth
+                        </p>
+</div>
+<div class="shrink-0 sparkline-container w-20 h-10 flex items-center">
+<svg class="w-full h-full stroke-primary/50 fill-none stroke-[2.5]" viewbox="0 0 100 40">
+<path d="M0,20 L20,22 L40,18 L60,20 L80,19 L100,20" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="shrink-0 text-right min-w-[65px]">
+<p class="text-white text-sm font-bold">$42.1k</p>
+<p class="text-slate-500 text-[10px]">24h Revenue</p>
+</div>
+</div>
+<!-- List Item 4 (Down) -->
+<div class="flex items-center gap-3 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-white/10 p-3 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
+<div class="relative shrink-0">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 border-2 border-neon-red/20" data-alt="E-commerce store logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8Ff4Qvcig9wK1MvdudY7loBCE3_MtX2NxQFjoTEJpJsw78MJEQyBSFcBkxWwLGdDPTcfQRZFWyu-N6gXvuEjHeBfTuKHznVH1rwYdCQoVnJkggi_308knvry_R0kbbAakBEsbui0KiU-reLexjKbEImmBrcScD_iQMY5FtxWURYMVhzRE3FXV3JlgQpx8GS_18NzlCs_dTMxL6uiRKrkAjJIFLM0s8pyPpsDYXSr2t2bozL5tQvg-4Mlqeo9HFp8G1_cGC_ICvAQ");'></div>
+<div class="absolute -bottom-1 -right-1 bg-neon-red h-3 w-3 rounded-full border-2 border-background-dark"></div>
+</div>
+<div class="flex flex-1 flex-col min-w-0">
+<p class="text-white text-sm font-bold truncate">Velocity Gear</p>
+<p class="text-neon-red text-[11px] font-medium leading-tight flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_down</span>
+                            -8.4% Growth
+                        </p>
+</div>
+<div class="shrink-0 sparkline-container w-20 h-10 flex items-center">
+<svg class="w-full h-full stroke-neon-red/60 fill-none stroke-[2.5]" viewbox="0 0 100 40">
+<path d="M0,10 L20,15 L40,12 L60,25 L80,30 L100,38" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="shrink-0 text-right min-w-[65px]">
+<p class="text-white text-sm font-bold">$18.4k</p>
+<p class="text-slate-500 text-[10px]">24h Revenue</p>
+</div>
+</div>
+</div>
+<!-- Footer Stats -->
+<div class="p-8 flex flex-col items-center gap-2">
+<p class="text-slate-500 text-xs font-medium uppercase tracking-widest">Global Pulse Active</p>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="text-[10px]">Real-time syncing enabled</span>
+</div>
+<p class="text-slate-600 text-[10px] mt-4">Last updated: 14:02:45 GMT</p>
+</div>
+</main>
+<!-- Fixed Navigation Bar (iOS Style) -->
+<nav class="fixed bottom-0 w-full backdrop-blur-xl bg-background-light/90 dark:bg-background-dark/90 border-t border-white/10 pb-6 pt-2 px-6 flex justify-between items-center">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Pulse</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Stats</span>
+</button>
+<div class="relative -top-6">
+<button class="bg-primary size-14 rounded-full flex items-center justify-center text-white glow-purple shadow-xl shadow-primary/40 border-4 border-background-dark">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-[10px] font-medium">Networks</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Admin</span>
+</button>
+</nav>
+</div>
+</body></html>

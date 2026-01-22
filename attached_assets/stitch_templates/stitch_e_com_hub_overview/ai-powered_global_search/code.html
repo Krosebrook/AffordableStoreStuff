@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI-Powered Global Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a0a0a",
+                        "card-dark": "#1a1022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass {
+            background: rgba(26, 16, 34, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(157, 37, 244, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(157, 37, 244, 0.3);
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen">
+<!-- Top Navigation Bar -->
+<div class="sticky top-0 z-50 glass border-b border-primary/20 px-4 pt-6 pb-2">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h1 class="text-lg font-bold tracking-tight">AI Command Center</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-white">close</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/20 blur-lg opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
+<div class="relative flex items-center bg-[#251b2e] border border-white/10 focus-within:border-primary rounded-xl h-14 px-4 transition-all">
+<span class="material-symbols-outlined text-primary mr-3">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-base placeholder:text-gray-500 font-medium" placeholder="Search anything... (Cmd + K)" type="text" value="Refund Order #1234"/>
+<div class="flex items-center gap-2">
+<span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded border border-white/10 text-gray-400">⌘K</span>
+<button class="material-symbols-outlined text-gray-500 text-xl">cancel</button>
+</div>
+</div>
+</div>
+<!-- Quick AI Filters Scroll -->
+<div class="flex gap-2 py-4 overflow-x-auto scrollbar-hide">
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-4 shadow-lg neon-glow">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<p class="text-xs font-semibold">High Margin</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 border border-white/10 px-4">
+<span class="material-symbols-outlined text-sm text-red-400">warning</span>
+<p class="text-xs font-medium">At Risk</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 border border-white/10 px-4">
+<span class="material-symbols-outlined text-sm text-blue-400">sentiment_satisfied</span>
+<p class="text-xs font-medium">Positive Sentiment</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white/5 border border-white/10 px-4">
+<span class="material-symbols-outlined text-sm text-green-400">inventory_2</span>
+<p class="text-xs font-medium">Stock Alerts</p>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="px-4 pb-24">
+<!-- Section: Instant Actions -->
+<section class="mt-4">
+<div class="flex items-center justify-between px-1 mb-3">
+<h3 class="text-sm font-bold uppercase tracking-widest text-primary/80">AI Instant Actions</h3>
+<span class="text-[10px] text-gray-500">2 Matches</span>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<div class="glass flex items-center p-4 rounded-xl border-l-4 border-l-primary">
+<div class="size-10 bg-primary/20 rounded-lg flex items-center justify-center mr-4">
+<span class="material-symbols-outlined text-primary">undo</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold">Process Refund for #1234</p>
+<p class="text-xs text-gray-400">Customer: James Chen • $142.00</p>
+</div>
+<span class="material-symbols-outlined text-gray-500">chevron_right</span>
+</div>
+<div class="glass flex items-center p-4 rounded-xl">
+<div class="size-10 bg-white/5 rounded-lg flex items-center justify-center mr-4">
+<span class="material-symbols-outlined text-gray-400">chat_bubble</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold">Contact Customer #1234</p>
+<p class="text-xs text-gray-400">Automated AI response ready</p>
+</div>
+<span class="material-symbols-outlined text-gray-500">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Section: Orders -->
+<section class="mt-8">
+<div class="flex items-center justify-between px-1 mb-3">
+<h3 class="text-sm font-bold uppercase tracking-widest text-gray-400">Matching Orders</h3>
+<span class="text-[10px] text-gray-500">1 Result</span>
+</div>
+<div class="glass rounded-xl overflow-hidden">
+<div class="p-4 flex items-start gap-4">
+<div class="relative">
+<div class="size-12 bg-white/5 rounded-lg overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover opacity-80" data-alt="Modern leather wallet product photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9EkcZYM8YGpkaNxYWDcPjRtB-UxKPEsHh4eFwymp4stDDgZfiCaZje9WjyUmz5S50X_RG4MHEts7Vn8YrOiS6WF56ZqJmSBjvxXkTbSTz76MQaxEqfObKojzgf9jYW7sN5rSMpj2qrEynby8js9HjojAUT4DC5ZoLojqzQT-Rwm7_TxDNM-9gDPRhjTxPww8NqmqerFcfSwsb0vPHvg5Jl6yWwvmEfglNLoEWpq1HnHoRtbjXtDFALmggYwGCmWjWTLHyD8tb6UQ"/>
+</div>
+<div class="absolute -bottom-1 -right-1 size-5 bg-[#95BF47] rounded-full border-2 border-background-dark flex items-center justify-center">
+<!-- Shopify Icon Mock -->
+<span class="text-[8px] font-bold text-white">S</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="text-sm font-bold truncate">Order #1234 - Midnight Wallet</h4>
+<span class="text-xs font-bold text-primary">$142.00</span>
+</div>
+<p class="text-xs text-gray-400 mt-0.5">Shopify Store • Purchased 2h ago</p>
+<div class="flex items-center mt-2 gap-2">
+<span class="px-2 py-0.5 bg-yellow-500/20 text-yellow-500 text-[10px] font-bold rounded uppercase">Flagged by AI</span>
+<span class="text-[10px] text-red-400 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">mood_bad</span>
+                                Risk: Refund request likely
+                            </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Products -->
+<section class="mt-8">
+<div class="flex items-center justify-between px-1 mb-3">
+<h3 class="text-sm font-bold uppercase tracking-widest text-gray-400">Products</h3>
+<span class="text-[10px] text-gray-500">3 Results</span>
+</div>
+<div class="space-y-3">
+<div class="glass flex items-center p-3 rounded-xl gap-3">
+<div class="size-10 bg-white/5 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
+<img class="w-full h-full object-cover" data-alt="Luxury fountain pen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTq3FjKt_V4zI91oRlTOH2rYej40FCYCyIS6lmY6onlJ0xjwMw-mRRsN437N_frNMdId_dLN-GWWSKdi0ehbeo93A90khKrvkLjhB6WBrSpRmpj-46ijXvQjuUnNdsDCS5nYr4htnai3SxR4bnwlK12vmcrL7bn09pvDMk8PvDgpyoo8uv7VW8VTGkP5rwoLuLhOC7ebYy1f589DMRNn5ookstzQm8AQKTUHDt39aUzyExp0cFmyV_eyGtKo2p5VSl77cdjahD_FU"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium truncate">Midnight Edition Fountain Pen</p>
+<p class="text-[10px] text-gray-400 uppercase tracking-tighter">SKU: MDP-1234 • 86 In Stock</p>
+</div>
+<div class="text-right shrink-0">
+<p class="text-xs font-bold">$89.00</p>
+<div class="flex items-center gap-0.5 text-[10px] text-green-400">
+<span class="material-symbols-outlined text-[10px]">arrow_upward</span>
+                             32%
+                        </div>
+</div>
+</div>
+<div class="glass flex items-center p-3 rounded-xl gap-3 opacity-60">
+<div class="size-10 bg-white/5 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
+<img class="w-full h-full object-cover" data-alt="Minimalist wrist watch" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi_g7jfrtFX80Jl6Qri05abtIEyKXo2B2oQyprnP35-1LMw45okTt4TKQoWsE20XGqoy27d1qPmYcGyjOeTQJ1nDyEM3Ah62Io_0SNSdZVp4MInEI0IqXzNuslYB8wANyi0stw811WQGS_FToxb8h3wizmWfhXjnPsIG2dwYF45UTRpoOX37liPi6XERLxz6CMr75iLN5AmKvxERQb26Jjs0FlhjJGl4zfj0CCVsRwwj7fm0x0dCyTzKNBWoykd1QUqSMXuuoQ4Uo"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium truncate">Classic Slate Chronograph</p>
+<p class="text-[10px] text-gray-400 uppercase tracking-tighter">SKU: CS-1234 • 0 In Stock</p>
+</div>
+<div class="text-right shrink-0">
+<p class="text-xs font-bold">$210.00</p>
+<span class="text-[10px] text-gray-500">Out of Stock</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Side Intelligence Toggle (Floating) -->
+<div class="fixed bottom-6 right-6 z-50">
+<button class="size-14 bg-primary rounded-full shadow-2xl neon-glow flex items-center justify-center transition-transform active:scale-95">
+<span class="material-symbols-outlined text-white text-3xl">filter_list</span>
+</button>
+</div>
+<!-- AI Filter Sidebar (Simulated Drawer Visual) -->
+<!-- Note: This is represented as a visual component for the design task -->
+<div class="hidden fixed inset-y-0 right-0 w-3/4 glass border-l border-white/10 z-[60] flex flex-col p-6 translate-x-full">
+<!-- Drawer Content would go here -->
+</div>
+</body></html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agency Finance Nexus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a0a0a",
+                        "glass-dark": "rgba(34, 27, 39, 0.7)",
+                        "glass-border": "rgba(255, 255, 255, 0.1)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .technical-grid {
+            background-image: 
+                linear-gradient(rgba(157, 37, 244, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 37, 244, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .glassmorphism {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .status-glow-active {
+            box-shadow: 0 0 10px rgba(11, 218, 118, 0.6);
+        }
+        .status-glow-pending {
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
+        }
+        .status-glow-overdue {
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="relative min-h-screen w-full flex flex-col overflow-x-hidden technical-grid">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-50 flex items-center bg-background-dark/80 backdrop-blur-md p-4 pb-2 justify-between border-b border-glass-border">
+<div class="flex size-12 shrink-0 items-center">
+<div class="bg-primary/20 rounded-full size-10 flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary text-2xl">bolt</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 px-2">
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Finance Nexus</h2>
+<p class="text-xs text-primary font-medium tracking-widest uppercase">FlashFusion Admin</p>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-xl bg-glass-dark border border-glass-border text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+<!-- Revenue Velocity Chart Section -->
+<div class="flex flex-col gap-4 px-4 py-6">
+<div class="glassmorphism rounded-xl bg-glass-dark p-6 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-[#ad9cba] text-sm font-medium leading-normal">Financial Velocity</p>
+<p class="text-white tracking-tight text-3xl font-bold leading-tight">$284,912.40</p>
+</div>
+<div class="bg-primary/10 border border-primary/30 px-2 py-1 rounded text-primary text-xs font-bold">
+                        +24.8%
+                    </div>
+</div>
+<div class="flex min-h-[140px] flex-col gap-4 py-4">
+<svg fill="none" height="100" preserveaspectratio="none" viewbox="0 0 400 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 80C20 75 40 40 60 45C80 50 100 85 120 75C140 65 160 20 180 25C200 30 220 60 240 55C260 50 280 15 300 10C320 5 340 30 360 25C380 20 400 5 400 5V100H0V80Z" fill="url(#paint0_linear)"></path>
+<path d="M0 80C20 75 40 40 60 45C80 50 100 85 120 75C140 65 160 20 180 25C200 30 220 60 240 55C260 50 280 15 300 10C320 5 340 30 360 25C380 20 400 5" stroke="#9d25f4" stroke-linecap="round" stroke-width="3"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="paint0_linear" x1="200" x2="200" y1="0" y2="100">
+<stop stop-color="#9d25f4" stop-opacity="0.4"></stop>
+<stop offset="1" stop-color="#9d25f4" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="flex justify-between px-2">
+<p class="text-[#ad9cba] text-[10px] font-bold tracking-widest uppercase">Mon</p>
+<p class="text-[#ad9cba] text-[10px] font-bold tracking-widest uppercase">Tue</p>
+<p class="text-[#ad9cba] text-[10px] font-bold tracking-widest uppercase">Wed</p>
+<p class="text-[#ad9cba] text-[10px] font-bold tracking-widest uppercase">Thu</p>
+<p class="text-[#ad9cba] text-[10px] font-bold tracking-widest uppercase">Fri</p>
+<p class="text-primary text-[10px] font-black tracking-widest uppercase">Today</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Global Stats -->
+<div class="flex gap-4 px-4 pb-6 overflow-x-auto no-scrollbar">
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl glassmorphism p-4 bg-glass-dark">
+<p class="text-[#ad9cba] text-xs font-medium uppercase tracking-wider">Revenue Share</p>
+<p class="text-white text-xl font-bold leading-tight">$42.1k</p>
+</div>
+<div class="flex min-w-[140px] flex-1 flex-col gap-1 rounded-xl glassmorphism p-4 bg-glass-dark border-l-2 border-l-primary">
+<p class="text-[#ad9cba] text-xs font-medium uppercase tracking-wider">Active Store</p>
+<p class="text-white text-xl font-bold leading-tight">1,204</p>
+</div>
+</div>
+<!-- Invoicing Engine Section -->
+<div class="px-4 pb-6">
+<div class="glassmorphism rounded-xl bg-primary/10 p-5 flex flex-col gap-4 border border-primary/30 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 size-24 bg-primary/20 blur-3xl rounded-full"></div>
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(157,37,244,0.5)]">
+<span class="material-symbols-outlined text-white">sync_alt</span>
+</div>
+<div>
+<h3 class="text-white font-bold text-base leading-tight">Invoicing Engine</h3>
+<p class="text-primary/80 text-xs font-medium uppercase tracking-tighter">Automated Billing Cycle</p>
+</div>
+</div>
+<div class="flex items-center justify-between gap-4 mt-2">
+<div class="flex flex-col">
+<p class="text-[#ad9cba] text-xs">Next automated run</p>
+<p class="text-white text-sm font-bold">Today @ 11:59 PM</p>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/80 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-[0_0_20px_rgba(157,37,244,0.4)]">
+<span>Run Now</span>
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Client Accounts Section Header -->
+<div class="flex items-center justify-between px-4 pb-3">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">Client Accounts</h2>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+                View All <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+<!-- Client Accounts List -->
+<div class="flex flex-col gap-3 px-4 pb-24">
+<!-- Account 1 -->
+<div class="glassmorphism rounded-xl bg-glass-dark p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-center bg-cover bg-[#322839]" data-alt="Cyberpunk style minimalist logo for a high-end fashion brand" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCLsrYFGyxO88svR4vFaL6YmxpWJOtPLCkeznviosm-ClSYNSLIV8yQEzz4-tfQWraGsgRXyYMrPjs2jZlSBvEj7vMduakGX_2S_AEIzGAGCtOIStT8EHdis-JaLF244YmWyPAO5HTtxcCVuCMLHBQOMWsu-XzTuRFjIBRy5GSisRyTrdY-mNIaPyHW4Gevij5V24p98uIdw_UYr1UO0EbGSD6MI2l0mBoRSDK6H0UzoZrmkqtPCX5dzQgo_zXmnWbt07UgkRpQbCo");'></div>
+<div class="flex flex-col">
+<span class="text-white font-bold text-sm">Aura Kinetics</span>
+<span class="text-[#ad9cba] text-xs">ID: #FF-9021</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-2 py-1 rounded-full">
+<div class="size-2 rounded-full bg-emerald-500 status-glow-active"></div>
+<span class="text-emerald-500 text-[10px] font-black uppercase tracking-widest">Active</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 border-t border-glass-border pt-3">
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">Stores</span>
+<span class="text-white font-medium">12</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">MRR</span>
+<span class="text-white font-medium">$8,450</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">AI Fees</span>
+<span class="text-primary font-medium">$1,204</span>
+</div>
+</div>
+</div>
+<!-- Account 2 -->
+<div class="glassmorphism rounded-xl bg-glass-dark p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-center bg-cover bg-[#322839]" data-alt="Modern geometric emblem for a sustainable furniture brand" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA9-q9XKtf3INyZhu8XhJz8gs7eDRpk25c6Yp0NhfHZLY0wr3q-9mqP5xzbXvc2iOMZ4TigemPUKhDKbozkGE46kgwZamZLSg_zQjF7NatFWmq3B1_W8CVvtfXF3XjjTzrir7tNYTBuJXr4r0Jb_XtVPM3abH_9F9YwTBKjPnrKnXLIGUfVjs4DFNKeJzYCHYh-6dl33gIpl8V5ng7skfwB6gJHkbsGEOiTviXHgRc6ka70u98uB1TpGKcNsI55XX2x2QHi2PFbkOs");'></div>
+<div class="flex flex-col">
+<span class="text-white font-bold text-sm">Neo-Veneer</span>
+<span class="text-[#ad9cba] text-xs">ID: #FF-8842</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-2 py-1 rounded-full">
+<div class="size-2 rounded-full bg-amber-500 status-glow-pending"></div>
+<span class="text-amber-500 text-[10px] font-black uppercase tracking-widest">Pending</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 border-t border-glass-border pt-3">
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">Stores</span>
+<span class="text-white font-medium">4</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">MRR</span>
+<span class="text-white font-medium">$3,200</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">AI Fees</span>
+<span class="text-primary font-medium">$412</span>
+</div>
+</div>
+</div>
+<!-- Account 3 -->
+<div class="glassmorphism rounded-xl bg-glass-dark p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-center bg-cover bg-[#322839]" data-alt="Bold minimalist logo for a tech startup" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5ZMVghP3TLbsl5pRim1pSCAk2Azd5sCDGms4g4Xg8PRFYW16D68R82_TL73CyqskUiAlffZBVV8Ssfa3pLAPPXsB9i1iulPovknrLzXGvv87utfFBh6-ErdfRLLo02JyAQRg9YmZLL7IKv_EvoN1BZaf5wFSJn2dKSqZA_sZapnoYhOmg7YpWy6YExuGoBVCK_mbypeW98grtcIHksepEqD6mt4OGugC3Q0iqg1Ci2Xzma3SsUoNLIDC9rUY2UkAerJLUdyG8Nlw");'></div>
+<div class="flex flex-col">
+<span class="text-white font-bold text-sm">Vapor Pulse</span>
+<span class="text-[#ad9cba] text-xs">ID: #FF-7721</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-red-500/10 border border-red-500/30 px-2 py-1 rounded-full">
+<div class="size-2 rounded-full bg-red-500 status-glow-overdue"></div>
+<span class="text-red-500 text-[10px] font-black uppercase tracking-widest">Overdue</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 border-t border-glass-border pt-3">
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">Stores</span>
+<span class="text-white font-medium">18</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">MRR</span>
+<span class="text-white font-medium">$14,100</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">AI Fees</span>
+<span class="text-primary font-medium">$2,850</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] z-50">
+<div class="glassmorphism rounded-2xl bg-glass-dark/90 px-6 py-4 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined font-variation-fill-1">grid_view</span>
+<span class="text-[10px] font-bold uppercase">Nexus</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-[#ad9cba]">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold uppercase">Clients</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-[#ad9cba]">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-[10px] font-bold uppercase">Bills</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-[#ad9cba]">
+<span class="material-symbols-outlined">settings_suggest</span>
+<span class="text-[10px] font-bold uppercase">Engine</span>
+</button>
+</div>
+</div>
+<div class="h-10"></div>
+</div>
+</body></html>

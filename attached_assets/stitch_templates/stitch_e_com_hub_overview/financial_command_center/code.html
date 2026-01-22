@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Command Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0b0b0b",
+                        "card-dark": "rgba(255, 255, 255, 0.05)",
+                        "success-neon": "#39FF14",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="Close up portrait of a professional male founder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyRQiR5ZGorJStOmQFrm1IqB362fqU-ZwhkJQUCzpmfXUQuwCECz6Sq10CnV1Kf29vLA18zU4cduHpFRuqReREEQxENvFv0m7QaJfGq3uMWM4VkqXMb1-ARCDF_UR2xy-aymbZoGZvSJAEW844Vqa5eUHlSmETItzEiOjl47eLNiD-g9BhSg6jFUKU5yA8cXsRfe2r_jIRH6EGocHfzxWSqdG0DNRvegNDyE-WUVaIorV7fEZ0Le1oxXEo0Jy7DiZII3ugbG18zCM"/>
+</div>
+<div>
+<h1 class="text-sm font-medium text-slate-500 dark:text-slate-400">Financial Command</h1>
+<h2 class="text-lg font-bold leading-none">Dashboard</h2>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="size-10 flex items-center justify-center rounded-full glass-card">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full glass-card">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</button>
+</div>
+</header>
+<main class="pb-32">
+<!-- Horizontal KPI Carousel -->
+<div class="flex overflow-x-auto hide-scrollbar gap-4 px-4 py-4 mt-2">
+<!-- Net Profit Card -->
+<div class="flex min-w-[160px] flex-col gap-2 rounded-xl p-5 glass-card relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-20">
+<span class="material-symbols-outlined text-success-neon">trending_up</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Net Profit</p>
+<p class="text-2xl font-bold leading-tight">$42,500</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-success-neon text-sm">north_east</span>
+<p class="text-success-neon text-sm font-medium">+12.4%</p>
+</div>
+</div>
+<!-- Tax Liability Card -->
+<div class="flex min-w-[160px] flex-col gap-2 rounded-xl p-5 glass-card relative overflow-hidden">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Est. Tax</p>
+<p class="text-2xl font-bold leading-tight">$8,200</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-amber-400 text-sm">warning</span>
+<p class="text-amber-400 text-sm font-medium">Due in 14d</p>
+</div>
+</div>
+<!-- Total Margin Card -->
+<div class="flex min-w-[160px] flex-col gap-2 rounded-xl p-5 glass-card relative overflow-hidden">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Total Margin</p>
+<p class="text-2xl font-bold leading-tight">34.2%</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-success-neon text-sm">north_east</span>
+<p class="text-success-neon text-sm font-medium">+2.1%</p>
+</div>
+</div>
+</div>
+<!-- Revenue vs Expenses Chart Area -->
+<section class="px-4 mt-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold">Revenue vs. Expenses</h3>
+<div class="flex bg-slate-200 dark:bg-white/5 rounded-full p-1">
+<button class="px-3 py-1 rounded-full text-xs font-medium bg-white dark:bg-primary shadow-sm">Monthly</button>
+<button class="px-3 py-1 rounded-full text-xs font-medium text-slate-500">Weekly</button>
+</div>
+</div>
+<div class="glass-card rounded-xl p-6">
+<div class="flex justify-between items-end mb-8">
+<div>
+<p class="text-slate-400 text-sm">Total Revenue</p>
+<p class="text-3xl font-bold">$65,240</p>
+</div>
+<div class="flex items-center gap-4 text-xs">
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-primary"></span>
+<span class="text-slate-400">Fixed</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-primary/40"></span>
+<span class="text-slate-400">Variable</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-4 items-end min-h-[160px] px-2">
+<!-- Bar 1 -->
+<div class="flex flex-col items-center gap-3 h-full justify-end">
+<div class="w-full flex flex-col justify-end gap-0.5 h-full">
+<div class="bg-primary/40 rounded-t-sm" style="height: 30%;"></div>
+<div class="bg-primary rounded-b-sm" style="height: 60%;"></div>
+</div>
+<span class="text-[10px] font-bold text-slate-500 uppercase">COGS</span>
+</div>
+<!-- Bar 2 -->
+<div class="flex flex-col items-center gap-3 h-full justify-end">
+<div class="w-full flex flex-col justify-end gap-0.5 h-full">
+<div class="bg-primary/40 rounded-t-sm" style="height: 20%;"></div>
+<div class="bg-primary rounded-b-sm" style="height: 45%;"></div>
+</div>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Ads</span>
+</div>
+<!-- Bar 3 -->
+<div class="flex flex-col items-center gap-3 h-full justify-end">
+<div class="w-full flex flex-col justify-end gap-0.5 h-full">
+<div class="bg-primary/40 rounded-t-sm" style="height: 10%;"></div>
+<div class="bg-primary rounded-b-sm" style="height: 15%;"></div>
+</div>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Fees</span>
+</div>
+<!-- Bar 4 -->
+<div class="flex flex-col items-center gap-3 h-full justify-end">
+<div class="w-full bg-success-neon/80 rounded-t-sm" style="height: 95%;"></div>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Profit</span>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Tax Optimizer Panel -->
+<section class="px-4 mt-8">
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/20 via-background-dark to-background-dark border border-primary/30 p-6">
+<div class="absolute -right-8 -top-8 size-32 bg-primary/20 blur-3xl"></div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h3 class="font-bold text-lg">AI Tax Optimizer</h3>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4 items-start bg-white/5 p-3 rounded-lg border border-white/5">
+<div class="size-8 shrink-0 flex items-center justify-center bg-primary/20 rounded-lg text-primary">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Unclaimed Deductions</p>
+<p class="text-xs text-slate-400 mt-1">We found $1,240 in hardware expenses from Apple.com not yet categorized.</p>
+<button class="text-primary text-xs font-bold mt-2 flex items-center gap-1">
+                                Review items <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex gap-4 items-start bg-white/5 p-3 rounded-lg border border-white/5">
+<div class="size-8 shrink-0 flex items-center justify-center bg-success-neon/20 rounded-lg text-success-neon">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Projected Savings</p>
+<p class="text-xs text-slate-400 mt-1">Switching to S-Corp status could save you ~$3,400 this fiscal year.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Profit by Platform -->
+<section class="px-4 mt-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold">Profit by Platform</h3>
+<span class="text-xs text-primary font-bold">View All</span>
+</div>
+<div class="space-y-3">
+<!-- Shopify -->
+<div class="glass-card rounded-xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-white/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#95bf47]">shopping_bag</span>
+</div>
+<div>
+<p class="text-sm font-bold">Shopify Store</p>
+<p class="text-[10px] text-slate-500 uppercase font-medium">Main Channel</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$28,450</p>
+<div class="w-20 h-1 bg-white/10 rounded-full mt-1.5 overflow-hidden">
+<div class="h-full bg-success-neon" style="width: 75%"></div>
+</div>
+</div>
+</div>
+<!-- Amazon -->
+<div class="glass-card rounded-xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-white/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ff9900]">package_2</span>
+</div>
+<div>
+<p class="text-sm font-bold">Amazon FBA</p>
+<p class="text-[10px] text-slate-500 uppercase font-medium">Global Sales</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$12,120</p>
+<div class="w-20 h-1 bg-white/10 rounded-full mt-1.5 overflow-hidden">
+<div class="h-full bg-success-neon" style="width: 35%"></div>
+</div>
+</div>
+</div>
+<!-- eBay -->
+<div class="glass-card rounded-xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-white/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-400">storefront</span>
+</div>
+<div>
+<p class="text-sm font-bold">eBay Direct</p>
+<p class="text-[10px] text-slate-500 uppercase font-medium">Secondary</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$2,530</p>
+<div class="w-20 h-1 bg-white/10 rounded-full mt-1.5 overflow-hidden">
+<div class="h-full bg-success-neon" style="width: 12%"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Footer Action -->
+<div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-dark via-background-dark to-transparent z-50">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">ios_share</span>
+            Export for Accounting
+        </button>
+</div>
+</body></html>

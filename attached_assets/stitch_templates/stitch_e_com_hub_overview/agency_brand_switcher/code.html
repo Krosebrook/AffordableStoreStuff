@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agency Brand Switcher</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#1a1022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(30, 20, 40, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow:focus-within {
+            box-shadow: 0 0 15px rgba(157, 37, 244, 0.4);
+            border-color: #9d25f4;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white">
+<!-- Simulated Dashboard Background (Blurred) -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none opacity-40 blur-3xl">
+<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/30 rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/20 rounded-full"></div>
+</div>
+<!-- Main Switcher Modal Container -->
+<div class="relative z-10 min-h-screen flex flex-col max-w-[480px] mx-auto overflow-hidden">
+<!-- TopAppBar -->
+<div class="flex items-center px-4 pt-6 pb-2 justify-between sticky top-0 z-20">
+<div class="text-white flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined cursor-pointer">close</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight flex-1 text-center">Switch Brand</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-white/10 hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-white text-[24px]">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- SearchBar with Neon Accents -->
+<div class="px-4 py-4">
+<label class="flex flex-col min-w-40 h-14 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full glass-card neon-glow transition-all duration-300">
+<div class="text-[#ad9cba] flex border-none items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-[#ad9cba] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal" placeholder="Search brands, clients, or domains..." value=""/>
+</div>
+</label>
+</div>
+<!-- SectionHeader: Pinned -->
+<div class="px-4 pt-4">
+<div class="flex justify-between items-center">
+<h3 class="text-white text-lg font-bold leading-tight tracking-tight">Pinned Brands</h3>
+<span class="material-symbols-outlined text-primary text-sm">push_pin</span>
+</div>
+</div>
+<!-- Carousel / Pinned Brands -->
+<div class="flex overflow-x-auto hide-scrollbar">
+<div class="flex items-stretch p-4 gap-4">
+<!-- Pinned Brand 1 -->
+<div class="flex flex-col gap-3 text-center rounded-xl p-4 glass-card min-w-[120px] border-b-2 border-primary">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-16 mx-auto border-2 border-primary/50" data-alt="Nike store logo with minimalist design" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPwH6ihpuePBSbNpZm8vLgbrlu69vcGOUX0Apqq6GUNGHrEMmXdYMkgyvAKmCgHkiWWx7PZ6oE-yAUM9lWJbbngIWWaNORUmLGLgnxXAv8-Br-Vsl_MPLDlqYFniroJiJjCUi2F3q10RxPTgyYg_Drq__WRMv7tKDgeV7aMa6Q6IEw1KLa_h-NflhdPFC5QzU9s4EJhMwHun1FIobjcRFFCcRGZFossIcH99liuPCNaB6MwsB_4aod9yBktkc2BxrNnsxKiJ708rs");'></div>
+<div class="absolute bottom-0 right-4 h-3 w-3 rounded-full bg-green-500 border-2 border-[#1a1022]"></div>
+</div>
+<div>
+<p class="text-white text-sm font-semibold truncate">Nike Store</p>
+<p class="text-primary text-[10px] font-bold uppercase tracking-wider">Active</p>
+</div>
+</div>
+<!-- Pinned Brand 2 -->
+<div class="flex flex-col gap-3 text-center rounded-xl p-4 glass-card min-w-[120px]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-16 mx-auto" data-alt="Apple reseller branding icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-RzQYImwfHhjSmhAgolqpV0X_V6dJwlGaNVmIZBic2oDOIJ7yfTQpCob__s0G3fbVqT6ZIY0E1MTpyOnRdUH4cP_7sFzDLaOzBbWN6I5uekyx6I9BxSLBPhBlEg7AbqoqrnDp3BLCXuWrXdd9qpDjTGw2U_4tKs4cJbHjubebl4MS-qY3ZCKYplyRX9p8yDZ7mrwjsRhDaru4Wqih-r81evEENSF4VKcHK3Ffz8NvFSIDdppY_8XXXeKoYrQ_0Xck2--ezjBY6Xk");'></div>
+<div>
+<p class="text-white text-sm font-semibold truncate">Apple Reseller</p>
+<p class="text-[#ad9cba] text-[10px] font-bold uppercase tracking-wider">Idle</p>
+</div>
+</div>
+<!-- Pinned Brand 3 -->
+<div class="flex flex-col gap-3 text-center rounded-xl p-4 glass-card min-w-[120px]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full flex flex-col self-center w-16 mx-auto" data-alt="Luxury beauty brand minimalist logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAaaCHocVfzlWeixrf113r0jL1FtLijNOCpbDU57tID5amY1edFBBgY7VN_cl2G4svSDpvtu8t79jfS401ISE_9iy_6m3l2d58t0cnzawIYhS-NeXFsseRCWR1D9B6aHr6k6kXwXuVjyzUW0WNWoJvtoKVJ_aaCE8MrP250SW_gI4GIXT-trWkTaeJoMKjzSkkWoGjsuqVr2EceqNlnirt_4kORPZlwwuo9_2sVYQG4x0bDgbl4pv2w24M3m1O5MXuhJ6GDxq7MXx0");'></div>
+<div>
+<p class="text-white text-sm font-semibold truncate">LuxeBeauty</p>
+<p class="text-primary text-[10px] font-bold uppercase tracking-wider">Active</p>
+</div>
+</div>
+</div>
+</div>
+<!-- SectionHeader: All Brands -->
+<div class="px-4 pt-6">
+<h3 class="text-white text-lg font-bold leading-tight tracking-tight">All Clients</h3>
+</div>
+<!-- Brand Grid -->
+<div class="grid grid-cols-2 gap-4 p-4">
+<!-- Brand Tile 1 -->
+<div class="glass-card rounded-xl p-4 flex flex-col gap-3 group cursor-pointer hover:bg-white/10 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-cover bg-center" data-alt="Abstract modern gear logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLKcXsegNI1Mnck9D9vaSMJO6wKxHctQRrj0S0gEFiiNu3qC8_NG6nvuIthALtcLwyWbVu-8ApJD2BQoZFO7eUztohfrhBPtfnb-ci2TuOXl7uuN8MHJ9tXjmraphbod1pawRonvM4OgJTKlmwngt7YXu0OPXn50TdAcg53OPvxwXUypNW8qGK-RF0z9YBF-rrVrVjo6qQWZcuTbV-9nTJG-Y_qu5s3RWKS5WnPDLdKzuCjdiE_yL1gDZgFebe40gedAQbLnh7wlg");'></div>
+<div class="overflow-hidden">
+<p class="text-white text-sm font-bold truncate">GamerGear</p>
+<p class="text-[#ad9cba] text-[10px]">Gaming E-comm</p>
+</div>
+</div>
+<!-- Mini Sparkline -->
+<div class="h-8 w-full flex items-end gap-[2px]">
+<div class="w-full h-[2px] bg-primary/20 relative overflow-hidden rounded-full">
+<div class="absolute left-0 top-0 h-full bg-primary w-[70%]" style="box-shadow: 0 0 10px #9d25f4;"></div>
+</div>
+<div class="text-right w-full">
+<span class="text-[10px] text-green-400 font-mono">+12.5%</span>
+</div>
+</div>
+</div>
+<!-- Brand Tile 2 -->
+<div class="glass-card rounded-xl p-4 flex flex-col gap-3 group cursor-pointer hover:bg-white/10 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-cover bg-center" data-alt="Cute animal related logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBcx9s8T1ebHVQkwp16nvfQxP54RsouZpyVzRRu6WSUHhUU-ony6cGZyWANmKuZqlUNByuskFBUR7CIRnVuxX2_kWYmTKLv0AS2XZXA0EH81wrz5ZLKu540tMs-DBRPrE-5OFT8MUOIL0BGfTXYI7MW1ZZ5W-57uSzA04a1qD-1KI76fbJA6XcnunzcJqf4Pkj5XQNBnWs_ZWB3KyiuCVdNq_RDmpzTQwChn_OOOgv9VWYQlWTmO8hPhHoN9fh8BDsnOBe8D0AaCjM");'></div>
+<div class="overflow-hidden">
+<p class="text-white text-sm font-bold truncate">PetPalace</p>
+<p class="text-[#ad9cba] text-[10px]">Pet Supplies</p>
+</div>
+</div>
+<!-- Mini Sparkline -->
+<div class="h-8 w-full flex items-end gap-[2px]">
+<div class="w-full h-[2px] bg-primary/20 relative overflow-hidden rounded-full">
+<div class="absolute left-0 top-0 h-full bg-primary w-[45%]" style="box-shadow: 0 0 10px #9d25f4;"></div>
+</div>
+<div class="text-right w-full">
+<span class="text-[10px] text-green-400 font-mono">+4.2%</span>
+</div>
+</div>
+</div>
+<!-- Brand Tile 3 -->
+<div class="glass-card rounded-xl p-4 flex flex-col gap-3 group cursor-pointer hover:bg-white/10 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-cover bg-center" data-alt="Modern furniture icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0nLffBsuVEpTMIjXcMAxhx6Tjy4H2Hwne7QjIRQP-lGYbD_EhwO3BRmB4vO_XGMDXrryr-KU4PeufXD6ZtblaydsaY1CvrHoY9pdfii2HtOeeidckonrta_O7_9bHu5zy-Kpw-oWo15YsFboi7YMHLg1WAH1RBaiOC6UIIq2u721Rph3D14dHPDhN3Z8rwYuKDjQYSnxqGu7DRGc-rmpYi8B1u25cE_tsPwoLb_ykGMFofzsa2qhJIZKEd8JrxAa_kicxBbn8__w");'></div>
+<div class="overflow-hidden">
+<p class="text-white text-sm font-bold truncate">UrbanNest</p>
+<p class="text-[#ad9cba] text-[10px]">Furniture</p>
+</div>
+</div>
+<!-- Mini Sparkline -->
+<div class="h-8 w-full flex items-end gap-[2px]">
+<div class="w-full h-[2px] bg-primary/20 relative overflow-hidden rounded-full">
+<div class="absolute left-0 top-0 h-full bg-red-400 w-[30%]"></div>
+</div>
+<div class="text-right w-full">
+<span class="text-[10px] text-red-400 font-mono">-2.1%</span>
+</div>
+</div>
+</div>
+<!-- Add New Client Card -->
+<div class="border-2 border-dashed border-primary/40 rounded-xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-primary/5 transition-all">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">add</span>
+</div>
+<p class="text-primary text-xs font-bold uppercase">Add Client</p>
+</div>
+</div>
+<!-- Sticky Bottom CTA -->
+<div class="mt-auto p-4 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent pt-10 sticky bottom-0">
+<button class="w-full bg-primary text-white h-14 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/25 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">dashboard_customize</span>
+<span>Manage All Brands</span>
+</button>
+<!-- iOS Home Indicator Spacing -->
+<div class="h-6"></div>
+</div>
+</div>
+</body></html>

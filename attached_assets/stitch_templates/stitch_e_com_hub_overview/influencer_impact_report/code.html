@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Influencer Impact Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#05040a",
+                        "glass": "rgba(255, 255, 255, 0.03)",
+                        "neon-pink": "#ff2dcf",
+                        "neon-cyan": "#00f3ff",
+                        "neon-purple": "#bc13fe"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #05040a;
+            color: white;
+            overflow-x: hidden;
+        }
+        .energy-stream {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(71, 37, 244, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.1) 0%, transparent 40%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-ring {
+            box-shadow: 0 0 20px rgba(71, 37, 244, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="energy-stream"></div>
+<!-- Top Navigation -->
+<header class="flex items-center p-6 justify-between sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white">arrow_back_ios</span>
+<h2 class="text-white text-lg font-bold tracking-tight">Impact Report</h2>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center justify-center rounded-full w-10 h-10 bg-glass text-white">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button class="flex items-center justify-center rounded-full w-10 h-10 bg-glass text-white">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</header>
+<main class="px-4 pb-24 space-y-6">
+<!-- AI Influencer Header -->
+<section class="flex flex-col items-center py-6 text-center">
+<div class="relative mb-4">
+<div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-primary via-neon-purple to-neon-pink glow-ring">
+<div class="w-full h-full rounded-full bg-center bg-no-repeat bg-cover border-4 border-background-dark" data-alt="AI influencer avatar with futuristic neon aesthetic" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB19Fc7JoV31xeCUOW5zbApskbKefQ91OuwYM0RpnAlgsw9VC2ZtiLX2nCyazS_of5-PO6f1OKzuHw_G16QWddoziDdOKQF0fIYwRHDVN2L5vo7RAqHr6DswubiOU1634mU0Y6Jn4ZR9IxD-ize9TiqAYnfE5ib9pEXr2O7DCSQEywnMX5iiflULaeAUwRRc24XVECZ9ZOsgv8ujC3eUF0pAoQ5i15W9CYvZS_6Z_5GgIp5tK-J0yNS9sTm9Or9xwqwCoomJkhjP9k");'>
+</div>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest border border-white/20">
+                    AI Active
+                </div>
+</div>
+<h1 class="text-3xl font-bold tracking-tighter">Aria Flux v2.4</h1>
+<p class="text-white/50 text-sm mt-1">Campaign: FlashFusion X Genesis</p>
+<div class="mt-6 glass-card px-6 py-4 rounded-xl inline-flex items-center gap-4">
+<div>
+<p class="text-[10px] text-white/50 uppercase tracking-widest font-bold">Total Impact Score</p>
+<p class="text-3xl font-bold text-white tracking-tighter">98.4<span class="text-primary text-lg ml-1">/100</span></p>
+</div>
+<div class="h-10 w-[1px] bg-white/10"></div>
+<div class="flex items-center gap-2 text-green-400">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-bold text-sm">+12.5%</span>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="grid grid-cols-2 gap-4">
+<div class="glass-card p-5 rounded-xl flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="text-xs text-white/50 font-medium">Viral Growth</p>
+<span class="text-neon-pink material-symbols-outlined text-lg">bolt</span>
+</div>
+<p class="text-2xl font-bold tracking-tight">+420%</p>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden mt-2">
+<div class="h-full bg-neon-pink w-3/4 rounded-full shadow-[0_0_8px_#ff2dcf]"></div>
+</div>
+</div>
+<div class="glass-card p-5 rounded-xl flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="text-xs text-white/50 font-medium">Sentiment</p>
+<span class="text-neon-cyan material-symbols-outlined text-lg">psychology</span>
+</div>
+<p class="text-2xl font-bold tracking-tight">88%</p>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden mt-2">
+<div class="h-full bg-neon-cyan w-[88%] rounded-full shadow-[0_0_8px_#00f3ff]"></div>
+</div>
+</div>
+</section>
+<!-- Influence Cards (Glassmorphic Charts) -->
+<section class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Advanced Analytics</h3>
+<!-- Viral Growth Sparkline -->
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div>
+<p class="text-white font-bold text-lg">Engagement Velocity</p>
+<p class="text-neon-pink text-xs font-bold">+2.4M reach peak</p>
+</div>
+<span class="material-symbols-outlined text-neon-pink">insights</span>
+</div>
+<div class="h-24 w-full mt-2">
+<svg class="w-full h-full" viewbox="0 0 400 100">
+<path d="M0 80 Q 50 10, 100 60 T 200 30 T 300 70 T 400 20" fill="none" stroke="#ff2dcf" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0 80 Q 50 10, 100 60 T 200 30 T 300 70 T 400 20 V 100 H 0 Z" fill="url(#grad-pink)"></path>
+<defs>
+<lineargradient id="grad-pink" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#ff2dcf;stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:#ff2dcf;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+<!-- Sentiment Shift Bar Chart -->
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div>
+<p class="text-white font-bold text-lg">Sentiment Distribution</p>
+<p class="text-neon-cyan text-xs font-bold">92% Positive resonance</p>
+</div>
+<span class="material-symbols-outlined text-neon-cyan">bar_chart</span>
+</div>
+<div class="grid grid-cols-7 gap-3 items-end h-24 mt-2">
+<div class="bg-white/10 rounded-t h-[40%]"></div>
+<div class="bg-neon-cyan rounded-t h-[60%] shadow-[0_0_10px_#00f3ff55]"></div>
+<div class="bg-white/10 rounded-t h-[30%]"></div>
+<div class="bg-neon-cyan rounded-t h-[90%] shadow-[0_0_10px_#00f3ff55]"></div>
+<div class="bg-neon-cyan rounded-t h-[75%] shadow-[0_0_10px_#00f3ff55]"></div>
+<div class="bg-white/10 rounded-t h-[45%]"></div>
+<div class="bg-neon-cyan rounded-t h-[95%] shadow-[0_0_10px_#00f3ff55]"></div>
+</div>
+<div class="flex justify-between px-1">
+<p class="text-[10px] text-white/30 font-bold uppercase">Mon</p>
+<p class="text-[10px] text-white/30 font-bold uppercase">Sun</p>
+</div>
+</div>
+<!-- Conversion Area Chart -->
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div>
+<p class="text-white font-bold text-lg">Flash Sales Contribution</p>
+<p class="text-neon-purple text-xs font-bold">4.2% CR Attribution</p>
+</div>
+<span class="material-symbols-outlined text-neon-purple">shopping_cart</span>
+</div>
+<div class="h-24 w-full mt-2">
+<svg class="w-full h-full" viewbox="0 0 400 100">
+<path d="M0 90 L 50 70 L 100 85 L 150 40 L 200 60 L 250 20 L 300 50 L 350 15 L 400 45" fill="none" stroke="#bc13fe" stroke-linejoin="round" stroke-width="3"></path>
+<path d="M0 90 L 50 70 L 100 85 L 150 40 L 200 60 L 250 20 L 300 50 L 350 15 L 400 45 V 100 H 0 Z" fill="url(#grad-purple)"></path>
+<defs>
+<lineargradient id="grad-purple" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#bc13fe;stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:#bc13fe;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+</section>
+<!-- Global Heatmap Section -->
+<section class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Interaction Heatmap</h3>
+<div class="glass-card rounded-2xl overflow-hidden relative aspect-[1.6/1]">
+<div class="absolute inset-0 opacity-40 bg-center bg-no-repeat bg-cover grayscale" data-alt="Minimalist world map for data visualization" data-location="Global" style='background-image: url("https://placeholder.pics/svg/300");'>
+</div>
+<!-- Hotspots -->
+<div class="absolute top-1/4 left-1/4 w-12 h-12 bg-primary/40 rounded-full blur-xl animate-pulse"></div>
+<div class="absolute top-1/4 left-1/4 w-3 h-3 bg-primary rounded-full shadow-[0_0_15px_#4725f4]"></div>
+<div class="absolute top-1/2 left-2/3 w-16 h-16 bg-neon-pink/30 rounded-full blur-xl animate-pulse"></div>
+<div class="absolute top-1/2 left-2/3 w-4 h-4 bg-neon-pink rounded-full shadow-[0_0_15px_#ff2dcf]"></div>
+<div class="absolute bottom-1/3 left-1/2 w-10 h-10 bg-neon-cyan/30 rounded-full blur-xl animate-pulse"></div>
+<div class="absolute bottom-1/3 left-1/2 w-2 h-2 bg-neon-cyan rounded-full shadow-[0_0_15px_#00f3ff]"></div>
+<!-- Heatmap Overlay Info -->
+<div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+<span class="text-[10px] font-bold tracking-widest text-white/80 uppercase">Live Global Flow</span>
+</div>
+</div>
+</section>
+<!-- AI Insight Toast -->
+<div class="bg-primary/20 border border-primary/30 p-4 rounded-xl flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<div>
+<p class="text-xs font-bold text-primary uppercase tracking-widest mb-1">AI Recommendation</p>
+<p class="text-sm leading-relaxed text-white/90">Aria Flux is currently overperforming in the Tokyo and LA clusters. Increase ad spend by 15% for the next 4 hours to maximize conversion velocity.</p>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar (iOS Style) -->
+<div class="fixed bottom-0 left-0 right-0 p-4 pb-8 bg-gradient-to-t from-background-dark via-background-dark to-transparent">
+<div class="max-w-md mx-auto grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 h-14 rounded-2xl glass-card text-white font-bold">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>Export Report</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-14 rounded-2xl bg-primary text-white font-bold shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Push Insights</span>
+</button>
+</div>
+</div>
+</body></html>

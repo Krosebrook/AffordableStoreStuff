@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Live Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7f0df2",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#050505",
+                        "surface-dark": "#191022",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(48, 40, 57, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(127, 13, 242, 0.3);
+        }
+        .neon-pulse {
+            box-shadow: 0 0 15px rgba(127, 13, 242, 0.6);
+        }
+        .text-neon {
+            text-shadow: 0 0 8px rgba(127, 13, 242, 0.8);
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-white overflow-hidden">
+<div class="relative flex h-screen w-full flex-col max-w-[430px] mx-auto shadow-2xl border-x border-white/5">
+<!-- Header / TopAppBar -->
+<header class="absolute top-0 left-0 right-0 z-50 flex items-center bg-gradient-to-b from-black/80 to-transparent p-4 pb-8 justify-between">
+<div class="flex items-center gap-2">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]">
+<span class="material-symbols-outlined text-white text-xl">sensors</span>
+</div>
+<div class="flex flex-col">
+<h2 class="text-white text-sm font-bold leading-tight tracking-tight uppercase">FlashFusion Live</h2>
+<p class="text-white/60 text-[10px] font-medium leading-tight">01:24:55 • STUDIO A</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1 bg-black/40 px-2 py-1 rounded-full border border-white/10">
+<span class="material-symbols-outlined text-green-400 text-xs fill-1">fiber_manual_record</span>
+<span class="text-[10px] font-bold">EXCELLENT</span>
+</div>
+<button class="bg-primary px-3 py-1.5 rounded-lg text-xs font-bold tracking-wider neon-pulse">END LIVE</button>
+</div>
+</header>
+<!-- Main Content Area (Live Feed) -->
+<main class="relative flex-1 bg-black overflow-hidden">
+<!-- Background Live Video Mockup -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Dynamic influencer presenting products in a neon-lit studio" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBGHpzKljzN9puXXkv-icBNZRDgNO9WyFFT4_K4DJEXhr36fsd_2Iz2MEwWoII4QQpFrUCB94zf02Ptn1s3rhNfFAGBPlCbW55x749pd-ZUsejH7GAZbnUN679nj-QpdplVJfAAWS8Kd7osHv5Zy_FuOGmR_n5QYkjCo65PzTVEY1ywZTUPgHGEkRvqSu1Dqa4pmyTCUS9rRFiPrjqNT0e3x0ys92PzwPYKDfGWSq1bCkPot3NxyWk1BStH4waFlIJqNe1APTkjgVs");'>
+<!-- Neon Overlay Layer -->
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40 opacity-80"></div>
+<!-- Floating Particle Mockup (Hearts/Comments) -->
+<div class="absolute bottom-40 left-4 flex flex-col gap-2 z-20">
+<div class="flex items-center gap-2 glass-panel p-2 rounded-full w-fit">
+<div class="size-6 rounded-full bg-blue-500 overflow-hidden" data-alt="Viewer avatar profile">
+<img alt="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1cwBhvfRB8SD1ixXjZHaBguqbMku6tZ8KgfJtUqgLluXhOB-JHC8oYGTWFnD4wzJ3o6EisIyJM6921QC6NRKCTOsyqLQglzSJ-eYAdJNNOxuFWNTFvML22uhM_Q4s4elMX06HBSAOevP_6e-jSUA8yeyIAVMeWvdkl8UgPp9QTZ3yZfPxrLwpde48OJf2o65YBB-mzztjaAZ7uzGzB3uD8ABVLavafpi0qV67MKHo_FbdzoJAPyr0fLfBfQmSDCGrNc4SYW8GE3I"/>
+</div>
+<p class="text-[11px] font-medium">@alex_v: OMG LOVE THIS! 🔥</p>
+</div>
+<div class="flex items-center gap-2 glass-panel p-2 rounded-full w-fit">
+<div class="size-6 rounded-full bg-purple-500 overflow-hidden" data-alt="Viewer avatar profile">
+<img alt="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx3gkOgjOgh4cnYoaOHhgqurajKZtBCQquGiynPDEIU9adIUNiV9F4gg0W4QpWJmjAB-exN27EnnYC5tOSFn097iAmapwZ7Xjma5zqgiW7hwAxEco2XMcSeGF6GKc1ngLnsdfCbZBHJIjdutMdFbHYhlFswXGOnI68Q9qOPMZdmqBxI7UyrTPfNb1Qh29ClvdRj4YAEq0UPuPV1hFRvHTrMDAaMd3IHY1kEaEE7rke9NHlr1MbS8PowyP3377Ukhw6KrYaWuEp9ys"/>
+</div>
+<p class="text-[11px] font-medium">@jade_fusion: Just ordered 2!!</p>
+</div>
+</div>
+<!-- Floating Hearts -->
+<div class="absolute bottom-40 right-6 z-20 flex flex-col-reverse items-center gap-4 opacity-70">
+<span class="material-symbols-outlined text-primary text-2xl fill-1 scale-125">favorite</span>
+<span class="material-symbols-outlined text-pink-400 text-xl fill-1 translate-x-2">favorite</span>
+<span class="material-symbols-outlined text-primary text-3xl fill-1 -translate-x-4 opacity-50">favorite</span>
+</div>
+</div>
+<!-- Left Panel: AI Moderation & Controls -->
+<aside class="absolute left-4 top-24 bottom-32 w-16 flex flex-col gap-4 z-30">
+<div class="glass-panel p-2 rounded-xl flex flex-col items-center gap-4 py-4">
+<div class="flex flex-col items-center gap-1 group cursor-pointer">
+<div class="size-10 rounded-lg bg-primary/20 border border-primary/50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<span class="text-[8px] font-bold text-center">AI MOD</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer">
+<div class="size-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+</div>
+<span class="text-[8px] font-bold text-center">SCENES</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer">
+<div class="size-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<span class="text-[8px] font-bold text-center">CHAT</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer">
+<div class="size-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<span class="text-[8px] font-bold text-center">TOOLS</span>
+</div>
+</div>
+<!-- Flash Sale Trigger -->
+<button class="w-full aspect-square glass-panel rounded-xl flex flex-col items-center justify-center gap-1 border-primary neon-pulse bg-primary/30">
+<span class="material-symbols-outlined text-primary text-2xl animate-pulse">bolt</span>
+<span class="text-[8px] font-black text-center text-white">FLASH SALE</span>
+</button>
+</aside>
+<!-- Right Panel: Analytics & Stats -->
+<aside class="absolute right-4 top-24 bottom-32 w-28 flex flex-col gap-3 z-30">
+<!-- Viewer Stat -->
+<div class="glass-panel p-3 rounded-xl flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<p class="text-[10px] text-white/60 font-bold uppercase">Viewers</p>
+<span class="material-symbols-outlined text-xs text-primary fill-1">visibility</span>
+</div>
+<p class="text-lg font-bold text-neon">12.4K</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px] text-green-400">trending_up</span>
+<p class="text-[10px] text-green-400 font-bold">+12%</p>
+</div>
+</div>
+<!-- Velocity Stat -->
+<div class="glass-panel p-3 rounded-xl flex flex-col gap-1">
+<p class="text-[10px] text-white/60 font-bold uppercase">Orders/min</p>
+<p class="text-lg font-bold text-neon">85</p>
+<div class="h-10 w-full mt-1">
+<svg class="w-full h-full" viewbox="0 0 100 40">
+<path d="M0,35 Q10,10 20,30 T40,20 T60,15 T80,30 T100,5" fill="none" stroke="#7f0df2" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- Product Hot List -->
+<div class="glass-panel flex-1 rounded-xl p-2 flex flex-col gap-2 overflow-hidden">
+<p class="text-[9px] text-white/60 font-bold uppercase px-1">Top Selling</p>
+<div class="flex-1 flex flex-col gap-2 overflow-y-auto pr-1">
+<div class="relative rounded-lg aspect-square bg-cover bg-center border border-white/10" data-alt="A futuristic gadget product" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYKE3y-fQA6bOysih_PNfKN0WBdKvbrMGS6xwja-79RZr3st1BpdwgSOLeWPKrfnNM02Q4bEHi0-hNegER6GRjNPDO7ShCHeGwwW0ug9Mu_06oaPgvnWbChSmCtjkhGKf4q4T5QbXlzSpJkKEz8BFdfekyKLBJfoSgAJpFu0Le8fgIpRUDyE5E8hs9qHN0yl2xrAsvF7m5jEv55gjLvfLKxZoS5wVyYLO9UIbnF0uKgjUB9SiIujY6_05kw5l-IfVQbk8CSVmWA8w");'>
+<div class="absolute top-1 left-1 bg-primary text-[8px] font-bold px-1 rounded">#1</div>
+</div>
+<div class="relative rounded-lg aspect-square bg-cover bg-center border border-white/10" data-alt="Modern wireless headphones" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBiqZcDklDzqrC3RLGBMfVjFg0ztnAiEnfFweapPX18HdQxeAOgQ9DYE6M1mIT9mO2wWn4FmW-_OsJl6F81-pv0IpZt6TH-2JSSATU5gz8WJqDhHZD1ud3dgAonpF3QFXCDBJdRYpcz4CdMnsk5V988CnRDY1UeqhAf7rwMjWahRch32C0p6qXQtESuHuMpcnSTYcEnTmV8x6kH6B1lNVvQnTjrRX-up2YoWN4yCMxx5X9c0KMIolG2zXS4crLha2sB0tDW16cMphQ");'>
+<div class="absolute top-1 left-1 bg-white/20 backdrop-blur-sm text-[8px] font-bold px-1 rounded">#2</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Bottom Bar: Product Carousel & AI Status -->
+<footer class="bg-surface-dark p-4 pt-2 border-t border-white/10 z-50">
+<!-- Product Strip -->
+<div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-3 mb-2">
+<div class="flex-none w-36 glass-panel p-2 rounded-xl flex gap-3 border-primary shadow-[0_0_10px_rgba(127,13,242,0.2)]">
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0" data-alt="Active featured product thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBPjGmWHMVgm2IToLk6y1jRCSW0DYuks8EnSV4gmQ3R1SH_u1-Dkip92hkcxn6bHz4c2RMPbNrVkl3u7M9nhHV5qDuySnjyA08m6E1_VG97QqpZDH1rRXLTowcKc0mmwb_JMCF1yV0qvxQq8W4EZ35sJ93HeGq99YotdORohRVsiWLvLcLlQdh_Yn_7w3DBOUo7rkhmiN_a1ShuyGAXelyXfKVbev1LJNSe9aOuJNbgAYejhitSMt_gWPaa9ZPkVH4UImM8vaeXEuk");'></div>
+<div class="flex flex-col justify-center min-w-0">
+<p class="text-[10px] font-bold truncate">Fusion Watch X1</p>
+<p class="text-primary text-xs font-bold">$129.00</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="size-1.5 rounded-full bg-red-500 animate-pulse"></span>
+<span class="text-[8px] text-white/60 uppercase">Live Offer</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-36 glass-panel p-2 rounded-xl flex gap-3 border-white/5 opacity-60">
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0" data-alt="Upcoming product thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBSLIo2Z3Tn7CHZMGMFG_6cq9ULhP00PO-uIyn6MPx3t_Rw9CeKrSXdKNaKtZTf1-Tg5IFJDNQalt9zEtKxK_dtxV4QsWTmhW1-x5G-dUlihKAhKejkoHrlp5Kc-VpNIkMdHWPC5s0VM57uzWzm1Hm1RrzAknte-Qh6nINUcEr19Z7QGM5qVS5_f4npHkq7WlVspmenI_VLD3U9HV5AyPSYQ6Hes8ZO4akuhTC3V30g8vBd8SLH-j_Rp4LNrEaeh5YhN6gVhHxg6GE");'></div>
+<div class="flex flex-col justify-center min-w-0">
+<p class="text-[10px] font-bold truncate">Nova Audio G2</p>
+<p class="text-white/60 text-xs font-bold">$89.00</p>
+</div>
+</div>
+<div class="flex-none w-36 glass-panel p-2 rounded-xl flex gap-3 border-white/5 opacity-60">
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0" data-alt="Upcoming product thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgycC_7QcohHWWQZUZMtGmc7dWmaT23AYRUBF6ad2T7dvLre9hL4F4oUjkFryCtzfEG3TXYcFYQ1BqWC_SdWMdd0DN7SDWLGzI3Al9KZDMmh_abP0IEvYUH4RYOH4tFTLjuU1HIjal7mgLtsS2TXF4pWrGVMj_1yl598VMETfW--7lXW5cqvtQc-_nKqCLanBiA-3X8ZtdE0wjXu3uUenHSfM6zq1yvqBIaop2dAUudfFsuEIyB5-fiz-Rx8i0Msumg19W1IpxjLU");'></div>
+<div class="flex flex-col justify-center min-w-0">
+<p class="text-[10px] font-bold truncate">Essential Flask</p>
+<p class="text-white/60 text-xs font-bold">$34.00</p>
+</div>
+</div>
+</div>
+<!-- Footer Meta -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1 text-[11px] font-medium text-white/40">
+<span class="material-symbols-outlined text-xs">shield</span>
+<span>AI Moderation Active</span>
+</div>
+<div class="h-1 w-1 rounded-full bg-white/20"></div>
+<p class="text-[11px] text-green-400 font-bold uppercase tracking-widest">99% Positive Sentiment</p>
+</div>
+<button class="flex items-center gap-1 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg border border-white/10 transition-colors">
+<span class="material-symbols-outlined text-sm">more_horiz</span>
+</button>
+</div>
+</footer>
+<!-- iPhone Home Indicator Padding -->
+<div class="h-6 bg-surface-dark"></div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</body></html>

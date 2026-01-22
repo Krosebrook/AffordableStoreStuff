@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ignite Your Stores - FlashFusion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#25d1f4",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#101f22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .active-glow {
+            border-color: #25d1f4;
+            box-shadow: 0 0 20px rgba(37, 209, 244, 0.3);
+        }
+        .bg-hangar-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(37, 209, 244, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="relative flex h-screen w-full flex-col overflow-hidden bg-hangar-grid">
+<!-- TopAppBar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between z-10">
+<div class="text-white flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-white/10 transition-colors" cursor-pointer="">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12 uppercase tracking-widest opacity-80">FlashFusion Hub</h2>
+</div>
+<!-- Progress Tracking (Subtle) -->
+<div class="px-6 pt-4 flex justify-between items-center z-10">
+<div class="flex gap-1">
+<div class="h-1 w-8 bg-primary rounded-full"></div>
+<div class="h-1 w-8 bg-white/20 rounded-full"></div>
+<div class="h-1 w-8 bg-white/20 rounded-full"></div>
+</div>
+<span class="text-[10px] text-primary font-bold tracking-tighter uppercase">Phase 01: Connection</span>
+</div>
+<!-- HeadlineText -->
+<div class="px-4 pt-8 pb-2 z-10 text-center">
+<h1 class="text-white tracking-tight text-[36px] font-bold leading-[1.1] pb-2">
+                Ignite Your <br/><span class="text-primary italic">First Store</span>
+</h1>
+</div>
+<!-- BodyText -->
+<div class="px-8 pb-6 z-10">
+<p class="text-white/60 text-base font-normal leading-relaxed text-center">
+                Initialize the fusion sequence by linking your primary commerce platform.
+            </p>
+</div>
+<!-- ImageGrid / Platform Selection (Modified for Glassmorphism) -->
+<div class="flex-1 overflow-y-auto px-4 pb-32">
+<div class="grid grid-cols-1 gap-4">
+<!-- Shopify Selection -->
+<div class="glass-card active-glow relative flex items-center gap-6 rounded-xl p-5 cursor-pointer group">
+<div class="size-16 rounded-lg bg-black/40 flex items-center justify-center overflow-hidden border border-white/10">
+<div class="bg-cover bg-center w-full h-full" data-alt="Shopify logo in neon green style" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXQ_z8LLilEAdgE7I1sWXVbXfwmN95AGrPHaRMkTNapAR3uzefa7impVc9Ql-ZLFH85QfBcE9knaEcJoqwjVyqge17DLkSqo3MZ4r_uUK0FVtV43V-ijDDRfZ0n4HfB5yGOp5iLomUSEdOgs39ATMtcLnyhG4WrXZVZLldzz4LAY72Fw4sWO_Zo726hVI0rDBe4bqXsiC7VmX1xadUOuO0fpeOSY2YyqTT8KLYPHEBo5b3xtolevLptIO5ouSdRuOfniRgK44XLtk");'></div>
+</div>
+<div class="flex-1">
+<p class="text-white text-xl font-bold leading-tight">Shopify</p>
+<p class="text-white/40 text-xs mt-1">Direct API Sync Enabled</p>
+</div>
+<div class="size-6 rounded-full border-2 border-primary flex items-center justify-center">
+<div class="size-3 bg-primary rounded-full"></div>
+</div>
+</div>
+<!-- Etsy Selection -->
+<div class="glass-card relative flex items-center gap-6 rounded-xl p-5 cursor-pointer hover:bg-white/5 transition-all">
+<div class="size-16 rounded-lg bg-black/40 flex items-center justify-center overflow-hidden border border-white/5">
+<div class="bg-cover bg-center w-full h-full grayscale opacity-50" data-alt="Etsy logo in clean white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCSkb4qBpSKXv63HWWfZUZW8Dk7KrNi4V1OvF7Bh99iK5vs6mb70Fcfy87czlo35YoHqTDg2yxOMIrRyyU4buEtoyLEknPXiCF5ZoEosPstlj3srEW2oIa6Kw3_f678_UIvE2pPhN8vkoc8UtrKlCIMPhpuE4MIb8F0a9OsJMzEuSY6KCj6c38Zjc6Yzm3XTekj2yoXAMBUq56y9Bz3u2tbT98xTQRx0xZWdKDxKFbgqMIwc9wHYzYCYhb-lDgCP9tq6O0K63tVgqY");'></div>
+</div>
+<div class="flex-1">
+<p class="text-white/70 text-xl font-bold leading-tight">Etsy</p>
+<p class="text-white/20 text-xs mt-1">Handmade Hub Integration</p>
+</div>
+<div class="size-6 rounded-full border-2 border-white/10 flex items-center justify-center"></div>
+</div>
+<!-- Amazon Selection -->
+<div class="glass-card relative flex items-center gap-6 rounded-xl p-5 cursor-pointer hover:bg-white/5 transition-all">
+<div class="size-16 rounded-lg bg-black/40 flex items-center justify-center overflow-hidden border border-white/5">
+<div class="bg-cover bg-center w-full h-full grayscale opacity-50" data-alt="Amazon logo in clean white" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCaVLEnsotxncW86umoTxDMM-nwsYbGgB8YWfZbFgvB-snxJtsine-wpbBSX9fc9Pk5ArWpUuOisgqtU0TsVv6eVeQijJHPhdCd7TOz0eyB8S9fPYYpSxNQ863kcUoIii81rwZEaC6O7LX_5-Syf2S57o_GN0Xhd6LiQK4DKjLBuYOTKaBRH5QfOlcirb3J9vRAC28D6v96XNT9CBKZ-aj2aiRi9NdmXJP-dov0jOvkCHY8u4MSnANiMKRsw3kWro-HamNS1k4jgDw");'></div>
+</div>
+<div class="flex-1">
+<p class="text-white/70 text-xl font-bold leading-tight">Amazon</p>
+<p class="text-white/20 text-xs mt-1">FBA Command Center</p>
+</div>
+<div class="size-6 rounded-full border-2 border-white/10 flex items-center justify-center"></div>
+</div>
+</div>
+</div>
+<!-- Footer / Control Deck -->
+<div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background-dark via-background-dark/95 to-transparent pb-8 pt-12 px-6 space-y-6">
+<!-- SectionHeader: Power Level -->
+<div class="space-y-2">
+<div class="flex justify-between items-end px-1">
+<h4 class="text-primary text-[10px] font-bold leading-none tracking-[0.2em] uppercase">System Power: 33%</h4>
+<span class="text-white/40 text-[10px] font-medium uppercase tracking-tighter">Calibrating Fusion...</span>
+</div>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+<div class="h-full bg-primary shadow-[0_0_10px_#25d1f4] w-1/3"></div>
+</div>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full bg-primary hover:bg-primary/90 text-background-dark py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all active:scale-95 shadow-[0_0_20px_rgba(37,209,244,0.4)]">
+<span class="material-symbols-outlined">bolt</span>
+                IGNITE CONNECTION
+            </button>
+<p class="text-[10px] text-white/30 text-center uppercase tracking-widest font-medium">Secure Encrypted Bridge (v2.0.4)</p>
+</div>
+<!-- Decorative Background Element -->
+<div class="absolute -bottom-20 -left-20 size-64 bg-primary/10 rounded-full blur-[100px] -z-10"></div>
+<div class="absolute top-40 -right-20 size-80 bg-primary/5 rounded-full blur-[120px] -z-10"></div>
+</div>
+</body></html>

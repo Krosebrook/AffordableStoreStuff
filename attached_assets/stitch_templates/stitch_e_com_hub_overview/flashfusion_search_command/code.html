@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Search Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "accent-pink": "#ff00e5",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#05040a", // Deep space black
+                        "glass-dark": "rgba(20, 18, 38, 0.7)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.4), inset 0 0 5px rgba(71, 37, 244, 0.2);
+        }
+        .energy-ring {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+            opacity: 0.4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/40 overflow-x-hidden min-h-screen">
+<!-- Energy Rings Background -->
+<div class="energy-ring w-[400px] h-[400px] bg-primary top-[-100px] right-[-100px]"></div>
+<div class="energy-ring w-[300px] h-[300px] bg-accent-pink bottom-[10%] left-[-150px]"></div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between">
+<div class="flex size-12 shrink-0 items-center">
+<div class="bg-primary/20 flex items-center justify-center rounded-full size-10 border border-primary/40">
+<span class="material-symbols-outlined text-primary text-2xl">bolt</span>
+</div>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">FlashFusion</h2>
+<span class="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Search Command</span>
+</div>
+<div class="flex w-12 items-center justify-end">
+<div class="size-10 rounded-full border-2 border-accent-pink/50 overflow-hidden bg-background-dark">
+<img alt="Futuristic robot mascot search assistant" class="w-full h-full object-cover" data-alt="Futuristic robot mascot search assistant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzGNLcsIsvNy1bkiUHfaB-q0gGcF3k_IzPMMauuRtL6lKnhXozcPlMtzSFsSt-VHpLjdO7EWOk6L-9z38DU4BNqCL7ptNhajw4o64Fs-d2zQKaVg1Wlbp_GoV0GC-ZKMhZ0VaCCrGA_TOY-LXRe91jkGOAu2LgSqsGp9KClwrEytQwptAWWJLJRcWYqvsFlmweb5ARyuX9m3ZKpgcT9tIztJBkbEohb4NVb2xlbxj8Od5OjGhWAmVfgpqyEL3wkn5cbg4k5MVb1pU"/>
+</div>
+</div>
+</div>
+<!-- SearchBar with Pulse Border -->
+<div class="px-4 py-6">
+<label class="flex flex-col min-w-40 h-14 w-full relative">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full glass-effect neon-border overflow-hidden bg-background-dark/40">
+<div class="text-primary flex items-center justify-center pl-4">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 text-white placeholder:text-gray-500 px-4 text-base font-normal" placeholder="Command your fleet..." value="Search for products or actions..."/>
+<div class="flex items-center justify-center pr-4">
+<button class="text-gray-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined">cancel</span>
+</button>
+</div>
+</div>
+<!-- Sub-text helper -->
+<p class="text-[11px] text-gray-400 mt-2 ml-1 flex items-center gap-1">
+<span class="text-primary font-bold">AI TIP:</span> Try "Find high-stock sneakers in New York"
+                </p>
+</label>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-3 px-4 pb-4 overflow-x-auto no-scrollbar">
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-5 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+<p class="text-white text-sm font-bold">Instant Actions</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full glass-effect px-5 bg-white/5">
+<span class="material-symbols-outlined text-sm text-gray-400">inventory_2</span>
+<p class="text-white text-sm font-medium">Products</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full glass-effect px-5 bg-white/5">
+<span class="material-symbols-outlined text-sm text-gray-400">group</span>
+<p class="text-white text-sm font-medium">Customers</p>
+</div>
+</div>
+<div class="flex flex-1 overflow-hidden">
+<!-- Main Content Area -->
+<div class="flex-1 px-4 pb-8 space-y-6 overflow-y-auto">
+<!-- Section: Instant Actions -->
+<div>
+<h3 class="text-white text-sm uppercase tracking-widest font-bold pb-3 opacity-60">Instant Actions</h3>
+<div class="grid grid-cols-1 gap-3">
+<div class="flex items-center gap-4 p-3 glass-effect rounded-xl bg-white/5 group hover:bg-primary/10 transition-all border-l-4 border-l-primary">
+<div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</div>
+<div class="flex-1">
+<p class="text-white font-bold text-sm">Create Flash Sale</p>
+<p class="text-gray-400 text-xs">Set 24h timer for active inventory</p>
+</div>
+<span class="material-symbols-outlined text-gray-600">chevron_right</span>
+</div>
+<div class="flex items-center gap-4 p-3 glass-effect rounded-xl bg-white/5 group hover:bg-primary/10 transition-all border-l-4 border-l-accent-pink">
+<div class="size-10 rounded-lg bg-accent-pink/20 flex items-center justify-center text-accent-pink">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div class="flex-1">
+<p class="text-white font-bold text-sm">Email Top 10% Customers</p>
+<p class="text-gray-400 text-xs">AI-generated loyalty campaign</p>
+</div>
+<span class="material-symbols-outlined text-gray-600">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Section: Products -->
+<div>
+<h3 class="text-white text-sm uppercase tracking-widest font-bold pb-3 opacity-60">Trending Products</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="glass-effect rounded-xl bg-white/5 overflow-hidden flex flex-col">
+<div class="aspect-square relative">
+<img alt="Neon red athletic shoes" class="w-full h-full object-cover" data-alt="Vibrant red athletic sneakers on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRDF7k4ahfk29LsuhGf5kj5N5_Ydr5tF6t0j4jWW-RAjl1sPZcup9TAO7Mwii07kOpYbVY0rubWmrIXfl6fskzIA86TGoOnuWVSYubDCi5MjCIfJbfxdPr253BVUdHApTap3cbKsDSHeUw3KkRc-KbuxaRcuZ51id9bqDHIEe1K66Cu9pO4DUn92UYWVdVM26psA8LuQm8ClaHGb1mK8TN3ES6LQo1rWF1V9Vp8k3hHEyTqFcO7YBr9K2FRf0pj5Kkyj1D2DJkxSY"/>
+<div class="absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded-md text-[10px] font-bold text-accent-pink border border-accent-pink/30">
+                                    IN STOCK
+                                </div>
+</div>
+<div class="p-3">
+<p class="text-sm font-bold truncate">Fusion Runner X1</p>
+<p class="text-primary font-bold">$189.00</p>
+</div>
+</div>
+<div class="glass-effect rounded-xl bg-white/5 overflow-hidden flex flex-col">
+<div class="aspect-square relative">
+<img alt="Minimalist modern wrist watch" class="w-full h-full object-cover" data-alt="Minimalist silver watch with clean aesthetics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSz-yNY1sLaGFEmhtiQ4zjrKLyEj3zudowSyw0lnP__U4uWQew92sTy2B4srMv5GzMh0jrHyIiIG0bc4QbRqqwFk-CvYUPtvUyWM6ihRe7FbpBVuC0EZEGAJOQGMPohEJNwtBh_GnYnja63GRIiVA4iym5QGH-AFrQNTA_D8fMZ8TTT7ji_DYCcjxqz247_nK15tb7spvZMxzsiVXazdDR45ML-vAoIWDJWKQSPPE02gjdh6h5r2Azj9fOyqjqAYjGGh-cnNmx69k"/>
+<div class="absolute top-2 right-2 bg-background-dark/80 px-2 py-1 rounded-md text-[10px] font-bold text-primary border border-primary/30">
+                                    LOW STOCK
+                                </div>
+</div>
+<div class="p-3">
+<p class="text-sm font-bold truncate">Nova Timepiece</p>
+<p class="text-primary font-bold">$245.00</p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Filters (Side/Bottom variant) -->
+<div>
+<h3 class="text-white text-sm uppercase tracking-widest font-bold pb-3 opacity-60">AI Filters</h3>
+<div class="flex flex-wrap gap-4">
+<div class="flex flex-col items-center gap-2 py-2 w-20">
+<div class="rounded-full bg-primary p-2 shadow-[0_0_10px_rgba(71,37,244,0.6)]">
+<span class="material-symbols-outlined text-white text-xl">toggle_on</span>
+</div>
+<p class="text-white text-[10px] font-bold uppercase tracking-tight text-center">Fast Ship</p>
+</div>
+<div class="flex flex-col items-center gap-2 py-2 w-20 opacity-40">
+<div class="rounded-full bg-white/10 p-2">
+<span class="material-symbols-outlined text-white text-xl">toggle_off</span>
+</div>
+<p class="text-white text-[10px] font-bold uppercase tracking-tight text-center">In Stock</p>
+</div>
+<div class="flex flex-col items-center gap-2 py-2 w-20 opacity-40">
+<div class="rounded-full bg-white/10 p-2">
+<span class="material-symbols-outlined text-white text-xl">toggle_off</span>
+</div>
+<p class="text-white text-[10px] font-bold uppercase tracking-tight text-center">VIP Only</p>
+</div>
+<div class="flex flex-col items-center gap-2 py-2 w-20 opacity-40">
+<div class="rounded-full bg-white/10 p-2">
+<span class="material-symbols-outlined text-white text-xl">toggle_off</span>
+</div>
+<p class="text-white text-[10px] font-bold uppercase tracking-tight text-center">Global</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button for AI Assistant -->
+<div class="fixed bottom-6 right-6 z-50">
+<button class="size-14 rounded-full bg-gradient-to-tr from-primary to-accent-pink shadow-[0_0_20px_rgba(71,37,244,0.5)] flex items-center justify-center transform active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-white text-3xl">smart_toy</span>
+</button>
+</div>
+</div>
+<!-- Bottom Navigation Bar (iOS style) -->
+<div class="fixed bottom-0 left-0 right-0 h-20 glass-effect bg-black/40 border-t border-white/5 z-40 px-8 flex items-center justify-between">
+<span class="material-symbols-outlined text-gray-500">grid_view</span>
+<span class="material-symbols-outlined text-gray-500">bar_chart</span>
+<div class="size-1 rounded-full bg-primary mt-8"></div> <!-- Active indicator -->
+<span class="material-symbols-outlined text-primary font-bold">search</span>
+<span class="material-symbols-outlined text-gray-500">notifications</span>
+<span class="material-symbols-outlined text-gray-500">settings</span>
+</div>
+</body></html>

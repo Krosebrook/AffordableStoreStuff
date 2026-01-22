@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Catalog Import &amp; AI Sync</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#131022",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(71, 37, 244, 0.4);
+        }
+        .bg-mesh {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(71, 37, 244, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(71, 37, 244, 0.1) 0px, transparent 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden bg-mesh">
+<!-- TopAppBar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between z-10">
+<div class="text-white flex size-12 shrink-0 items-center justify-center cursor-pointer" data-icon="arrow_back" data-size="24px">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Catalog Import</h2>
+<div class="size-12"></div> <!-- Spacer for symmetry -->
+</div>
+<div class="flex-1 flex flex-col px-4 pt-6 gap-8 z-10">
+<!-- Central Progress Ring Section -->
+<div class="flex flex-col items-center justify-center py-8">
+<div class="relative size-64 flex items-center justify-center">
+<!-- Outer pulsing ring -->
+<div class="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse"></div>
+<!-- Progress Circle -->
+<svg class="size-full transform -rotate-90">
+<circle class="text-[#2b2839]" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-dasharray="691" stroke-dashoffset="241" stroke-width="8"></circle>
+</svg>
+<!-- Center Content -->
+<div class="absolute flex flex-col items-center">
+<span class="text-4xl font-bold tracking-tighter">65%</span>
+<span class="text-[#a19cba] text-xs font-medium uppercase tracking-widest mt-1">Syncing</span>
+</div>
+</div>
+<div class="mt-8 text-center">
+<h3 class="text-xl font-bold text-white">Scanning Store Catalog...</h3>
+<p class="text-[#a19cba] text-sm mt-1">Neon pulse active • Connected to Shopify</p>
+</div>
+</div>
+<!-- Live Discovery Stream SectionHeader -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between px-1">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Live Discovery Stream</h3>
+<span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- ListItem 1 -->
+<div class="glass-panel rounded-xl flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/20 shrink-0 size-12">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-white text-base font-medium leading-normal line-clamp-1">243 Products found</p>
+<p class="text-[#a19cba] text-sm font-normal leading-normal line-clamp-2">Meta-data extraction in progress</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-primary text-xs font-bold uppercase tracking-wider">Active</p>
+</div>
+</div>
+<!-- ListItem 2 -->
+<div class="glass-panel rounded-xl flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between opacity-80">
+<div class="flex items-center gap-4">
+<div class="text-white flex items-center justify-center rounded-lg bg-[#2b2839] shrink-0 size-12">
+<span class="material-symbols-outlined">category</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-white text-base font-medium leading-normal line-clamp-1">12 Collections identified</p>
+<p class="text-[#a19cba] text-sm font-normal leading-normal line-clamp-2">Smart categorization applied</p>
+</div>
+</div>
+<div class="shrink-0">
+<p class="text-[#a19cba] text-xs font-normal">Done</p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Optimization Feed SectionHeader -->
+<div class="flex flex-col gap-2 pb-10">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-1">AI Optimization Feed</h3>
+<div class="glass-panel rounded-xl p-4 flex flex-col gap-4">
+<div class="flex items-start gap-3">
+<div class="bg-primary size-8 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white text-sm">auto_awesome</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-white text-sm font-medium">Generating SEO tags for <span class="text-primary italic">"Vintage Denim Jacket"</span></p>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="px-2 py-1 rounded bg-[#2b2839] text-[10px] text-[#a19cba] border border-white/5">#sustainable-fashion</span>
+<span class="px-2 py-1 rounded bg-[#2b2839] text-[10px] text-[#a19cba] border border-white/5">#outerwear-trend</span>
+<span class="px-2 py-1 rounded bg-primary/20 text-[10px] text-primary border border-primary/30">Auto-Tagging...</span>
+</div>
+</div>
+</div>
+<div class="h-px bg-white/10 w-full"></div>
+<div class="flex items-start gap-3">
+<div class="bg-primary/20 size-8 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-sm">translate</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-white text-sm font-medium">Localizing descriptions for 5 regions</p>
+<p class="text-[#a19cba] text-xs">Processing DE, FR, JP, ES, IT...</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Action -->
+<div class="sticky bottom-0 w-full bg-background-dark/80 backdrop-blur-xl border-t border-white/10 p-4 pb-8 flex flex-col gap-3">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+<span>Continue to Dashboard</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="w-full bg-transparent text-[#a19cba] text-sm font-medium py-2 rounded-lg">
+                Run in Background
+            </button>
+</div>
+<!-- Background Decorative Elements -->
+<div class="fixed top-20 -right-20 size-64 bg-primary/10 blur-[100px] rounded-full -z-0"></div>
+<div class="fixed bottom-40 -left-20 size-80 bg-primary/5 blur-[120px] rounded-full -z-0"></div>
+</div>
+</body></html>

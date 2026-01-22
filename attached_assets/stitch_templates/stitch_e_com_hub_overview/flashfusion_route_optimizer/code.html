@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Route Optimizer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7f0df2",
+                        "accent-cyan": "#00f2ff",
+                        "accent-amber": "#ffbf00",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#050505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-image: linear-gradient(rgba(127, 13, 242, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(127, 13, 242, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass {
+            background: rgba(25, 16, 34, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(127, 13, 242, 0.2);
+        }
+        .neon-pulse {
+            box-shadow: 0 0 20px rgba(127, 13, 242, 0.6);
+        }
+        .cyan-glow {
+            filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.8));
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30 min-h-screen">
+<div class="relative flex flex-col min-h-screen w-full max-w-md mx-auto overflow-hidden grid-bg">
+<!-- TopAppBar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between z-10">
+<div class="flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-white">arrow_back_ios</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">FlashFusion</h2>
+<span class="text-[10px] text-primary font-bold uppercase tracking-[0.2em]">Route Optimizer</span>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-primary/20 text-white">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+</button>
+</div>
+</div>
+<!-- AI Status Indicator -->
+<div class="px-4 py-2">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 w-fit">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-accent-cyan"></span>
+</span>
+<span class="text-[10px] font-medium text-accent-cyan tracking-widest uppercase">AI Scanning Routes...</span>
+</div>
+</div>
+<!-- Central Map Section -->
+<div class="relative flex-1 px-4 py-2 min-h-[380px]">
+<div class="relative h-full w-full rounded-3xl overflow-hidden border border-white/10 bg-[#120a1a]">
+<!-- Placeholder for Map Visualization -->
+<div class="absolute inset-0 bg-cover bg-center opacity-40 grayscale" data-location="Global Supply Chain Map" style='background-image: url("https://placeholder.pics/svg/300");'>
+</div>
+<!-- Route Lines Visualization (Conceptual) -->
+<svg class="absolute inset-0 w-full h-full" viewbox="0 0 400 400">
+<!-- Dimmed Current Route -->
+<path class="opacity-40" d="M 50 150 Q 150 100 250 180 T 350 250" fill="none" stroke="#7f0df2" stroke-dasharray="5,5" stroke-width="2"></path>
+<!-- Bright Optimized Route -->
+<path class="cyan-glow" d="M 50 150 Q 180 250 280 120 T 350 250" fill="none" stroke="#00f2ff" stroke-width="4"></path>
+<circle cx="50" cy="150" fill="#00f2ff" r="4"></circle>
+<circle cx="350" cy="250" fill="#00f2ff" r="4"></circle>
+</svg>
+<!-- Floating Map Controls -->
+<div class="absolute top-4 left-4 right-4">
+<div class="glass flex items-center px-4 py-2 rounded-xl gap-3">
+<span class="material-symbols-outlined text-accent-cyan">search</span>
+<input class="bg-transparent border-none text-sm text-white focus:ring-0 w-full p-0" placeholder="Analyze specific node..."/>
+</div>
+</div>
+<div class="absolute bottom-4 right-4 flex flex-col gap-2">
+<button class="glass size-10 flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-white">add</span>
+</button>
+<button class="glass size-10 flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-white">remove</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SectionHeader: Disruptions -->
+<div class="px-4 pt-4">
+<h4 class="text-[#ab9cba] text-xs font-bold leading-normal tracking-[0.2em] uppercase">Active Disruptions</h4>
+</div>
+<!-- ImageGrid / Anomaly Cards -->
+<div class="grid grid-cols-2 gap-3 p-4">
+<div class="glass flex flex-col gap-2 rounded-xl p-3 border-l-4 border-l-accent-amber">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-accent-amber text-lg">warning</span>
+<span class="text-[10px] text-accent-amber font-bold">+14h</span>
+</div>
+<p class="text-white text-sm font-bold leading-tight">Port Strike: Oakland</p>
+<p class="text-[#ab9cba] text-[10px]">Supply chain bottleneck detected.</p>
+</div>
+<div class="glass flex flex-col gap-2 rounded-xl p-3 border-l-4 border-l-accent-amber">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-accent-amber text-lg">cyclone</span>
+<span class="text-[10px] text-accent-amber font-bold">CRITICAL</span>
+</div>
+<p class="text-white text-sm font-bold leading-tight">Storm Cell: Pacific</p>
+<p class="text-[#ab9cba] text-[10px]">Category 4 storm trajectory.</p>
+</div>
+</div>
+<!-- Stats / Trade-off Panel -->
+<div class="px-4">
+<div class="glass rounded-2xl p-4 flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-white/10 pb-2">
+<span class="text-xs font-bold tracking-widest text-[#ab9cba] uppercase">Optimizer Metrics</span>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-accent-cyan/20 text-accent-cyan font-bold">v2.4 ACTIVE</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<p class="text-[#ab9cba] text-[11px] font-medium">Cost Reduction</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-xl font-bold tracking-tight">-$4,280</p>
+<span class="text-accent-cyan text-[10px] font-bold">15%</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-[#ab9cba] text-[11px] font-medium">Time Gained</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-xl font-bold tracking-tight">6h 15m</p>
+<span class="text-accent-cyan text-[10px] font-bold">22%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Button Section -->
+<div class="p-6 mt-2">
+<button class="w-full bg-primary neon-pulse h-16 rounded-2xl flex items-center justify-center gap-3 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-white text-2xl">bolt</span>
+<span class="text-white text-lg font-bold tracking-wide uppercase">Initiate Re-Route</span>
+</button>
+<p class="text-center text-[#ab9cba] text-[10px] mt-4 uppercase tracking-[0.1em]">Encrypted data stream active. Awaiting command.</p>
+</div>
+<!-- Decorative Floating Elements -->
+<div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none"></div>
+</div>
+</body></html>

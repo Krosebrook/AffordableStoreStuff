@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mobile Sentiment Pulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2f2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#050a0a",
+                        "neon-green": "#39FF14",
+                        "neon-red": "#FF3131",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(27, 39, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 242, 242, 0.2);
+        }
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(13, 242, 242, 0.05) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .word-glow-cyan { text-shadow: 0 0 10px rgba(13, 242, 242, 0.8); }
+        .word-glow-green { text-shadow: 0 0 10px rgba(57, 255, 20, 0.8); }
+        .word-glow-red { text-shadow: 0 0 10px rgba(255, 49, 49, 0.8); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<!-- Main Mobile Container -->
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Holographic Scanline Overlay -->
+<div class="absolute inset-0 scanline z-50 opacity-30"></div>
+<!-- Top App Bar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between z-10">
+<div class="text-white flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined cursor-pointer">arrow_back_ios</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight uppercase tracking-widest">FlashFusion</h2>
+<p class="text-primary text-[10px] font-medium tracking-[0.2em] uppercase">Sentiment Pulse</p>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined">sync</span>
+</button>
+</div>
+</div>
+<!-- Sentiment Filter Chips -->
+<div class="flex gap-3 p-4 flex-wrap justify-center z-10">
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-neon-green/10 border border-neon-green/30 px-4">
+<span class="material-symbols-outlined text-neon-green text-lg">check_circle</span>
+<p class="text-neon-green text-xs font-bold uppercase tracking-wider">Positive</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/10 border border-primary/30 px-4">
+<span class="material-symbols-outlined text-primary text-lg">radio_button_checked</span>
+<p class="text-primary text-xs font-bold uppercase tracking-wider">Neutral</p>
+</div>
+<div class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-neon-red/10 border border-neon-red/30 px-4">
+<span class="material-symbols-outlined text-neon-red text-lg">warning</span>
+<p class="text-neon-red text-xs font-bold uppercase tracking-wider">Negative</p>
+</div>
+</div>
+<!-- 3D Word Cloud Visualization Area -->
+<div class="relative flex-1 flex items-center justify-center overflow-hidden">
+<!-- Background Particles (Simplified for CSS/HTML) -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<div class="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full blur-[1px]"></div>
+<div class="absolute top-1/2 left-1/3 w-1.5 h-1.5 bg-primary rounded-full blur-[1px]"></div>
+<div class="absolute bottom-1/4 right-1/4 w-1 h-1 bg-neon-green rounded-full blur-[1px]"></div>
+<div class="absolute top-1/3 right-1/2 w-1 h-1 bg-neon-red rounded-full blur-[1px]"></div>
+<div class="absolute bottom-1/2 right-1/3 w-1 h-1 bg-white rounded-full blur-[1px]"></div>
+</div>
+<!-- Kinetic Word Sphere -->
+<div class="relative w-72 h-72 flex items-center justify-center">
+<!-- Abstract Gradient Sphere Background -->
+<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/10 to-transparent blur-3xl"></div>
+<!-- Floating Words - Positioned Radially -->
+<div class="absolute -top-4 left-10 text-neon-green text-3xl font-bold word-glow-green rotate-[-5deg]">QUALITY</div>
+<div class="absolute top-12 -right-4 text-primary text-xl font-medium word-glow-cyan rotate-[10deg]">FAST SHIPPING</div>
+<div class="absolute top-1/2 -left-8 text-neon-green text-2xl font-bold word-glow-green rotate-[-15deg]">CUTE</div>
+<div class="absolute bottom-12 right-2 text-neon-red text-lg font-bold word-glow-red rotate-[5deg]">LAGGY</div>
+<div class="absolute -bottom-2 left-1/4 text-primary text-lg font-medium word-glow-cyan rotate-[12deg]">BATTERY</div>
+<div class="absolute top-1/3 right-12 text-neon-green text-sm font-bold word-glow-green opacity-70">VERSATILE</div>
+<div class="absolute bottom-1/4 left-4 text-neon-red text-base font-medium word-glow-red opacity-80">OVERPRICED</div>
+<div class="absolute top-8 left-1/2 text-primary text-sm font-medium word-glow-cyan opacity-60">MINIMALIST</div>
+<!-- Center Interactive Focus Word -->
+<div class="bg-primary/20 border border-primary/50 px-6 py-3 rounded-xl shadow-[0_0_25px_rgba(13,242,242,0.3)] backdrop-blur-md">
+<p class="text-white text-4xl font-black tracking-tighter italic">DURABLE</p>
+</div>
+</div>
+</div>
+<!-- Glassmorphic Sentiment Insight Card -->
+<div class="px-4 pb-4 z-20">
+<div class="glass-card rounded-xl p-5 shadow-2xl relative overflow-hidden">
+<!-- Highlight Indicator -->
+<div class="absolute top-0 left-0 h-full w-1 bg-primary"></div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<p class="text-white text-lg font-bold leading-tight tracking-tight uppercase italic">Insight: Quality</p>
+<span class="flex items-center gap-1 bg-neon-green/20 text-neon-green px-2 py-0.5 rounded-full text-[10px] font-bold">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> HIGH FREQUENCY
+                        </span>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-white/90 text-sm font-medium leading-relaxed">
+                            "78% of customers mention the build quality exceeds expectations. 'The finish is incredible and feels premium.'"
+                        </p>
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-center bg-cover border border-primary/30" data-alt="Customer avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB18Sy2N9qAHZqL3qRPoGhIWlz5oJQEWc-v9jZzpsKR0IDWH5byQpAs4k1xX3DSB8ot7srdfAcnSDdBn2jRRC-0DymRy7MUEBpYsFo5E-sRxWicXyURPWmMfTF98XgLxObtskp8feCCtW_gLvFOwNZfFMe-LMzj-TptLQ9xsL5jcdqlWle5c9MDqHTorlfD4Kv9YPcPKigQ-47FZphLZRT49hesVD7RVBPsJHiEFZoAnsByBLkgqULpmJD8ejI-W6sGm_Lqr1piNAM");'></div>
+<p class="text-[#9cbaba] text-[11px] font-normal uppercase tracking-wider">AI-Summarized Feedback • 1,240 Reviews</p>
+</div>
+</div>
+<div class="pt-2">
+<button class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-background-dark text-sm font-bold uppercase tracking-widest gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span>Generate AI Response</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Stats Mini-Dashboard -->
+<div class="flex gap-3 p-4 pt-0 z-10">
+<div class="flex flex-1 flex-col gap-1 rounded-xl p-4 bg-[#1b2727] border border-white/5">
+<p class="text-[#9cbaba] text-[10px] font-bold uppercase tracking-widest">Sentiment Score</p>
+<div class="flex items-end gap-2">
+<p class="text-white text-2xl font-bold leading-tight">8.4</p>
+<span class="text-neon-green text-[10px] font-bold mb-1">+1.2</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-1 rounded-xl p-4 bg-[#1b2727] border border-white/5">
+<p class="text-[#9cbaba] text-[10px] font-bold uppercase tracking-widest">Total Reviews</p>
+<p class="text-white text-2xl font-bold leading-tight">1,240</p>
+</div>
+</div>
+<!-- iOS Home Indicator -->
+<div class="h-1.5 w-32 bg-white/20 rounded-full mx-auto mb-2 shrink-0"></div>
+</div>
+</body></html>

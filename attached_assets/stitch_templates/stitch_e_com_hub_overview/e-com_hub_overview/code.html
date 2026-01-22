@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>E-Com Hub Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0a0a0c",
+                        "card-dark": "#161426",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.3);
+        }
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<!-- TopAppBar with Store Switcher -->
+<header class="sticky top-0 z-50 glass px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-primary rounded-lg p-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]">storefront</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-sm font-bold leading-tight">E-Com Hub</h1>
+<div class="flex items-center gap-1 cursor-pointer">
+<span class="text-[#a19cba] text-[11px] font-medium uppercase tracking-wider">All Stores</span>
+<span class="material-symbols-outlined text-[#a19cba] text-[14px]">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="relative text-[#a19cba] hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-background-dark"></span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-white/10">
+<img alt="User Profile" class="h-full w-full object-cover" data-alt="Profile picture of the e-commerce founder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADnOnz7rscOhzkOghOibQB4OZq56nfsjJbyrpXjSVL67ktatDFuzECrsHnhK3Pqfqw3bl8estjv3m8k6Bu9ANeacxbxMMcG0_fl6SQOPOGGhOG1D1b5sNqPmjKDbxxKw90wjYuFZE8PutYoL2fwDtoCo9nctgmCJX-UBMc0vqpb8YhDkHGovlEO4VTz1FLW7fSnNVHLJCx9FjGW69_SHWAyXUsFTPBvxE-fGb-u2KmazREOXUvtRXDKVCh0bDiyG2gWhHGCqLpUBk"/>
+</div>
+</div>
+</header>
+<!-- SearchBar / AI Command -->
+<div class="px-4 py-4">
+<label class="flex flex-col w-full">
+<div class="flex w-full items-stretch rounded-xl h-12 glass overflow-hidden border border-primary/20 neon-glow-primary">
+<div class="text-primary flex items-center justify-center pl-4">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent text-white focus:outline-0 focus:ring-0 placeholder:text-[#a19cba]/60 px-3 text-sm font-normal" placeholder="Ask AI to optimize Shopify ads..."/>
+<div class="flex items-center pr-3">
+<kbd class="hidden sm:inline-flex h-5 items-center gap-1 rounded border border-white/10 bg-white/5 px-1.5 font-mono text-[10px] font-medium text-[#a19cba]">
+<span>⌘</span>K
+                        </kbd>
+</div>
+</div>
+</label>
+</div>
+<!-- KPI Stats Grid -->
+<div class="grid grid-cols-2 gap-3 px-4">
+<div class="flex flex-col gap-1 rounded-xl p-4 glass border-l-2 border-l-primary">
+<p class="text-[#a19cba] text-xs font-medium uppercase tracking-tight">Total Revenue</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-xl font-bold leading-tight">$240.5k</p>
+<span class="text-[#0bda6c] text-[10px] font-bold">+12%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 glass">
+<p class="text-[#a19cba] text-xs font-medium uppercase tracking-tight">Active Stores</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-xl font-bold leading-tight">8</p>
+<span class="text-[#a19cba] text-[10px] font-bold">0%</span>
+</div>
+<div class="flex gap-1 mt-2">
+<div class="w-2 h-2 rounded-full bg-blue-500"></div>
+<div class="w-2 h-2 rounded-full bg-orange-500"></div>
+<div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 glass">
+<p class="text-[#a19cba] text-xs font-medium uppercase tracking-tight">Products</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-xl font-bold leading-tight">1,240</p>
+<span class="text-[#0bda6c] text-[10px] font-bold">+5%</span>
+</div>
+<p class="text-[10px] text-[#a19cba] mt-2">42 Out of stock</p>
+</div>
+<div class="flex flex-col gap-1 rounded-xl p-4 glass">
+<p class="text-[#a19cba] text-xs font-medium uppercase tracking-tight">Conv. Rate</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-xl font-bold leading-tight">3.2%</p>
+<span class="text-[#fa6938] text-[10px] font-bold">-0.4%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full mt-2 overflow-hidden">
+<div class="bg-[#fa6938] h-full w-[35%]"></div>
+</div>
+</div>
+</div>
+<!-- Section Header: Revenue Chart -->
+<div class="flex items-center justify-between px-4 pt-6 pb-2">
+<h2 class="text-white text-lg font-bold tracking-tight">Platform Distribution</h2>
+<span class="text-primary text-xs font-semibold cursor-pointer">View Details</span>
+</div>
+<!-- Charts Container -->
+<div class="px-4">
+<div class="flex flex-col gap-4 p-5 rounded-xl glass">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-white text-2xl font-bold leading-tight">$240,500</p>
+<p class="text-[#a19cba] text-xs font-normal">Revenue across 30 days</p>
+</div>
+<div class="flex bg-white/5 p-1 rounded-lg">
+<button class="px-3 py-1 text-[10px] font-bold bg-primary rounded-md text-white">Month</button>
+<button class="px-3 py-1 text-[10px] font-bold text-[#a19cba]">Week</button>
+</div>
+</div>
+<div class="relative h-40 w-full mt-2">
+<!-- Custom SVG Stacked Area Chart simulation -->
+<svg fill="none" height="100%" preserveaspectratio="none" viewbox="0 0 400 120" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 80C50 70 100 90 150 40C200 10 250 50 300 20C350 -10 400 30 400 30V120H0V80Z" fill="url(#paint0_linear_rev)"></path>
+<path d="M0 100C50 95 100 105 150 85C200 70 250 90 300 75C350 60 400 85 400 85V120H0V100Z" fill="rgba(250, 105, 56, 0.4)"></path>
+<path d="M0 80C50 70 100 90 150 40C200 10 250 50 300 20C350 -10 400 30 400 30" stroke="#4725f4" stroke-linecap="round" stroke-width="2"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="paint0_linear_rev" x1="200" x2="200" y1="0" y2="120">
+<stop stop-color="#4725f4" stop-opacity="0.5"></stop>
+<stop offset="1" stop-color="#4725f4" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+<!-- Floating Data Tooltip -->
+<div class="absolute top-4 left-[40%] bg-primary px-2 py-1 rounded text-[10px] font-bold shadow-lg">
+                        Shopify: $12k
+                    </div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-[#a19cba] text-[11px] font-medium">Shopify</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#fa6938]"></div>
+<span class="text-[#a19cba] text-[11px] font-medium">Etsy</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#f4d125]"></div>
+<span class="text-[#a19cba] text-[11px] font-medium">Amazon</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Performance Heatmap Section -->
+<div class="px-4 pt-6 pb-2">
+<h2 class="text-white text-lg font-bold tracking-tight">Product Performance</h2>
+</div>
+<div class="px-4">
+<div class="p-4 rounded-xl glass flex flex-col gap-4">
+<div class="grid grid-cols-7 gap-1">
+<!-- Mock heatmap cells -->
+<div class="heatmap-cell bg-primary/20"></div>
+<div class="heatmap-cell bg-primary/40"></div>
+<div class="heatmap-cell bg-primary/10"></div>
+<div class="heatmap-cell bg-primary/80"></div>
+<div class="heatmap-cell bg-primary/60"></div>
+<div class="heatmap-cell bg-primary/30"></div>
+<div class="heatmap-cell bg-primary/50"></div>
+<div class="heatmap-cell bg-primary/60"></div>
+<div class="heatmap-cell bg-primary/90"></div>
+<div class="heatmap-cell bg-primary/40"></div>
+<div class="heatmap-cell bg-primary/20"></div>
+<div class="heatmap-cell bg-primary/10"></div>
+<div class="heatmap-cell bg-primary/70"></div>
+<div class="heatmap-cell bg-primary/30"></div>
+<div class="heatmap-cell bg-primary/10"></div>
+<div class="heatmap-cell bg-primary/30"></div>
+<div class="heatmap-cell bg-primary/20"></div>
+<div class="heatmap-cell bg-primary/40"></div>
+<div class="heatmap-cell bg-primary/80"></div>
+<div class="heatmap-cell bg-primary/50"></div>
+<div class="heatmap-cell bg-primary/10"></div>
+</div>
+<div class="flex justify-between items-center text-[10px] text-[#a19cba] font-medium uppercase">
+<span>Low Velocity</span>
+<div class="flex gap-1">
+<div class="w-3 h-3 bg-primary/10 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary/40 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary/70 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary/100 rounded-sm"></div>
+</div>
+<span>High Velocity</span>
+</div>
+</div>
+</div>
+<!-- AI Notification Feed (Sidebar style in mobile context) -->
+<div class="px-4 pt-6 pb-2">
+<h2 class="text-white text-lg font-bold tracking-tight">AI Insights</h2>
+</div>
+<div class="px-4 flex flex-col gap-3">
+<div class="flex gap-4 p-4 rounded-xl glass border border-primary/10">
+<div class="flex-shrink-0 size-10 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">lightbulb</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-white">Optimization Tip</p>
+<p class="text-xs text-[#a19cba] leading-relaxed">Increase budget on 'Summer Collection' ads for a projected 15% lift in Shopify conversions.</p>
+<button class="mt-2 text-[10px] font-bold text-primary uppercase tracking-wider">Apply Now</button>
+</div>
+</div>
+<div class="flex gap-4 p-4 rounded-xl glass border border-red-500/10">
+<div class="flex-shrink-0 size-10 rounded-full bg-red-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-red-500 text-[20px]">warning</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-semibold text-white">Inventory Alert</p>
+<p class="text-xs text-[#a19cba] leading-relaxed">3 items on Etsy are below safety stock levels. Reorder recommended in the next 24h.</p>
+<button class="mt-2 text-[10px] font-bold text-red-500 uppercase tracking-wider">View Items</button>
+</div>
+</div>
+</div>
+<!-- Navigation icons at the bottom (Bottom Tab Bar) -->
+<nav class="fixed bottom-0 left-0 right-0 glass border-t border-white/5 px-6 py-4 flex items-center justify-between z-[100]">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined font-variation-fill-1">grid_view</span>
+<span class="text-[10px] font-bold">Dash</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#a19cba]">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Stats</span>
+</div>
+<!-- Central Action -->
+<div class="absolute left-1/2 -translate-x-1/2 -top-6">
+<div class="size-14 bg-primary rounded-full flex items-center justify-center shadow-xl shadow-primary/40 ring-4 ring-background-dark">
+<span class="material-symbols-outlined text-white text-3xl">chat_bubble</span>
+</div>
+</div>
+<div class="w-12"></div> <!-- Spacer for central button -->
+<div class="flex flex-col items-center gap-1 text-[#a19cba]">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-medium">Stock</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#a19cba]">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Config</span>
+</div>
+</nav>
+</div>
+</body></html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Loyalty Tokenizer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7f0df2",
+                        "accent-pink": "#ff00e5",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a060e",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(25, 16, 34, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(127, 13, 242, 0.2);
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(127, 13, 242, 0.4);
+        }
+        .electric-glow-button {
+            box-shadow: 0 0 25px rgba(255, 0, 229, 0.5), 0 0 10px rgba(127, 13, 242, 0.5);
+            background: linear-gradient(90deg, #7f0df2, #ff00e5);
+        }
+        .circuit-bg {
+            background-image: radial-gradient(#7f0df2 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.1;
+        }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(127, 13, 242, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen overflow-x-hidden relative">
+<!-- Background Effects -->
+<div class="fixed inset-0 circuit-bg pointer-events-none"></div>
+<div class="fixed inset-0 scanline pointer-events-none"></div>
+<!-- Top AppBar -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 pb-2 justify-between border-b border-primary/10">
+<div class="text-primary flex size-12 shrink-0 items-center cursor-pointer" data-icon="ArrowLeft">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight">FlashFusion Labs</h2>
+<p class="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Loyalty Tokenizer v1.0</p>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-primary/10 text-primary border border-primary/20">
+<span class="material-symbols-outlined">settings_input_component</span>
+</button>
+</div>
+</div>
+<main class="relative z-10 pb-32">
+<!-- 3D Loyalty Engine Visualization -->
+<div class="relative px-4 py-6">
+<div class="w-full aspect-square max-h-[360px] relative flex items-center justify-center overflow-hidden rounded-3xl bg-black/40 border border-primary/20">
+<!-- Abstract Engine Representation -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-64 h-64 rounded-full border-[1px] border-primary/30 animate-pulse flex items-center justify-center">
+<div class="w-48 h-48 rounded-full border-[2px] border-primary/50 flex items-center justify-center">
+<div class="w-32 h-32 rounded-full border-[4px] border-accent-pink/60 flex items-center justify-center neon-glow-primary">
+<span class="material-symbols-outlined text-white text-6xl">token</span>
+</div>
+</div>
+</div>
+<!-- Rotating Elements -->
+<div class="absolute w-72 h-72 border-t-2 border-primary rounded-full opacity-40"></div>
+<div class="absolute w-80 h-80 border-b-2 border-accent-pink rounded-full opacity-20"></div>
+</div>
+<!-- Floating Stats -->
+<div class="absolute top-4 left-4 glass-card px-3 py-1.5 rounded-lg border-primary/30">
+<p class="text-[10px] text-primary uppercase font-bold">Engine RPM</p>
+<p class="text-sm font-bold">14,200 <span class="text-[10px] text-green-400">↑</span></p>
+</div>
+<div class="absolute bottom-4 right-4 glass-card px-3 py-1.5 rounded-lg border-accent-pink/30">
+<p class="text-[10px] text-accent-pink uppercase font-bold">Fuel Level</p>
+<p class="text-sm font-bold">98.2%</p>
+</div>
+</div>
+</div>
+<!-- Reward Configuration Section -->
+<section class="mt-4">
+<div class="flex items-center justify-between px-4 pb-2">
+<h2 class="text-white text-xl font-bold tracking-tight">Reward Configuration</h2>
+<span class="text-[10px] font-mono text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">LAB_MODE_ACTIVE</span>
+</div>
+<div class="space-y-2">
+<!-- Total Supply Slider -->
+<div class="mx-4 glass-card rounded-xl p-4">
+<div class="flex w-full items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">database</span>
+<p class="text-white text-sm font-medium">Total Supply</p>
+</div>
+<p class="text-primary text-sm font-bold font-mono tracking-tighter">10,000,000</p>
+</div>
+<div class="flex h-1.5 w-full items-center gap-4">
+<div class="flex h-full flex-1 rounded-full bg-white/10 overflow-hidden">
+<div class="h-full w-[45%] rounded-full bg-primary"></div>
+</div>
+</div>
+</div>
+<!-- Burn Rate Slider -->
+<div class="mx-4 glass-card rounded-xl p-4">
+<div class="flex w-full items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-pink text-sm">local_fire_department</span>
+<p class="text-white text-sm font-medium">Burn Rate</p>
+</div>
+<p class="text-accent-pink text-sm font-bold font-mono">4.20%</p>
+</div>
+<div class="flex h-1.5 w-full items-center gap-4">
+<div class="flex h-full flex-1 rounded-full bg-white/10 overflow-hidden">
+<div class="h-full w-[25%] rounded-full bg-accent-pink"></div>
+</div>
+</div>
+</div>
+<!-- Utility Selection -->
+<div class="mx-4 glass-card rounded-xl p-4">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-blue-400 text-sm">bolt</span>
+<p class="text-white text-sm font-medium">Utility Profile</p>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+<button class="shrink-0 px-4 py-2 rounded-lg bg-primary text-xs font-bold border border-primary/50">Staking</button>
+<button class="shrink-0 px-4 py-2 rounded-lg bg-white/5 text-xs font-bold border border-white/10">Governance</button>
+<button class="shrink-0 px-4 py-2 rounded-lg bg-white/5 text-xs font-bold border border-white/10">E-Commerce</button>
+<button class="shrink-0 px-4 py-2 rounded-lg bg-white/5 text-xs font-bold border border-white/10">Access</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Token Holder Tiers -->
+<section class="mt-8">
+<h2 class="text-white text-xl font-bold tracking-tight px-4 mb-4">Token Holder Tiers</h2>
+<div class="flex gap-4 px-4 overflow-x-auto no-scrollbar pb-4">
+<!-- Tier 1: Bronze -->
+<div class="min-w-[160px] glass-card rounded-2xl p-4 border-orange-500/30">
+<div class="size-10 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-orange-400">workspace_premium</span>
+</div>
+<h3 class="text-white font-bold mb-1">Bronze</h3>
+<p class="text-xs text-white/50 mb-3">Entry Level</p>
+<div class="text-[10px] space-y-1">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px] text-green-400">check</span> 5% Discount</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px] text-green-400">check</span> Basic WL</div>
+</div>
+</div>
+<!-- Tier 2: Silver -->
+<div class="min-w-[160px] glass-card rounded-2xl p-4 border-slate-400/30">
+<div class="size-10 rounded-full bg-slate-400/20 border border-slate-400/40 flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-slate-300">stars</span>
+</div>
+<h3 class="text-white font-bold mb-1">Silver</h3>
+<p class="text-xs text-white/50 mb-3">Pro Collector</p>
+<div class="text-[10px] space-y-1">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px] text-green-400">check</span> 10% Burn Rew</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px] text-green-400">check</span> Early Access</div>
+</div>
+</div>
+<!-- Tier 3: Cyber-Gold -->
+<div class="min-w-[160px] glass-card rounded-2xl p-4 border-primary/50 ring-1 ring-primary/30 relative overflow-hidden">
+<div class="absolute -top-4 -right-4 size-16 bg-primary/20 rounded-full blur-xl"></div>
+<div class="size-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-primary">diamond</span>
+</div>
+<h3 class="text-white font-bold mb-1">Cyber-Gold</h3>
+<p class="text-xs text-primary font-bold mb-3 uppercase tracking-tighter">Ultimate</p>
+<div class="text-[10px] space-y-1">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px] text-primary">auto_awesome</span> DAO Rights</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[10px] text-primary">auto_awesome</span> Rev Share</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Lab Logs / Terminal -->
+<section class="mt-4 px-4">
+<div class="glass-card rounded-xl p-3 font-mono text-[10px] text-primary/70 border-primary/10 overflow-hidden h-24 relative">
+<div class="absolute inset-0 bg-black/40 -z-10"></div>
+<p>&gt; [SYSTEM]: INITIALIZING MINT PROTOCOL...</p>
+<p>&gt; [AUTH]: SIGNATURE VERIFIED 0x7F...9D2</p>
+<p>&gt; [LIQUIDITY]: POOL STABILIZED AT 14.2M FLASH</p>
+<p class="animate-pulse">&gt; [WAITING]: PENDING COMMAND...</p>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-dark via-background-dark to-transparent pt-12 z-50">
+<button class="w-full electric-glow-button h-16 rounded-2xl flex items-center justify-center gap-3 text-white font-display font-black text-lg uppercase tracking-widest relative overflow-hidden">
+<div class="absolute inset-0 bg-white/10 opacity-0 active:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined font-bold text-2xl">rocket_launch</span>
+<span>Mint New Asset</span>
+</button>
+<p class="text-center text-[10px] text-white/40 mt-3 font-medium uppercase tracking-[0.3em]">Authorized FlashFusion Studio Session</p>
+</div>
+</body></html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Disruption Simulator | FlashFusion Labs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#050505",
+                        "neon-pink": "#ff00e5",
+                        "neon-purple": "#9d00ff",
+                        "accent-cyan": "#00f2ff"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #050505;
+            color: white;
+            overflow-x: hidden;
+        }
+        .hex-grid-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(71, 37, 244, 0.15) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 15px rgba(71, 37, 244, 0.5);
+        }
+        .neon-glow-pink {
+            box-shadow: 0 0 15px rgba(255, 0, 229, 0.4);
+        }
+        .glass-panel {
+            background: rgba(19, 16, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .shockwave-ring {
+            border: 2px solid #4725f4;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.6;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<div class="sticky top-0 z-50 glass-panel border-b border-white/5">
+<div class="flex items-center p-4 justify-between max-w-md mx-auto">
+<div class="text-primary flex size-10 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-xs font-bold tracking-[0.2em] uppercase opacity-60">Simulation</h2>
+<h1 class="text-white text-sm font-bold leading-tight tracking-wide">FLASHFUSION LABS v1.0.4</h1>
+</div>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center text-neon-pink">
+<span class="material-symbols-outlined">settings_input_component</span>
+</button>
+</div>
+</div>
+</div>
+<main class="flex-1 flex flex-col max-w-md mx-auto w-full relative overflow-hidden">
+<!-- Background Data Streams Effect (Visual only) -->
+<div class="absolute inset-0 pointer-events-none opacity-20 hex-grid-bg"></div>
+<div class="absolute top-20 -left-10 w-32 h-96 bg-primary/20 blur-[100px] rotate-45"></div>
+<div class="absolute bottom-40 -right-10 w-40 h-80 bg-neon-pink/10 blur-[100px] -rotate-12"></div>
+<!-- Strategy Title -->
+<div class="px-4 pt-6 pb-2 text-center z-10">
+<h3 class="text-white tracking-widest text-2xl font-bold leading-tight uppercase">Viral AI Infiltration</h3>
+<div class="flex items-center justify-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-accent-cyan animate-pulse"></span>
+<span class="text-accent-cyan text-[10px] font-bold tracking-tighter uppercase">Active War-Room Protocol</span>
+</div>
+</div>
+<!-- Main Visualizer (Hex Grid / Globe) -->
+<div class="relative px-4 py-4 flex flex-col items-center justify-center min-h-[320px] z-10">
+<div class="w-full aspect-square relative rounded-xl overflow-hidden glass-panel border-primary/30 flex items-center justify-center bg-[url('https://placeholder.pics/svg/400/131022/4725F4/HEX_GRID_PATTERN')] bg-cover" data-alt="Futuristic hexagonal grid map with purple glowing lines">
+<!-- Shockwave Visual Overlays -->
+<div class="shockwave-ring w-24 h-24 border-neon-pink shadow-[0_0_20px_#ff00e5]"></div>
+<div class="shockwave-ring w-48 h-48 border-primary shadow-[0_0_30px_#4725f4]"></div>
+<div class="shockwave-ring w-72 h-72 border-primary/20"></div>
+<!-- Central Focus Point -->
+<div class="relative z-20 size-16 rounded-full bg-primary/20 border border-primary flex items-center justify-center backdrop-blur-sm neon-glow-primary">
+<span class="material-symbols-outlined text-white text-3xl">hub</span>
+</div>
+<!-- Floating Data Chips -->
+<div class="absolute top-8 left-8 glass-panel px-2 py-1 rounded text-[10px] font-mono text-accent-cyan border-accent-cyan/30">
+                    LAT: 34.0522
+                </div>
+<div class="absolute bottom-12 right-6 glass-panel px-2 py-1 rounded text-[10px] font-mono text-neon-pink border-neon-pink/30">
+                    SENS_LVL: CRITICAL
+                </div>
+</div>
+</div>
+<!-- Real-time Stats -->
+<div class="flex gap-3 px-4 py-2 z-10">
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 glass-panel border-l-4 border-l-primary">
+<p class="text-white/60 text-[10px] font-bold uppercase tracking-wider">Success Prob.</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-2xl font-bold leading-tight">84.2%</p>
+<p class="text-accent-cyan text-[10px] font-bold">+5.2</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 glass-panel border-l-4 border-l-neon-pink">
+<p class="text-white/60 text-[10px] font-bold uppercase tracking-wider">Rival Latency</p>
+<div class="flex items-baseline gap-2">
+<p class="text-white text-2xl font-bold leading-tight">12ms</p>
+<p class="text-neon-pink text-[10px] font-bold">-0.4</p>
+</div>
+</div>
+</div>
+<!-- Disruption DNA Sliders -->
+<div class="px-4 py-4 z-10">
+<div class="glass-panel rounded-xl p-4 space-y-6">
+<h4 class="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Disruption DNA Config</h4>
+<!-- Slider 1 -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-xs font-bold text-white/80 uppercase">Infiltration Speed</label>
+<span class="text-xs font-mono text-primary font-bold">8.5x</span>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full w-[85%] bg-primary neon-glow-primary"></div>
+</div>
+</div>
+<!-- Slider 2 -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-xs font-bold text-white/80 uppercase">Capital Aggression</label>
+<span class="text-xs font-mono text-neon-pink font-bold">MAX</span>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-primary to-neon-pink neon-glow-pink"></div>
+</div>
+</div>
+<!-- Slider 3 -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="text-xs font-bold text-white/80 uppercase">Viral Coefficient</label>
+<span class="text-xs font-mono text-accent-cyan font-bold">4.2</span>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full w-[42%] bg-accent-cyan"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Projected Rival Response Ticker -->
+<div class="px-4 pb-24 z-10">
+<h4 class="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] px-1 mb-3">Projected Rival Response</h4>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+<span class="material-symbols-outlined text-neon-pink text-lg">warning</span>
+<p class="text-xs text-white/80 leading-relaxed">Competitor X initiates defensive buyout protocol in Sector 7.</p>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5 opacity-60">
+<span class="material-symbols-outlined text-accent-cyan text-lg">info</span>
+<p class="text-xs text-white/80 leading-relaxed">Secondary market movers adopting passive surveillance mode.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-50 p-6 glass-panel border-t border-white/10 max-w-md mx-auto">
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold text-lg tracking-widest uppercase transition-all flex items-center justify-center gap-3 neon-glow-primary">
+<span class="material-symbols-outlined">bolt</span>
+            EXECUTE DISRUPTION
+        </button>
+</div>
+<!-- Background Spark Elements (Decorative) -->
+<div class="fixed top-1/4 right-0 w-px h-24 bg-gradient-to-b from-transparent via-neon-pink to-transparent opacity-40"></div>
+<div class="fixed top-2/3 left-4 w-px h-16 bg-gradient-to-b from-transparent via-accent-cyan to-transparent opacity-40"></div>
+</body></html>

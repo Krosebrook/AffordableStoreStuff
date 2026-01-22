@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion Command Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4725f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#05040a",
+                        "neon-cyan": "#00f2ff",
+                        "neon-pink": "#ff00e5",
+                        "neon-amber": "#ffab00",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .vortex-gradient {
+            background: radial-gradient(circle at center, rgba(71, 37, 244, 0.15) 0%, rgba(5, 4, 10, 1) 70%);
+        }
+        .glass-orb {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+        .pulse-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0.3;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden">
+<!-- Background Dashboard (Blurred) -->
+<div class="fixed inset-0 z-0 overflow-hidden filter blur-xl opacity-40 scale-105 pointer-events-none">
+<div class="p-6 space-y-6">
+<div class="h-40 w-full bg-primary/20 rounded-xl"></div>
+<div class="grid grid-cols-2 gap-4">
+<div class="h-32 bg-white/5 rounded-xl"></div>
+<div class="h-32 bg-white/5 rounded-xl"></div>
+</div>
+<div class="h-64 w-full bg-white/5 rounded-xl"></div>
+</div>
+<!-- Vortex Overlay Effect -->
+<div class="absolute inset-0 vortex-gradient"></div>
+</div>
+<!-- Main Content Container -->
+<div class="relative z-10 flex flex-col h-screen w-full">
+<!-- TopAppBar Navigation -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-primary">bolt</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">FlashFusion Hub</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 bg-transparent text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-3xl">account_circle</span>
+</button>
+</div>
+</div>
+<!-- Hero Headline -->
+<div class="px-6 pt-12 text-center">
+<h1 class="text-white tracking-tight text-[40px] font-bold leading-tight pb-2">Command Menu</h1>
+<p class="text-white/60 text-base font-normal leading-normal">Expand the FF core to launch AI actions</p>
+</div>
+<!-- Central Command Radial Section -->
+<div class="flex-1 relative flex items-center justify-center">
+<!-- Radial Items (Positioned around center) -->
+<div class="absolute inset-0 flex items-center justify-center">
+<!-- Generate Product (Top) -->
+<div class="absolute -translate-y-40 flex flex-col items-center gap-3">
+<div class="glass-orb size-20 rounded-full flex items-center justify-center text-primary group transition-all duration-300">
+<div class="pulse-ring inset-0 animate-ping opacity-20"></div>
+<span class="material-symbols-outlined text-4xl">auto_awesome</span>
+</div>
+<span class="text-sm font-bold uppercase tracking-widest text-primary">Generate</span>
+</div>
+<!-- Sync Stores (Left) -->
+<div class="absolute -translate-x-32 flex flex-col items-center gap-3">
+<div class="glass-orb size-20 rounded-full flex items-center justify-center text-neon-cyan transition-all duration-300">
+<span class="material-symbols-outlined text-4xl">sync_alt</span>
+</div>
+<span class="text-sm font-bold uppercase tracking-widest text-neon-cyan">Sync</span>
+</div>
+<!-- Boost Ad (Right) -->
+<div class="absolute translate-x-32 flex flex-col items-center gap-3">
+<div class="glass-orb size-20 rounded-full flex items-center justify-center text-neon-pink transition-all duration-300">
+<span class="material-symbols-outlined text-4xl">rocket_launch</span>
+</div>
+<span class="text-sm font-bold uppercase tracking-widest text-neon-pink">Boost</span>
+</div>
+<!-- Support Chat (Bottom) -->
+<div class="absolute translate-y-40 flex flex-col items-center gap-3">
+<div class="glass-orb size-20 rounded-full flex items-center justify-center text-neon-amber transition-all duration-300">
+<span class="material-symbols-outlined text-4xl">chat_bubble</span>
+</div>
+<span class="text-sm font-bold uppercase tracking-widest text-neon-amber">Support</span>
+</div>
+<!-- Central FF Button (FAB) -->
+<div class="relative z-20">
+<div class="absolute inset-0 bg-primary blur-3xl opacity-40 animate-pulse"></div>
+<button class="relative bg-primary size-24 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(71,37,244,0.6)] border-4 border-white/20 transition-transform active:scale-90">
+<span class="text-4xl font-black tracking-tighter italic select-none">FF</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer / Image Context -->
+<div class="px-6 pb-12">
+<div class="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
+<div class="size-14 rounded-xl overflow-hidden shrink-0">
+<img alt="Abstract digital network visualization" class="w-full h-full object-cover" data-alt="Abstract digital network visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMWZ15c_o5Wc1iS1iPzSPgKjxuXSbxUc5lstM3GZUVOj2Fyv1C4YE-3BEZxEb0nDw7w2_tXnX9GsrNKzL2QEMJkJ9dYRYIaRmNb-F9yzkO4tWk2Y54Gl-Sj7TH1MJd5PRfT-a5Z5ilAzKWdxWQTJjAZkqbWWqYtLM_hTslbRwOLgBCxZdsW56yUV_g7SviOi-oaIY_Hb7wqQ4oz2JKSQCiDxSBzXD0UnE_NhzesbtpubmNvBpLc3KOy6fuE3bxl8glUN3TrDudJAc"/>
+</div>
+<div>
+<h4 class="text-sm font-bold text-white">Current Flux Velocity</h4>
+<p class="text-xs text-white/50">98.4% Efficiency • 12ms Latency</p>
+</div>
+<div class="ml-auto">
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Mockup -->
+<div class="h-20 bg-background-dark border-t border-white/5 flex items-center justify-around px-6">
+<span class="material-symbols-outlined text-white/40">dashboard</span>
+<span class="material-symbols-outlined text-white/40">inventory_2</span>
+<div class="w-12 h-1 bg-white/20 rounded-full absolute bottom-2"></div>
+<span class="material-symbols-outlined text-white/40">campaign</span>
+<span class="material-symbols-outlined text-white/40">settings</span>
+</div>
+</div>
+</body></html>

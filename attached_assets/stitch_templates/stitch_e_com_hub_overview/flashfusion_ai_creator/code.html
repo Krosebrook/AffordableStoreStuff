@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion AI Creator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Icons+Outlined&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#A855F7", // Purple/Violet from the logo
+            "background-light": "#F8FAFC",
+            "background-dark": "#0B0118", // Deep space black/purple
+          },
+          fontFamily: {
+            display: ["Plus Jakarta Sans", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'glow-pulse': 'glow 2s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            glow: {
+              '0%': { boxShadow: '0 0 5px #A855F7, 0 0 10px #A855F7' },
+              '100%': { boxShadow: '0 0 20px #6366F1, 0 0 35px #6366F1' },
+            }
+          }
+        },
+      },
+    };
+  </script>
+<style>
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .light .glass-panel {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .neon-text {
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    }
+    .energy-ring {
+      background: linear-gradient(90deg, #FF00CC, #3333FF, #00CCFF);
+      height: 2px;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .energy-ring::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+      animation: flash-move 3s infinite linear;
+    }
+    @keyframes flash-move {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    body {
+      overflow-x: hidden;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] right-[-20%] w-[80%] h-[50%] bg-primary opacity-20 dark:opacity-30 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] left-[-20%] w-[80%] h-[50%] bg-blue-500 opacity-20 dark:opacity-20 blur-[120px] rounded-full"></div>
+</div>
+<div class="h-12 w-full flex items-center justify-between px-8 sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex items-center gap-1.5">
+<span class="material-icons-outlined text-sm">signal_cellular_alt</span>
+<span class="material-icons-outlined text-sm">wifi</span>
+<span class="material-icons-outlined text-sm">battery_full</span>
+</div>
+</div>
+<header class="px-6 pt-4 pb-2 flex flex-col items-center">
+<div class="relative w-20 h-20 mb-2">
+<img alt="FlashFusion AI Logo" class="w-full h-full object-contain animate-pulse-slow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwIFtlu6F8YJfElv1AjUrSKN9m_K9SnWkElrAyqFyHluLrpjU9cejRozAsws9j5xx9p3BQWdZIIpIpU_pc4KRUFBaCN88b327yipgxOqtvo10rTbuQWgfy_8ZZBYArR5QKXiVHZndNOf9STxs5xJg-mO7NpP7H9u80Z4KQGGuG8t9Avp3EaPh66Oj-hqFNmAt9broz0XtoORYUEzXMNv-iXhslr3mOXsxopZBl65EDlhdBnZnZWYrKEWJ02nPjF-Ziza-mK5HXzgo"/>
+</div>
+<h1 class="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+      FlashFusion <span class="text-slate-900 dark:text-white">AI</span>
+</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Create products in a flash</p>
+</header>
+<main class="px-5 py-6 space-y-8 pb-32">
+<section class="glass-panel p-6 rounded-[2rem] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 energy-ring"></div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white shadow-lg">
+<span class="material-icons-outlined">auto_awesome</span>
+</div>
+<div>
+<h2 class="text-lg font-bold">AI Product Creator</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400">Describe your product vision</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Prompt</label>
+<div class="relative">
+<textarea class="w-full bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-2xl p-4 text-sm focus:ring-primary focus:border-primary transition-all resize-none" placeholder="e.g. A futuristic glass water bottle with neon blue lighting..." rows="3"></textarea>
+<div class="absolute bottom-3 right-3 flex gap-2">
+<button class="p-2 bg-slate-100 dark:bg-white/10 rounded-lg hover:bg-slate-200 transition-colors">
+<span class="material-icons-outlined text-sm">mic</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 p-3 rounded-2xl border border-slate-200 dark:border-white/10 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+<span class="material-icons-outlined text-base text-pink-500">category</span>
+<span>Style</span>
+</button>
+<button class="flex items-center justify-center gap-2 p-3 rounded-2xl border border-slate-200 dark:border-white/10 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+<span class="material-icons-outlined text-base text-blue-500">palette</span>
+<span>Colors</span>
+</button>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-2xl shadow-lg shadow-primary/25 flex items-center justify-center gap-2 transition-all active:scale-95 group">
+<span>GENERATE PRODUCT</span>
+<span class="material-icons-outlined animate-bounce">bolt</span>
+</button>
+</div>
+</section>
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-bold text-lg">Recent Generations</h3>
+<button class="text-primary text-sm font-semibold">View All</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-panel p-3 rounded-3xl group relative">
+<div class="aspect-square rounded-2xl overflow-hidden bg-slate-800 relative">
+<img alt="Generated Sneaker" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-Nf6t7vkiSAP5PnFR_elJy6d7pSQJrzq5TPXW2JseN4uYO6rVIG7dknRpkMe6EJgQFH8gVP_EkA997CmJiewTYndxNe3pZr8rEPTQjOROcryDUrZyDEn64QcDg2aKVtdz_Nf7OH2fu96cnC-ywMrSbcsJ88LDTgK2rNS0el2SGfpDW9pcAQRQ6tWp-PZxZZHN49RYTD5yZNMhD028e96lFA-dAFPuQFkJxJaBpf09hS43D7ATuednx7xxU0iSc1WXTrhJY0MltVE"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full text-[10px] font-bold text-white uppercase flex items-center gap-1 border border-white/20">
+<span class="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></span>
+              Flash Pulse
+            </div>
+</div>
+<div class="mt-3 flex items-center justify-between px-1">
+<span class="text-xs font-bold truncate">Cyber-Runner X1</span>
+<button class="bg-primary/10 dark:bg-primary/20 p-1.5 rounded-lg text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-icons-outlined text-sm">rocket_launch</span>
+</button>
+</div>
+</div>
+<div class="glass-panel p-3 rounded-3xl group">
+<div class="aspect-square rounded-2xl overflow-hidden bg-slate-800 relative">
+<img alt="Generated Sunglasses" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6ixw2GKcyCCtSY7k8vGuGIYXmU2kuIqwBxRo-dx8p0LnZsxzPs_MC-vWfGqpaelDj-qEzgkfHGbQolNdeSVVhVBFskDGq2hgWWxPUePm6QP8BbgKtHczDRGmd-Pwc2Xx5IxMuM6HowSfdmmP2l0EvO6TB2sr01lhWEZRMCjnqDJX5leGhxJewMZYKHQ4182v_CUsF51iOvchqNpTHI1ebdBgbJWKWj9vKSypH5t2YvysDdmqWFf0Z1DRJrjceT9kFq9pJFuOTTnk"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full text-[10px] font-bold text-white uppercase flex items-center gap-1 border border-white/20">
+<span class="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></span>
+              Flash Pulse
+            </div>
+</div>
+<div class="mt-3 flex items-center justify-between px-1">
+<span class="text-xs font-bold truncate">Neon-Vision Pro</span>
+<button class="bg-primary/10 dark:bg-primary/20 p-1.5 rounded-lg text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-icons-outlined text-sm">rocket_launch</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 gap-4">
+<div class="glass-panel p-5 rounded-3xl flex items-center gap-4 hover:border-primary/40 transition-all cursor-pointer">
+<div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-500">
+<span class="material-icons-outlined text-3xl">storefront</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold">E-Commerce Hub</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Manage your connected stores</p>
+</div>
+<span class="material-icons-outlined text-slate-400">chevron_right</span>
+</div>
+<div class="glass-panel p-5 rounded-3xl flex items-center gap-4 hover:border-primary/40 transition-all cursor-pointer">
+<div class="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-500">
+<span class="material-icons-outlined text-3xl">trending_up</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold">AI Analytics</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Predict market trends in real-time</p>
+</div>
+<span class="material-icons-outlined text-slate-400">chevron_right</span>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 glass-panel border-t border-slate-200 dark:border-white/10 rounded-t-[2.5rem] px-6 py-4 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-outlined">grid_view</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Hub</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-outlined">add_circle_outline</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Create</span>
+</button>
+<div class="absolute left-1/2 -translate-x-1/2 -top-6">
+<button class="w-14 h-14 bg-primary text-white rounded-2xl shadow-[0_0_20px_rgba(168,85,247,0.5)] flex items-center justify-center hover:scale-105 transition-transform active:scale-90 animate-glow-pulse">
+<span class="material-icons-outlined text-3xl">bolt</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-outlined">insights</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Data</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-outlined">person_outline</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Profile</span>
+</button>
+</nav>
+<div class="fixed bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-300 dark:bg-white/20 rounded-full z-[60]"></div>
+
+</body></html>

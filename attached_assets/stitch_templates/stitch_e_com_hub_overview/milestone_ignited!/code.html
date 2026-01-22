@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Milestone Ignited!</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#050505", // Deeper black for high-energy contrast
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(157, 37, 244, 0.4);
+        }
+        .text-gradient {
+            background: linear-gradient(to bottom, #ffffff, #9d25f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .energy-ring {
+            background: radial-gradient(circle, rgba(157, 37, 244, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Background Effects -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] energy-ring opacity-60 rounded-full"></div>
+<div class="absolute top-[20%] right-[-10%] w-[300px] h-[300px] bg-pink-500/10 blur-[100px] rounded-full"></div>
+<div class="absolute bottom-[20%] left-[-10%] w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full"></div>
+</div>
+<!-- Top Navigation -->
+<div class="relative z-10 flex items-center p-4 justify-between bg-transparent">
+<div class="text-white flex size-12 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">bolt</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center uppercase">FlashFusion</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-white/5 border border-white/10 text-white">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+</div>
+<!-- Hero Content (Mascot & Title) -->
+<div class="relative z-10 flex flex-col items-center justify-center pt-4 pb-2 px-6 text-center">
+<h1 class="text-white tracking-tighter text-[40px] font-bold leading-none pb-6 text-gradient italic">MILESTONE IGNITED!</h1>
+<!-- Mascot Pose Section -->
+<div class="relative w-full aspect-square max-w-[320px] flex items-center justify-center">
+<div class="absolute inset-0 bg-primary/20 blur-[60px] rounded-full"></div>
+<div class="relative w-full h-full bg-center bg-no-repeat bg-contain" data-alt="FlashFusion mascot robot in victory pose with neon particles" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAWBGKgM2vGZo1fE1mhtB_xcOovBD7eGdk5Q9_o5GW8ecgTLQB4XI1uaIPOJhCt_oAXKcEo8JfyQl4HpyS7jy6NFo915H5SyivR0HH-rM34hjufUNItnvbmmp9TFYrjmY6Oi4AYKOuOHJ6PGRSb8ZBQxKimx7h_CXt27Mee9OZFG3JOiyikIX2nddz0fYT3V5glfa6ltuQlCHAwykJejPw4901OT7JS5RbLh5X70nlQAwiJmq_KEcQwBE5XDMbnC_42if3BCgg_lLc");'>
+</div>
+<!-- Fireworks/Particles Overlays -->
+<div class="absolute top-0 right-0 animate-pulse"><span class="material-symbols-outlined text-yellow-400 text-4xl">celebration</span></div>
+<div class="absolute bottom-10 left-0 animate-bounce"><span class="material-symbols-outlined text-pink-500 text-3xl">auto_awesome</span></div>
+</div>
+</div>
+<!-- Glassmorphic Milestone Card -->
+<div class="relative z-10 px-4 mt-[-20px]">
+<div class="glass-card rounded-2xl p-6 text-center border-t border-white/20">
+<p class="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-1">Achievement Unlocked</p>
+<h2 class="text-white text-3xl font-bold tracking-tight mb-2">$1M REVENUE IGNITED</h2>
+<div class="flex items-center justify-center gap-2">
+<span class="flex items-center gap-1 bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span> TOP 1%
+                    </span>
+<span class="bg-white/10 text-white/70 px-2 py-0.5 rounded-full text-xs font-medium">Q3 Milestone</span>
+</div>
+</div>
+</div>
+<!-- Stats Card -->
+<div class="relative z-10 p-4">
+<div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+<div class="flex items-center justify-between mb-4 px-2">
+<h3 class="text-white text-sm font-bold leading-tight tracking-wider uppercase">Milestone Stats</h3>
+<span class="material-symbols-outlined text-primary text-xl">monitoring</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white/5 rounded-xl p-3 border border-white/5">
+<p class="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1">Growth Velocity</p>
+<p class="text-white text-xl font-bold tracking-tight">+42.8%</p>
+</div>
+<div class="bg-white/5 rounded-xl p-3 border border-white/5">
+<p class="text-white/50 text-[10px] uppercase font-bold tracking-widest mb-1">Ignition Peak</p>
+<p class="text-white text-xl font-bold tracking-tight">1.2k <span class="text-xs font-medium text-white/50">/hr</span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- Spacer -->
+<div class="flex-grow"></div>
+<!-- Action Buttons -->
+<div class="relative z-10 p-6 flex flex-col gap-3">
+<button class="neon-glow flex w-full items-center justify-center gap-3 rounded-xl bg-primary h-14 text-white text-lg font-bold tracking-wide transition-transform active:scale-95">
+<span class="material-symbols-outlined">share</span>
+                SHARE SUCCESS
+            </button>
+<button class="flex w-full items-center justify-center gap-3 rounded-xl bg-white/10 h-14 text-white text-lg font-bold tracking-wide transition-transform active:scale-95 border border-white/5">
+<span class="material-symbols-outlined text-white/60">dashboard</span>
+                BACK TO COMMAND
+            </button>
+</div>
+<!-- Safe area padding for iOS -->
+<div class="h-6"></div>
+</div>
+</body></html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlashFusion News Intel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7f0df2",
+                        "accent-cyan": "#00f2ff",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#0a060e",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "sans": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .holographic-grid {
+            background-image: 
+                linear-gradient(rgba(127, 13, 242, 0.05) 1px, transparent 1px),
+                linear-gradient(90px, rgba(127, 13, 242, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .neon-glow-purple {
+            box-shadow: 0 0 15px rgba(127, 13, 242, 0.4);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+        .glass-panel {
+            background: rgba(48, 40, 57, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .ticker-wrap {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ticker-content {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white min-h-screen">
+<div class="relative w-full min-h-screen overflow-x-hidden holographic-grid">
+<!-- TopAppBar with Ticker Integration -->
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/20">
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="text-primary flex size-10 shrink-0 items-center justify-center" data-icon="bolt">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-wider flex-1 ml-2">FLASHFUSION <span class="text-primary">INTEL</span></h2>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center size-10 rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined">notifications_active</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-white/5 text-white">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<!-- Live News Ticker -->
+<div class="bg-primary/10 border-y border-primary/30 py-1.5 overflow-hidden">
+<div class="ticker-wrap flex">
+<div class="ticker-content flex gap-8 items-center text-accent-cyan text-xs font-bold uppercase tracking-widest">
+<span>• SHOPIFY API V3.0 RELEASED</span>
+<span>• TIKTOK SHOP POLICY UPDATE: NEW COMPLIANCE REQS</span>
+<span>• AMAZON LOGISTICS STRIKE AVERTED IN EU</span>
+<span>• CRYPTO PAYMENT GATEWAY INTEGRATION LIVE ON ADOBE COMMERCE</span>
+<span>• META ANNOUNCES NEW AD ATTRIBUTION MODEL</span>
+<span>• GLOBAL SHIPPING CONTAINER RATES SURGE 12%</span>
+</div>
+</div>
+</div>
+</header>
+<main class="pb-24">
+<!-- Headline Section -->
+<div class="px-4 pt-6 pb-2">
+<h3 class="text-white tracking-tight text-2xl font-bold leading-tight flex items-center gap-2">
+                    Market Sentiment
+                    <span class="text-[10px] bg-primary px-2 py-0.5 rounded-full uppercase tracking-tighter">Live</span>
+</h3>
+</div>
+<!-- Stats & Progress Bar (Combined for Situation Room vibe) -->
+<div class="px-4 space-y-4">
+<div class="flex gap-4">
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 glass-panel border-l-4 border-accent-cyan neon-glow-cyan">
+<p class="text-white/60 text-xs font-medium uppercase">Global Mood</p>
+<p class="text-white text-xl font-bold">78% Bullish</p>
+<p class="text-accent-cyan text-xs font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +12.4%
+                        </p>
+</div>
+<div class="flex-1 flex flex-col gap-1 rounded-xl p-4 glass-panel border-l-4 border-primary neon-glow-purple">
+<p class="text-white/60 text-xs font-medium uppercase">Volatility</p>
+<p class="text-white text-xl font-bold">Medium</p>
+<p class="text-primary text-xs font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">bar_chart</span> Stable
+                        </p>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-5 border border-white/5">
+<div class="flex gap-6 justify-between mb-3">
+<p class="text-white/80 text-sm font-medium uppercase tracking-widest">Sentiment Pulse</p>
+<p class="text-accent-cyan text-sm font-bold">HIGH OPTIMISM</p>
+</div>
+<div class="h-3 rounded-full bg-white/10 overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 60%;"></div>
+<div class="h-full bg-accent-cyan" style="width: 18%;"></div>
+</div>
+<div class="flex justify-between mt-2">
+<p class="text-white/40 text-[10px] uppercase font-bold">Bearish Area</p>
+<p class="text-white/40 text-[10px] uppercase font-bold">Bullish Zone</p>
+</div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="px-4 pt-8 flex items-center justify-between">
+<h3 class="text-white text-lg font-bold leading-tight tracking-tight uppercase">Intelligence Feed</h3>
+<span class="material-symbols-outlined text-primary">filter_list</span>
+</div>
+<!-- News Impact Cards (Generated custom component for glassmorphic cards) -->
+<div class="px-4 space-y-4 mt-4">
+<!-- Card 1 -->
+<div class="glass-panel rounded-2xl overflow-hidden border border-white/10">
+<div class="p-4 flex gap-4">
+<div class="flex flex-col items-center justify-center bg-primary/20 rounded-xl px-3 py-2 border border-primary/40 min-w-[70px]">
+<span class="text-[10px] text-primary font-black uppercase">Flash</span>
+<span class="text-2xl font-bold text-white">9.2</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent-cyan font-bold uppercase tracking-widest mb-1 block">API Update • Critical</span>
+<span class="text-white/40 text-[10px]">2m ago</span>
+</div>
+<h4 class="text-white font-bold text-md leading-snug">Shopify API v3.0 Global Rollout</h4>
+</div>
+</div>
+<div class="px-4 pb-4">
+<div class="bg-white/5 rounded-lg p-3 border border-white/5">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+<span class="text-[10px] font-bold text-white/60 uppercase">AI Summary</span>
+</div>
+<p class="text-sm text-white/80 leading-relaxed">Mandatory migration required by Q4. Extends checkout logic to edge nodes, reducing latency by 40% for global storefronts.</p>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel rounded-2xl overflow-hidden border border-white/10">
+<div class="p-4 flex gap-4">
+<div class="flex flex-col items-center justify-center bg-accent-cyan/10 rounded-xl px-3 py-2 border border-accent-cyan/30 min-w-[70px]">
+<span class="text-[10px] text-accent-cyan font-black uppercase">Flash</span>
+<span class="text-2xl font-bold text-white">8.5</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1 block">Policy • High Impact</span>
+<span class="text-white/40 text-[10px]">14m ago</span>
+</div>
+<h4 class="text-white font-bold text-md leading-snug">TikTok Shop Compliance Overhaul</h4>
+</div>
+</div>
+<div class="px-4 pb-4">
+<div class="bg-white/5 rounded-lg p-3 border border-white/5">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+<span class="text-[10px] font-bold text-white/60 uppercase">AI Summary</span>
+</div>
+<p class="text-sm text-white/80 leading-relaxed">New identity verification for 3PL providers. Direct impact on dropshipping fulfillment pipelines across Southeast Asia.</p>
+</div>
+</div>
+</div>
+<!-- Card 3 (Image content) -->
+<div class="glass-panel rounded-2xl overflow-hidden border border-white/10">
+<div class="relative h-32 w-full">
+<img alt="Logistics network" class="w-full h-full object-cover opacity-50" data-alt="Digital representation of global logistics network with glowing connections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe6gYDMpoVRbseyznklLLgVJoKLEF4Cf_nfDgcCbjObFnMOme7HCWpa8rCFYBSG6zfXRrnzm1y6VezM2BrAvr_IrPlAccf_5EIpb4QayvBtPIw4_AhUXUNZGmqNrKLgurt19zvRILXC_Jfz3L4J_KDwxDaYHMZHrbgCRaU_2vJCU3OMMXrxzceJTuMLaNi0LHhr_RZaatnp-uAGXr4Ny_xAd9ILezwH3xPZ-luBY4Lf82N5uyYAglpK8F8mfwLqLx_qXRUDVI6O1s"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark to-transparent"></div>
+<div class="absolute bottom-3 left-4">
+<span class="bg-primary px-2 py-0.5 rounded text-[10px] font-bold">LOGISTICS</span>
+</div>
+</div>
+<div class="p-4 flex gap-4">
+<div class="flex flex-col items-center justify-center bg-white/10 rounded-xl px-3 py-2 border border-white/10 min-w-[70px]">
+<span class="text-[10px] text-white/60 font-black uppercase">Flash</span>
+<span class="text-2xl font-bold text-white">6.2</span>
+</div>
+<div class="flex-1">
+<h4 class="text-white font-bold text-md leading-snug">EU Port Congestion Easing</h4>
+<p class="text-sm text-white/60 mt-2">Rotterdam and Hamburg ports report 15% improvement in turnaround times as automation pilots scale.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 glass-panel border-t border-white/10 px-6 py-4 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined filled">insights</span>
+<span class="text-[10px] font-bold uppercase">Intel</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase">Market</span>
+</button>
+<div class="relative -mt-10">
+<button class="size-14 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/50 border-4 border-background-dark">
+<span class="material-symbols-outlined text-white text-3xl">add_alert</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">hub</span>
+<span class="text-[10px] font-bold uppercase">Network</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase">Profile</span>
+</button>
+</nav>
+</div>
+</body></html>

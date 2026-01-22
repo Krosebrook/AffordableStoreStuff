@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sentiment Sphere Labs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#9d25f4",
+                        "background-light": "#f7f5f8",
+                        "background-dark": "#1a1022",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(26, 16, 34, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(157, 37, 244, 0.2);
+        }
+        .sphere-glow {
+            background: radial-gradient(circle, rgba(157, 37, 244, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+        }
+        .neon-text-purple { text-shadow: 0 0 10px rgba(157, 37, 244, 0.8); }
+        .neon-text-cyan { text-shadow: 0 0 10px rgba(34, 211, 238, 0.8); }
+        .neon-text-pink { text-shadow: 0 0 10px rgba(244, 37, 203, 0.8); }
+        .grid-bg {
+            background-image: linear-gradient(rgba(157, 37, 244, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(157, 37, 244, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden">
+<!-- Top Navigation Bar -->
+<div class="fixed top-0 left-0 right-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-white/5">
+<div class="text-primary flex size-10 shrink-0 items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined">science</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-white text-sm font-bold leading-tight tracking-tight uppercase">Sentiment Sphere</h2>
+<div class="flex items-center gap-1.5">
+<div class="size-1.5 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-[10px] text-[#ad9cba] font-medium uppercase tracking-widest">Live Engine</span>
+</div>
+</div>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-xl size-10 bg-white/5 text-white">
+<span class="material-symbols-outlined">analytics</span>
+</button>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="relative h-screen w-full flex flex-col pt-20 overflow-hidden">
+<!-- Grid and Particle Background -->
+<div class="absolute inset-0 grid-bg pointer-events-none opacity-40"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark/20 via-transparent to-background-dark"></div>
+<!-- Header Text -->
+<div class="relative z-10 text-center px-6 mt-4">
+<h1 class="text-white tracking-tight text-3xl font-bold leading-tight">Market Pulse 3D</h1>
+<p class="text-[#ad9cba] text-sm font-normal mt-1">Holographic Sentiment Visualization</p>
+</div>
+<!-- 3D Sphere Mockup Visualization -->
+<div class="relative flex-1 flex items-center justify-center p-4">
+<div class="absolute w-[300px] h-[300px] rounded-full border border-primary/20 flex items-center justify-center sphere-glow">
+<div class="absolute w-[340px] h-[340px] rounded-full border border-cyan-500/10 rotate-45"></div>
+<div class="absolute w-[340px] h-[340px] rounded-full border border-pink-500/10 -rotate-12"></div>
+<!-- Floating Neon Words -->
+<div class="relative w-full h-full flex items-center justify-center">
+<span class="absolute top-1/4 left-1/4 text-primary font-bold text-2xl neon-text-purple -rotate-12">CYBERPUNK</span>
+<span class="absolute top-1/3 right-1/4 text-cyan-400 font-bold text-lg neon-text-cyan rotate-6">MINIMALIST</span>
+<span class="absolute bottom-1/3 left-1/2 text-pink-500 font-bold text-xl neon-text-pink translate-x-[-50%]">SUSTAINABLE</span>
+<span class="absolute bottom-1/4 left-1/4 text-white/40 font-bold text-sm">DECENTRALIZED</span>
+<span class="absolute top-1/2 right-4 text-white/60 font-bold text-base rotate-90">FUTURE-PROOF</span>
+<span class="absolute top-10 left-1/2 text-primary/40 font-bold text-xs">HYPER-GROWTH</span>
+</div>
+</div>
+<!-- Floating Data Labels -->
+<div class="absolute top-20 left-10 glass-card p-2 px-3 rounded-lg border border-white/10">
+<p class="text-[10px] text-[#ad9cba] uppercase font-bold tracking-tighter">Confidence Index</p>
+<p class="text-white text-lg font-bold">92.4%</p>
+</div>
+<div class="absolute bottom-20 right-10 glass-card p-2 px-3 rounded-lg border border-white/10">
+<p class="text-[10px] text-[#ad9cba] uppercase font-bold tracking-tighter">Social Velocity</p>
+<div class="flex items-center gap-1">
+<p class="text-white text-lg font-bold">+140%</p>
+<span class="material-symbols-outlined text-green-400 text-sm">trending_up</span>
+</div>
+</div>
+</div>
+<!-- Stats Section -->
+<div class="relative z-10 flex flex-nowrap gap-3 p-4 overflow-x-auto no-scrollbar pb-8">
+<div class="flex min-w-[140px] flex-col gap-2 rounded-xl p-4 glass-card">
+<p class="text-[#ad9cba] text-xs font-medium uppercase tracking-wider">Positive</p>
+<p class="text-white text-2xl font-bold">68%</p>
+<p class="text-[#0bda76] text-xs font-medium">+5.2%</p>
+</div>
+<div class="flex min-w-[140px] flex-col gap-2 rounded-xl p-4 glass-card">
+<p class="text-[#ad9cba] text-xs font-medium uppercase tracking-wider">Neutral</p>
+<p class="text-white text-2xl font-bold">22%</p>
+<p class="text-[#fa6f38] text-xs font-medium">-2.1%</p>
+</div>
+<div class="flex min-w-[140px] flex-col gap-2 rounded-xl p-4 glass-card border-white/5">
+<p class="text-[#ad9cba] text-xs font-medium uppercase tracking-wider">Negative</p>
+<p class="text-white text-2xl font-bold">10%</p>
+<p class="text-[#fa6f38] text-xs font-medium">-3.4%</p>
+</div>
+</div>
+<!-- Trend Forecast Card (Glassmorphic) -->
+<div class="relative z-10 px-4 pb-10">
+<div class="glass-card rounded-2xl p-6 border-t border-white/20 shadow-2xl">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-white font-bold text-xl">CYBERPUNK <span class="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded ml-2">TRENDING</span></h3>
+<p class="text-[#ad9cba] text-sm">AI Prediction for Q3 2024</p>
+</div>
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">auto_graph</span>
+</div>
+</div>
+<!-- Mock Graph -->
+<div class="h-20 w-full flex items-end gap-1 mb-4">
+<div class="flex-1 bg-white/5 h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-white/5 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-white/10 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-white/10 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[100%] rounded-t-sm shadow-[0_-4px_10px_rgba(157,37,244,0.5)]"></div>
+</div>
+<p class="text-[#ad9cba] text-xs leading-relaxed">
+                    AI analysis detects increasing search volume in APAC regions. Sentiment indicates a <span class="text-white font-bold">15% growth surge</span> driven by high-energy aesthetic adoption in tech hubs.
+                </p>
+<button class="mt-6 w-full py-3 bg-primary text-white font-bold rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                    View Market Entry Points
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Floating Action Menu (iOS style) -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center bg-white/10 backdrop-blur-xl border border-white/20 p-2 rounded-full shadow-2xl">
+<button class="size-12 rounded-full flex items-center justify-center bg-primary text-white">
+<span class="material-symbols-outlined">center_focus_strong</span>
+</button>
+<button class="size-12 rounded-full flex items-center justify-center text-white/60">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="size-12 rounded-full flex items-center justify-center text-white/60">
+<span class="material-symbols-outlined">history</span>
+</button>
+<button class="size-12 rounded-full flex items-center justify-center text-white/60">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</main>
+<div class="h-10"></div>
+</body></html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team Access Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ddff2",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0a1112",
+              "card-glass": "rgba(255, 255, 255, 0.03)",
+              "border-glass": "rgba(255, 255, 255, 0.1)",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(13, 223, 242, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-40 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-4 flex items-center justify-between border-b border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white cursor-pointer">arrow_back_ios</span>
+<h1 class="text-xl font-bold tracking-tight">Team Access</h1>
+</div>
+<button class="bg-primary text-black px-4 py-2 rounded-full text-sm font-bold flex items-center gap-1 neon-glow">
+<span class="material-symbols-outlined text-lg">person_add</span>
+            Invite
+        </button>
+</header>
+<main class="p-4 space-y-6 pb-32">
+<!-- Stats Section -->
+<div class="flex gap-4">
+<div class="glass-card flex-1 p-5 rounded-xl flex flex-col gap-1 relative overflow-hidden">
+<div class="absolute -right-2 -top-2 w-16 h-16 bg-primary/10 rounded-full blur-2xl"></div>
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">Total Seats</p>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-bold">15</span>
+<span class="text-slate-500 mb-1 text-sm font-medium">/ 20</span>
+</div>
+</div>
+<div class="glass-card flex-1 p-5 rounded-xl flex flex-col gap-1 relative overflow-hidden">
+<div class="absolute -right-2 -top-2 w-16 h-16 bg-primary/10 rounded-full blur-2xl"></div>
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">Active Members</p>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-bold">12</span>
+<span class="text-primary text-sm mb-1 font-medium italic">Online</span>
+</div>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="relative">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-slate-500" placeholder="Search team members..." type="text"/>
+</div>
+<!-- Team List -->
+<div class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h2 class="text-sm font-bold uppercase tracking-widest text-slate-400">Team Members</h2>
+<span class="material-symbols-outlined text-slate-400 text-lg">filter_list</span>
+</div>
+<!-- List Item 1 -->
+<div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-primary group">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="Portrait of Alex Rivera, Creative Director" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmACk9RjDcxev0VMBiVUZ3dX-BjmKh2uYFdbOWuXCY6jXCX3_4qykwiKHOR3JxDARv55aUaGj7CiSvo2uyS6e01QUtreQeZPcZ3Ny7fJaR5W6VK5GxbP5tH96pjXxupyTB0tA6LV2Hgk0npISfjfVIj4W1ac-Aak8G_neidMFedT1dSGlYNHlRWr2sST6t74gz42l4cHZtp9Sc7NL6d3cZQ57GQEKFQX9L55PTZdB6WlN8sa_lXk7ikGz-EiaWQBSoHY18bu_un3g");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background-dark rounded-full"></div>
+</div>
+<div>
+<h3 class="font-bold text-base">Alex Rivera</h3>
+<p class="text-xs text-slate-400">Agency Admin</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="flex gap-1">
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase">Shopify</span>
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase">Meta</span>
+</div>
+<span class="material-symbols-outlined text-slate-500 text-lg">chevron_right</span>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-transparent">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-cover bg-center border-2 border-white/5" data-alt="Portrait of Sarah Chen, Store Manager" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCqw1qxfrC8iFzXI30tls_Zj_RlVpEwSHGCSINn2Xghko--oQIbczckrvDuD9MO58cfy6bzrek18n1uZkeoQVwVoDls3AMNwVo7W2Wa1KcppslKbHdR2j_xjibFShyQH4LxGdgrHDyxTcxwGJcx422M60Zd8AZ010ES_4WVSRnRbnyLJgG7CRnmo-FkWuLlNqEUfXGBrbcWu9PGtTyShR2UNwojkqrVdLhtHB7KaWLvBrqkW2p-YF7gXZni9iwf5p54pVJeiuW5rXg");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-slate-500 border-2 border-background-dark rounded-full"></div>
+</div>
+<div>
+<h3 class="font-bold text-base">Sarah Chen</h3>
+<p class="text-xs text-slate-400">Store Manager</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="flex gap-1">
+<span class="px-2 py-0.5 bg-white/5 text-slate-300 text-[10px] font-bold rounded uppercase">Amazon</span>
+</div>
+<span class="material-symbols-outlined text-slate-500 text-lg">chevron_right</span>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-transparent">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-cover bg-center border-2 border-white/5" data-alt="Portrait of Marcus Thorne, AI Lead" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDeXclVMDsfFUOY6eNmYNCSyyi5HeJMZWj4Tn0aQ4uuVkrOZZDmL96mGMFaUH--uESfvrbQNf2fNSEiHG1dlINERQWDxEvUDeWShFqX65jQfFvWKY2_Jy5_ndBgbKiCE3l9D_Qcp-dklI3sPtxeYlWOdB_6eZIE8dTmvcO9OB_39yZRVbcJ981tCxb4Y0kiOn64ixvLNYwWoB8j44RaELXuVQp0t7JBZZp2EgzD1FD9iZW-8kjbrHjwomevKoGpDrEuIL12gVoTWIE");'></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background-dark rounded-full"></div>
+</div>
+<div>
+<h3 class="font-bold text-base">Marcus Thorne</h3>
+<p class="text-xs text-slate-400">AI Lead</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="flex gap-1">
+<span class="px-2 py-0.5 bg-white/5 text-slate-300 text-[10px] font-bold rounded uppercase">GenAI</span>
+<span class="px-2 py-0.5 bg-white/5 text-slate-300 text-[10px] font-bold rounded uppercase">Voice</span>
+</div>
+<span class="material-symbols-outlined text-slate-500 text-lg">chevron_right</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Permissions Side Drawer (Simulated as Overlay) -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-end">
+<div class="w-[85%] h-full bg-[#0d1617] border-l border-white/10 shadow-2xl overflow-y-auto">
+<div class="p-6 space-y-8">
+<!-- Drawer Header -->
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold">Permissions</h2>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-white/5">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<!-- User Profile Summary -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-primary/5 border border-primary/20">
+<div class="w-14 h-14 rounded-full bg-cover bg-center" data-alt="Profile image of Alex Rivera" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDATVQstjpdr49JxYFlkOX2Vzs_vDfbjcIRhWG8bEmA74LTrqRow5jja23oXBGSmj1xghkhLBzjbe1GWpX0fXBRVFxy2gYdkvpiOkYM3TwCPglHG_atKQPIRfMTlTEJ9v-pUZ6-8nSBy5X3X4yel6EYZ1Nik8x8rEQarQLqB5mUoqRz6HIqQQo_I1gby7oRYZyo7_Ysql9CChl48PANZ2r-Ln3athQfGlLOjlF4A3LU9nTAHUbUT0sX8h4yBHODuBU9JEQXakcyNRY");'></div>
+<div>
+<h4 class="font-bold text-lg">Alex Rivera</h4>
+<p class="text-sm text-primary font-medium">Agency Admin</p>
+</div>
+</div>
+<!-- Permission Toggles Group 1 -->
+<div class="space-y-4">
+<h5 class="text-xs font-bold uppercase tracking-widest text-slate-500">Platform Access</h5>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+<span class="text-sm">Can Publish to Shopify</span>
+<div class="w-10 h-5 bg-primary rounded-full relative">
+<div class="absolute right-1 top-1 w-3 h-3 bg-black rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+<span class="text-sm">Sync Inventory</span>
+<div class="w-10 h-5 bg-primary rounded-full relative">
+<div class="absolute right-1 top-1 w-3 h-3 bg-black rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Permission Toggles Group 2 -->
+<div class="space-y-4">
+<h5 class="text-xs font-bold uppercase tracking-widest text-slate-500">Financials</h5>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 opacity-60">
+<span class="text-sm">View Revenue</span>
+<div class="w-10 h-5 bg-slate-700 rounded-full relative">
+<div class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 opacity-60">
+<span class="text-sm">Manage Billing</span>
+<div class="w-10 h-5 bg-slate-700 rounded-full relative">
+<div class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Permission Toggles Group 3 -->
+<div class="space-y-4">
+<h5 class="text-xs font-bold uppercase tracking-widest text-slate-500">AI Toolset</h5>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+<span class="text-sm">Edit AI Brand Voice</span>
+<div class="w-10 h-5 bg-primary rounded-full relative">
+<div class="absolute right-1 top-1 w-3 h-3 bg-black rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+<span class="text-sm">Generate Ad Copy</span>
+<div class="w-10 h-5 bg-primary rounded-full relative">
+<div class="absolute right-1 top-1 w-3 h-3 bg-black rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 opacity-60">
+<span class="text-sm">Train Custom Models</span>
+<div class="w-10 h-5 bg-slate-700 rounded-full relative">
+<div class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="pt-6">
+<button class="w-full bg-primary text-black py-4 rounded-xl font-bold neon-glow">Update Permissions</button>
+<button class="w-full text-red-400 py-4 text-sm font-bold">Revoke Member Access</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>
