@@ -19,6 +19,7 @@ import {
   TrendingUp,
   Brain,
   Radar,
+  ShieldCheck,
 } from "lucide-react";
 import {
   Sidebar,
@@ -39,6 +40,7 @@ const mainNavItems = [
   { title: "Fusion Core", url: "/fusion-core", icon: Brain },
   { title: "Product Heatmap", url: "/product-pulse-heatmap", icon: Grid3X3 },
   { title: "AI Insights", url: "/ai-insights", icon: Radar },
+  { title: "Tax Command", url: "/tax-compliance", icon: ShieldCheck },
   { title: "Products", url: "/products", icon: Package },
   { title: "Orders", url: "/orders", icon: ClipboardList },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },

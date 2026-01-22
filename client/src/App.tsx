@@ -36,6 +36,7 @@ const ProductPulseHeatmap = lazy(() => import("@/pages/product-pulse-heatmap"));
 const FusionCore = lazy(() => import("@/pages/fusion-core"));
 const BrandCalibration = lazy(() => import("@/pages/brand-calibration"));
 const AIInsights = lazy(() => import("@/pages/ai-insights"));
+const TaxCompliance = lazy(() => import("@/pages/tax-compliance"));
 const Auth = lazy(() => import("@/pages/auth"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
@@ -145,6 +146,7 @@ function Router() {
     "/fusion-core",
     "/brand-calibration",
     "/ai-insights",
+    "/tax-compliance",
   ];
 
   const isDashboardRoute = dashboardRoutes.some((route) =>
@@ -170,6 +172,7 @@ function Router() {
           <Route path="/fusion-core" component={FusionCore} />
           <Route path="/brand-calibration" component={BrandCalibration} />
           <Route path="/ai-insights" component={AIInsights} />
+          <Route path="/tax-compliance" component={TaxCompliance} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/automation" component={Dashboard} />
           <Route path="/customers" component={Dashboard} />
