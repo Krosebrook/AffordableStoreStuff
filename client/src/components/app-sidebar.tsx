@@ -13,6 +13,8 @@ import {
   Wand2,
   Megaphone,
   Palette,
+  Activity,
+  UserCircle,
 } from "lucide-react";
 import {
   Sidebar,
@@ -29,6 +31,7 @@ import {
 
 const mainNavItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Store Pulse", url: "/store-pulse", icon: Activity },
   { title: "Products", url: "/products", icon: Package },
   { title: "Orders", url: "/orders", icon: ClipboardList },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
@@ -37,6 +40,7 @@ const mainNavItems = [
 const aiToolsItems = [
   { title: "AI Generator", url: "/generator", icon: Sparkles },
   { title: "Product Creator", url: "/ai-product-creator", icon: Wand2 },
+  { title: "Influencer Studio", url: "/ai-influencer-studio", icon: UserCircle },
   { title: "Marketing Engine", url: "/ai-marketing", icon: Megaphone },
   { title: "Brand Voice", url: "/ai-brand-voice", icon: Palette },
   { title: "Integrations", url: "/integrations", icon: Plug },

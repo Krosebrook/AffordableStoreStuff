@@ -125,24 +125,38 @@ Seed:
 POST /api/seed          - Seed demo data
 ```
 
-## Design System
+## Design System (v2.2 - January 2026)
 
-### Theme
-- **Primary Color**: Purple (#8B5CF6)
-- **Accent**: Pink gradients
-- **Background**: Dark (240 10% 4%)
-- **Glass Effects**: backdrop-blur-xl with white/5 background
+### Design Tokens (from Mockups)
+- **Primary Purple**: `#4725f4` (Brand purple)
+- **Accent Pink**: `#ec4899` / `#ff2daf` (Hot pink accents)
+- **Background Dark**: `#0d0b14` (Deep navy/purple base)
+- **Space Black**: `#0c0810` (iOS-style deep sections)
+- **Card Dark**: `#131022` (Elevated surfaces)
+- **Success Green**: `#0bda76` (Live indicators, positive stats)
+
+### Glow & Shadow Effects
+- **Glow Pulse**: `0 0 15px rgba(71, 37, 244, 0.4), 0 0 30px rgba(71, 37, 244, 0.2)`
+- **Neon Pink Glow**: `0 0 20px rgba(255, 45, 175, 0.5)`
+- **Pulse Ring**: Animated concentric rings for "Operational" status
+
+### Glassmorphism
+- **Glass Panel**: `rgba(19, 16, 34, 0.7)` + `backdrop-filter: blur(12px)` + `border: 1px solid rgba(71, 37, 244, 0.2)`
+- **Glass Card**: `rgba(157, 37, 244, 0.05)` + subtle purple border
 
 ### Typography
 - **Sans**: Inter
-- **Display**: Space Grotesk
+- **Display**: Space Grotesk (headings, stats)
 - **Mono**: JetBrains Mono
 
 ### Key Design Classes
-- `.glass` - Glass-morphism effect
+- `.glass` / `.glass-card` - Glass-morphism effects
 - `.gradient-text` - Purple to pink gradient text
-- `.btn-gradient` - Gradient button styling
+- `.btn-gradient` - Gradient button with glow
 - `.card-glow` - Glow effect on card hover
+- `.neon-border-purple` / `.neon-border-pink` - Themed glow borders
+- `.pulse-ring` - Animated focus rings
+- `.bg-mesh` - Radial gradient mesh background
 
 ## User Preferences
 - Premium dark theme preferred

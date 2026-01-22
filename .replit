@@ -41,3 +41,8 @@ waitForPort = 5000
 
 [agent]
 integrations = ["javascript_database:1.0.0"]
+
+[userenv]
+
+[userenv.shared]
+REDIS_UPSTASH_REST_URL = "rediss://default:AUUHAAIncDJmM2ZlMTUwMjA2YTg0MzA0YTQ4MmEyY2E1NTQ5MjU1NnAyMTc2NzE@suitable-raven-17671.upstash.io:6379"

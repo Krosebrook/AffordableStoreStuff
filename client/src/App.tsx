@@ -19,6 +19,7 @@ import { OfflineIndicator, UpdatePrompt, ConnectionStatus } from "@/components/o
 import { initPWA } from "@/lib/pwa-utils";
 
 const Landing = lazy(() => import("@/pages/landing"));
+const Onboarding = lazy(() => import("@/pages/onboarding"));
 const Dashboard = lazy(() => import("@/pages/dashboard"));
 const Products = lazy(() => import("@/pages/products"));
 const Orders = lazy(() => import("@/pages/orders"));
@@ -26,6 +27,8 @@ const Checkout = lazy(() => import("@/pages/checkout"));
 const Analytics = lazy(() => import("@/pages/analytics"));
 const Generator = lazy(() => import("@/pages/generator"));
 const IntegrationHub = lazy(() => import("@/pages/integration-hub"));
+const StorePulse = lazy(() => import("@/pages/store-pulse"));
+const AIInfluencerStudio = lazy(() => import("@/pages/ai-influencer-studio"));
 const AIProductCreator = lazy(() => import("@/pages/ai-product-creator"));
 const AIMarketingEngine = lazy(() => import("@/pages/ai-marketing-engine"));
 const AIBrandVoice = lazy(() => import("@/pages/ai-brand-voice"));
@@ -132,6 +135,8 @@ function Router() {
     "/ai-product-creator",
     "/ai-marketing",
     "/ai-brand-voice",
+    "/store-pulse",
+    "/ai-influencer-studio",
   ];
 
   const isDashboardRoute = dashboardRoutes.some((route) =>
@@ -151,6 +156,8 @@ function Router() {
           <Route path="/ai-product-creator" component={AIProductCreator} />
           <Route path="/ai-marketing" component={AIMarketingEngine} />
           <Route path="/ai-brand-voice" component={AIBrandVoice} />
+          <Route path="/store-pulse" component={StorePulse} />
+          <Route path="/ai-influencer-studio" component={AIInfluencerStudio} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/automation" component={Dashboard} />
           <Route path="/customers" component={Dashboard} />
@@ -165,6 +172,7 @@ function Router() {
     <Suspense fallback={<PageLoader />}>
       <Switch>
         <Route path="/" component={Landing} />
+        <Route path="/onboarding" component={Onboarding} />
         <Route path="/auth" component={Auth} />
         <Route component={NotFound} />
       </Switch>
