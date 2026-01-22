@@ -265,8 +265,8 @@ export default function AIMarketingEngine() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Campaign Objective</Label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  <Label htmlFor="objective-select">Campaign Objective</Label>
+                  <div id="objective-select" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {OBJECTIVES.map((obj) => (
                       <button
                         key={obj.id}

@@ -201,9 +201,9 @@ function ConnectorCard({
                   <div className="space-y-3">
                     {connector.requiredCredentials.map(cred => (
                       <div key={cred} className="space-y-2">
-                        <Label htmlFor={cred}>{cred}</Label>
+                        <Label htmlFor={`cred-${connector.id}-${cred}`}>{cred}</Label>
                         <Input
-                          id={cred}
+                          id={`cred-${connector.id}-${cred}`}
                           placeholder={`Enter ${cred}`}
                           type="password"
                           value={credentials[cred] || ""}

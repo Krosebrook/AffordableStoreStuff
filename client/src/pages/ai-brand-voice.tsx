@@ -452,12 +452,12 @@ export default function AIBrandVoice() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label>Writing Style</Label>
+                        <Label htmlFor="writing-style">Writing Style</Label>
                         <Select
                           value={formData.writingStyle}
                           onValueChange={(value) => setFormData({ ...formData, writingStyle: value })}
                         >
-                          <SelectTrigger className="glass" data-testid="select-writing-style">
+                          <SelectTrigger id="writing-style" className="glass" data-testid="select-writing-style">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -468,12 +468,12 @@ export default function AIBrandVoice() {
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label>Vocabulary Level</Label>
+                        <Label htmlFor="vocabulary-level">Vocabulary Level</Label>
                         <Select
                           value={formData.vocabularyLevel}
                           onValueChange={(value) => setFormData({ ...formData, vocabularyLevel: value })}
                         >
-                          <SelectTrigger className="glass" data-testid="select-vocabulary-level">
+                          <SelectTrigger id="vocabulary-level" className="glass" data-testid="select-vocabulary-level">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>

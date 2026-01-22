@@ -226,10 +226,11 @@ export default function Checkout() {
                         name="firstName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name</FormLabel>
+                            <FormLabel htmlFor="firstName">First Name</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
+                                id="firstName"
                                 className="glass border-white/10"
                                 data-testid="input-first-name"
                               />
@@ -243,10 +244,11 @@ export default function Checkout() {
                         name="lastName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name</FormLabel>
+                            <FormLabel htmlFor="lastName">Last Name</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
+                                id="lastName"
                                 className="glass border-white/10"
                                 data-testid="input-last-name"
                               />
@@ -261,10 +263,11 @@ export default function Checkout() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel htmlFor="email">Email</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
+                              id="email"
                               type="email"
                               className="glass border-white/10"
                               data-testid="input-email"
@@ -279,10 +282,11 @@ export default function Checkout() {
                       name="address1"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Address</FormLabel>
+                          <FormLabel htmlFor="address1">Address</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
+                              id="address1"
                               className="glass border-white/10"
                               data-testid="input-address1"
                             />
@@ -296,10 +300,11 @@ export default function Checkout() {
                       name="address2"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Apartment, suite, etc. (optional)</FormLabel>
+                          <FormLabel htmlFor="address2">Apartment, suite, etc. (optional)</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
+                              id="address2"
                               className="glass border-white/10"
                               data-testid="input-address2"
                             />
@@ -314,10 +319,11 @@ export default function Checkout() {
                         name="city"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>City</FormLabel>
+                            <FormLabel htmlFor="city">City</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
+                                id="city"
                                 className="glass border-white/10"
                                 data-testid="input-city"
                               />
@@ -331,10 +337,11 @@ export default function Checkout() {
                         name="state"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>State</FormLabel>
+                            <FormLabel htmlFor="state">State</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
+                                id="state"
                                 className="glass border-white/10"
                                 data-testid="input-state"
                               />
@@ -348,10 +355,11 @@ export default function Checkout() {
                         name="postalCode"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Postal Code</FormLabel>
+                            <FormLabel htmlFor="postalCode">Postal Code</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
+                                id="postalCode"
                                 className="glass border-white/10"
                                 data-testid="input-postal-code"
                               />
@@ -366,10 +374,11 @@ export default function Checkout() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phone (optional)</FormLabel>
+                          <FormLabel htmlFor="phone">Phone (optional)</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
+                              id="phone"
                               type="tel"
                               className="glass border-white/10"
                               data-testid="input-phone"
