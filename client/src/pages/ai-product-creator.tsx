@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { useAIStream } from "@/hooks/use-ai-stream";
 import { 
   Sparkles, 
   Zap, 
@@ -31,7 +34,9 @@ import {
   Palette,
   Package,
   Music,
-  MapPin
+  MapPin,
+  Radio,
+  X
 } from "lucide-react";
 import { SiShopify, SiEtsy, SiAmazon, SiTiktok, SiPinterest } from "react-icons/si";
 import type { ProductConcept, BrandVoiceProfile } from "@shared/schema";
@@ -61,6 +66,66 @@ export default function AIProductCreator() {
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["shopify"]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedConcept, setGeneratedConcept] = useState<ProductConcept | null>(null);
+  const [useStreaming, setUseStreaming] = useState(true);
+
+  const { 
+    isStreaming, 
+    content: streamContent, 
+    progress: streamProgress, 
+    error: streamError,
+    startStream,
+    cancelStream,
+    reset: resetStream
+  } = useAIStream({
+    onComplete: (content) => {
+      try {
+        const parsed = JSON.parse(content);
+        if (parsed.title && parsed.description) {
+          setGeneratedConcept({
+            id: crypto.randomUUID(),
+            prompt,
+            marketplace: selectedMarketplace,
+            targetPlatforms: selectedPlatforms,
+            status: 'completed',
+            generatedTitle: parsed.title,
+            generatedDescription: parsed.description,
+            seoKeywords: parsed.keywords || [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          } as ProductConcept);
+          qc.invalidateQueries({ queryKey: ["/api/ai/product-concepts"] });
+          toast({
+            title: "Product concept generated",
+            description: "Your AI-powered product is ready for review",
+          });
+        }
+      } catch {
+        setGeneratedConcept({
+          id: crypto.randomUUID(),
+          prompt,
+          marketplace: selectedMarketplace,
+          targetPlatforms: selectedPlatforms,
+          status: 'completed',
+          generatedTitle: content.split('\n')[0] || 'AI Generated Product',
+          generatedDescription: content,
+          seoKeywords: [],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        } as ProductConcept);
+        toast({
+          title: "Content generated",
+          description: "Raw AI content is ready for review",
+        });
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: "Generation failed",
+        description: error,
+        variant: "destructive",
+      });
+    },
+  });
 
   const { data: brandVoices } = useQuery<BrandVoiceProfile[]>({
     queryKey: ["/api/ai/brand-voices"],
@@ -92,7 +157,7 @@ export default function AIProductCreator() {
     },
   });
 
-  const handleGenerate = () => {
+  const handleGenerate = useCallback(() => {
     if (!prompt.trim()) {
       toast({
         title: "Prompt required",
@@ -101,12 +166,36 @@ export default function AIProductCreator() {
       });
       return;
     }
-    setIsGenerating(true);
-    generateMutation.mutate(
-      { prompt, marketplace: selectedMarketplace, platforms: selectedPlatforms },
-      { onSettled: () => setIsGenerating(false) }
-    );
-  };
+    
+    if (useStreaming) {
+      resetStream();
+      setGeneratedConcept(null);
+      const streamPrompt = `Create a product concept for the following idea. Target marketplace: ${selectedMarketplace}. Target platforms: ${selectedPlatforms.join(', ')}.
+
+Product idea: ${prompt}
+
+Respond with a JSON object containing:
+- title: A compelling product title
+- description: A detailed marketing description
+- keywords: An array of SEO keywords
+
+Only respond with valid JSON, no additional text.`;
+      
+      startStream({
+        prompt: streamPrompt,
+        provider: 'openai',
+        temperature: 0.7,
+      });
+    } else {
+      setIsGenerating(true);
+      generateMutation.mutate(
+        { prompt, marketplace: selectedMarketplace, platforms: selectedPlatforms },
+        { onSettled: () => setIsGenerating(false) }
+      );
+    }
+  }, [prompt, selectedMarketplace, selectedPlatforms, useStreaming, startStream, resetStream, generateMutation, toast]);
+
+  const isProcessing = isGenerating || isStreaming;
 
   const togglePlatform = (platformId: string) => {
     setSelectedPlatforms(prev => 
@@ -165,27 +254,48 @@ export default function AIProductCreator() {
                     data-testid="input-product-prompt"
                   />
                   <div className="mt-4 flex items-center justify-between">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
                       <Button variant="ghost" size="icon" className="glass rounded-lg text-muted-foreground" data-testid="button-voice-input">
                         <Mic className="w-4 h-4" />
                       </Button>
                       <Button variant="ghost" size="icon" className="glass rounded-lg text-muted-foreground" data-testid="button-image-input">
                         <ImageIcon className="w-4 h-4" />
                       </Button>
+                      <div className="flex items-center gap-2 ml-2 px-2 py-1 glass rounded-lg">
+                        <Radio className={`w-3 h-3 ${useStreaming ? 'text-ff-purple' : 'text-muted-foreground'}`} />
+                        <span className="text-xs text-muted-foreground">Live</span>
+                        <Switch
+                          checked={useStreaming}
+                          onCheckedChange={setUseStreaming}
+                          data-testid="switch-streaming-mode"
+                        />
+                      </div>
                     </div>
-                    <Button 
-                      onClick={handleGenerate}
-                      disabled={isGenerating || !prompt.trim()}
-                      className="bg-gradient-to-r from-ff-purple to-ff-pink border-ff-purple"
-                      data-testid="button-generate-product"
-                    >
-                      {isGenerating ? (
-                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      ) : (
-                        <Sparkles className="w-4 h-4 mr-2" />
+                    <div className="flex gap-2 items-center">
+                      {isStreaming && (
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          onClick={cancelStream}
+                          data-testid="button-cancel-stream"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
                       )}
-                      {isGenerating ? "Generating..." : "Generate"}
-                    </Button>
+                      <Button 
+                        onClick={handleGenerate}
+                        disabled={isProcessing || !prompt.trim()}
+                        className="bg-gradient-to-r from-ff-purple to-ff-pink border-ff-purple"
+                        data-testid="button-generate-product"
+                      >
+                        {isProcessing ? (
+                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                        ) : (
+                          <Sparkles className="w-4 h-4 mr-2" />
+                        )}
+                        {isProcessing ? "Generating..." : "Generate"}
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -241,6 +351,45 @@ export default function AIProductCreator() {
             </div>
 
             <div className="space-y-6">
+              {isStreaming && (
+                <Card className="glass-card neon-border-purple overflow-visible" data-testid="card-streaming-progress">
+                  <CardContent className="p-6 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Loader2 className="w-4 h-4 text-ff-purple animate-spin" />
+                        <span className="font-medium text-sm">Generating in real-time...</span>
+                      </div>
+                      <Badge className="bg-ff-purple/20 text-ff-purple border-ff-purple/30">
+                        {streamProgress}%
+                      </Badge>
+                    </div>
+                    <Progress value={streamProgress} className="h-2" data-testid="progress-stream" />
+                    {streamContent && (
+                      <div className="relative">
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-ff-purple to-ff-pink rounded-lg opacity-20 blur" />
+                        <div className="relative p-4 rounded-lg bg-background/50 border border-white/10 max-h-64 overflow-y-auto">
+                          <div className="flex items-start gap-2">
+                            <Sparkles className="w-4 h-4 text-ff-purple flex-shrink-0 mt-0.5" />
+                            <p className="text-sm whitespace-pre-wrap font-mono" data-testid="text-stream-content">
+                              {streamContent}
+                              <span className="inline-block w-2 h-4 ml-1 bg-ff-purple animate-pulse" />
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+              
+              {streamError && !isStreaming && (
+                <Card className="glass-card border-destructive/50 overflow-visible" data-testid="card-stream-error">
+                  <CardContent className="p-4">
+                    <p className="text-sm text-destructive">{streamError}</p>
+                  </CardContent>
+                </Card>
+              )}
+              
               {generatedConcept ? (
                 <>
                   <div className="relative aspect-[4/5] rounded-3xl overflow-hidden neon-border-pink">

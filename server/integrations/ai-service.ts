@@ -1,9 +1,11 @@
 /**
  * AI Service Layer
  * Unified interface for all AI providers: OpenAI, Anthropic, Gemini, ElevenLabs, Grok, Perplexity
+ * Supports both standard and streaming responses
  */
 
 import OpenAI from 'openai';
+import type { Response } from 'express';
 
 export type AIProvider = 'openai' | 'anthropic' | 'gemini' | 'elevenlabs' | 'grok' | 'perplexity';
 
@@ -31,6 +33,14 @@ export interface AIGenerationResponse {
   };
   error?: string;
   metadata?: Record<string, any>;
+}
+
+export interface StreamEvent {
+  type: 'start' | 'chunk' | 'complete' | 'error' | 'progress';
+  data?: string;
+  progress?: number;
+  message?: string;
+  usage?: AIGenerationResponse['usage'];
 }
 
 class AIService {
@@ -463,6 +473,189 @@ class AIService {
         features: ['text', 'search'],
       },
     ];
+  }
+
+  /**
+   * Stream generation with SSE support
+   * Sends events directly to the response object
+   * Handles client disconnection and proper cleanup
+   */
+  async generateStream(
+    request: AIGenerationRequest, 
+    res: Response,
+    onEvent?: (event: StreamEvent) => void
+  ): Promise<void> {
+    const abortController = new AbortController();
+    let isClientConnected = true;
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.flushHeaders?.();
+
+    res.on('close', () => {
+      isClientConnected = false;
+      abortController.abort();
+      console.log('[AI Stream] Client disconnected');
+    });
+
+    const sendEvent = (event: StreamEvent): boolean => {
+      if (!isClientConnected) return false;
+      try {
+        res.write(`data: ${JSON.stringify(event)}\n\n`);
+        onEvent?.(event);
+        return true;
+      } catch (e) {
+        isClientConnected = false;
+        return false;
+      }
+    };
+
+    const sendKeepAlive = () => {
+      if (isClientConnected) {
+        try {
+          res.write(': keepalive\n\n');
+        } catch {
+          isClientConnected = false;
+        }
+      }
+    };
+
+    const keepAliveInterval = setInterval(sendKeepAlive, 15000);
+
+    try {
+      sendEvent({ type: 'start', message: 'Starting generation...' });
+
+      if (request.provider === 'openai' && this.openai && request.type === 'text') {
+        await this.streamWithOpenAI(request, sendEvent, abortController.signal);
+      } else {
+        if (!isClientConnected) {
+          console.log('[AI Stream] Client disconnected before generation started');
+          return;
+        }
+        
+        sendEvent({ type: 'progress', progress: 10, message: 'Preparing request...' });
+        
+        const generatePromise = this.generate(request);
+        const abortPromise = new Promise<never>((_, reject) => {
+          abortController.signal.addEventListener('abort', () => {
+            reject(new Error('AbortError'));
+          });
+        });
+        
+        let result: Awaited<ReturnType<typeof this.generate>>;
+        try {
+          result = await Promise.race([generatePromise, abortPromise]);
+        } catch (e: any) {
+          if (e.message === 'AbortError' || !isClientConnected) {
+            console.log('[AI Stream] Non-streaming generation aborted');
+            return;
+          }
+          throw e;
+        }
+        
+        if (!isClientConnected) {
+          console.log('[AI Stream] Client disconnected after generation');
+          return;
+        }
+        
+        if (result.success) {
+          sendEvent({ type: 'progress', progress: 90, message: 'Finalizing...' });
+          
+          const content = typeof result.content === 'string' 
+            ? result.content 
+            : result.content?.join('\n') || '';
+          
+          sendEvent({ 
+            type: 'complete', 
+            data: content,
+            usage: result.usage 
+          });
+        } else {
+          sendEvent({ type: 'error', message: result.error || 'Generation failed' });
+        }
+      }
+    } catch (error: any) {
+      if (error.name === 'AbortError' || !isClientConnected) {
+        console.log('[AI Stream] Generation aborted');
+      } else {
+        console.error('[AI Stream Error]', error.message);
+        sendEvent({ type: 'error', message: error.message || 'Stream error' });
+      }
+    } finally {
+      clearInterval(keepAliveInterval);
+      if (isClientConnected) {
+        res.end();
+      }
+    }
+  }
+
+  private async streamWithOpenAI(
+    request: AIGenerationRequest,
+    sendEvent: (event: StreamEvent) => boolean,
+    signal?: AbortSignal
+  ): Promise<void> {
+    if (!this.openai) {
+      sendEvent({ type: 'error', message: 'OpenAI not configured' });
+      return;
+    }
+
+    const stream = await this.openai.chat.completions.create(
+      {
+        model: request.model || 'gpt-4o',
+        messages: [{ role: 'user', content: request.prompt }],
+        max_tokens: request.maxTokens || 2000,
+        temperature: request.temperature ?? 0.7,
+        stream: true,
+      },
+      { signal }
+    );
+
+    let fullContent = '';
+    let chunkCount = 0;
+
+    try {
+      for await (const chunk of stream) {
+        if (signal?.aborted) {
+          console.log('[AI Stream] OpenAI stream aborted by client');
+          try {
+            stream.controller.abort();
+          } catch { }
+          break;
+        }
+        
+        const delta = chunk.choices[0]?.delta?.content || '';
+        if (delta) {
+          fullContent += delta;
+          chunkCount++;
+          
+          const progress = Math.min(10 + (chunkCount * 2), 90);
+          const sent = sendEvent({ type: 'chunk', data: delta, progress });
+          if (!sent) {
+            console.log('[AI Stream] Client disconnected during streaming');
+            try {
+              stream.controller.abort();
+            } catch { }
+            break;
+          }
+        }
+      }
+
+      if (!signal?.aborted) {
+        sendEvent({ 
+          type: 'complete', 
+          data: fullContent,
+          message: 'Generation complete'
+        });
+      }
+    } catch (error: any) {
+      if (signal?.aborted || error.name === 'AbortError') {
+        console.log('[AI Stream] Stream cancelled');
+      } else {
+        throw error;
+      }
+    }
   }
 }
 

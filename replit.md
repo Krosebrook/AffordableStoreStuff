@@ -9,6 +9,9 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 - **Full Ecommerce Suite**: Products, cart, checkout, and order management
 - **AI Content Generator**: Mock AI content generation for product descriptions, emails, and social posts
 - **Session Fix**: Implemented cookie-based session handling for persistent anonymous carts (cartSessionId cookie)
+- **AI Tools Suite**: AI Product Creator, AI Marketing Engine, AI Brand Voice Settings pages with full CRUD
+- **Real-time Streaming**: SSE-based streaming generation with progress indicators and live content preview
+- **AI Service Layer**: Multi-provider AI service (OpenAI, Anthropic, Gemini, ElevenLabs, Grok, Perplexity)
 
 ## Project Architecture
 
@@ -88,6 +91,15 @@ Orders:
 GET  /api/orders        - List all orders
 GET  /api/orders/:id    - Get order with items
 POST /api/orders        - Create order from cart
+
+AI Tools (all under /api/ai):
+GET/POST/PATCH/DELETE /api/ai/brand-voices         - Brand voice profiles
+GET/POST/PATCH/DELETE /api/ai/product-concepts     - Product concepts
+POST                  /api/ai/product-concepts/generate - Generate concept
+GET/POST/PATCH/DELETE /api/ai/campaigns            - Marketing campaigns
+POST                  /api/ai/campaigns/:id/generate-assets - Generate assets
+GET/POST              /api/ai/stream/generate      - SSE streaming generation
+GET/POST              /api/ai/content-library      - AI content library
 
 Seed:
 POST /api/seed          - Seed demo data

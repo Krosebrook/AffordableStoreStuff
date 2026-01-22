@@ -428,4 +428,128 @@ router.patch("/content-library/:id/favorite", async (req: Request, res: Response
   }
 });
 
+// ============================================================================
+// STREAMING GENERATION
+// ============================================================================
+
+const streamGenerateSchema = z.object({
+  prompt: z.string().min(1, "Prompt is required"),
+  provider: z.enum(['openai', 'anthropic', 'gemini', 'grok', 'perplexity']).default('openai'),
+  model: z.string().optional(),
+  maxTokens: z.number().optional(),
+  temperature: z.number().min(0).max(2).optional(),
+  context: z.object({
+    type: z.enum(['product', 'campaign', 'content']),
+    brandVoiceId: z.string().optional(),
+    marketplace: z.string().optional(),
+    platforms: z.array(z.string()).optional(),
+  }).optional(),
+});
+
+router.get("/stream/generate", async (req: Request, res: Response) => {
+  try {
+    const queryParams = {
+      prompt: req.query.prompt as string,
+      provider: req.query.provider as string || 'openai',
+      model: req.query.model as string,
+      maxTokens: req.query.maxTokens ? parseInt(req.query.maxTokens as string) : undefined,
+      temperature: req.query.temperature ? parseFloat(req.query.temperature as string) : undefined,
+    };
+    
+    const parsed = streamGenerateSchema.safeParse(queryParams);
+    if (!parsed.success) {
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.write(`data: ${JSON.stringify({ type: 'error', message: 'Invalid parameters' })}\n\n`);
+      return res.end();
+    }
+    
+    const { prompt, provider, model, maxTokens, temperature } = parsed.data;
+    
+    await aiService.generateStream(
+      {
+        provider: provider as any,
+        type: 'text',
+        prompt,
+        model,
+        maxTokens,
+        temperature,
+      },
+      res
+    );
+  } catch (error: any) {
+    console.error("Stream generation error:", error);
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+    }
+    try {
+      res.write(`data: ${JSON.stringify({ type: 'error', message: error.message || 'Stream error' })}\n\n`);
+    } catch { }
+    res.end();
+  }
+});
+
+// POST version for complex prompts with context (streaming is OpenAI-only with abort support)
+router.post("/stream/generate", async (req: Request, res: Response) => {
+  try {
+    const parsed = streamGenerateSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.write(`data: ${JSON.stringify({ type: 'error', message: 'Invalid parameters', details: parsed.error.errors })}\n\n`);
+      return res.end();
+    }
+    
+    const { prompt, provider, model, maxTokens, temperature, context } = parsed.data;
+    
+    let enhancedPrompt = prompt;
+    
+    if (context?.brandVoiceId) {
+      const [brandVoice] = await db
+        .select()
+        .from(brandVoiceProfiles)
+        .where(eq(brandVoiceProfiles.id, context.brandVoiceId));
+      
+      if (brandVoice) {
+        enhancedPrompt = `Brand Voice: ${brandVoice.name}
+Tone: ${brandVoice.tone}
+Writing Style: ${brandVoice.writingStyle}
+Vocabulary Level: ${brandVoice.vocabularyLevel}
+Personality: ${brandVoice.personality?.join(', ')}
+Target Audience: ${brandVoice.targetAudience || 'General'}
+
+Based on this brand voice, please:
+${prompt}`;
+      }
+    }
+    
+    await aiService.generateStream(
+      {
+        provider: provider as any,
+        type: 'text',
+        prompt: enhancedPrompt,
+        model,
+        maxTokens,
+        temperature,
+      },
+      res
+    );
+  } catch (error: any) {
+    console.error("Stream generation error:", error);
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+    }
+    try {
+      res.write(`data: ${JSON.stringify({ type: 'error', message: error.message || 'Stream error' })}\n\n`);
+    } catch { }
+    res.end();
+  }
+});
+
 export default router;
