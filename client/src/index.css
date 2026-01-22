@@ -171,7 +171,7 @@
 
   html {
     @apply dark;
-    background-color: hsl(260 60% 5%);
+    background-color: #0a0a0f;
   }
 
   body {
