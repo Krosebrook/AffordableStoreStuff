@@ -148,7 +148,7 @@ function Router() {
   ];
 
   const isDashboardRoute = dashboardRoutes.some((route) =>
-    location.startsWith(route)
+    location === route || location.startsWith(route + "/")
   );
 
   if (isDashboardRoute) {
