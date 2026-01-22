@@ -58,6 +58,16 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Skip caching for Vite HMR and dev server requests
+  if (url.pathname.startsWith('/@') || 
+      url.pathname.startsWith('/node_modules/') ||
+      url.pathname.includes('vite') ||
+      url.pathname.endsWith('.tsx') ||
+      url.pathname.endsWith('.ts') ||
+      url.search.includes('v=')) {
+    return;
+  }
+
   if (url.pathname.startsWith('/api/ai/stream')) {
     return;
   }
@@ -65,6 +75,14 @@ self.addEventListener('fetch', (event) => {
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(networkFirstStrategy(request, API_CACHE));
     return;
+  }
+
+  // In development, use network-first for all assets to avoid stale cache issues
+  if (url.hostname.includes('replit') || url.hostname === 'localhost') {
+    if (request.destination === 'script' || request.destination === 'style') {
+      event.respondWith(networkFirstStrategy(request, DYNAMIC_CACHE));
+      return;
+    }
   }
 
   if (request.destination === 'image' || 
