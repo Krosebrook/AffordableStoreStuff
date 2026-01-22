@@ -5,6 +5,7 @@
 
 import type { Express, Request, Response } from "express";
 import { PLATFORM_CONNECTORS, getConnectorsByCategory, getConnectorById, getConnectorCategories } from "./index";
+import { aiService } from "./ai-service";
 import { db } from "../db";
 import { 
   platformConnectors, 
@@ -180,10 +181,21 @@ export function registerIntegrationRoutes(app: Express) {
   // AI GENERATION
   // ============================================================================
 
+  // Get available AI providers
+  app.get("/api/integrations/ai/providers", async (_req: Request, res: Response) => {
+    try {
+      const providers = aiService.getAvailableProviders();
+      res.json({ providers });
+    } catch (error) {
+      console.error("Get providers error:", error);
+      res.status(500).json({ message: "Failed to fetch providers" });
+    }
+  });
+
   // Generate with AI provider
   app.post("/api/integrations/ai/generate", async (req: Request, res: Response) => {
     try {
-      const { provider, model, prompt, promptType, options } = req.body;
+      const { provider, model, prompt, type, options, maxTokens, temperature } = req.body;
 
       if (!provider || !prompt) {
         return res.status(400).json({ message: "Provider and prompt are required" });
@@ -194,38 +206,62 @@ export function registerIntegrationRoutes(app: Express) {
         .insert(aiGenerations)
         .values({
           provider,
-          model,
+          model: model || undefined,
           prompt,
-          promptType: promptType || "text",
+          promptType: type || "text",
           status: "processing",
         })
         .returning();
 
-      // Simulate AI generation (in production, would call actual API)
-      setTimeout(async () => {
-        await db
-          .update(aiGenerations)
-          .set({
-            status: "completed",
-            outputData: { 
-              result: `Generated content for: ${prompt.substring(0, 50)}...`,
-              model,
-              tokensUsed: Math.floor(Math.random() * 1000) + 100,
-            },
-            tokensUsed: Math.floor(Math.random() * 1000) + 100,
-            cost: (Math.random() * 0.05).toFixed(4),
-          })
-          .where(eq(aiGenerations.id, generation.id));
-      }, 1000);
+      // Actually call the AI service
+      const result = await aiService.generate({
+        provider,
+        type: type || 'text',
+        prompt,
+        model,
+        maxTokens,
+        temperature,
+        options,
+      });
 
-      res.status(202).json({
+      // Update generation record with result
+      await db
+        .update(aiGenerations)
+        .set({
+          status: result.success ? "completed" : "failed",
+          outputData: result.success ? { 
+            content: result.content,
+            imageUrl: result.imageUrl,
+            audioUrl: result.audioUrl,
+            metadata: result.metadata,
+          } : { error: result.error },
+          tokensUsed: result.usage?.totalTokens || 0,
+          cost: result.usage?.totalTokens ? ((result.usage.totalTokens / 1000) * 0.002).toFixed(4) : "0",
+        })
+        .where(eq(aiGenerations.id, generation.id));
+
+      if (!result.success) {
+        return res.status(400).json({
+          id: generation.id,
+          success: false,
+          error: result.error,
+        });
+      }
+
+      res.json({
         id: generation.id,
-        status: "processing",
-        message: "Generation started",
+        success: true,
+        provider: result.provider,
+        type: result.type,
+        content: result.content,
+        imageUrl: result.imageUrl,
+        audioUrl: result.audioUrl,
+        usage: result.usage,
+        metadata: result.metadata,
       });
     } catch (error) {
       console.error("AI generation error:", error);
-      res.status(500).json({ message: "Failed to start generation" });
+      res.status(500).json({ message: "Failed to generate content" });
     }
   });
 
