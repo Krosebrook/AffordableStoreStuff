@@ -159,11 +159,34 @@ POST /api/seed          - Seed demo data
 ### Key Design Classes
 - `.glass` / `.glass-card` - Glass-morphism effects
 - `.gradient-text` - Purple to pink gradient text
-- `.btn-gradient` - Gradient button with glow
+- `.btn-gradient` - Gradient button with glow (use `variant="gradient"` on Button component)
 - `.card-glow` - Glow effect on card hover
 - `.neon-border-purple` / `.neon-border-pink` - Themed glow borders
 - `.pulse-ring` - Animated focus rings
 - `.bg-mesh` - Radial gradient mesh background
+- `.hover-lift` - Subtle lift transform on hover
+- `.focus-glow` - Focus ring with purple glow
+- `.animate-fade-in` - Fade-in animation for elements
+- `.scroll-reveal-hidden` / `.scroll-reveal-visible` - IntersectionObserver-based reveal animations
+
+### Button Variants
+- `default` - Primary purple background with border
+- `destructive` - Red/danger styling
+- `outline` - Outlined with current text color
+- `secondary` - Secondary muted styling
+- `ghost` - Transparent with subtle hover
+- `gradient` - Purple-to-pink gradient with glow shadow
+
+### Skeleton Loading Variants
+- `card` - Card placeholder with header, content areas
+- `product` - Product card with image, title, price areas
+- `dashboard` - Dashboard stats card placeholder
+- `table` - Table row placeholder
+
+### Motion System
+- All animations respect `prefers-reduced-motion` media query
+- `useScrollReveal` hook for IntersectionObserver-based reveals
+- Keyframe animations: `shimmer`, `pulse-slow`, `fade-in`, `slide-up`
 
 ## User Preferences
 - Premium dark theme preferred
