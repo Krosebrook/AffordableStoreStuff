@@ -188,6 +188,17 @@ POST /api/seed          - Seed demo data
 - `useScrollReveal` hook for IntersectionObserver-based reveals
 - Keyframe animations: `shimmer`, `pulse-slow`, `fade-in`, `slide-up`
 
+### Splash Screen
+- Full-screen video background with gradient overlay
+- Floating neon gradient orbs (purple/pink glow effects)
+- Logo with animated glow
+- Time-based progress bar (5 seconds duration)
+- Skip button appears after 0.8 seconds
+- Auto-dismisses after 5 seconds, persists preference in sessionStorage
+- Respects `prefers-reduced-motion` (skips splash entirely)
+- Located at: `client/src/components/splash-screen.tsx`
+- Video asset: `client/public/splash-video.mp4`
+
 ## User Preferences
 - Premium dark theme preferred
 - Glass-morphism and gradient effects

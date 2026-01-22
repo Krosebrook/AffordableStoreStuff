@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { SplashScreen } from "@/components/splash-screen";
 import {
   Zap,
   ShoppingCart,
@@ -104,13 +105,30 @@ const pricingPlans = [
 
 export default function Landing() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showSplash, setShowSplash] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const skipped = sessionStorage.getItem("flashfusion_splash_skipped");
+      return !skipped;
+    } catch {
+      return false;
+    }
+  });
   const featuresReveal = useScrollReveal<HTMLDivElement>();
   const pricingReveal = useScrollReveal<HTMLDivElement>();
   const ctaReveal = useScrollReveal<HTMLDivElement>();
   const trustReveal = useScrollReveal<HTMLDivElement>();
 
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
+
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden animate-fade-in">
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
