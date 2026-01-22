@@ -1,0 +1,400 @@
+{
+  "name": "09-redbubble-publisher",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 8
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 8 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "values": []
+        },
+        "table": "generated_products",
+        "returnAll": false,
+        "limit": 10,
+        "filterByFormula": "status = 'approved' AND redbubble_status IS NULL AND product_type LIKE 'pod_%'",
+        "sort": {
+          "property": "created_at",
+          "direction": "asc"
+        }
+      },
+      "id": "get-pending-products",
+      "name": "Get Pending Products",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "has-products",
+      "name": "Has Products?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "split-batches",
+      "name": "Process One at a Time",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [900, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.redbubble.com/api/v1/works",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "work",
+              "value": "={{ JSON.stringify({ title: $json.title, description: $json.description, tags: $json.tags.slice(0, 15).join(','), default_product: 'tshirt', image_url: $json.image_url }) }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "create-redbubble-work",
+      "name": "Create Redbubble Work",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1120, 240],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "redbubble-auth",
+          "name": "Redbubble API"
+        }
+      },
+      "continueOnFail": true,
+      "notes": "NOTE: Redbubble doesn't have a public API. This is a placeholder for their partner API or browser automation."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.error === undefined }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-success",
+      "name": "Upload Success?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1340, 240]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "values": []
+        },
+        "table": "generated_products",
+        "id": "={{ $('split-batches').item.json.id }}",
+        "fieldsToSend": {
+          "fieldValues": [
+            {
+              "fieldName": "redbubble_status",
+              "fieldValue": "published"
+            },
+            {
+              "fieldName": "redbubble_url",
+              "fieldValue": "={{ $json.work_url || '' }}"
+            },
+            {
+              "fieldName": "redbubble_id",
+              "fieldValue": "={{ $json.work_id || '' }}"
+            },
+            {
+              "fieldName": "updated_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "id": "mark-published",
+      "name": "Mark as Published",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1560, 180],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "values": []
+        },
+        "table": "generated_products",
+        "id": "={{ $('split-batches').item.json.id }}",
+        "fieldsToSend": {
+          "fieldValues": [
+            {
+              "fieldName": "redbubble_status",
+              "fieldValue": "failed"
+            },
+            {
+              "fieldName": "redbubble_error",
+              "fieldValue": "={{ $json.error || $json.message || 'Unknown error' }}"
+            },
+            {
+              "fieldName": "updated_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "id": "mark-failed",
+      "name": "Mark as Failed",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1560, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "seconds"
+      },
+      "id": "rate-limit-delay",
+      "name": "Rate Limit Delay",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1780, 240]
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "✅ Redbubble: Published {{ $('split-batches').item.json.title }}",
+        "otherOptions": {}
+      },
+      "id": "slack-success",
+      "name": "Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [2000, 180],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "no-products",
+      "name": "No Products",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [900, 400]
+    }
+  ],
+  "connections": {
+    "Every 8 Hours": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Products": {
+      "main": [
+        [
+          {
+            "node": "Has Products?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Products?": {
+      "main": [
+        [
+          {
+            "node": "Process One at a Time",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process One at a Time": {
+      "main": [
+        [
+          {
+            "node": "Create Redbubble Work",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Redbubble Work": {
+      "main": [
+        [
+          {
+            "node": "Upload Success?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Success?": {
+      "main": [
+        [
+          {
+            "node": "Mark as Published",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark as Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark as Published": {
+      "main": [
+        [
+          {
+            "node": "Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Notification": {
+      "main": [
+        [
+          {
+            "node": "Rate Limit Delay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark as Failed": {
+      "main": [
+        [
+          {
+            "node": "Rate Limit Delay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rate Limit Delay": {
+      "main": [
+        [
+          {
+            "node": "Process One at a Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "income-engine"
+    },
+    {
+      "name": "publishing"
+    }
+  ],
+  "triggerCount": 1,
+  "meta": {
+    "instanceId": "income-engine-v1"
+  }
+}

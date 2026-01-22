@@ -1,0 +1,228 @@
+{
+  "name": "08-Batch-Processor",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "batch-generate",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Batch Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "batch-processor-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate and prepare batch configuration\nconst input = $input.first().json;\n\n// Validate required fields\nif (!input.niche) {\n  throw new Error('Missing required field: niche');\n}\n\nconst config = {\n  batchId: `batch_${Date.now()}`,\n  niche: input.niche,\n  subNiches: input.subNiches || [input.niche],\n  totalProducts: Math.min(input.totalProducts || 10, 50), // Max 50 per batch\n  productsPerSubNiche: 0,\n  productTypes: input.productTypes || ['pod_tshirt', 'pod_mug'],\n  targetPlatform: input.targetPlatform || 'etsy',\n  qualityTier: input.qualityTier || 'standard', // economy, standard, premium\n  autoPublish: input.autoPublish !== false,\n  createdAt: new Date().toISOString(),\n  status: 'initializing'\n};\n\n// Calculate distribution\nconfig.productsPerSubNiche = Math.ceil(config.totalProducts / config.subNiches.length);\n\n// Estimate costs\nconst costEstimates = {\n  economy: { perImage: 0.003, perText: 0.0005 },\n  standard: { perImage: 0.01, perText: 0.001 },\n  premium: { perImage: 0.04, perText: 0.003 }\n};\n\nconst tier = costEstimates[config.qualityTier];\nconfig.estimatedCost = (\n  (tier.perImage + tier.perText) * config.totalProducts\n).toFixed(2);\n\n// Generate task queue\nconst tasks = [];\nlet taskId = 0;\n\nfor (const subNiche of config.subNiches) {\n  for (let i = 0; i < config.productsPerSubNiche && tasks.length < config.totalProducts; i++) {\n    for (const productType of config.productTypes) {\n      if (tasks.length >= config.totalProducts) break;\n      \n      tasks.push({\n        taskId: taskId++,\n        batchId: config.batchId,\n        niche: config.niche,\n        subNiche: subNiche,\n        productType: productType,\n        qualityTier: config.qualityTier,\n        targetPlatform: config.targetPlatform,\n        status: 'pending'\n      });\n    }\n  }\n}\n\nreturn [{ json: { config, tasks, taskCount: tasks.length } }];"
+      },
+      "id": "prepare-batch",
+      "name": "Prepare Batch Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "batch_jobs",
+        "columns": "batch_id,niche,total_products,estimated_cost,status,created_at",
+        "options": {}
+      },
+      "id": "save-batch-job",
+      "name": "Save Batch Job",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [680, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "🚀 *Batch Job Started*\n\n*Batch ID:* {{ $json.config.batchId }}\n*Niche:* {{ $json.config.niche }}\n*Sub-niches:* {{ $json.config.subNiches.join(', ') }}\n*Total Products:* {{ $json.taskCount }}\n*Product Types:* {{ $json.config.productTypes.join(', ') }}\n*Quality:* {{ $json.config.qualityTier }}\n*Est. Cost:* ${{ $json.config.estimatedCost }}\n\n_Processing started..._",
+        "otherOptions": {}
+      },
+      "id": "notify-batch-start",
+      "name": "Notify Batch Start",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [680, 400],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract tasks array for iteration\nconst data = $input.first().json;\nreturn data.tasks.map(task => ({ json: task }));"
+      },
+      "id": "extract-tasks",
+      "name": "Extract Tasks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 3,
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "batch-tasks",
+      "name": "Batch Tasks (3 at a time)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "rate-limit-delay",
+      "name": "Rate Limit Delay",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.N8N_WEBHOOK_URL }}/webhook/generate-products",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"niche\": \"{{ $json.niche }}\",\n  \"subNiche\": \"{{ $json.subNiche }}\",\n  \"productType\": \"{{ $json.productType }}\",\n  \"batchSize\": 1,\n  \"targetPlatform\": \"{{ $json.targetPlatform }}\",\n  \"batchId\": \"{{ $json.batchId }}\",\n  \"taskId\": {{ $json.taskId }}\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "call-generator",
+      "name": "Call Product Generator",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Track task completion\nconst task = $('Batch Tasks (3 at a time)').first().json;\nconst result = $input.first().json;\n\nreturn [{\n  json: {\n    taskId: task.taskId,\n    batchId: task.batchId,\n    status: result.status || 'completed',\n    productId: result.productId,\n    error: result.error\n  }\n}];"
+      },
+      "id": "track-completion",
+      "name": "Track Completion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1780, 300]
+    },
+    {
+      "parameters": {
+        "loopBackNode": "Batch Tasks (3 at a time)"
+      },
+      "id": "continue-batch",
+      "name": "Continue Batch",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [2000, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Compile batch results\nconst results = $input.all().map(item => item.json);\n\nconst summary = {\n  totalTasks: results.length,\n  completed: results.filter(r => r.status === 'completed').length,\n  failed: results.filter(r => r.status === 'failed').length,\n  productIds: results.filter(r => r.productId).map(r => r.productId),\n  errors: results.filter(r => r.error).map(r => ({ taskId: r.taskId, error: r.error }))\n};\n\nsummary.successRate = ((summary.completed / summary.totalTasks) * 100).toFixed(1);\n\nreturn [{ json: summary }];"
+      },
+      "id": "compile-results",
+      "name": "Compile Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2220, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "✅ *Batch Job Complete*\n\n*Results:*\n• Total Tasks: {{ $json.totalTasks }}\n• Completed: {{ $json.completed }}\n• Failed: {{ $json.failed }}\n• Success Rate: {{ $json.successRate }}%\n\n*Products Created:* {{ $json.productIds.length }}\n\n{{ $json.errors.length > 0 ? '*Errors:*\\n' + $json.errors.map(e => '• Task ' + e.taskId + ': ' + e.error).join('\\n') : '' }}",
+        "otherOptions": {}
+      },
+      "id": "notify-batch-complete",
+      "name": "Notify Batch Complete",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [2440, 300],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Batch Request": {
+      "main": [
+        [{ "node": "Prepare Batch Config", "type": "main", "index": 0 }]
+      ]
+    },
+    "Prepare Batch Config": {
+      "main": [
+        [
+          { "node": "Save Batch Job", "type": "main", "index": 0 },
+          { "node": "Notify Batch Start", "type": "main", "index": 0 },
+          { "node": "Extract Tasks", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Extract Tasks": {
+      "main": [
+        [{ "node": "Batch Tasks (3 at a time)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Batch Tasks (3 at a time)": {
+      "main": [
+        [{ "node": "Rate Limit Delay", "type": "main", "index": 0 }],
+        [{ "node": "Compile Results", "type": "main", "index": 0 }]
+      ]
+    },
+    "Rate Limit Delay": {
+      "main": [
+        [{ "node": "Call Product Generator", "type": "main", "index": 0 }]
+      ]
+    },
+    "Call Product Generator": {
+      "main": [
+        [{ "node": "Track Completion", "type": "main", "index": 0 }]
+      ]
+    },
+    "Track Completion": {
+      "main": [
+        [{ "node": "Continue Batch", "type": "main", "index": 0 }]
+      ]
+    },
+    "Continue Batch": {
+      "main": [
+        [{ "node": "Batch Tasks (3 at a time)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Compile Results": {
+      "main": [
+        [{ "node": "Notify Batch Complete", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 3600
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "batch-processing" }
+  ]
+}

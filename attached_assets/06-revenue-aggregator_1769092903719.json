@@ -1,0 +1,283 @@
+{
+  "name": "06-Revenue-Aggregator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 12
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 12 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.printify.com/v1/shops/{{ $env.PRINTIFY_SHOP_ID }}/orders.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "100"
+            },
+            {
+              "name": "status",
+              "value": "fulfilled"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-printify-orders",
+      "name": "Fetch Printify Orders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "printify-auth",
+          "name": "Printify Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.gumroad.com/v2/sales",
+        "authentication": "oAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "after",
+              "value": "={{ $now.minus({ days: 30 }).toISO() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-gumroad-sales",
+      "name": "Fetch Gumroad Sales",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 400],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "gumroad-oauth",
+          "name": "Gumroad OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://openapi.etsy.com/v3/application/shops/{{ $env.ETSY_SHOP_ID }}/receipts",
+        "authentication": "oAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "100"
+            },
+            {
+              "name": "was_paid",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fetch-etsy-receipts",
+      "name": "Fetch Etsy Receipts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 600],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "etsy-oauth",
+          "name": "Etsy OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-data",
+      "name": "Merge All Data",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [700, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Aggregate revenue from all platforms\nconst inputs = $input.all();\n\n// Parse Printify orders\nconst printifyOrders = inputs[0]?.json?.data || [];\nconst printifyRevenue = printifyOrders.reduce((sum, order) => {\n  // Calculate profit (sale price - production cost)\n  const revenue = order.total_price || 0;\n  const cost = order.total_shipping + (order.line_items?.reduce((c, item) => c + (item.cost || 0), 0) || 0);\n  return sum + (revenue - cost);\n}, 0);\n\n// Parse Gumroad sales\nconst gumroadSales = inputs[1]?.json?.sales || [];\nconst gumroadRevenue = gumroadSales.reduce((sum, sale) => {\n  // Gumroad takes 10%, we get 90%\n  return sum + (sale.price * 0.9);\n}, 0);\n\n// Parse Etsy receipts\nconst etsyReceipts = inputs[2]?.json?.results || [];\nconst etsyRevenue = etsyReceipts.reduce((sum, receipt) => {\n  // Etsy fees: ~13% (listing + transaction + payment)\n  const gross = receipt.grandtotal?.amount || 0;\n  return sum + (gross * 0.87);\n}, 0);\n\n// Calculate totals\nconst today = new Date();\nconst startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);\nconst startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));\n\nconst summary = {\n  period: 'last_30_days',\n  aggregatedAt: new Date().toISOString(),\n  \n  // Revenue by platform\n  platforms: {\n    printify: {\n      orders: printifyOrders.length,\n      grossRevenue: printifyOrders.reduce((s, o) => s + (o.total_price || 0), 0) / 100,\n      netProfit: printifyRevenue / 100,\n      currency: 'USD'\n    },\n    gumroad: {\n      sales: gumroadSales.length,\n      grossRevenue: gumroadSales.reduce((s, sale) => s + sale.price, 0) / 100,\n      netProfit: gumroadRevenue / 100,\n      currency: 'USD'\n    },\n    etsy: {\n      receipts: etsyReceipts.length,\n      grossRevenue: etsyReceipts.reduce((s, r) => s + (r.grandtotal?.amount || 0), 0) / 100,\n      netProfit: etsyRevenue / 100,\n      currency: 'USD'\n    }\n  },\n  \n  // Totals\n  totals: {\n    totalOrders: printifyOrders.length + gumroadSales.length + etsyReceipts.length,\n    grossRevenue: ((printifyOrders.reduce((s, o) => s + (o.total_price || 0), 0) + \n                    gumroadSales.reduce((s, sale) => s + sale.price, 0) +\n                    etsyReceipts.reduce((s, r) => s + (r.grandtotal?.amount || 0), 0)) / 100).toFixed(2),\n    netProfit: ((printifyRevenue + gumroadRevenue + etsyRevenue) / 100).toFixed(2),\n    avgOrderValue: 0,\n    currency: 'USD'\n  },\n  \n  // Estimated costs\n  estimatedCosts: {\n    apiCosts: 15, // Estimated monthly API costs\n    hosting: 10,  // n8n hosting\n    fees: 0       // Calculated from fees\n  },\n  \n  // Goal tracking\n  goalTracking: {\n    monthlyGoal: 1000,\n    currentProgress: 0,\n    percentComplete: 0,\n    projectedMonthEnd: 0\n  }\n};\n\n// Calculate averages and projections\nif (summary.totals.totalOrders > 0) {\n  summary.totals.avgOrderValue = (parseFloat(summary.totals.grossRevenue) / summary.totals.totalOrders).toFixed(2);\n}\n\n// Goal tracking\nconst daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();\nconst dayOfMonth = new Date().getDate();\nconst dailyAvg = parseFloat(summary.totals.netProfit) / 30;\nsummary.goalTracking.currentProgress = parseFloat(summary.totals.netProfit);\nsummary.goalTracking.percentComplete = Math.round((parseFloat(summary.totals.netProfit) / 1000) * 100);\nsummary.goalTracking.projectedMonthEnd = Math.round(dailyAvg * daysInMonth);\n\nreturn [{ json: summary }];"
+      },
+      "id": "aggregate-revenue",
+      "name": "Aggregate Revenue",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [920, 400]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "revenue_snapshots",
+        "columns": "period,aggregated_at,platforms,totals,goal_tracking",
+        "options": {
+          "onConflict": "period",
+          "conflictAction": "update"
+        }
+      },
+      "id": "save-snapshot",
+      "name": "Save Revenue Snapshot",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1140, 400],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "milestone-check",
+              "leftValue": "={{ $json.goalTracking.percentComplete }}",
+              "rightValue": 75,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "milestone-check",
+      "name": "75% Milestone?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1360, 400]
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "📊 *Revenue Report*\n\n*Period:* Last 30 Days\n\n*By Platform:*\n• Printify: ${{ $json.platforms.printify.netProfit }} ({{ $json.platforms.printify.orders }} orders)\n• Gumroad: ${{ $json.platforms.gumroad.netProfit }} ({{ $json.platforms.gumroad.sales }} sales)\n• Etsy: ${{ $json.platforms.etsy.netProfit }} ({{ $json.platforms.etsy.receipts }} orders)\n\n*Totals:*\n• Gross Revenue: ${{ $json.totals.grossRevenue }}\n• Net Profit: ${{ $json.totals.netProfit }}\n• Avg Order: ${{ $json.totals.avgOrderValue }}\n\n*Goal Progress:*\n• ${{ $json.goalTracking.currentProgress }} / ${{ $json.goalTracking.monthlyGoal }} ({{ $json.goalTracking.percentComplete }}%)\n• Projected: ${{ $json.goalTracking.projectedMonthEnd }}/month",
+        "otherOptions": {}
+      },
+      "id": "send-report",
+      "name": "Send Revenue Report",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1580, 300],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "🎉 *MILESTONE ALERT!*\n\nYou've reached {{ $json.goalTracking.percentComplete }}% of your $1,000/month goal!\n\nCurrent: ${{ $json.goalTracking.currentProgress }}\nProjected: ${{ $json.goalTracking.projectedMonthEnd }}/month\n\n_Keep pushing! 💪_",
+        "otherOptions": {}
+      },
+      "id": "milestone-alert",
+      "name": "Milestone Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1580, 500],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every 12 Hours": {
+      "main": [
+        [
+          { "node": "Fetch Printify Orders", "type": "main", "index": 0 },
+          { "node": "Fetch Gumroad Sales", "type": "main", "index": 0 },
+          { "node": "Fetch Etsy Receipts", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Fetch Printify Orders": {
+      "main": [
+        [{ "node": "Merge All Data", "type": "main", "index": 0 }]
+      ]
+    },
+    "Fetch Gumroad Sales": {
+      "main": [
+        [{ "node": "Merge All Data", "type": "main", "index": 1 }]
+      ]
+    },
+    "Fetch Etsy Receipts": {
+      "main": [
+        [{ "node": "Merge All Data", "type": "main", "index": 2 }]
+      ]
+    },
+    "Merge All Data": {
+      "main": [
+        [{ "node": "Aggregate Revenue", "type": "main", "index": 0 }]
+      ]
+    },
+    "Aggregate Revenue": {
+      "main": [
+        [{ "node": "Save Revenue Snapshot", "type": "main", "index": 0 }]
+      ]
+    },
+    "Save Revenue Snapshot": {
+      "main": [
+        [{ "node": "Milestone Check?", "type": "main", "index": 0 }]
+      ]
+    },
+    "75% Milestone?": {
+      "main": [
+        [{ "node": "Milestone Alert", "type": "main", "index": 0 }],
+        [{ "node": "Send Revenue Report", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "revenue" },
+    { "name": "reporting" }
+  ]
+}

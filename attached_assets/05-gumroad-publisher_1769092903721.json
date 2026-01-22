@@ -1,0 +1,225 @@
+{
+  "name": "05-Gumroad-Publisher",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": "public",
+        "table": "generated_products",
+        "filterType": "string",
+        "filterString": "status=eq.approved&product_type=like.digital_*&published_gumroad=eq.false",
+        "returnAll": false,
+        "limit": 5,
+        "options": {}
+      },
+      "id": "fetch-digital-products",
+      "name": "Fetch Digital Products",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-products",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-products",
+      "name": "Has Products?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare Gumroad product data\nconst product = $input.first().json;\n\n// Pricing strategy for digital products\nconst pricingMap = {\n  'digital_printable': { price: 299, suggestedPrice: 499 },      // $2.99-4.99\n  'digital_planner': { price: 599, suggestedPrice: 999 },        // $5.99-9.99\n  'digital_template': { price: 399, suggestedPrice: 799 },       // $3.99-7.99\n  'digital_wallart': { price: 199, suggestedPrice: 399 },        // $1.99-3.99\n  'digital_bundle': { price: 999, suggestedPrice: 1999 }         // $9.99-19.99\n};\n\nconst pricing = pricingMap[product.product_type] || pricingMap['digital_printable'];\n\nconst gumroadProduct = {\n  name: product.title,\n  description: product.description + '\\n\\n---\\n\\n**What you\\'ll get:**\\n- High-resolution digital file\\n- Instant download\\n- Lifetime access\\n\\n**Format:** PDF/PNG\\n**License:** Personal use',\n  price: pricing.price,\n  suggested_price: pricing.suggestedPrice,\n  customizable_price: true,\n  preview_url: product.image_url,\n  tags: product.tags.slice(0, 5),\n  published: false, // Create as draft first\n  originalProductId: product.id\n};\n\nreturn [{ json: gumroadProduct }];"
+      },
+      "id": "prepare-gumroad-product",
+      "name": "Prepare Gumroad Product",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.gumroad.com/v2/products",
+        "authentication": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "create-gumroad-product",
+      "name": "Create Gumroad Product",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 200],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "gumroad-oauth",
+          "name": "Gumroad OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.gumroad.com/v2/products/{{ $json.product.id }}",
+        "authentication": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"published\": true\n}",
+        "options": {}
+      },
+      "id": "publish-gumroad-product",
+      "name": "Publish Gumroad Product",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "gumroad-oauth",
+          "name": "Gumroad OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "generated_products",
+        "filterType": "string",
+        "filterString": "=id=eq.{{ $('Prepare Gumroad Product').item.json.originalProductId }}",
+        "columns": "published_gumroad,gumroad_product_id,gumroad_url,published_at",
+        "options": {}
+      },
+      "id": "update-status",
+      "name": "Update Product Status",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1560, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "📦 *Digital Product Published to Gumroad*\n\n*Title:* {{ $('Prepare Gumroad Product').item.json.name }}\n*Price:* ${{ ($('Prepare Gumroad Product').item.json.price / 100).toFixed(2) }}\n*URL:* {{ $('Publish Gumroad Product').item.json.product.short_url }}\n\n_Live and ready for sales!_",
+        "otherOptions": {}
+      },
+      "id": "notify-success",
+      "name": "Notify Success",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1780, 200],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "no-products",
+      "name": "No Products",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [900, 400]
+    }
+  ],
+  "connections": {
+    "Every 6 Hours": {
+      "main": [
+        [{ "node": "Fetch Digital Products", "type": "main", "index": 0 }]
+      ]
+    },
+    "Fetch Digital Products": {
+      "main": [
+        [{ "node": "Has Products?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Has Products?": {
+      "main": [
+        [{ "node": "Prepare Gumroad Product", "type": "main", "index": 0 }],
+        [{ "node": "No Products", "type": "main", "index": 0 }]
+      ]
+    },
+    "Prepare Gumroad Product": {
+      "main": [
+        [{ "node": "Create Gumroad Product", "type": "main", "index": 0 }]
+      ]
+    },
+    "Create Gumroad Product": {
+      "main": [
+        [{ "node": "Publish Gumroad Product", "type": "main", "index": 0 }]
+      ]
+    },
+    "Publish Gumroad Product": {
+      "main": [
+        [{ "node": "Update Product Status", "type": "main", "index": 0 }]
+      ]
+    },
+    "Update Product Status": {
+      "main": [
+        [{ "node": "Notify Success", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "gumroad" },
+    { "name": "digital-products" }
+  ]
+}

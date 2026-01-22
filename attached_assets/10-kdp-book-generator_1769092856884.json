@@ -1,0 +1,374 @@
+{
+  "name": "10-kdp-book-generator",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-kdp-book",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Generate KDP Book Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [240, 300],
+      "webhookId": "generate-kdp-book"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate input\nconst input = $input.first().json.body || $input.first().json;\n\nconst bookType = input.bookType || 'journal';\nconst niche = input.niche || 'dog-breed-specific';\nconst subNiche = input.subNiche || niche;\nconst trimSize = input.trimSize || '6x9';\nconst pageCount = input.pageCount || 120;\n\n// Book type configurations\nconst BOOK_CONFIGS = {\n  'journal': {\n    interiorType: 'lined',\n    defaultPages: 120,\n    priceMin: 6.99,\n    titlePrefix: ['Daily', 'Gratitude', 'Reflection', 'Dream', 'Prayer'],\n    titleSuffix: ['Journal', 'Diary', 'Notebook']\n  },\n  'planner': {\n    interiorType: 'planner-weekly',\n    defaultPages: 120,\n    priceMin: 9.99,\n    titlePrefix: ['Weekly', 'Daily', 'Monthly', 'Yearly'],\n    titleSuffix: ['Planner', 'Organizer', 'Agenda']\n  },\n  'coloring-book': {\n    interiorType: 'coloring',\n    defaultPages: 50,\n    priceMin: 7.99,\n    titlePrefix: ['Relaxing', 'Stress Relief', 'Beautiful', 'Creative'],\n    titleSuffix: ['Coloring Book', 'Adult Coloring', 'Color Therapy']\n  },\n  'notebook': {\n    interiorType: 'blank',\n    defaultPages: 120,\n    priceMin: 5.99,\n    titlePrefix: ['Classic', 'Minimalist', 'Professional', 'Creative'],\n    titleSuffix: ['Notebook', 'Sketchbook', 'Drawing Pad']\n  },\n  'log-book': {\n    interiorType: 'log',\n    defaultPages: 120,\n    priceMin: 7.99,\n    titlePrefix: ['Daily', 'Weekly', 'Tracking'],\n    titleSuffix: ['Log Book', 'Tracker', 'Record']\n  },\n  'activity-book': {\n    interiorType: 'activity',\n    defaultPages: 80,\n    priceMin: 8.99,\n    titlePrefix: ['Fun', 'Educational', 'Brain Training'],\n    titleSuffix: ['Activity Book', 'Puzzle Book', 'Games']\n  }\n};\n\nconst config = BOOK_CONFIGS[bookType] || BOOK_CONFIGS['journal'];\n\n// Generate book ID\nconst bookId = `kdp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;\n\nreturn {\n  bookId,\n  bookType,\n  niche,\n  subNiche,\n  trimSize,\n  pageCount: pageCount || config.defaultPages,\n  interiorType: config.interiorType,\n  priceMin: config.priceMin,\n  titlePrefixes: config.titlePrefix,\n  titleSuffixes: config.titleSuffix,\n  paperType: 'white',\n  coverFinish: 'matte'\n};"
+      },
+      "id": "validate-input",
+      "name": "Validate Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4o-mini\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a KDP book title and description specialist. Generate compelling, SEO-optimized content for low-content books. Always respond with valid JSON.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Create a KDP book listing for a {{ $json.bookType }} in the {{ $json.subNiche }} niche.\\n\\nRequirements:\\n- Title: Max 200 characters, include keywords for {{ $json.subNiche }}\\n- Subtitle: Max 200 characters, add value proposition\\n- Description: 100-200 words, include benefits and keywords\\n- Keywords: Exactly 7 keywords/phrases (each max 50 chars)\\n- Categories: 2 BISAC codes that best fit\\n\\nRespond with JSON only:\\n{\\n  \\\"title\\\": \\\"...\\\",\\n  \\\"subtitle\\\": \\\"...\\\",\\n  \\\"description\\\": \\\"...\\\",\\n  \\\"keywords\\\": [\\\"k1\\\", \\\"k2\\\", \\\"k3\\\", \\\"k4\\\", \\\"k5\\\", \\\"k6\\\", \\\"k7\\\"],\\n  \\\"categories\\\": [\\\"BISAC1\\\", \\\"BISAC2\\\"]\\n}\"\n    }\n  ],\n  \"max_tokens\": 800,\n  \"temperature\": 0.7\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "generate-metadata",
+      "name": "Generate Book Metadata",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [680, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "openai-auth",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse OpenAI response\nconst response = $input.first().json;\nconst prevData = $('Validate Input').first().json;\n\ntry {\n  const content = response.choices[0].message.content;\n  // Clean the response (remove markdown if present)\n  const cleanContent = content.replace(/```json\\n?|```\\n?/g, '').trim();\n  const metadata = JSON.parse(cleanContent);\n  \n  return {\n    ...prevData,\n    title: metadata.title,\n    subtitle: metadata.subtitle,\n    description: metadata.description,\n    keywords: metadata.keywords.slice(0, 7),\n    categories: metadata.categories.slice(0, 2),\n    aiCost: 0.0003 // Approximate cost for gpt-4o-mini\n  };\n} catch (error) {\n  throw new Error(`Failed to parse metadata: ${error.message}`);\n}"
+      },
+      "id": "parse-metadata",
+      "name": "Parse Metadata",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/predictions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"version\": \"39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b\",\n  \"input\": {\n    \"prompt\": \"Professional book cover design for '{{ $json.title }}', {{ $json.subNiche }} theme, clean modern typography, book cover art, high quality, professional publishing, Amazon KDP cover\",\n    \"negative_prompt\": \"text, words, letters, watermark, blurry, low quality\",\n    \"width\": 1410,\n    \"height\": 2250,\n    \"num_outputs\": 1,\n    \"guidance_scale\": 7.5,\n    \"num_inference_steps\": 4\n  }\n}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "generate-cover",
+      "name": "Generate Cover Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1120, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "replicate-auth",
+          "name": "Replicate API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10,
+        "unit": "seconds"
+      },
+      "id": "wait-for-image",
+      "name": "Wait for Generation",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Generate Cover Image').json.urls.get }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "poll-result",
+      "name": "Poll for Result",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1560, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "replicate-auth",
+          "name": "Replicate API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "operation": "equals",
+              "value2": "succeeded"
+            }
+          ]
+        }
+      },
+      "id": "check-complete",
+      "name": "Is Complete?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1780, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combine all data for database\nconst metadata = $('Parse Metadata').first().json;\nconst imageResult = $input.first().json;\n\n// Calculate cover dimensions based on trim size and page count\nconst TRIM_SIZES = {\n  '5x8': { width: 5, height: 8 },\n  '5.5x8.5': { width: 5.5, height: 8.5 },\n  '6x9': { width: 6, height: 9 },\n  '7x10': { width: 7, height: 10 },\n  '8x10': { width: 8, height: 10 },\n  '8.5x11': { width: 8.5, height: 11 }\n};\n\nconst trim = TRIM_SIZES[metadata.trimSize] || TRIM_SIZES['6x9'];\nconst spineWidth = (metadata.pageCount * 0.002252).toFixed(3); // White paper\nconst coverWidth = (trim.width * 2) + parseFloat(spineWidth) + 0.25; // +0.125 bleed each side\nconst coverHeight = trim.height + 0.25; // +0.125 bleed top/bottom\n\n// Calculate minimum price\nconst printCost = 0.85 + (metadata.pageCount * 0.012); // Base + per page (white paper)\nconst minPrice = Math.ceil((printCost / 0.40) * 100) / 100; // 40% royalty minimum\nconst recommendedPrice = Math.max(metadata.priceMin, minPrice + 2);\n\nreturn {\n  id: metadata.bookId,\n  book_type: metadata.bookType,\n  niche: metadata.niche,\n  sub_niche: metadata.subNiche,\n  title: metadata.title,\n  subtitle: metadata.subtitle,\n  description: metadata.description,\n  keywords: metadata.keywords,\n  categories: metadata.categories,\n  \n  // Specs\n  trim_size: metadata.trimSize,\n  page_count: metadata.pageCount,\n  paper_type: metadata.paperType,\n  cover_finish: metadata.coverFinish,\n  interior_type: metadata.interiorType,\n  \n  // Cover specs\n  cover_width_inches: coverWidth.toFixed(3),\n  cover_height_inches: coverHeight.toFixed(3),\n  spine_width_inches: spineWidth,\n  cover_image_url: imageResult.output?.[0] || null,\n  \n  // Pricing\n  print_cost: printCost.toFixed(2),\n  min_price: minPrice.toFixed(2),\n  recommended_price: recommendedPrice.toFixed(2),\n  estimated_royalty: ((recommendedPrice * 0.40) - printCost).toFixed(2),\n  \n  // Status\n  status: 'generated',\n  platform: 'kdp',\n  ai_cost: metadata.aiCost + 0.003, // text + image cost\n  \n  created_at: new Date().toISOString()\n};"
+      },
+      "id": "prepare-book-data",
+      "name": "Prepare Book Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2000, 240]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": {
+          "values": []
+        },
+        "table": "kdp_books",
+        "columns": "id, book_type, niche, sub_niche, title, subtitle, description, keywords, categories, trim_size, page_count, paper_type, cover_finish, interior_type, cover_width_inches, cover_height_inches, spine_width_inches, cover_image_url, print_cost, min_price, recommended_price, estimated_royalty, status, platform, ai_cost, created_at"
+      },
+      "id": "save-to-database",
+      "name": "Save to Database",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [2220, 240],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"bookId\": \"{{ $('Prepare Book Data').json.id }}\",\n  \"title\": \"{{ $('Prepare Book Data').json.title }}\",\n  \"coverUrl\": \"{{ $('Prepare Book Data').json.cover_image_url }}\",\n  \"recommendedPrice\": {{ $('Prepare Book Data').json.recommended_price }},\n  \"estimatedRoyalty\": {{ $('Prepare Book Data').json.estimated_royalty }},\n  \"specs\": {\n    \"trimSize\": \"{{ $('Prepare Book Data').json.trim_size }}\",\n    \"pageCount\": {{ $('Prepare Book Data').json.page_count }},\n    \"coverDimensions\": \"{{ $('Prepare Book Data').json.cover_width_inches }}x{{ $('Prepare Book Data').json.cover_height_inches }}in\"\n  },\n  \"nextSteps\": [\n    \"Download cover image and add title/author text\",\n    \"Generate interior PDF using our templates\",\n    \"Upload to kdp.amazon.com\",\n    \"Set price to ${{ $('Prepare Book Data').json.recommended_price }} or higher\"\n  ]\n}"
+      },
+      "id": "success-response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2440, 240]
+    },
+    {
+      "parameters": {},
+      "id": "loop-back",
+      "name": "Loop Back",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [2000, 380]
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "📚 KDP Book Generated: {{ $('Prepare Book Data').json.title }}\nNiche: {{ $('Prepare Book Data').json.sub_niche }}\nRecommended Price: ${{ $('Prepare Book Data').json.recommended_price }}\nEst. Royalty: ${{ $('Prepare Book Data').json.estimated_royalty }}",
+        "otherOptions": {}
+      },
+      "id": "slack-notify",
+      "name": "Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [2440, 340],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Generate KDP Book Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input": {
+      "main": [
+        [
+          {
+            "node": "Generate Book Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Book Metadata": {
+      "main": [
+        [
+          {
+            "node": "Parse Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Metadata": {
+      "main": [
+        [
+          {
+            "node": "Generate Cover Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Cover Image": {
+      "main": [
+        [
+          {
+            "node": "Wait for Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Generation": {
+      "main": [
+        [
+          {
+            "node": "Poll for Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Poll for Result": {
+      "main": [
+        [
+          {
+            "node": "Is Complete?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Complete?": {
+      "main": [
+        [
+          {
+            "node": "Prepare Book Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Back",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Back": {
+      "main": [
+        [
+          {
+            "node": "Wait for Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Book Data": {
+      "main": [
+        [
+          {
+            "node": "Save to Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Database": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "income-engine"
+    },
+    {
+      "name": "kdp"
+    }
+  ],
+  "meta": {
+    "instanceId": "income-engine-v1"
+  }
+}

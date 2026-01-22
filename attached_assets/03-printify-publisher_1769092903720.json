@@ -1,0 +1,295 @@
+{
+  "name": "03-Printify-Publisher",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 4
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 4 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": "public",
+        "table": "generated_products",
+        "filterType": "string",
+        "filterString": "status=eq.approved&target_platform=eq.etsy&published_printify=eq.false",
+        "returnAll": false,
+        "limit": 10,
+        "options": {}
+      },
+      "id": "fetch-pending",
+      "name": "Fetch Pending Products",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-products",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-products",
+      "name": "Has Products?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.printify.com/v1/uploads/images.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"file_name\": \"{{ $json.id }}.png\",\n  \"url\": \"{{ $json.image_url }}\"\n}",
+        "options": {}
+      },
+      "id": "upload-image",
+      "name": "Upload to Printify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "printify-auth",
+          "name": "Printify Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Map product type to Printify blueprint\nconst product = $('Fetch Pending Products').item.json;\nconst uploadResult = $input.first().json;\n\n// Blueprint IDs for common products\nconst blueprints = {\n  'pod_tshirt': { id: 145, printProviderId: 99 },      // Bella Canvas 3001\n  'pod_mug': { id: 68, printProviderId: 28 },          // 11oz Mug\n  'pod_poster': { id: 1, printProviderId: 27 },        // Enhanced Matte Paper Poster\n  'pod_tote': { id: 83, printProviderId: 28 },         // Tote Bag\n  'pod_hoodie': { id: 77, printProviderId: 99 },       // Bella Canvas Hoodie\n  'pod_phonecase': { id: 26, printProviderId: 51 }     // iPhone Case\n};\n\nconst blueprint = blueprints[product.product_type] || blueprints['pod_tshirt'];\n\n// Calculate pricing based on tier\nconst pricing = {\n  'low': { markup: 5, minPrice: 1499 },\n  'medium': { markup: 8, minPrice: 1999 },\n  'high': { markup: 12, minPrice: 2499 }\n};\nconst tier = pricing[product.price_range] || pricing['medium'];\n\nreturn [{\n  json: {\n    productId: product.id,\n    imageId: uploadResult.id,\n    blueprintId: blueprint.id,\n    printProviderId: blueprint.printProviderId,\n    title: product.title,\n    description: product.description,\n    tags: product.tags,\n    markup: tier.markup,\n    minPrice: tier.minPrice\n  }\n}];"
+      },
+      "id": "prepare-printify-product",
+      "name": "Prepare Printify Product",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.printify.com/v1/catalog/blueprints/{{ $json.blueprintId }}/print_providers/{{ $json.printProviderId }}/variants.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "get-variants",
+      "name": "Get Available Variants",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "printify-auth",
+          "name": "Printify Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build Printify product with all variants\nconst productData = $('Prepare Printify Product').first().json;\nconst variants = $input.first().json.variants || [];\n\n// Select popular variants (sizes S-2XL for apparel, all colors for others)\nconst selectedVariants = variants\n  .filter(v => v.is_enabled)\n  .slice(0, 20) // Limit to 20 variants\n  .map(v => ({\n    id: v.id,\n    price: Math.max(v.cost + (productData.markup * 100), productData.minPrice),\n    is_enabled: true\n  }));\n\nconst printifyProduct = {\n  title: productData.title.substring(0, 140),\n  description: productData.description,\n  blueprint_id: productData.blueprintId,\n  print_provider_id: productData.printProviderId,\n  variants: selectedVariants,\n  print_areas: [\n    {\n      variant_ids: selectedVariants.map(v => v.id),\n      placeholders: [\n        {\n          position: 'front',\n          images: [\n            {\n              id: productData.imageId,\n              x: 0.5,\n              y: 0.5,\n              scale: 1,\n              angle: 0\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  tags: productData.tags.slice(0, 13)\n};\n\nreturn [{ json: { ...printifyProduct, originalProductId: productData.productId } }];"
+      },
+      "id": "build-product",
+      "name": "Build Printify Product",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1560, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.printify.com/v1/shops/{{ $env.PRINTIFY_SHOP_ID }}/products.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "create-product",
+      "name": "Create Printify Product",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1780, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "printify-auth",
+          "name": "Printify Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.printify.com/v1/shops/{{ $env.PRINTIFY_SHOP_ID }}/products/{{ $json.id }}/publish.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"title\": true,\n  \"description\": true,\n  \"images\": true,\n  \"variants\": true,\n  \"tags\": true,\n  \"keyFeatures\": true,\n  \"shipping_template\": true\n}",
+        "options": {}
+      },
+      "id": "publish-product",
+      "name": "Publish to Store",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2000, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "printify-auth",
+          "name": "Printify Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "generated_products",
+        "filterType": "string",
+        "filterString": "=id=eq.{{ $('Build Printify Product').item.json.originalProductId }}",
+        "columns": "published_printify,printify_product_id,published_at",
+        "options": {}
+      },
+      "id": "update-status",
+      "name": "Update Product Status",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [2220, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "#passive-income",
+        "text": "✅ *Product Published to Printify*\n\n*Title:* {{ $('Build Printify Product').item.json.title }}\n*Printify ID:* {{ $('Create Printify Product').item.json.id }}\n*Variants:* {{ $('Build Printify Product').item.json.variants.length }}\n\n_Ready for Etsy sync!_",
+        "otherOptions": {}
+      },
+      "id": "notify-success",
+      "name": "Notify Success",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [2440, 200],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-creds",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "no-products",
+      "name": "No Products",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [900, 400]
+    }
+  ],
+  "connections": {
+    "Every 4 Hours": {
+      "main": [
+        [{ "node": "Fetch Pending Products", "type": "main", "index": 0 }]
+      ]
+    },
+    "Fetch Pending Products": {
+      "main": [
+        [{ "node": "Has Products?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Has Products?": {
+      "main": [
+        [{ "node": "Upload to Printify", "type": "main", "index": 0 }],
+        [{ "node": "No Products", "type": "main", "index": 0 }]
+      ]
+    },
+    "Upload to Printify": {
+      "main": [
+        [{ "node": "Prepare Printify Product", "type": "main", "index": 0 }]
+      ]
+    },
+    "Prepare Printify Product": {
+      "main": [
+        [{ "node": "Get Available Variants", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Available Variants": {
+      "main": [
+        [{ "node": "Build Printify Product", "type": "main", "index": 0 }]
+      ]
+    },
+    "Build Printify Product": {
+      "main": [
+        [{ "node": "Create Printify Product", "type": "main", "index": 0 }]
+      ]
+    },
+    "Create Printify Product": {
+      "main": [
+        [{ "node": "Publish to Store", "type": "main", "index": 0 }]
+      ]
+    },
+    "Publish to Store": {
+      "main": [
+        [{ "node": "Update Product Status", "type": "main", "index": 0 }]
+      ]
+    },
+    "Update Product Status": {
+      "main": [
+        [{ "node": "Notify Success", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [
+    { "name": "passive-income" },
+    { "name": "printify" },
+    { "name": "publishing" }
+  ]
+}
