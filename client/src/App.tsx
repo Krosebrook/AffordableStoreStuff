@@ -23,6 +23,7 @@ import Orders from "@/pages/orders";
 import Checkout from "@/pages/checkout";
 import Analytics from "@/pages/analytics";
 import Generator from "@/pages/generator";
+import IntegrationHub from "@/pages/integration-hub";
 import Auth from "@/pages/auth";
 import NotFound from "@/pages/not-found";
 
@@ -102,6 +103,7 @@ function Router() {
     "/orders",
     "/analytics",
     "/generator",
+    "/integrations",
     "/automation",
     "/customers",
     "/settings",
@@ -121,6 +123,7 @@ function Router() {
           <Route path="/orders" component={Orders} />
           <Route path="/analytics" component={Analytics} />
           <Route path="/generator" component={Generator} />
+          <Route path="/integrations" component={IntegrationHub} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/automation" component={Dashboard} />
           <Route path="/customers" component={Dashboard} />

@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertUserSchema, insertProductSchema, insertCategorySchema, insertCartItemSchema } from "@shared/schema";
 import { z } from "zod";
 import { randomUUID } from "crypto";
+import { registerIntegrationRoutes } from "./integrations/routes";
 
 // Helper function to get or create session ID from cookies
 function getSessionId(req: Request, res: Response): string {
@@ -25,6 +26,9 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  // Register integration routes
+  registerIntegrationRoutes(app);
 
   // ============ AUTH ROUTES ============
   app.post("/api/auth/register", async (req, res) => {

@@ -1,7 +1,139 @@
 import { sql, relations } from "drizzle-orm";
-import { pgTable, text, varchar, integer, decimal, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, decimal, boolean, timestamp, jsonb, real } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+// ============================================================================
+// PLATFORM INTEGRATIONS
+// ============================================================================
+
+// Platform connectors registry
+export const platformConnectors = pgTable("platform_connectors", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  platform: text("platform").notNull().unique(),
+  displayName: text("display_name").notNull(),
+  description: text("description"),
+  logoUrl: text("logo_url"),
+  category: text("category").notNull(), // 'ai', 'ecommerce', 'automation', 'infrastructure', 'business', 'productivity'
+  connectorType: text("connector_type").notNull(), // 'oauth', 'api_key', 'webhook', 'basic_auth'
+  baseUrl: text("base_url"),
+  docsUrl: text("docs_url"),
+  isEnabled: boolean("is_enabled").default(true),
+  isBuiltIn: boolean("is_built_in").default(false),
+  rateLimitPerMinute: integer("rate_limit_per_minute").default(60),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// User platform connections (credentials stored securely)
+export const platformConnections = pgTable("platform_connections", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  connectorId: varchar("connector_id").references(() => platformConnectors.id).notNull(),
+  platform: text("platform").notNull(),
+  status: text("status").default("disconnected").notNull(), // 'connected', 'disconnected', 'error', 'pending'
+  credentials: jsonb("credentials"), // encrypted credentials
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  tokenExpiry: timestamp("token_expiry"),
+  webhookUrl: text("webhook_url"),
+  webhookSecret: text("webhook_secret"),
+  settings: jsonb("settings"),
+  lastSyncAt: timestamp("last_sync_at"),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// API rate limits tracking
+export const apiRateLimits = pgTable("api_rate_limits", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  platform: text("platform").notNull(),
+  endpoint: text("endpoint"),
+  requestCount: integer("request_count").default(0),
+  limitPerMinute: integer("limit_per_minute").default(60),
+  windowStart: timestamp("window_start").defaultNow(),
+  lastRequestAt: timestamp("last_request_at"),
+});
+
+// Workflow executions
+export const workflowExecutions = pgTable("workflow_executions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  workflowId: text("workflow_id").notNull(),
+  workflowName: text("workflow_name"),
+  status: text("status").default("running").notNull(), // 'running', 'completed', 'failed', 'cancelled'
+  triggerType: text("trigger_type"), // 'scheduled', 'manual', 'webhook', 'event'
+  inputData: jsonb("input_data"),
+  outputData: jsonb("output_data"),
+  errorMessage: text("error_message"),
+  retryCount: integer("retry_count").default(0),
+  startedAt: timestamp("started_at").defaultNow(),
+  endedAt: timestamp("ended_at"),
+  durationMs: integer("duration_ms"),
+});
+
+// Safeguard audit log
+export const safeguardAuditLog = pgTable("safeguard_audit_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  productId: varchar("product_id"),
+  safeguardName: text("safeguard_name").notNull(),
+  decision: text("decision").notNull(), // 'pass', 'fail', 'warn', 'skip'
+  reason: text("reason"),
+  score: real("score"),
+  threshold: real("threshold"),
+  executionTimeMs: integer("execution_time_ms"),
+  metadata: jsonb("metadata"),
+  assessedAt: timestamp("assessed_at").defaultNow(),
+});
+
+// Budget tracking
+export const budgetTracking = pgTable("budget_tracking", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  period: text("period").notNull(), // 'daily', 'weekly', 'monthly'
+  category: text("category").notNull(), // 'ai', 'publishing', 'total'
+  currentSpend: decimal("current_spend", { precision: 10, scale: 2 }).default("0"),
+  budgetLimit: decimal("budget_limit", { precision: 10, scale: 2 }).notNull(),
+  periodStart: timestamp("period_start").defaultNow(),
+  periodEnd: timestamp("period_end"),
+  isExceeded: boolean("is_exceeded").default(false),
+});
+
+// AI generation history
+export const aiGenerations = pgTable("ai_generations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  provider: text("provider").notNull(), // 'openai', 'anthropic', 'gemini', 'elevenlabs', 'grok', 'perplexity'
+  model: text("model"),
+  promptType: text("prompt_type"), // 'image', 'text', 'audio', 'code'
+  prompt: text("prompt"),
+  outputUrl: text("output_url"),
+  outputData: jsonb("output_data"),
+  tokensUsed: integer("tokens_used"),
+  cost: decimal("cost", { precision: 10, scale: 4 }),
+  status: text("status").default("pending"), // 'pending', 'processing', 'completed', 'failed'
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Product publishing queue
+export const publishingQueue = pgTable("publishing_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  productId: varchar("product_id").references(() => products.id),
+  platform: text("platform").notNull(),
+  status: text("status").default("pending"), // 'pending', 'processing', 'published', 'failed', 'rejected'
+  priority: integer("priority").default(5),
+  safeguardsPassed: boolean("safeguards_passed").default(false),
+  trademarkCleared: boolean("trademark_cleared").default(false),
+  qualityScore: real("quality_score"),
+  externalId: text("external_id"), // ID on the external platform
+  externalUrl: text("external_url"),
+  errorMessage: text("error_message"),
+  retryCount: integer("retry_count").default(0),
+  scheduledFor: timestamp("scheduled_for"),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
 
 // Users table
 export const users = pgTable("users", {
@@ -141,6 +273,13 @@ export const insertCartItemSchema = createInsertSchema(cartItems).omit({ id: tru
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true });
 export const insertOrderItemSchema = createInsertSchema(orderItems).omit({ id: true });
 
+// Integration insert schemas
+export const insertPlatformConnectorSchema = createInsertSchema(platformConnectors).omit({ id: true, createdAt: true });
+export const insertPlatformConnectionSchema = createInsertSchema(platformConnections).omit({ id: true, createdAt: true, updatedAt: true });
+export const insertWorkflowExecutionSchema = createInsertSchema(workflowExecutions).omit({ id: true, startedAt: true });
+export const insertAiGenerationSchema = createInsertSchema(aiGenerations).omit({ id: true, createdAt: true });
+export const insertPublishingQueueSchema = createInsertSchema(publishingQueue).omit({ id: true, createdAt: true });
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -187,3 +326,28 @@ export const addressSchema = z.object({
 });
 
 export type Address = z.infer<typeof addressSchema>;
+
+// Integration types
+export type PlatformConnector = typeof platformConnectors.$inferSelect;
+export type InsertPlatformConnector = z.infer<typeof insertPlatformConnectorSchema>;
+
+export type PlatformConnection = typeof platformConnections.$inferSelect;
+export type InsertPlatformConnection = z.infer<typeof insertPlatformConnectionSchema>;
+
+export type ApiRateLimit = typeof apiRateLimits.$inferSelect;
+export type WorkflowExecution = typeof workflowExecutions.$inferSelect;
+export type InsertWorkflowExecution = z.infer<typeof insertWorkflowExecutionSchema>;
+
+export type SafeguardAuditEntry = typeof safeguardAuditLog.$inferSelect;
+export type BudgetTrack = typeof budgetTracking.$inferSelect;
+
+export type AiGeneration = typeof aiGenerations.$inferSelect;
+export type InsertAiGeneration = z.infer<typeof insertAiGenerationSchema>;
+
+export type PublishingQueueItem = typeof publishingQueue.$inferSelect;
+export type InsertPublishingQueueItem = z.infer<typeof insertPublishingQueueSchema>;
+
+// Connector categories
+export type ConnectorCategory = 'ai' | 'ecommerce' | 'automation' | 'infrastructure' | 'business' | 'productivity';
+export type ConnectorType = 'oauth' | 'api_key' | 'webhook' | 'basic_auth';
+export type ConnectionStatus = 'connected' | 'disconnected' | 'error' | 'pending';

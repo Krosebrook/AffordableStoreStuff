@@ -9,6 +9,7 @@ import {
   Users,
   BarChart3,
   Zap,
+  Plug,
 } from "lucide-react";
 import {
   Sidebar,
@@ -32,6 +33,7 @@ const mainNavItems = [
 
 const aiToolsItems = [
   { title: "AI Generator", url: "/generator", icon: Sparkles },
+  { title: "Integrations", url: "/integrations", icon: Plug },
   { title: "Automation", url: "/automation", icon: Zap },
 ];
 
