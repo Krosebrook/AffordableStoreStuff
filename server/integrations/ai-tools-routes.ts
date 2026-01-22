@@ -13,6 +13,9 @@ import {
 import { eq, desc } from "drizzle-orm";
 import { aiService } from "./ai-service";
 import { z } from "zod";
+import { getMetrics, getRecentErrors, createLogger } from "../lib/observability";
+
+const routeLogger = createLogger('AIToolsRoutes');
 
 const generateProductConceptSchema = z.object({
   prompt: z.string().min(1, "Prompt is required"),
@@ -549,6 +552,59 @@ ${prompt}`;
       res.write(`data: ${JSON.stringify({ type: 'error', message: error.message || 'Stream error' })}\n\n`);
     } catch { }
     res.end();
+  }
+});
+
+router.get("/health", async (_req: Request, res: Response) => {
+  try {
+    const providers = aiService.getAvailableProviders();
+    const availableCount = providers.filter(p => p.available).length;
+    
+    res.json({
+      status: availableCount > 0 ? 'healthy' : 'degraded',
+      timestamp: new Date().toISOString(),
+      providers: providers.map(p => ({
+        name: p.provider,
+        available: p.available,
+        features: p.features,
+      })),
+      uptime: process.uptime(),
+    });
+  } catch (error: any) {
+    routeLogger.error('Health check failed', error);
+    res.status(500).json({
+      status: 'unhealthy',
+      error: error.message,
+    });
+  }
+});
+
+router.get("/metrics", async (req: Request, res: Response) => {
+  try {
+    const since = req.query.since ? parseInt(req.query.since as string) : Date.now() - 3600000;
+    const metricName = req.query.name as string | undefined;
+    
+    const metrics = getMetrics(metricName, since);
+    const errors = getRecentErrors(20);
+    const summary = aiService.getMetricsSummary();
+    
+    res.json({
+      timestamp: new Date().toISOString(),
+      since: new Date(since).toISOString(),
+      metrics: {
+        raw: metrics.slice(-100),
+        summary,
+      },
+      errors: errors.map(e => ({
+        message: e.error.message,
+        name: e.error.name,
+        context: e.context,
+        timestamp: new Date(e.timestamp).toISOString(),
+      })),
+    });
+  } catch (error: any) {
+    routeLogger.error('Metrics fetch failed', error);
+    res.status(500).json({ error: error.message });
   }
 });
 

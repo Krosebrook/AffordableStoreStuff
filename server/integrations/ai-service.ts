@@ -1,11 +1,22 @@
 /**
  * AI Service Layer
  * Unified interface for all AI providers: OpenAI, Anthropic, Gemini, ElevenLabs, Grok, Perplexity
- * Supports both standard and streaming responses
+ * Supports both standard and streaming responses with observability
  */
 
 import OpenAI from 'openai';
 import type { Response } from 'express';
+import { 
+  createLogger, 
+  withRetry, 
+  CircuitBreaker, 
+  recordMetric, 
+  trackError,
+  GracefulDegradation,
+  getMetrics
+} from '../lib/observability';
+
+const logger = createLogger('AIService');
 
 export type AIProvider = 'openai' | 'anthropic' | 'gemini' | 'elevenlabs' | 'grok' | 'perplexity';
 
@@ -45,41 +56,156 @@ export interface StreamEvent {
 
 class AIService {
   private openai: OpenAI | null = null;
+  private circuitBreakers: Map<AIProvider, CircuitBreaker> = new Map();
+  private fallbackDegradation: GracefulDegradation<AIGenerationResponse>;
 
   constructor() {
     this.initializeProviders();
+    this.initializeCircuitBreakers();
+    this.fallbackDegradation = new GracefulDegradation('AIService', {
+      success: false,
+      provider: 'openai',
+      type: 'text',
+      error: 'Service temporarily unavailable',
+    });
   }
 
   private initializeProviders() {
     if (process.env.OPENAI_API_KEY) {
       this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      logger.info('OpenAI provider initialized');
+    } else {
+      logger.warn('OpenAI API key not configured');
     }
   }
 
+  private initializeCircuitBreakers() {
+    const providers: AIProvider[] = ['openai', 'anthropic', 'gemini', 'elevenlabs', 'grok', 'perplexity'];
+    providers.forEach((provider) => {
+      this.circuitBreakers.set(provider, new CircuitBreaker(provider, {
+        failureThreshold: 5,
+        successThreshold: 2,
+        timeout: 60000,
+      }));
+    });
+  }
+
   async generate(request: AIGenerationRequest): Promise<AIGenerationResponse> {
+    const startTime = Date.now();
+    const requestId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const requestLogger = logger.child(requestId);
+    
+    requestLogger.info('AI generation started', {
+      provider: request.provider,
+      type: request.type,
+      model: request.model,
+    });
+
+    const circuitBreaker = this.circuitBreakers.get(request.provider);
+
     try {
-      switch (request.provider) {
-        case 'openai':
-          return await this.generateWithOpenAI(request);
-        case 'anthropic':
-          return await this.generateWithAnthropic(request);
-        case 'gemini':
-          return await this.generateWithGemini(request);
-        case 'elevenlabs':
-          return await this.generateWithElevenLabs(request);
-        case 'grok':
-          return await this.generateWithGrok(request);
-        case 'perplexity':
-          return await this.generateWithPerplexity(request);
-        default:
-          return {
-            success: false,
-            provider: request.provider,
-            type: request.type,
-            error: `Unknown provider: ${request.provider}`,
-          };
+      const generateFn = async () => {
+        const innerResult = await withRetry(
+          async () => {
+            switch (request.provider) {
+              case 'openai':
+                return await this.generateWithOpenAI(request);
+              case 'anthropic':
+                return await this.generateWithAnthropic(request);
+              case 'gemini':
+                return await this.generateWithGemini(request);
+              case 'elevenlabs':
+                return await this.generateWithElevenLabs(request);
+              case 'grok':
+                return await this.generateWithGrok(request);
+              case 'perplexity':
+                return await this.generateWithPerplexity(request);
+              default:
+                throw new Error(`Unknown provider: ${request.provider}`);
+            }
+          },
+          {
+            maxAttempts: 3,
+            baseDelayMs: 1000,
+            onRetry: (error, attempt, delayMs) => {
+              requestLogger.warn(`Retry attempt ${attempt}`, { 
+                error: error.message, 
+                delayMs,
+                provider: request.provider 
+              });
+              recordMetric('ai.retry', 1, { provider: request.provider, attempt: String(attempt) });
+            },
+          }
+        );
+        
+        if (!innerResult.success) {
+          throw new Error(innerResult.error || 'Generation failed');
+        }
+        return innerResult;
+      };
+
+      let result: AIGenerationResponse;
+      
+      if (circuitBreaker) {
+        try {
+          result = await circuitBreaker.execute(generateFn);
+        } catch (cbError: any) {
+          if (cbError.message === 'Circuit breaker is open') {
+            requestLogger.warn('Circuit breaker is open, using graceful degradation');
+            recordMetric('ai.circuit_breaker.reject', 1, { provider: request.provider });
+            
+            const fallback = this.fallbackDegradation.getFallback();
+            return {
+              ...fallback,
+              provider: request.provider,
+              type: request.type,
+              error: 'Service temporarily unavailable (circuit breaker open)',
+            };
+          }
+          throw cbError;
+        }
+      } else {
+        result = await generateFn();
       }
+
+      const duration = Date.now() - startTime;
+      recordMetric('ai.generation.duration', duration, { 
+        provider: request.provider, 
+        type: request.type,
+        success: String(result.success),
+      });
+
+      if (result.success) {
+        requestLogger.info('AI generation completed', { 
+          duration,
+          tokens: result.usage?.totalTokens,
+        });
+        recordMetric('ai.generation.success', 1, { provider: request.provider });
+      } else {
+        requestLogger.warn('AI generation returned failure', { 
+          duration,
+          error: result.error,
+        });
+        recordMetric('ai.generation.failure', 1, { provider: request.provider });
+      }
+
+      return result;
     } catch (error: any) {
+      const duration = Date.now() - startTime;
+      requestLogger.error('AI generation failed', error, { 
+        duration,
+        provider: request.provider,
+      });
+      
+      trackError(error, { 
+        provider: request.provider, 
+        type: request.type, 
+        requestId,
+        duration,
+      });
+      
+      recordMetric('ai.generation.error', 1, { provider: request.provider });
+
       return {
         success: false,
         provider: request.provider,
@@ -485,6 +611,18 @@ class AIService {
     res: Response,
     onEvent?: (event: StreamEvent) => void
   ): Promise<void> {
+    const startTime = Date.now();
+    const requestId = `stream-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const streamLogger = logger.child(requestId);
+    
+    streamLogger.info('Stream generation started', {
+      provider: request.provider,
+      type: request.type,
+      model: request.model,
+    });
+    
+    recordMetric('ai.stream.start', 1, { provider: request.provider });
+    
     const abortController = new AbortController();
     let isClientConnected = true;
 
@@ -497,7 +635,9 @@ class AIService {
     res.on('close', () => {
       isClientConnected = false;
       abortController.abort();
-      console.log('[AI Stream] Client disconnected');
+      const duration = Date.now() - startTime;
+      streamLogger.info('Client disconnected', { duration });
+      recordMetric('ai.stream.disconnect', 1, { provider: request.provider });
     });
 
     const sendEvent = (event: StreamEvent): boolean => {
@@ -549,14 +689,14 @@ class AIService {
           result = await Promise.race([generatePromise, abortPromise]);
         } catch (e: any) {
           if (e.message === 'AbortError' || !isClientConnected) {
-            console.log('[AI Stream] Non-streaming generation aborted');
+            streamLogger.info('Non-streaming generation aborted');
             return;
           }
           throw e;
         }
         
         if (!isClientConnected) {
-          console.log('[AI Stream] Client disconnected after generation');
+          streamLogger.info('Client disconnected after generation');
           return;
         }
         
@@ -567,20 +707,38 @@ class AIService {
             ? result.content 
             : result.content?.join('\n') || '';
           
+          const duration = Date.now() - startTime;
+          streamLogger.info('Stream generation completed', { 
+            duration,
+            contentLength: content.length,
+            tokens: result.usage?.totalTokens,
+          });
+          recordMetric('ai.stream.complete', 1, { provider: request.provider });
+          recordMetric('ai.stream.duration', duration, { provider: request.provider });
+          
           sendEvent({ 
             type: 'complete', 
             data: content,
             usage: result.usage 
           });
         } else {
+          streamLogger.warn('Stream generation returned failure', { error: result.error });
+          recordMetric('ai.stream.failure', 1, { provider: request.provider });
           sendEvent({ type: 'error', message: result.error || 'Generation failed' });
         }
       }
     } catch (error: any) {
       if (error.name === 'AbortError' || !isClientConnected) {
-        console.log('[AI Stream] Generation aborted');
+        streamLogger.info('Stream generation aborted');
+        recordMetric('ai.stream.abort', 1, { provider: request.provider });
       } else {
-        console.error('[AI Stream Error]', error.message);
+        streamLogger.error('Stream generation error', error);
+        recordMetric('ai.stream.error', 1, { provider: request.provider });
+        trackError(error, { 
+          provider: request.provider, 
+          type: request.type, 
+          requestId,
+        });
         sendEvent({ type: 'error', message: error.message || 'Stream error' });
       }
     } finally {
@@ -596,10 +754,17 @@ class AIService {
     sendEvent: (event: StreamEvent) => boolean,
     signal?: AbortSignal
   ): Promise<void> {
+    const openAILogger = createLogger('AIService:OpenAI');
+    
     if (!this.openai) {
       sendEvent({ type: 'error', message: 'OpenAI not configured' });
       return;
     }
+
+    openAILogger.debug('Creating OpenAI stream', { 
+      model: request.model || 'gpt-4o',
+      maxTokens: request.maxTokens,
+    });
 
     const stream = await this.openai.chat.completions.create(
       {
@@ -618,7 +783,7 @@ class AIService {
     try {
       for await (const chunk of stream) {
         if (signal?.aborted) {
-          console.log('[AI Stream] OpenAI stream aborted by client');
+          openAILogger.info('OpenAI stream aborted by client');
           try {
             stream.controller.abort();
           } catch { }
@@ -633,7 +798,7 @@ class AIService {
           const progress = Math.min(10 + (chunkCount * 2), 90);
           const sent = sendEvent({ type: 'chunk', data: delta, progress });
           if (!sent) {
-            console.log('[AI Stream] Client disconnected during streaming');
+            openAILogger.info('Client disconnected during streaming', { chunkCount });
             try {
               stream.controller.abort();
             } catch { }
@@ -643,6 +808,11 @@ class AIService {
       }
 
       if (!signal?.aborted) {
+        openAILogger.info('OpenAI stream completed', { 
+          chunkCount, 
+          contentLength: fullContent.length,
+        });
+        recordMetric('ai.openai.stream.chunks', chunkCount, {});
         sendEvent({ 
           type: 'complete', 
           data: fullContent,
@@ -651,12 +821,35 @@ class AIService {
       }
     } catch (error: any) {
       if (signal?.aborted || error.name === 'AbortError') {
-        console.log('[AI Stream] Stream cancelled');
+        openAILogger.info('OpenAI stream cancelled');
       } else {
+        openAILogger.error('OpenAI stream error', error);
         throw error;
       }
     }
   }
+
+  getMetricsSummary(): { name: string; count: number; tags: Record<string, string> }[] {
+    const allMetrics = getMetrics();
+    const summary: Map<string, { count: number; tags: Record<string, string> }> = new Map();
+    
+    for (const metric of allMetrics) {
+      const key = `${metric.name}:${JSON.stringify(metric.tags)}`;
+      const existing = summary.get(key);
+      if (existing) {
+        existing.count += metric.value;
+      } else {
+        summary.set(key, { count: metric.value, tags: metric.tags });
+      }
+    }
+    
+    return Array.from(summary.entries()).map(([name, data]) => ({
+      name: name.split(':')[0],
+      count: data.count,
+      tags: data.tags,
+    }));
+  }
 }
+
 
 export const aiService = new AIService();
