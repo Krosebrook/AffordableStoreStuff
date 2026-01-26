@@ -162,10 +162,13 @@ export async function registerRoutes(
           expiresAt,
         });
 
-        // In production, send email here
-        // For now, log the reset link in development only
-        if (process.env.NODE_ENV === "development") {
-          console.log(`[DEV] Password reset link: /reset-password?token=${token}`);
+        // Send password reset email
+        const { sendPasswordResetEmail } = await import("./email");
+        const emailSent = await sendPasswordResetEmail(user.email, token);
+        
+        // Log in development as fallback
+        if (!emailSent && process.env.NODE_ENV === "development") {
+          console.log(`[DEV] Password reset link (email failed): /reset-password?token=${token}`);
         }
       }
 

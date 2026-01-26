@@ -15,6 +15,7 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 - **Real-time Streaming**: SSE-based streaming generation with progress indicators and live content preview
 - **AI Service Layer**: Multi-provider AI service (OpenAI, Anthropic, Gemini, ElevenLabs, Grok, Perplexity)
 - **Observability Module**: Structured logging, metrics collection, error tracking, circuit breakers, retry logic
+- **Email Integration**: Resend integration for transactional emails (password reset, etc.)
 - **Health & Metrics Endpoints**: /api/ai/health and /api/ai/metrics for monitoring
 - **Progressive Web App (PWA)**:
   - Full PWA implementation with manifest, service worker, and offline support
