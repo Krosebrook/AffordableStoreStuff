@@ -93,10 +93,13 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 ### API Endpoints
 ```
 Auth:
-POST /api/auth/register - Create new user account (bcrypt hashed password)
-POST /api/auth/login    - Authenticate user (sets session cookie)
-GET  /api/auth/me       - Get current authenticated user
-POST /api/auth/logout   - Destroy session and logout
+POST /api/auth/register        - Create new user account (bcrypt hashed password)
+POST /api/auth/login           - Authenticate user (sets session cookie)
+GET  /api/auth/me              - Get current authenticated user
+POST /api/auth/logout          - Destroy session and logout
+POST /api/auth/forgot-password - Request password reset email (creates token, 1hr expiry)
+POST /api/auth/reset-password  - Reset password with valid token
+GET  /api/auth/verify-reset-token - Verify if reset token is valid
 
 Products:
 GET    /api/products    - List all products

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation, Redirect } from "wouter";
@@ -14,32 +14,48 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Zap, Mail, Lock, User, ArrowRight, Sparkles, Loader2 } from "lucide-react";
+import { Zap, Mail, Lock, User, ArrowRight, Sparkles, Loader2, Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
+import { apiRequest } from "@/lib/queryClient";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password is required"),
 });
 
 const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
+  username: z.string()
+    .min(3, "Username must be at least 3 characters")
+    .max(50, "Username must be at most 50 characters")
+    .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string()
+    .min(6, "Password must be at least 6 characters")
+    .max(128, "Password must be at most 128 characters"),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });
 
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email address"),
+});
+
 type LoginFormData = z.infer<typeof loginSchema>;
 type RegisterFormData = z.infer<typeof registerSchema>;
+type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
 export default function Auth() {
   const [activeTab, setActiveTab] = useState("login");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotPasswordSent, setForgotPasswordSent] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const { login, register, isAuthenticated, isLoading } = useAuth();
@@ -59,6 +75,13 @@ export default function Auth() {
       email: "",
       password: "",
       confirmPassword: "",
+    },
+  });
+
+  const forgotPasswordForm = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
     },
   });
 
@@ -96,12 +119,33 @@ export default function Auth() {
         description: "Welcome to FlashFusion!",
       });
       setLocation("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
+      const message = error?.message || "Failed to create account. Username or email may already exist.";
       toast({
         title: "Error",
-        description: "Failed to create account. Username or email may already exist.",
+        description: message,
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const onForgotPassword = async (data: ForgotPasswordFormData) => {
+    setIsSubmitting(true);
+    try {
+      await apiRequest("POST", "/api/auth/forgot-password", data);
+      setForgotPasswordSent(true);
+      toast({
+        title: "Check your email",
+        description: "If an account with that email exists, you will receive a password reset link.",
+      });
+    } catch (error) {
+      toast({
+        title: "Check your email",
+        description: "If an account with that email exists, you will receive a password reset link.",
+      });
+      setForgotPasswordSent(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -176,11 +220,20 @@ export default function Auth() {
                               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                               <Input
                                 {...field}
-                                type="password"
-                                className="pl-10 glass border-white/10"
+                                type={showLoginPassword ? "text" : "password"}
+                                className="pl-10 pr-10 glass border-white/10"
                                 placeholder="Enter your password"
                                 data-testid="input-login-password"
                               />
+                              <button
+                                type="button"
+                                onClick={() => setShowLoginPassword(!showLoginPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                data-testid="button-toggle-login-password"
+                                aria-label={showLoginPassword ? "Hide password" : "Show password"}
+                              >
+                                {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                              </button>
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -205,6 +258,14 @@ export default function Auth() {
                         </>
                       )}
                     </Button>
+                    <button
+                      type="button"
+                      onClick={() => setShowForgotPassword(true)}
+                      className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors mt-2"
+                      data-testid="button-forgot-password"
+                    >
+                      Forgot your password?
+                    </button>
                   </form>
                 </Form>
               </TabsContent>
@@ -266,11 +327,20 @@ export default function Auth() {
                               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                               <Input
                                 {...field}
-                                type="password"
-                                className="pl-10 glass border-white/10"
+                                type={showRegisterPassword ? "text" : "password"}
+                                className="pl-10 pr-10 glass border-white/10"
                                 placeholder="Create a password"
                                 data-testid="input-register-password"
                               />
+                              <button
+                                type="button"
+                                onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                data-testid="button-toggle-register-password"
+                                aria-label={showRegisterPassword ? "Hide password" : "Show password"}
+                              >
+                                {showRegisterPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                              </button>
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -288,11 +358,20 @@ export default function Auth() {
                               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                               <Input
                                 {...field}
-                                type="password"
-                                className="pl-10 glass border-white/10"
+                                type={showConfirmPassword ? "text" : "password"}
+                                className="pl-10 pr-10 glass border-white/10"
                                 placeholder="Confirm your password"
                                 data-testid="input-register-confirm-password"
                               />
+                              <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                data-testid="button-toggle-confirm-password"
+                                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                              >
+                                {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                              </button>
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -328,6 +407,97 @@ export default function Auth() {
           By continuing, you agree to our Terms of Service and Privacy Policy.
         </p>
       </div>
+
+      {showForgotPassword && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-md glass border-white/10">
+            <CardHeader className="text-center">
+              <CardTitle className="text-xl font-display">
+                {forgotPasswordSent ? "Check Your Email" : "Reset Password"}
+              </CardTitle>
+              <CardDescription>
+                {forgotPasswordSent
+                  ? "We've sent you an email with instructions to reset your password."
+                  : "Enter your email address and we'll send you a link to reset your password."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {forgotPasswordSent ? (
+                <div className="space-y-4">
+                  <div className="flex justify-center">
+                    <Mail className="w-12 h-12 text-primary" />
+                  </div>
+                  <Button
+                    className="w-full"
+                    variant="outline"
+                    onClick={() => {
+                      setShowForgotPassword(false);
+                      setForgotPasswordSent(false);
+                      forgotPasswordForm.reset();
+                    }}
+                    data-testid="button-back-to-login"
+                  >
+                    Back to Sign In
+                  </Button>
+                </div>
+              ) : (
+                <Form {...forgotPasswordForm}>
+                  <form onSubmit={forgotPasswordForm.handleSubmit(onForgotPassword)} className="space-y-4">
+                    <FormField
+                      control={forgotPasswordForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                              <Input
+                                {...field}
+                                type="email"
+                                className="pl-10 glass border-white/10"
+                                placeholder="Enter your email"
+                                data-testid="input-forgot-password-email"
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => {
+                          setShowForgotPassword(false);
+                          forgotPasswordForm.reset();
+                        }}
+                        data-testid="button-cancel-forgot-password"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="flex-1 btn-gradient"
+                        disabled={isSubmitting}
+                        data-testid="button-submit-forgot-password"
+                      >
+                        {isSubmitting ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Send Reset Link"
+                        )}
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

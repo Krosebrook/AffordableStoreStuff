@@ -40,6 +40,7 @@ const BrandCalibration = lazy(() => import("@/pages/brand-calibration"));
 const AIInsights = lazy(() => import("@/pages/ai-insights"));
 const TaxCompliance = lazy(() => import("@/pages/tax-compliance"));
 const Auth = lazy(() => import("@/pages/auth"));
+const ResetPassword = lazy(() => import("@/pages/reset-password"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function PageLoader() {
@@ -255,6 +256,7 @@ function Router() {
         <Route path="/" component={Landing} />
         <Route path="/onboarding" component={Onboarding} />
         <Route path="/auth" component={Auth} />
+        <Route path="/reset-password" component={ResetPassword} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>

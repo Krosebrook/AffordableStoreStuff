@@ -135,6 +135,124 @@ export async function registerRoutes(
     });
   });
 
+  // Forgot password - request reset
+  app.post("/api/auth/forgot-password", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+
+      // Always return success to prevent email enumeration
+      const user = await storage.getUserByEmail(email);
+      
+      if (user) {
+        // Generate a secure random token
+        const token = randomUUID() + randomUUID();
+        const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+        // Delete any existing tokens for this user
+        await storage.deletePasswordResetTokensForUser(user.id);
+        
+        // Create new reset token
+        await storage.createPasswordResetToken({
+          userId: user.id,
+          token,
+          expiresAt,
+        });
+
+        // In production, send email here
+        // For now, log the reset link in development only
+        if (process.env.NODE_ENV === "development") {
+          console.log(`[DEV] Password reset link: /reset-password?token=${token}`);
+        }
+      }
+
+      // Always return success to prevent email enumeration attacks
+      res.json({ message: "If an account with that email exists, a reset link has been sent." });
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      res.status(500).json({ message: "Failed to process request" });
+    }
+  });
+
+  // Reset password - verify token and update password
+  app.post("/api/auth/reset-password", async (req, res) => {
+    try {
+      const { token, password } = req.body;
+      
+      if (!token || !password) {
+        return res.status(400).json({ message: "Token and password are required" });
+      }
+
+      if (password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+      }
+
+      // Find the token
+      const resetToken = await storage.getPasswordResetToken(token);
+      
+      if (!resetToken) {
+        return res.status(400).json({ message: "Invalid or expired reset link" });
+      }
+
+      // Check if token is expired
+      if (new Date() > resetToken.expiresAt) {
+        return res.status(400).json({ message: "Reset link has expired" });
+      }
+
+      // Check if token was already used
+      if (resetToken.usedAt) {
+        return res.status(400).json({ message: "Reset link has already been used" });
+      }
+
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+      // Update user's password
+      await storage.updateUserPassword(resetToken.userId, hashedPassword);
+
+      // Mark token as used
+      await storage.markPasswordResetTokenUsed(token);
+
+      res.json({ message: "Password has been reset successfully" });
+    } catch (error) {
+      console.error("Reset password error:", error);
+      res.status(500).json({ message: "Failed to reset password" });
+    }
+  });
+
+  // Verify reset token (for the reset password page)
+  app.get("/api/auth/verify-reset-token", async (req, res) => {
+    try {
+      const { token } = req.query;
+      
+      if (!token || typeof token !== "string") {
+        return res.status(400).json({ valid: false, message: "Token is required" });
+      }
+
+      const resetToken = await storage.getPasswordResetToken(token);
+      
+      if (!resetToken) {
+        return res.status(400).json({ valid: false, message: "Invalid reset link" });
+      }
+
+      if (new Date() > resetToken.expiresAt) {
+        return res.status(400).json({ valid: false, message: "Reset link has expired" });
+      }
+
+      if (resetToken.usedAt) {
+        return res.status(400).json({ valid: false, message: "Reset link has already been used" });
+      }
+
+      res.json({ valid: true });
+    } catch (error) {
+      console.error("Verify reset token error:", error);
+      res.status(500).json({ valid: false, message: "Failed to verify token" });
+    }
+  });
+
   // ============ PRODUCTS ROUTES ============
   app.get("/api/products", async (req, res) => {
     try {
