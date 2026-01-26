@@ -7,6 +7,7 @@ import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 import { registerIntegrationRoutes } from "./integrations/routes";
 import aiToolsRouter from "./integrations/ai-tools-routes";
+import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 
 const SALT_ROUNDS = 12;
 
@@ -30,6 +31,10 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  // Setup Replit Auth (BEFORE other routes)
+  await setupAuth(app);
+  registerAuthRoutes(app);
 
   // Register integration routes
   registerIntegrationRoutes(app);
@@ -102,14 +107,22 @@ export async function registerRoutes(
     }
   });
   
-  // Get current user session
+  // Get current user session (supports both password auth and Replit Auth)
   app.get("/api/auth/me", async (req, res) => {
     try {
-      if (!req.session.userId) {
+      // Check for password-based auth session first
+      let userId = req.session.userId;
+      
+      // Also check for Replit Auth (passport session)
+      if (!userId && req.user && (req.user as any).claims?.sub) {
+        userId = (req.user as any).claims.sub;
+      }
+      
+      if (!userId) {
         return res.status(401).json({ message: "Not authenticated" });
       }
       
-      const user = await storage.getUser(req.session.userId);
+      const user = await storage.getUser(userId);
       if (!user) {
         req.session.destroy(() => {});
         return res.status(401).json({ message: "User not found" });
@@ -123,8 +136,13 @@ export async function registerRoutes(
     }
   });
   
-  // Logout
+  // Logout (supports both password auth and Replit Auth)
   app.post("/api/auth/logout", (req, res) => {
+    // If logged in via Replit Auth (passport), also clear that
+    if (req.user) {
+      req.logout(() => {});
+    }
+    
     req.session.destroy((err) => {
       if (err) {
         console.error("Logout error:", err);

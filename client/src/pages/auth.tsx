@@ -266,6 +266,28 @@ export default function Auth() {
                     >
                       Forgot your password?
                     </button>
+
+                    <div className="relative my-6">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-white/10" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full glass border-white/10"
+                      onClick={() => window.location.href = "/api/login"}
+                      data-testid="button-replit-login"
+                    >
+                      <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12zm10-6.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z"/>
+                      </svg>
+                      Continue with Replit
+                    </Button>
                   </form>
                 </Form>
               </TabsContent>
@@ -395,6 +417,28 @@ export default function Auth() {
                           <Sparkles className="w-4 h-4 ml-2" />
                         </>
                       )}
+                    </Button>
+
+                    <div className="relative my-6">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-white/10" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full glass border-white/10"
+                      onClick={() => window.location.href = "/api/login"}
+                      data-testid="button-replit-register"
+                    >
+                      <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12zm10-6.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z"/>
+                      </svg>
+                      Continue with Replit
                     </Button>
                   </form>
                 </Form>

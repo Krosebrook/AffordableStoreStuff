@@ -5,6 +5,7 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 
 ## Recent Changes (January 2026)
 - **Secure Authentication**: Complete auth system with bcrypt password hashing (12 rounds), express-session with PostgreSQL store (connect-pg-simple), /api/auth/me and /api/auth/logout endpoints
+- **Replit Auth Integration**: OIDC-based social login via Replit (Google, GitHub, Apple, X, email), seamlessly integrated alongside password-based auth
 - **AuthProvider Context**: React context for auth state management with useAuth hook, protected routes, user menu with logout
 - **Database Migration**: Migrated from Base44 SDK to Replit's built-in PostgreSQL database using Drizzle ORM
 - **Complete UI Rebuild**: Premium dark theme with glass-morphism effects and gradient accents
