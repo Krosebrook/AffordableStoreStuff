@@ -4,8 +4,11 @@ import { storage } from "./storage";
 import { insertUserSchema, insertProductSchema, insertCategorySchema, insertCartItemSchema } from "@shared/schema";
 import { z } from "zod";
 import { randomUUID } from "crypto";
+import bcrypt from "bcrypt";
 import { registerIntegrationRoutes } from "./integrations/routes";
 import aiToolsRouter from "./integrations/ai-tools-routes";
+
+const SALT_ROUNDS = 12;
 
 // Helper function to get or create session ID from cookies
 function getSessionId(req: Request, res: Response): string {
@@ -51,7 +54,13 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Email already exists" });
       }
 
-      const user = await storage.createUser(data);
+      // Hash password before storing
+      const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
+      const user = await storage.createUser({ ...data, password: hashedPassword });
+      
+      // Set session
+      req.session.userId = user.id;
+      
       const { password, ...userWithoutPassword } = user;
       res.status(201).json(userWithoutPassword);
     } catch (error) {
@@ -67,17 +76,63 @@ export async function registerRoutes(
     try {
       const { username, password } = req.body;
       
+      if (!username || !password) {
+        return res.status(400).json({ message: "Username and password are required" });
+      }
+      
       const user = await storage.getUserByUsername(username);
-      if (!user || user.password !== password) {
+      if (!user) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+      
+      // Verify password with bcrypt
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
+      // Set session
+      req.session.userId = user.id;
+      
       const { password: _, ...userWithoutPassword } = user;
       res.json({ user: userWithoutPassword, message: "Login successful" });
     } catch (error) {
       console.error("Login error:", error);
       res.status(500).json({ message: "Login failed" });
     }
+  });
+  
+  // Get current user session
+  app.get("/api/auth/me", async (req, res) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+      
+      const user = await storage.getUser(req.session.userId);
+      if (!user) {
+        req.session.destroy(() => {});
+        return res.status(401).json({ message: "User not found" });
+      }
+      
+      const { password, ...userWithoutPassword } = user;
+      res.json(userWithoutPassword);
+    } catch (error) {
+      console.error("Get current user error:", error);
+      res.status(500).json({ message: "Failed to get user" });
+    }
+  });
+  
+  // Logout
+  app.post("/api/auth/logout", (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ message: "Logout failed" });
+      }
+      res.clearCookie("connect.sid");
+      res.json({ message: "Logged out successfully" });
+    });
   });
 
   // ============ PRODUCTS ROUTES ============

@@ -4,6 +4,8 @@
 FlashFusion is a modern, premium ecommerce platform with AI-powered features built with React, Express, and PostgreSQL. It features a stunning dark-themed UI with glass-morphism effects, gradient accents, and smooth animations. Version 2.2 introduces a mobile-first futuristic design language with iOS-inspired UI patterns.
 
 ## Recent Changes (January 2026)
+- **Secure Authentication**: Complete auth system with bcrypt password hashing (12 rounds), express-session with PostgreSQL store (connect-pg-simple), /api/auth/me and /api/auth/logout endpoints
+- **AuthProvider Context**: React context for auth state management with useAuth hook, protected routes, user menu with logout
 - **Database Migration**: Migrated from Base44 SDK to Replit's built-in PostgreSQL database using Drizzle ORM
 - **Complete UI Rebuild**: Premium dark theme with glass-morphism effects and gradient accents
 - **Full Ecommerce Suite**: Products, cart, checkout, and order management
@@ -91,8 +93,10 @@ FlashFusion is a modern, premium ecommerce platform with AI-powered features bui
 ### API Endpoints
 ```
 Auth:
-POST /api/auth/register - Create new user account
-POST /api/auth/login    - Authenticate user
+POST /api/auth/register - Create new user account (bcrypt hashed password)
+POST /api/auth/login    - Authenticate user (sets session cookie)
+GET  /api/auth/me       - Get current authenticated user
+POST /api/auth/logout   - Destroy session and logout
 
 Products:
 GET    /api/products    - List all products

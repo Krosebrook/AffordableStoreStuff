@@ -1,4 +1,4 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route, useLocation, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,13 +10,15 @@ import { CartDrawer } from "@/components/cart-drawer";
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Bell, Loader2 } from "lucide-react";
+import { Bell, Loader2, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, Suspense, lazy, useEffect } from "react";
 import type { CartItemWithProduct } from "@shared/schema";
 import { OfflineIndicator, UpdatePrompt, ConnectionStatus } from "@/components/offline-indicator";
 import { initPWA } from "@/lib/pwa-utils";
+import { AuthProvider, useAuth } from "@/hooks/use-auth";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const Landing = lazy(() => import("@/pages/landing"));
 const Onboarding = lazy(() => import("@/pages/onboarding"));
@@ -51,6 +53,72 @@ function PageLoader() {
   );
 }
 
+function UserMenu() {
+  const { user, logout, isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
+  
+  const handleLogout = async () => {
+    await logout();
+    setLocation("/");
+  };
+  
+  const getInitials = () => {
+    if (!user) return "?";
+    if (user.firstName && user.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    return user.username.slice(0, 2).toUpperCase();
+  };
+  
+  if (!isAuthenticated) {
+    return (
+      <Button variant="outline" size="sm" onClick={() => setLocation("/auth")} data-testid="button-login">
+        Log in
+      </Button>
+    );
+  }
+  
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="relative" data-testid="button-user-menu">
+          <Avatar className="h-8 w-8">
+            {user?.avatar && <AvatarImage src={user.avatar} alt={user.username} />}
+            <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs">
+              {getInitials()}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <div className="px-2 py-1.5">
+          <p className="text-sm font-medium">{user?.firstName || user?.username}</p>
+          <p className="text-xs text-muted-foreground">{user?.email}</p>
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout} data-testid="button-logout">
+          <LogOut className="mr-2 h-4 w-4" />
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isLoading } = useAuth();
+  
+  if (isLoading) {
+    return <PageLoader />;
+  }
+  
+  if (!isAuthenticated) {
+    return <Redirect to="/auth" />;
+  }
+  
+  return <>{children}</>;
+}
+
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -82,44 +150,42 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <SidebarProvider style={sidebarStyle as React.CSSProperties}>
-      <div className="flex h-screen w-full">
-        <AppSidebar />
-        <SidebarInset className="flex flex-col flex-1">
-          <header className="flex h-14 items-center justify-between gap-4 border-b border-white/10 px-4 glass sticky top-0 z-40">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger data-testid="button-sidebar-toggle" />
-            </div>
-            <div className="flex items-center gap-2">
-              <ConnectionStatus />
-              <CartDrawer
-                items={cartItems}
-                onUpdateQuantity={(itemId, quantity) =>
-                  updateCartMutation.mutate({ itemId, quantity })
-                }
-                onRemoveItem={(itemId) => removeCartMutation.mutate(itemId)}
-                isOpen={cartOpen}
-                onOpenChange={setCartOpen}
-              />
-              <Button variant="ghost" size="icon" data-testid="button-notifications">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <ThemeToggle />
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs">
-                  JD
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          </header>
-          <main className="flex-1 overflow-auto">
-            <Suspense fallback={<PageLoader />}>
-              {children}
-            </Suspense>
-          </main>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+    <ProtectedRoute>
+      <SidebarProvider style={sidebarStyle as React.CSSProperties}>
+        <div className="flex h-screen w-full">
+          <AppSidebar />
+          <SidebarInset className="flex flex-col flex-1">
+            <header className="flex h-14 items-center justify-between gap-4 border-b border-white/10 px-4 glass sticky top-0 z-40">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger data-testid="button-sidebar-toggle" />
+              </div>
+              <div className="flex items-center gap-2">
+                <ConnectionStatus />
+                <CartDrawer
+                  items={cartItems}
+                  onUpdateQuantity={(itemId, quantity) =>
+                    updateCartMutation.mutate({ itemId, quantity })
+                  }
+                  onRemoveItem={(itemId) => removeCartMutation.mutate(itemId)}
+                  isOpen={cartOpen}
+                  onOpenChange={setCartOpen}
+                />
+                <Button variant="ghost" size="icon" data-testid="button-notifications">
+                  <Bell className="h-5 w-5" />
+                </Button>
+                <ThemeToggle />
+                <UserMenu />
+              </div>
+            </header>
+            <main className="flex-1 overflow-auto">
+              <Suspense fallback={<PageLoader />}>
+                {children}
+              </Suspense>
+            </main>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
+    </ProtectedRoute>
   );
 }
 
@@ -204,10 +270,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
-          <OfflineIndicator />
-          <UpdatePrompt />
-          <Toaster />
-          <Router />
+          <AuthProvider>
+            <OfflineIndicator />
+            <UpdatePrompt />
+            <Toaster />
+            <Router />
+          </AuthProvider>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

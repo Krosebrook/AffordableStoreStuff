@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, Redirect } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,10 +14,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Zap, Mail, Lock, User, ArrowRight, Sparkles } from "lucide-react";
+import { Zap, Mail, Lock, User, ArrowRight, Sparkles, Loader2 } from "lucide-react";
 import { z } from "zod";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -40,8 +39,10 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function Auth() {
   const [activeTab, setActiveTab] = useState("login");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { login, register, isAuthenticated, isLoading } = useAuth();
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -61,53 +62,49 @@ export default function Auth() {
     },
   });
 
-  const loginMutation = useMutation({
-    mutationFn: async (data: LoginFormData) => {
-      return apiRequest("POST", "/api/auth/login", data);
-    },
-    onSuccess: () => {
+  if (isAuthenticated && !isLoading) {
+    return <Redirect to="/dashboard" />;
+  }
+
+  const onLogin = async (data: LoginFormData) => {
+    setIsSubmitting(true);
+    try {
+      await login(data.username, data.password);
       toast({
         title: "Welcome back!",
         description: "You have been logged in successfully.",
       });
       setLocation("/dashboard");
-    },
-    onError: () => {
+    } catch (error) {
       toast({
         title: "Error",
         description: "Invalid username or password.",
         variant: "destructive",
       });
-    },
-  });
-
-  const registerMutation = useMutation({
-    mutationFn: async (data: RegisterFormData) => {
-      const { confirmPassword, ...registerData } = data;
-      return apiRequest("POST", "/api/auth/register", registerData);
-    },
-    onSuccess: () => {
-      toast({
-        title: "Account created!",
-        description: "Your account has been created. Please log in.",
-      });
-      setActiveTab("login");
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to create account. Username may already exist.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const onLogin = (data: LoginFormData) => {
-    loginMutation.mutate(data);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const onRegister = (data: RegisterFormData) => {
-    registerMutation.mutate(data);
+  const onRegister = async (data: RegisterFormData) => {
+    setIsSubmitting(true);
+    try {
+      const { confirmPassword, ...registerData } = data;
+      await register(registerData);
+      toast({
+        title: "Account created!",
+        description: "Welcome to FlashFusion!",
+      });
+      setLocation("/dashboard");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create account. Username or email may already exist.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -193,11 +190,20 @@ export default function Auth() {
                     <Button
                       type="submit"
                       className="w-full btn-gradient"
-                      disabled={loginMutation.isPending}
+                      disabled={isSubmitting}
                       data-testid="button-login-submit"
                     >
-                      {loginMutation.isPending ? "Signing in..." : "Sign In"}
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Signing in...
+                        </>
+                      ) : (
+                        <>
+                          Sign In
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   </form>
                 </Form>
@@ -296,11 +302,20 @@ export default function Auth() {
                     <Button
                       type="submit"
                       className="w-full btn-gradient"
-                      disabled={registerMutation.isPending}
+                      disabled={isSubmitting}
                       data-testid="button-register-submit"
                     >
-                      {registerMutation.isPending ? "Creating account..." : "Create Account"}
-                      <Sparkles className="w-4 h-4 ml-2" />
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Creating account...
+                        </>
+                      ) : (
+                        <>
+                          Create Account
+                          <Sparkles className="w-4 h-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   </form>
                 </Form>
