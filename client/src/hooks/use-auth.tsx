@@ -46,7 +46,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return null;
       }
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0, // Always refetch on mount to catch OIDC redirects
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
     retry: false,
   });
 

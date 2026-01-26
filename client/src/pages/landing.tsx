@@ -3,8 +3,10 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { SplashScreen } from "@/components/splash-screen";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Zap,
   ShoppingCart,
@@ -20,6 +22,7 @@ import {
   Cpu,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
 import heroImage from "@assets/generated_images/ai_tech_hero_visualization.png";
 
@@ -104,6 +107,7 @@ const pricingPlans = [
 ];
 
 export default function Landing() {
+  const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -157,17 +161,40 @@ export default function Landing() {
             </nav>
 
             <div className="flex items-center gap-3">
-              <Link href="/auth" className="hidden sm:block">
-                <Button variant="ghost" className="focus-glow" data-testid="button-login">
-                  Log in
-                </Button>
-              </Link>
-              <Link href="/dashboard" className="hidden sm:block">
-                <Button variant="gradient" className="focus-glow" data-testid="button-get-started">
-                  Get Started
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link href="/dashboard" className="hidden sm:block">
+                    <Button variant="ghost" className="focus-glow" data-testid="button-dashboard">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <div className="hidden sm:flex items-center gap-2">
+                    <Avatar className="h-8 w-8" data-testid="user-avatar">
+                      <AvatarImage src={user?.avatar || undefined} />
+                      <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs">
+                        {user?.firstName?.[0] || user?.username?.[0] || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <Button variant="ghost" size="icon" onClick={() => logout()} className="focus-glow" data-testid="button-logout">
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth" className="hidden sm:block">
+                    <Button variant="ghost" className="focus-glow" data-testid="button-login">
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link href="/dashboard" className="hidden sm:block">
+                    <Button variant="gradient" className="focus-glow" data-testid="button-get-started">
+                      Get Started
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </>
+              )}
               <Button
                 variant="ghost"
                 size="icon"
@@ -219,17 +246,39 @@ export default function Landing() {
                 Shop
               </Link>
               <div className="pt-3 border-t border-white/10 space-y-2">
-                <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full glass border-white/20" data-testid="mobile-button-login">
-                    Log in
-                  </Button>
-                </Link>
-                <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="gradient" className="w-full" data-testid="mobile-button-get-started">
-                    Get Started
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+                {isAuthenticated ? (
+                  <>
+                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="gradient" className="w-full" data-testid="mobile-button-dashboard">
+                        Go to Dashboard
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="outline" 
+                      className="w-full glass border-white/20" 
+                      onClick={() => { logout(); setMobileMenuOpen(false); }}
+                      data-testid="mobile-button-logout"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Log out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="outline" className="w-full glass border-white/20" data-testid="mobile-button-login">
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="gradient" className="w-full" data-testid="mobile-button-get-started">
+                        Get Started
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </nav>
           </div>
