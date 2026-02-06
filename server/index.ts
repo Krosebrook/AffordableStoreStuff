@@ -62,8 +62,10 @@ declare module "express-session" {
 }
 
 // Security middleware - helmet for security headers
+// Note: CSP is disabled here because it's configured in client/index.html meta tag
+// This allows for different CSP policies between dev and production builds
 app.use(helmet({
-  contentSecurityPolicy: false, // We'll handle CSP in HTML/production build
+  contentSecurityPolicy: false, // Configured in HTML <meta> tag (client/index.html)
   crossOriginEmbedderPolicy: false, // Allow embedding for development
   hsts: {
     maxAge: 31536000, // 1 year
