@@ -13,6 +13,12 @@ import { pool } from "./db";
 
 // Validate required environment variables
 const requiredEnvVars = ['SESSION_SECRET', 'DATABASE_URL'];
+
+// Add ALLOWED_ORIGINS to required vars in production
+if (process.env.NODE_ENV === 'production') {
+  requiredEnvVars.push('ALLOWED_ORIGINS');
+}
+
 const missingEnvVars = requiredEnvVars.filter(v => !process.env[v]);
 if (missingEnvVars.length > 0) {
   console.error(`❌ Missing required environment variables: ${missingEnvVars.join(', ')}`);
@@ -77,7 +83,16 @@ app.use(helmet({
 // CORS configuration
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
-  : [process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000'];
+  : (process.env.NODE_ENV === 'production' 
+      ? [] // Empty in production - MUST set ALLOWED_ORIGINS
+      : ['http://localhost:5000', 'http://localhost:3000']);
+
+// Validate CORS configuration in production
+if (process.env.NODE_ENV === 'production' && allowedOrigins.length === 0) {
+  console.error('❌ ALLOWED_ORIGINS must be set in production');
+  console.error('Example: ALLOWED_ORIGINS="https://yourdomain.com"');
+  process.exit(1);
+}
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -91,8 +106,13 @@ app.use(cors({
       }
     }
     
-    // Check against allowed origins
-    if (allowedOrigins.some(allowed => origin.startsWith(allowed) || allowed === '*')) {
+    // Check against allowed origins (exact match or wildcard)
+    if (allowedOrigins.includes('*')) {
+      return callback(null, true);
+    }
+    
+    // Use exact match to prevent subdomain attacks
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -193,9 +213,13 @@ app.use((req, res, next) => {
       // Only log response bodies in development, and exclude sensitive data
       if (process.env.NODE_ENV !== 'production' && capturedJsonResponse) {
         // Don't log passwords, tokens, or other sensitive fields
+        // Note: This is a shallow sanitization. For deep objects, consider a recursive approach.
         const safeResponse = { ...capturedJsonResponse };
-        ['password', 'passwordHash', 'token', 'secret', 'apiKey'].forEach(field => {
-          if (safeResponse[field]) safeResponse[field] = '[REDACTED]';
+        const sensitiveFields = ['password', 'passwordHash', 'token', 'secret', 'apiKey', 'sessionId', 'email'];
+        sensitiveFields.forEach(field => {
+          if (field in safeResponse) {
+            safeResponse[field] = '[REDACTED]';
+          }
         });
         logLine += ` :: ${JSON.stringify(safeResponse)}`;
       }
@@ -262,6 +286,8 @@ app.use((req, res, next) => {
   );
 
   // Graceful shutdown handling
+  const shutdownTimeout = parseInt(process.env.SHUTDOWN_TIMEOUT_MS || '10000', 10);
+  
   const shutdown = async (signal: string) => {
     log(`${signal} received, shutting down gracefully...`);
     
@@ -278,11 +304,11 @@ app.use((req, res, next) => {
       process.exit(0);
     });
 
-    // Force shutdown after 10 seconds
+    // Force shutdown after timeout
     setTimeout(() => {
-      console.error('Forced shutdown after timeout');
+      console.error(`Forced shutdown after ${shutdownTimeout}ms timeout`);
       process.exit(1);
-    }, 10000);
+    }, shutdownTimeout);
   };
 
   process.on('SIGTERM', () => shutdown('SIGTERM'));

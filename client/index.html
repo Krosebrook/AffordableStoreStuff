@@ -29,7 +29,11 @@
     <title>FlashFusion - AI-Powered Ecommerce Hub</title>
     
     <!-- Content Security Policy (Production-Safe) -->
-    <!-- In development, vite will inject inline scripts, so we conditionally allow unsafe-eval only for dev builds -->
+    <!-- Note: 'unsafe-inline' is allowed for scripts due to React's inline event handlers -->
+    <!-- and Vite's dev server requirements. For maximum security, consider: -->
+    <!-- 1. Using nonces for inline scripts -->
+    <!-- 2. Refactoring inline handlers to external event listeners -->
+    <!-- 3. Implementing strict-dynamic with nonces -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
       script-src 'self' 'unsafe-inline';
