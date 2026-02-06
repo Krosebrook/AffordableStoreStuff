@@ -110,19 +110,24 @@ export async function registerRoutes(
   // Get current user session (supports both password auth and Replit Auth)
   app.get("/api/auth/me", async (req, res) => {
     try {
-      // Check for password-based auth session first
       let userId = req.session.userId;
+      let oidcEmail: string | undefined;
       
-      // Also check for Replit Auth (passport session)
       if (!userId && req.user && (req.user as any).claims?.sub) {
         userId = (req.user as any).claims.sub;
+        oidcEmail = (req.user as any).claims?.email;
       }
       
       if (!userId) {
         return res.status(401).json({ message: "Not authenticated" });
       }
       
-      const user = await storage.getUser(userId);
+      let user = await storage.getUser(userId);
+      
+      if (!user && oidcEmail) {
+        user = await storage.getUserByEmail(oidcEmail);
+      }
+      
       if (!user) {
         req.session.destroy(() => {});
         return res.status(401).json({ message: "User not found" });
