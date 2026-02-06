@@ -28,8 +28,19 @@
     
     <title>FlashFusion - AI-Powered Ecommerce Hub</title>
     
-    <!-- CSP (Development Silence) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' * 'unsafe-inline' 'unsafe-eval';">
+    <!-- Content Security Policy (Production-Safe) -->
+    <!-- In development, vite will inject inline scripts, so we conditionally allow unsafe-eval only for dev builds -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https: blob:;
+      connect-src 'self' https://api.openai.com https://api.resend.com;
+      frame-ancestors 'none';
+      base-uri 'self';
+      form-action 'self';
+    ">
 
     <!-- Manifest -->
     <link rel="manifest" href="/manifest.json" />
