@@ -134,6 +134,12 @@ FlashFusion is a modern, premium e-commerce platform combining artificial intell
 - **Email**: Resend
 - **WebSocket**: ws library
 
+### Backend Module Layout
+- `server/modules/auth` - Password/session auth API handlers
+- `server/modules/catalog` - Product/category and seed endpoints
+- `server/modules/cart` - Cart lifecycle endpoints
+- `server/modules/orders` - Order API + pricing domain logic
+
 ### DevOps & Tools
 - **Build Tool**: Vite 7
 - **Package Manager**: npm
