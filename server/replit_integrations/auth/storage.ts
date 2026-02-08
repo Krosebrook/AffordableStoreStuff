@@ -17,14 +17,11 @@ class AuthStorage implements IAuthStorage {
   }
 
   async upsertUser(userData: UpsertUser): Promise<User> {
-    // Generate a unique username for Replit Auth users (they don't have passwords)
     const username = `replit_${userData.id.substring(0, 8)}`;
     
-    // Check if user already exists
     const existingUser = await this.getUser(userData.id);
     
     if (existingUser) {
-      // Update existing user with new Replit Auth data
       const [user] = await db
         .update(users)
         .set({
@@ -38,14 +35,33 @@ class AuthStorage implements IAuthStorage {
       return user;
     }
     
-    // Create new user for Replit Auth (no password required)
+    if (userData.email) {
+      const [existingByEmail] = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, userData.email));
+      
+      if (existingByEmail) {
+        const [user] = await db
+          .update(users)
+          .set({
+            firstName: userData.firstName || existingByEmail.firstName,
+            lastName: userData.lastName || existingByEmail.lastName,
+            avatar: userData.profileImageUrl || existingByEmail.avatar,
+          })
+          .where(eq(users.email, userData.email))
+          .returning();
+        return user;
+      }
+    }
+    
     const [user] = await db
       .insert(users)
       .values({
         id: userData.id,
         username,
         email: userData.email || `${username}@replit.local`,
-        password: "", // Empty password for social auth users
+        password: "",
         firstName: userData.firstName,
         lastName: userData.lastName,
         avatar: userData.profileImageUrl,

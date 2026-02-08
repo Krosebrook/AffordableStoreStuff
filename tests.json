@@ -1,135 +1,967 @@
 {
-  "targetModule": "server/email.ts",
-  "assumptions": [
-    "Target module was not explicitly specified; defaulting to server/email.ts because it contains mixed responsibilities suitable for refactoring.",
-    "Behavior must remain unchanged: sendPasswordResetEmail returns true on successful provider send, false on any error."
-  ],
-  "testSuites": [
+  "module": "server/integrations/ai-service.ts",
+  "description": "Comprehensive test suite for AI Service Layer - unified interface for multiple AI providers with observability, retry logic, circuit breakers, and streaming support",
+  "testCategories": [
     {
-      "name": "getUncacheableResendClient env-token resolution",
-      "type": "unit",
-      "cases": [
+      "category": "Initialization & Configuration",
+      "tests": [
         {
-          "id": "email-client-uses-repl-identity-token",
-          "given": "REPL_IDENTITY is set and WEB_REPL_RENEWAL is unset",
-          "when": "client is initialized",
-          "then": "fetch is called with X_REPLIT_TOKEN header prefixed with 'repl '"
+          "id": "init-001",
+          "name": "Should initialize AIService with OpenAI when API key is present",
+          "given": "OPENAI_API_KEY environment variable is set",
+          "when": "AIService is instantiated",
+          "then": "OpenAI client should be initialized and logger should record 'OpenAI provider initialized'"
         },
         {
-          "id": "email-client-falls-back-to-deployment-token",
-          "given": "REPL_IDENTITY is unset and WEB_REPL_RENEWAL is set",
-          "when": "client is initialized",
-          "then": "fetch is called with X_REPLIT_TOKEN header prefixed with 'depl '"
+          "id": "init-002",
+          "name": "Should handle missing OpenAI API key gracefully",
+          "given": "OPENAI_API_KEY environment variable is not set",
+          "when": "AIService is instantiated",
+          "then": "OpenAI client should be null and logger should record warning 'OpenAI API key not configured'"
         },
         {
-          "id": "email-client-throws-when-no-auth-token",
-          "given": "Neither REPL_IDENTITY nor WEB_REPL_RENEWAL is set",
-          "when": "client is initialized",
-          "then": "an error is thrown and sendPasswordResetEmail resolves to false"
+          "id": "init-003",
+          "name": "Should initialize circuit breakers for all providers",
+          "given": "AIService is instantiated",
+          "when": "Circuit breakers are initialized",
+          "then": "Circuit breakers map should contain entries for: openai, anthropic, gemini, elevenlabs, grok, perplexity with correct thresholds (failureThreshold: 5, successThreshold: 2, timeout: 60000)"
+        },
+        {
+          "id": "init-004",
+          "name": "Should initialize graceful degradation with default fallback response",
+          "given": "AIService is instantiated",
+          "when": "Fallback degradation is initialized",
+          "then": "Fallback response should have success: false, provider: 'openai', type: 'text', error: 'Service temporarily unavailable'"
         }
       ]
     },
     {
-      "name": "getUncacheableResendClient connection payload handling",
-      "type": "unit",
-      "cases": [
+      "category": "OpenAI Provider - Text Generation",
+      "tests": [
         {
-          "id": "email-client-throws-when-connection-items-missing",
-          "given": "fetch returns JSON without items[0]",
-          "when": "client is initialized",
-          "then": "throws 'Resend not connected' and send function returns false"
+          "id": "openai-text-001",
+          "name": "Should generate text successfully with OpenAI using default model",
+          "given": "OpenAI is configured and request type is 'text' with no model specified",
+          "when": "generate() is called with provider 'openai'",
+          "then": "Should call OpenAI with model 'gpt-4o', return success: true, content as string, and usage statistics"
         },
         {
-          "id": "email-client-throws-when-api-key-missing",
-          "given": "fetch returns item but settings.api_key is empty",
-          "when": "client is initialized",
-          "then": "throws 'Resend not connected' and send function returns false"
+          "id": "openai-text-002",
+          "name": "Should generate text with custom model and parameters",
+          "given": "Request specifies model: 'gpt-3.5-turbo', maxTokens: 500, temperature: 0.5",
+          "when": "generate() is called",
+          "then": "Should pass these parameters to OpenAI API and return successful response"
         },
         {
-          "id": "email-client-returns-provider-and-from-email",
-          "given": "fetch returns valid api_key and optional from_email",
-          "when": "client is initialized",
-          "then": "Resend client is created with api_key and from_email is propagated"
+          "id": "openai-text-003",
+          "name": "Should handle OpenAI not configured error",
+          "given": "OpenAI client is null (API key not set)",
+          "when": "generate() is called with provider 'openai'",
+          "then": "Should return success: false with error: 'OpenAI API key not configured'"
+        },
+        {
+          "id": "openai-text-004",
+          "name": "Should use default temperature of 0.7 when not specified",
+          "given": "Request does not include temperature parameter",
+          "when": "generate() is called",
+          "then": "Should pass temperature: 0.7 to OpenAI API"
+        },
+        {
+          "id": "openai-text-005",
+          "name": "Should use default maxTokens of 2000 when not specified",
+          "given": "Request does not include maxTokens parameter",
+          "when": "generate() is called",
+          "then": "Should pass max_tokens: 2000 to OpenAI API"
         }
       ]
     },
     {
-      "name": "sendPasswordResetEmail URL selection and encoding",
-      "type": "unit",
-      "cases": [
+      "category": "OpenAI Provider - Image Generation",
+      "tests": [
         {
-          "id": "email-reset-link-prefers-dev-domain",
-          "given": "REPLIT_DEV_DOMAIN and REPLIT_DEPLOYMENT_URL are both set",
-          "when": "sendPasswordResetEmail is called",
-          "then": "reset link uses https://REPLIT_DEV_DOMAIN"
+          "id": "openai-image-001",
+          "name": "Should generate image successfully with default DALL-E 3 model",
+          "given": "Request type is 'image' with no model specified",
+          "when": "generate() is called with provider 'openai'",
+          "then": "Should call OpenAI images.generate with model 'dall-e-3', return success: true, imageUrl, and metadata with revisedPrompt"
         },
         {
-          "id": "email-reset-link-uses-deployment-url-if-dev-missing",
-          "given": "Only REPLIT_DEPLOYMENT_URL is set",
-          "when": "sendPasswordResetEmail is called",
-          "then": "reset link uses https://REPLIT_DEPLOYMENT_URL"
+          "id": "openai-image-002",
+          "name": "Should use default image size of 1024x1024",
+          "given": "Request does not specify size in options",
+          "when": "generate() is called for image type",
+          "then": "Should pass size: '1024x1024' to OpenAI API"
         },
         {
-          "id": "email-reset-link-falls-back-to-localhost",
-          "given": "Neither REPLIT_DEV_DOMAIN nor REPLIT_DEPLOYMENT_URL is set",
-          "when": "sendPasswordResetEmail is called",
-          "then": "reset link uses http://localhost:5000"
+          "id": "openai-image-003",
+          "name": "Should use custom size when provided",
+          "given": "Request specifies options.size: '512x512'",
+          "when": "generate() is called for image type",
+          "then": "Should pass size: '512x512' to OpenAI API"
         },
         {
-          "id": "email-reset-token-is-url-encoded",
-          "given": "reset token contains reserved URL characters",
-          "when": "sendPasswordResetEmail is called",
-          "then": "token is encoded in both HTML and text email content"
+          "id": "openai-image-004",
+          "name": "Should use default quality of 'standard'",
+          "given": "Request does not specify quality in options",
+          "when": "generate() is called for image type",
+          "then": "Should pass quality: 'standard' to OpenAI API"
+        },
+        {
+          "id": "openai-image-005",
+          "name": "Should handle unsupported generation type for OpenAI",
+          "given": "Request type is 'audio' or other unsupported type",
+          "when": "generate() is called with provider 'openai'",
+          "then": "Should return success: false with error: 'Unsupported generation type: {type}'"
         }
       ]
     },
     {
-      "name": "sendPasswordResetEmail provider payload",
-      "type": "unit",
-      "cases": [
+      "category": "Anthropic Provider",
+      "tests": [
         {
-          "id": "email-send-uses-connector-from-email-when-available",
-          "given": "connection settings include from_email",
-          "when": "emails.send is called",
-          "then": "payload.from equals connector from_email"
+          "id": "anthropic-001",
+          "name": "Should generate text with Anthropic using default model",
+          "given": "ANTHROPIC_API_KEY is set and request type is 'text'",
+          "when": "generate() is called with provider 'anthropic'",
+          "then": "Should call Anthropic API with model 'claude-3-5-sonnet-20241022', return success: true, content, and usage statistics"
         },
         {
-          "id": "email-send-uses-default-from-when-missing",
-          "given": "connection settings omit from_email",
-          "when": "emails.send is called",
-          "then": "payload.from equals 'FlashFusion <noreply@resend.dev>'"
+          "id": "anthropic-002",
+          "name": "Should handle missing Anthropic API key",
+          "given": "ANTHROPIC_API_KEY is not set",
+          "when": "generate() is called with provider 'anthropic'",
+          "then": "Should return success: false with error: 'Anthropic API key not configured'"
         },
         {
-          "id": "email-send-includes-required-fields",
-          "given": "valid invocation",
-          "when": "emails.send is called",
-          "then": "payload includes to, subject, html, and text fields with reset link"
+          "id": "anthropic-003",
+          "name": "Should handle Anthropic API error response",
+          "given": "Anthropic API returns error response",
+          "when": "generate() is called",
+          "then": "Should return success: false with error message from API"
+        },
+        {
+          "id": "anthropic-004",
+          "name": "Should parse Anthropic usage statistics correctly",
+          "given": "Anthropic returns usage.input_tokens and usage.output_tokens",
+          "when": "Response is parsed",
+          "then": "Should map to usage.promptTokens and usage.completionTokens"
+        },
+        {
+          "id": "anthropic-005",
+          "name": "Should reject unsupported generation types for Anthropic",
+          "given": "Request type is not 'text'",
+          "when": "generate() is called with provider 'anthropic'",
+          "then": "Should return success: false with error: 'Unsupported generation type for Anthropic: {type}'"
         }
       ]
     },
     {
-      "name": "sendPasswordResetEmail result contract",
-      "type": "unit",
-      "cases": [
+      "category": "Gemini Provider",
+      "tests": [
         {
-          "id": "email-send-returns-true-on-success",
-          "given": "provider send resolves successfully",
-          "when": "sendPasswordResetEmail is called",
-          "then": "function resolves to true"
+          "id": "gemini-001",
+          "name": "Should generate text with Gemini using default model",
+          "given": "GOOGLE_AI_API_KEY is set and request type is 'text'",
+          "when": "generate() is called with provider 'gemini'",
+          "then": "Should call Gemini API with model 'gemini-1.5-flash', return success: true, content, and usage statistics"
         },
         {
-          "id": "email-send-returns-false-when-fetch-fails",
-          "given": "fetch rejects",
-          "when": "sendPasswordResetEmail is called",
-          "then": "function resolves to false"
+          "id": "gemini-002",
+          "name": "Should handle missing Google AI API key",
+          "given": "GOOGLE_AI_API_KEY is not set",
+          "when": "generate() is called with provider 'gemini'",
+          "then": "Should return success: false with error: 'Google AI API key not configured'"
         },
         {
-          "id": "email-send-returns-false-when-provider-send-fails",
-          "given": "emails.send rejects",
-          "when": "sendPasswordResetEmail is called",
-          "then": "function resolves to false"
+          "id": "gemini-003",
+          "name": "Should handle Gemini API error response",
+          "given": "Gemini API returns error response",
+          "when": "generate() is called",
+          "then": "Should return success: false with error message from API"
+        },
+        {
+          "id": "gemini-004",
+          "name": "Should parse Gemini usage metadata correctly",
+          "given": "Gemini returns usageMetadata.promptTokenCount and usageMetadata.candidatesTokenCount",
+          "when": "Response is parsed",
+          "then": "Should map to usage.promptTokens and usage.completionTokens"
+        },
+        {
+          "id": "gemini-005",
+          "name": "Should reject unsupported generation types for Gemini",
+          "given": "Request type is not 'text'",
+          "when": "generate() is called with provider 'gemini'",
+          "then": "Should return success: false with error: 'Unsupported generation type for Gemini: {type}'"
+        }
+      ]
+    },
+    {
+      "category": "ElevenLabs Provider",
+      "tests": [
+        {
+          "id": "elevenlabs-001",
+          "name": "Should generate audio with ElevenLabs using default voice",
+          "given": "ELEVENLABS_API_KEY is set and request type is 'audio'",
+          "when": "generate() is called with provider 'elevenlabs'",
+          "then": "Should call ElevenLabs API with default voiceId 'EXAVITQu4vr4xnSDxMaL', return success: true, audioUrl as base64 data URL"
+        },
+        {
+          "id": "elevenlabs-002",
+          "name": "Should handle missing ElevenLabs API key",
+          "given": "ELEVENLABS_API_KEY is not set",
+          "when": "generate() is called with provider 'elevenlabs'",
+          "then": "Should return success: false with error: 'ElevenLabs API key not configured'"
+        },
+        {
+          "id": "elevenlabs-003",
+          "name": "Should use custom voice ID when provided",
+          "given": "Request specifies options.voiceId: 'custom-voice-id'",
+          "when": "generate() is called",
+          "then": "Should call ElevenLabs API with the custom voice ID"
+        },
+        {
+          "id": "elevenlabs-004",
+          "name": "Should use default voice settings",
+          "given": "Request does not specify stability or similarityBoost",
+          "when": "generate() is called",
+          "then": "Should pass stability: 0.5 and similarity_boost: 0.75 to ElevenLabs API"
+        },
+        {
+          "id": "elevenlabs-005",
+          "name": "Should reject non-audio generation types for ElevenLabs",
+          "given": "Request type is not 'audio'",
+          "when": "generate() is called with provider 'elevenlabs'",
+          "then": "Should return success: false with error: 'ElevenLabs only supports audio generation'"
+        },
+        {
+          "id": "elevenlabs-006",
+          "name": "Should handle ElevenLabs API error response",
+          "given": "ElevenLabs API returns error",
+          "when": "generate() is called",
+          "then": "Should return success: false with error message from API"
+        }
+      ]
+    },
+    {
+      "category": "Grok Provider",
+      "tests": [
+        {
+          "id": "grok-001",
+          "name": "Should generate text with Grok using default model",
+          "given": "XAI_API_KEY is set and request type is 'text'",
+          "when": "generate() is called with provider 'grok'",
+          "then": "Should call xAI API with model 'grok-beta', return success: true, content, and usage statistics"
+        },
+        {
+          "id": "grok-002",
+          "name": "Should handle missing xAI API key",
+          "given": "XAI_API_KEY is not set",
+          "when": "generate() is called with provider 'grok'",
+          "then": "Should return success: false with error: 'xAI API key not configured'"
+        },
+        {
+          "id": "grok-003",
+          "name": "Should handle Grok API error response",
+          "given": "Grok API returns error response",
+          "when": "generate() is called",
+          "then": "Should return success: false with error message from API"
+        },
+        {
+          "id": "grok-004",
+          "name": "Should reject unsupported generation types for Grok",
+          "given": "Request type is not 'text'",
+          "when": "generate() is called with provider 'grok'",
+          "then": "Should return success: false with error: 'Unsupported generation type for Grok: {type}'"
+        }
+      ]
+    },
+    {
+      "category": "Perplexity Provider",
+      "tests": [
+        {
+          "id": "perplexity-001",
+          "name": "Should generate text with Perplexity using default model",
+          "given": "PERPLEXITY_API_KEY is set and request type is 'text'",
+          "when": "generate() is called with provider 'perplexity'",
+          "then": "Should call Perplexity API with model 'llama-3.1-sonar-small-128k-online', return success: true, content, usage statistics, and metadata with citations"
+        },
+        {
+          "id": "perplexity-002",
+          "name": "Should handle missing Perplexity API key",
+          "given": "PERPLEXITY_API_KEY is not set",
+          "when": "generate() is called with provider 'perplexity'",
+          "then": "Should return success: false with error: 'Perplexity API key not configured'"
+        },
+        {
+          "id": "perplexity-003",
+          "name": "Should include citations in metadata",
+          "given": "Perplexity returns citations in response",
+          "when": "Response is parsed",
+          "then": "Should include citations in metadata.citations field"
+        },
+        {
+          "id": "perplexity-004",
+          "name": "Should handle Perplexity API error response",
+          "given": "Perplexity API returns error response",
+          "when": "generate() is called",
+          "then": "Should return success: false with error message from API"
+        },
+        {
+          "id": "perplexity-005",
+          "name": "Should reject unsupported generation types for Perplexity",
+          "given": "Request type is not 'text'",
+          "when": "generate() is called with provider 'perplexity'",
+          "then": "Should return success: false with error: 'Unsupported generation type for Perplexity: {type}'"
+        }
+      ]
+    },
+    {
+      "category": "Retry Logic",
+      "tests": [
+        {
+          "id": "retry-001",
+          "name": "Should retry failed requests up to 3 times",
+          "given": "Provider call fails twice then succeeds",
+          "when": "generate() is called",
+          "then": "Should attempt 3 times total and return successful result"
+        },
+        {
+          "id": "retry-002",
+          "name": "Should use exponential backoff for retries",
+          "given": "Provider call fails",
+          "when": "Retry is triggered",
+          "then": "Should wait baseDelayMs (1000ms) * 2^(attempt-1) before each retry"
+        },
+        {
+          "id": "retry-003",
+          "name": "Should log retry attempts",
+          "given": "Provider call fails and retry is triggered",
+          "when": "Retry happens",
+          "then": "Should log warning with attempt number, error message, and delay; should record metric 'ai.retry'"
+        },
+        {
+          "id": "retry-004",
+          "name": "Should fail after max retry attempts",
+          "given": "Provider call fails 3 times",
+          "when": "All retries are exhausted",
+          "then": "Should throw error and return failure response"
+        },
+        {
+          "id": "retry-005",
+          "name": "Should not retry if first attempt succeeds",
+          "given": "Provider call succeeds on first attempt",
+          "when": "generate() is called",
+          "then": "Should not trigger any retries"
+        }
+      ]
+    },
+    {
+      "category": "Circuit Breaker",
+      "tests": [
+        {
+          "id": "circuit-001",
+          "name": "Should execute through circuit breaker when closed",
+          "given": "Circuit breaker is in closed state",
+          "when": "generate() is called",
+          "then": "Should execute request normally and return result"
+        },
+        {
+          "id": "circuit-002",
+          "name": "Should open circuit breaker after failure threshold",
+          "given": "5 consecutive failures occur (failureThreshold: 5)",
+          "when": "Sixth request is made",
+          "then": "Circuit breaker should be open and reject requests"
+        },
+        {
+          "id": "circuit-003",
+          "name": "Should return graceful degradation response when circuit is open",
+          "given": "Circuit breaker is open",
+          "when": "generate() is called",
+          "then": "Should return fallback response with error: 'Service temporarily unavailable (circuit breaker open)' and record metric 'ai.circuit_breaker.reject'"
+        },
+        {
+          "id": "circuit-004",
+          "name": "Should close circuit breaker after success threshold",
+          "given": "Circuit breaker is in half-open state and 2 consecutive successes occur (successThreshold: 2)",
+          "when": "Circuit breaker evaluates state",
+          "then": "Circuit breaker should transition to closed state"
+        },
+        {
+          "id": "circuit-005",
+          "name": "Should have separate circuit breakers per provider",
+          "given": "OpenAI circuit breaker is open",
+          "when": "Request is made to Anthropic provider",
+          "then": "Anthropic circuit breaker should be independent and allow requests"
+        }
+      ]
+    },
+    {
+      "category": "Observability & Logging",
+      "tests": [
+        {
+          "id": "obs-001",
+          "name": "Should log generation start with request details",
+          "given": "generate() is called",
+          "when": "Request processing begins",
+          "then": "Should log info with requestId, provider, type, and model"
+        },
+        {
+          "id": "obs-002",
+          "name": "Should log successful generation completion",
+          "given": "Generation succeeds",
+          "when": "Result is returned",
+          "then": "Should log info with duration and token usage"
+        },
+        {
+          "id": "obs-003",
+          "name": "Should log generation failure",
+          "given": "Generation fails",
+          "when": "Error occurs",
+          "then": "Should log error with duration, provider, and error details"
+        },
+        {
+          "id": "obs-004",
+          "name": "Should record duration metric for all generations",
+          "given": "generate() is called",
+          "when": "Request completes (success or failure)",
+          "then": "Should record metric 'ai.generation.duration' with tags: provider, type, success"
+        },
+        {
+          "id": "obs-005",
+          "name": "Should record success metric",
+          "given": "Generation succeeds",
+          "when": "Result is returned",
+          "then": "Should record metric 'ai.generation.success' with provider tag"
+        },
+        {
+          "id": "obs-006",
+          "name": "Should record failure metric",
+          "given": "Generation returns failure response",
+          "when": "Result is returned",
+          "then": "Should record metric 'ai.generation.failure' with provider tag"
+        },
+        {
+          "id": "obs-007",
+          "name": "Should track errors with context",
+          "given": "Exception is thrown",
+          "when": "Error occurs",
+          "then": "Should call trackError with error and context (provider, type, requestId, duration)"
+        },
+        {
+          "id": "obs-008",
+          "name": "Should record error metric",
+          "given": "Exception is thrown",
+          "when": "Error is caught",
+          "then": "Should record metric 'ai.generation.error' with provider tag"
+        }
+      ]
+    },
+    {
+      "category": "Streaming - Setup & Lifecycle",
+      "tests": [
+        {
+          "id": "stream-001",
+          "name": "Should set correct headers for SSE streaming",
+          "given": "generateStream() is called",
+          "when": "Response headers are set",
+          "then": "Should set Content-Type: 'text/event-stream', Cache-Control: 'no-cache', Connection: 'keep-alive', X-Accel-Buffering: 'no'"
+        },
+        {
+          "id": "stream-002",
+          "name": "Should flush headers immediately",
+          "given": "generateStream() is called",
+          "when": "Headers are set",
+          "then": "Should call res.flushHeaders()"
+        },
+        {
+          "id": "stream-003",
+          "name": "Should send start event at beginning",
+          "given": "generateStream() is called",
+          "when": "Streaming begins",
+          "then": "Should send StreamEvent with type: 'start', message: 'Starting generation...'"
+        },
+        {
+          "id": "stream-004",
+          "name": "Should record stream start metric",
+          "given": "generateStream() is called",
+          "when": "Streaming begins",
+          "then": "Should record metric 'ai.stream.start' with provider tag"
+        },
+        {
+          "id": "stream-005",
+          "name": "Should setup abort controller for cancellation",
+          "given": "generateStream() is called",
+          "when": "Streaming initializes",
+          "then": "Should create AbortController and listen for client disconnect"
+        },
+        {
+          "id": "stream-006",
+          "name": "Should send keepalive messages every 15 seconds",
+          "given": "Stream is active",
+          "when": "15 seconds elapse",
+          "then": "Should send ': keepalive\\n\\n' to keep connection alive"
+        },
+        {
+          "id": "stream-007",
+          "name": "Should clear keepalive interval on completion",
+          "given": "Stream completes or errors",
+          "when": "finally block executes",
+          "then": "Should call clearInterval on keepalive timer"
+        },
+        {
+          "id": "stream-008",
+          "name": "Should end response when client is still connected",
+          "given": "Stream completes successfully",
+          "when": "finally block executes",
+          "then": "Should call res.end() if isClientConnected is true"
+        }
+      ]
+    },
+    {
+      "category": "Streaming - Client Disconnect Handling",
+      "tests": [
+        {
+          "id": "stream-disconnect-001",
+          "name": "Should detect client disconnect via response close event",
+          "given": "Client disconnects during streaming",
+          "when": "res.on('close') fires",
+          "then": "Should set isClientConnected to false, abort AbortController, log disconnect, and record 'ai.stream.disconnect' metric"
+        },
+        {
+          "id": "stream-disconnect-002",
+          "name": "Should stop sending events after disconnect",
+          "given": "Client has disconnected",
+          "when": "sendEvent() is called",
+          "then": "Should return false without writing to response"
+        },
+        {
+          "id": "stream-disconnect-003",
+          "name": "Should abort OpenAI stream on disconnect",
+          "given": "Streaming with OpenAI and client disconnects",
+          "when": "Disconnect is detected in stream loop",
+          "then": "Should call stream.controller.abort() and break from loop"
+        },
+        {
+          "id": "stream-disconnect-004",
+          "name": "Should handle disconnect during non-streaming generation",
+          "given": "Using fallback non-streaming generation and client disconnects",
+          "when": "AbortController signal fires",
+          "then": "Should reject abort promise and exit without sending complete event"
+        },
+        {
+          "id": "stream-disconnect-005",
+          "name": "Should log disconnect with duration",
+          "given": "Client disconnects",
+          "when": "close event fires",
+          "then": "Should log info with duration since stream start"
+        }
+      ]
+    },
+    {
+      "category": "Streaming - OpenAI Streaming",
+      "tests": [
+        {
+          "id": "stream-openai-001",
+          "name": "Should use native OpenAI streaming for text generation",
+          "given": "Provider is 'openai', type is 'text', and OpenAI is configured",
+          "when": "generateStream() is called",
+          "then": "Should call streamWithOpenAI() instead of fallback non-streaming"
+        },
+        {
+          "id": "stream-openai-002",
+          "name": "Should send chunk events for each delta from OpenAI",
+          "given": "OpenAI stream returns chunks with delta content",
+          "when": "Chunks are received",
+          "then": "Should send StreamEvent with type: 'chunk', data: delta content, progress: calculated"
+        },
+        {
+          "id": "stream-openai-003",
+          "name": "Should accumulate full content from chunks",
+          "given": "Multiple chunks are received",
+          "when": "Stream processes chunks",
+          "then": "Should concatenate all delta content into fullContent"
+        },
+        {
+          "id": "stream-openai-004",
+          "name": "Should calculate progressive progress values",
+          "given": "Chunks are being received",
+          "when": "Progress is calculated",
+          "then": "Should use formula: min(10 + (chunkCount * 2), 90)"
+        },
+        {
+          "id": "stream-openai-005",
+          "name": "Should send complete event with full content",
+          "given": "OpenAI stream finishes successfully",
+          "when": "All chunks processed",
+          "then": "Should send StreamEvent with type: 'complete', data: fullContent, message: 'Generation complete'"
+        },
+        {
+          "id": "stream-openai-006",
+          "name": "Should record chunk count metric",
+          "given": "OpenAI stream completes",
+          "when": "Stream finishes",
+          "then": "Should record metric 'ai.openai.stream.chunks' with count"
+        },
+        {
+          "id": "stream-openai-007",
+          "name": "Should abort OpenAI stream when signal is aborted",
+          "given": "Abort signal is triggered during streaming",
+          "when": "Stream loop checks signal",
+          "then": "Should break from loop and call stream.controller.abort()"
+        },
+        {
+          "id": "stream-openai-008",
+          "name": "Should handle OpenAI stream errors",
+          "given": "OpenAI stream throws error (not abort)",
+          "when": "Error is caught",
+          "then": "Should log error and re-throw"
+        },
+        {
+          "id": "stream-openai-009",
+          "name": "Should handle abort errors gracefully",
+          "given": "Stream is cancelled via abort",
+          "when": "AbortError is caught",
+          "then": "Should log 'OpenAI stream cancelled' and not throw"
+        }
+      ]
+    },
+    {
+      "category": "Streaming - Fallback Non-Streaming",
+      "tests": [
+        {
+          "id": "stream-fallback-001",
+          "name": "Should use non-streaming fallback for non-OpenAI providers",
+          "given": "Provider is not 'openai' or OpenAI not configured",
+          "when": "generateStream() is called",
+          "then": "Should call generate() method and send result in complete event"
+        },
+        {
+          "id": "stream-fallback-002",
+          "name": "Should send progress event before non-streaming generation",
+          "given": "Using fallback non-streaming",
+          "when": "Generation starts",
+          "then": "Should send StreamEvent with type: 'progress', progress: 10, message: 'Preparing request...'"
+        },
+        {
+          "id": "stream-fallback-003",
+          "name": "Should race generation with abort signal",
+          "given": "Non-streaming generation is in progress",
+          "when": "Client disconnects",
+          "then": "Should abort via Promise.race and exit without sending complete"
+        },
+        {
+          "id": "stream-fallback-004",
+          "name": "Should send progress before finalizing",
+          "given": "Non-streaming generation succeeds",
+          "when": "Result is ready",
+          "then": "Should send StreamEvent with type: 'progress', progress: 90, message: 'Finalizing...'"
+        },
+        {
+          "id": "stream-fallback-005",
+          "name": "Should handle array content in result",
+          "given": "Result.content is string array",
+          "when": "Parsing result",
+          "then": "Should join array with '\\n'"
+        },
+        {
+          "id": "stream-fallback-006",
+          "name": "Should send complete event with full content and usage",
+          "given": "Non-streaming generation succeeds",
+          "when": "Result is processed",
+          "then": "Should send StreamEvent with type: 'complete', data: content, usage: result.usage"
+        },
+        {
+          "id": "stream-fallback-007",
+          "name": "Should send error event on generation failure",
+          "given": "Non-streaming generation returns success: false",
+          "when": "Result is processed",
+          "then": "Should send StreamEvent with type: 'error', message: result.error"
+        },
+        {
+          "id": "stream-fallback-008",
+          "name": "Should record complete metric on success",
+          "given": "Non-streaming generation succeeds",
+          "when": "Complete event is sent",
+          "then": "Should record metrics 'ai.stream.complete' and 'ai.stream.duration'"
+        },
+        {
+          "id": "stream-fallback-009",
+          "name": "Should record failure metric on failure",
+          "given": "Non-streaming generation fails",
+          "when": "Error event is sent",
+          "then": "Should record metric 'ai.stream.failure'"
+        }
+      ]
+    },
+    {
+      "category": "Streaming - Error Handling",
+      "tests": [
+        {
+          "id": "stream-error-001",
+          "name": "Should catch and handle streaming errors",
+          "given": "Exception occurs during streaming",
+          "when": "Error is thrown",
+          "then": "Should catch error, log it, track it, record metric 'ai.stream.error', and send error event"
+        },
+        {
+          "id": "stream-error-002",
+          "name": "Should handle abort errors specially",
+          "given": "AbortError is thrown",
+          "when": "Error is caught",
+          "then": "Should log 'Stream generation aborted', record 'ai.stream.abort' metric, not send error event"
+        },
+        {
+          "id": "stream-error-003",
+          "name": "Should not send error event if client disconnected",
+          "given": "Error occurs after client disconnect",
+          "when": "Error is caught",
+          "then": "Should not call sendEvent for error (client is gone)"
+        },
+        {
+          "id": "stream-error-004",
+          "name": "Should track error with context",
+          "given": "Non-abort error occurs",
+          "when": "Error is caught",
+          "then": "Should call trackError with error and context (provider, type, requestId)"
+        }
+      ]
+    },
+    {
+      "category": "Available Providers Query",
+      "tests": [
+        {
+          "id": "providers-001",
+          "name": "Should return all six providers with availability status",
+          "given": "getAvailableProviders() is called",
+          "when": "Method executes",
+          "then": "Should return array with 6 entries for: openai, anthropic, gemini, elevenlabs, grok, perplexity"
+        },
+        {
+          "id": "providers-002",
+          "name": "Should mark OpenAI as available when API key exists",
+          "given": "OPENAI_API_KEY is set",
+          "when": "getAvailableProviders() is called",
+          "then": "OpenAI entry should have available: true, features: ['text', 'image', 'audio', 'embedding']"
+        },
+        {
+          "id": "providers-003",
+          "name": "Should mark OpenAI as unavailable when API key missing",
+          "given": "OPENAI_API_KEY is not set",
+          "when": "getAvailableProviders() is called",
+          "then": "OpenAI entry should have available: false"
+        },
+        {
+          "id": "providers-004",
+          "name": "Should correctly report Anthropic features",
+          "given": "getAvailableProviders() is called",
+          "when": "Method executes",
+          "then": "Anthropic entry should have features: ['text']"
+        },
+        {
+          "id": "providers-005",
+          "name": "Should correctly report Gemini features",
+          "given": "getAvailableProviders() is called",
+          "when": "Method executes",
+          "then": "Gemini entry should have features: ['text', 'image-analysis']"
+        },
+        {
+          "id": "providers-006",
+          "name": "Should correctly report ElevenLabs features",
+          "given": "getAvailableProviders() is called",
+          "when": "Method executes",
+          "then": "ElevenLabs entry should have features: ['audio']"
+        },
+        {
+          "id": "providers-007",
+          "name": "Should correctly report Grok features",
+          "given": "getAvailableProviders() is called",
+          "when": "Method executes",
+          "then": "Grok entry should have features: ['text']"
+        },
+        {
+          "id": "providers-008",
+          "name": "Should correctly report Perplexity features",
+          "given": "getAvailableProviders() is called",
+          "when": "Method executes",
+          "then": "Perplexity entry should have features: ['text', 'search']"
+        }
+      ]
+    },
+    {
+      "category": "Metrics Summary",
+      "tests": [
+        {
+          "id": "metrics-001",
+          "name": "Should aggregate metrics by name and tags",
+          "given": "Multiple metrics with same name and tags exist",
+          "when": "getMetricsSummary() is called",
+          "then": "Should sum values for identical name+tags combinations"
+        },
+        {
+          "id": "metrics-002",
+          "name": "Should return array of metric summaries",
+          "given": "Metrics exist in the system",
+          "when": "getMetricsSummary() is called",
+          "then": "Should return array with objects containing: name, count, tags"
+        },
+        {
+          "id": "metrics-003",
+          "name": "Should handle empty metrics gracefully",
+          "given": "No metrics have been recorded",
+          "when": "getMetricsSummary() is called",
+          "then": "Should return empty array"
+        }
+      ]
+    },
+    {
+      "category": "Edge Cases & Error Scenarios",
+      "tests": [
+        {
+          "id": "edge-001",
+          "name": "Should handle unknown provider gracefully",
+          "given": "Request specifies invalid provider name",
+          "when": "generate() is called",
+          "then": "Should throw error: 'Unknown provider: {provider}' during retry logic"
+        },
+        {
+          "id": "edge-002",
+          "name": "Should handle empty prompt",
+          "given": "Request has empty string prompt",
+          "when": "generate() is called",
+          "then": "Should pass empty prompt to provider (provider may reject)"
+        },
+        {
+          "id": "edge-003",
+          "name": "Should handle missing optional parameters",
+          "given": "Request does not include model, maxTokens, temperature, options",
+          "when": "generate() is called",
+          "then": "Should use provider-specific defaults for all missing parameters"
+        },
+        {
+          "id": "edge-004",
+          "name": "Should handle temperature of 0",
+          "given": "Request specifies temperature: 0",
+          "when": "generate() is called",
+          "then": "Should pass temperature: 0 (not default to 0.7 since 0 is falsy but valid)"
+        },
+        {
+          "id": "edge-005",
+          "name": "Should handle large maxTokens values",
+          "given": "Request specifies very large maxTokens (e.g., 100000)",
+          "when": "generate() is called",
+          "then": "Should pass value to provider (provider may reject or cap)"
+        },
+        {
+          "id": "edge-006",
+          "name": "Should handle provider API returning unexpected response structure",
+          "given": "Provider returns malformed JSON or missing expected fields",
+          "when": "Response is parsed",
+          "then": "Should handle gracefully, may return empty content or error"
+        },
+        {
+          "id": "edge-007",
+          "name": "Should handle OpenAI stream that immediately closes",
+          "given": "OpenAI stream completes with zero chunks",
+          "when": "Stream processing finishes",
+          "then": "Should send complete event with empty fullContent"
+        },
+        {
+          "id": "edge-008",
+          "name": "Should handle concurrent requests to same provider",
+          "given": "Multiple simultaneous requests to same provider",
+          "when": "generate() is called concurrently",
+          "then": "Each request should be independent with unique requestId and logging"
+        },
+        {
+          "id": "edge-009",
+          "name": "Should handle res.write failure in streaming",
+          "given": "res.write throws exception",
+          "when": "Sending event",
+          "then": "Should catch exception, set isClientConnected to false, return false from sendEvent"
+        },
+        {
+          "id": "edge-010",
+          "name": "Should handle stream.controller.abort failure",
+          "given": "stream.controller.abort() throws exception",
+          "when": "Aborting stream",
+          "then": "Should catch exception in try-catch and continue"
+        }
+      ]
+    },
+    {
+      "category": "Integration & Behavior",
+      "tests": [
+        {
+          "id": "integration-001",
+          "name": "Should maintain request ID throughout request lifecycle",
+          "given": "generate() or generateStream() is called",
+          "when": "Request is processed",
+          "then": "Same requestId should appear in all logs, metrics, and error tracking for that request"
+        },
+        {
+          "id": "integration-002",
+          "name": "Should use child logger with request ID",
+          "given": "Request begins processing",
+          "when": "Logger is created",
+          "then": "Should create child logger with requestId for scoped logging"
+        },
+        {
+          "id": "integration-003",
+          "name": "Should call onEvent callback for each stream event",
+          "given": "generateStream() is called with onEvent callback",
+          "when": "Events are sent",
+          "then": "Should invoke onEvent callback for each event"
+        },
+        {
+          "id": "integration-004",
+          "name": "Should properly export aiService singleton",
+          "given": "Module is imported",
+          "when": "aiService is accessed",
+          "then": "Should provide single shared instance of AIService class"
+        },
+        {
+          "id": "integration-005",
+          "name": "Should be thread-safe for concurrent operations",
+          "given": "Multiple concurrent requests from different users",
+          "when": "Requests are processed simultaneously",
+          "then": "Each request should maintain isolation (requestId, circuit breaker state per provider)"
         }
       ]
     }
+  ],
+  "totalTests": 153,
+  "coverageAreas": [
+    "Provider initialization and configuration",
+    "OpenAI text and image generation",
+    "Anthropic text generation",
+    "Gemini text generation",
+    "ElevenLabs audio generation",
+    "Grok text generation",
+    "Perplexity text generation with citations",
+    "Retry logic with exponential backoff",
+    "Circuit breaker pattern per provider",
+    "Graceful degradation on circuit open",
+    "Comprehensive observability (logging, metrics, error tracking)",
+    "Server-Sent Events streaming",
+    "OpenAI native streaming with chunks",
+    "Fallback non-streaming for other providers",
+    "Client disconnect detection and cleanup",
+    "Abort signal propagation",
+    "Keepalive messages",
+    "Error handling in streaming and non-streaming",
+    "Provider availability query",
+    "Metrics aggregation",
+    "Edge cases and error scenarios",
+    "Request lifecycle and integration"
+  ],
+  "notes": [
+    "All tests are independent and can be run in any order",
+    "Tests cover both happy path and error scenarios",
+    "Edge cases include unusual inputs, network failures, and race conditions",
+    "Each provider has dedicated tests for its unique features and error modes",
+    "Streaming tests cover both OpenAI native streaming and fallback patterns",
+    "Observability tests ensure all operations are properly logged and metered",
+    "Circuit breaker tests verify fault isolation between providers",
+    "All tests should preserve existing behavior - refactoring must not change functionality"
   ]
 }
