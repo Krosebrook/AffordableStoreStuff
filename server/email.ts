@@ -1,54 +1,85 @@
 import { Resend } from 'resend';
 
-async function getUncachableResendClient() {
-  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-  const xReplitToken = process.env.REPL_IDENTITY 
-    ? 'repl ' + process.env.REPL_IDENTITY 
-    : process.env.WEB_REPL_RENEWAL 
-    ? 'depl ' + process.env.WEB_REPL_RENEWAL 
-    : null;
+const DEFAULT_FROM_EMAIL = 'FlashFusion <noreply@resend.dev>';
+const CONNECTION_ENDPOINT_PATH = '/api/v2/connection?include_secrets=true&connector_names=resend';
 
-  if (!xReplitToken) {
-    throw new Error('X_REPLIT_TOKEN not found for repl/depl');
+type ResendConnectionSettings = {
+  settings?: {
+    api_key?: string;
+    from_email?: string;
+  };
+};
+
+type ReplitAuthHeaders = {
+  Accept: 'application/json';
+  X_REPLIT_TOKEN: string;
+};
+
+function resolveReplitToken(): string {
+  if (process.env.REPL_IDENTITY) {
+    return `repl ${process.env.REPL_IDENTITY}`;
   }
 
-  const connectionSettings = await fetch(
-    'https://' + hostname + '/api/v2/connection?include_secrets=true&connector_names=resend',
-    {
-      headers: {
-        'Accept': 'application/json',
-        'X_REPLIT_TOKEN': xReplitToken
-      }
-    }
-  ).then(res => res.json()).then(data => data.items?.[0]);
-
-  if (!connectionSettings || (!connectionSettings.settings.api_key)) {
-    throw new Error('Resend not connected');
+  if (process.env.WEB_REPL_RENEWAL) {
+    return `depl ${process.env.WEB_REPL_RENEWAL}`;
   }
 
+  throw new Error('X_REPLIT_TOKEN not found for repl/depl');
+}
+
+function buildConnectionUrl(): string {
+  return `https://${process.env.REPLIT_CONNECTORS_HOSTNAME}${CONNECTION_ENDPOINT_PATH}`;
+}
+
+function buildAuthHeaders(): ReplitAuthHeaders {
   return {
-    client: new Resend(connectionSettings.settings.api_key),
-    fromEmail: connectionSettings.settings.from_email as string | undefined
+    Accept: 'application/json',
+    X_REPLIT_TOKEN: resolveReplitToken(),
   };
 }
 
-export async function sendPasswordResetEmail(toEmail: string, resetToken: string): Promise<boolean> {
-  try {
-    const { client, fromEmail } = await getUncachableResendClient();
-    
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
-      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-      : process.env.REPLIT_DEPLOYMENT_URL 
-        ? `https://${process.env.REPLIT_DEPLOYMENT_URL}`
-        : 'http://localhost:5000';
-    
-    const resetLink = `${baseUrl}/reset-password?token=${encodeURIComponent(resetToken)}`;
-    
-    const result = await client.emails.send({
-      from: fromEmail || 'FlashFusion <noreply@resend.dev>',
-      to: toEmail,
-      subject: 'Reset Your FlashFusion Password',
-      html: `
+function extractConnectionSettings(payload: { items?: ResendConnectionSettings[] }): ResendConnectionSettings {
+  const connectionSettings = payload.items?.[0];
+
+  if (!connectionSettings?.settings?.api_key) {
+    throw new Error('Resend not connected');
+  }
+
+  return connectionSettings;
+}
+
+function resolveBaseUrl(): string {
+  if (process.env.REPLIT_DEV_DOMAIN) {
+    return `https://${process.env.REPLIT_DEV_DOMAIN}`;
+  }
+
+  if (process.env.REPLIT_DEPLOYMENT_URL) {
+    return `https://${process.env.REPLIT_DEPLOYMENT_URL}`;
+  }
+
+  return 'http://localhost:5000';
+}
+
+function buildResetLink(resetToken: string): string {
+  return `${resolveBaseUrl()}/reset-password?token=${encodeURIComponent(resetToken)}`;
+}
+
+async function getUncachableResendClient() {
+  const response = await fetch(buildConnectionUrl(), {
+    headers: buildAuthHeaders(),
+  });
+
+  const payload = (await response.json()) as { items?: ResendConnectionSettings[] };
+  const connectionSettings = extractConnectionSettings(payload);
+
+  return {
+    client: new Resend(connectionSettings.settings!.api_key),
+    fromEmail: connectionSettings.settings?.from_email,
+  };
+}
+
+function buildEmailContent(resetLink: string): { html: string; text: string } {
+  const html = `
         <!DOCTYPE html>
         <html>
           <head>
@@ -79,8 +110,9 @@ export async function sendPasswordResetEmail(toEmail: string, resetToken: string
             </div>
           </body>
         </html>
-      `,
-      text: `Reset Your FlashFusion Password
+      `;
+
+  const text = `Reset Your FlashFusion Password
 
 We received a request to reset your password. Click the link below to choose a new password. This link will expire in 1 hour.
 
@@ -88,7 +120,23 @@ ${resetLink}
 
 If you didn't request this, you can safely ignore this email. Your password will remain unchanged.
 
-- FlashFusion Team`
+- FlashFusion Team`;
+
+  return { html, text };
+}
+
+export async function sendPasswordResetEmail(toEmail: string, resetToken: string): Promise<boolean> {
+  try {
+    const { client, fromEmail } = await getUncachableResendClient();
+    const resetLink = buildResetLink(resetToken);
+    const { html, text } = buildEmailContent(resetLink);
+
+    await client.emails.send({
+      from: fromEmail || DEFAULT_FROM_EMAIL,
+      to: toEmail,
+      subject: 'Reset Your FlashFusion Password',
+      html,
+      text,
     });
 
     console.log('[Email] Password reset email sent successfully to:', toEmail);
