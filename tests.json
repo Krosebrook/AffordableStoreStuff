@@ -1,0 +1,135 @@
+{
+  "targetModule": "server/email.ts",
+  "assumptions": [
+    "Target module was not explicitly specified; defaulting to server/email.ts because it contains mixed responsibilities suitable for refactoring.",
+    "Behavior must remain unchanged: sendPasswordResetEmail returns true on successful provider send, false on any error."
+  ],
+  "testSuites": [
+    {
+      "name": "getUncachableResendClient env-token resolution",
+      "type": "unit",
+      "cases": [
+        {
+          "id": "email-client-uses-repl-identity-token",
+          "given": "REPL_IDENTITY is set and WEB_REPL_RENEWAL is unset",
+          "when": "client is initialized",
+          "then": "fetch is called with X_REPLIT_TOKEN header prefixed with 'repl '"
+        },
+        {
+          "id": "email-client-falls-back-to-deployment-token",
+          "given": "REPL_IDENTITY is unset and WEB_REPL_RENEWAL is set",
+          "when": "client is initialized",
+          "then": "fetch is called with X_REPLIT_TOKEN header prefixed with 'depl '"
+        },
+        {
+          "id": "email-client-throws-when-no-auth-token",
+          "given": "Neither REPL_IDENTITY nor WEB_REPL_RENEWAL is set",
+          "when": "client is initialized",
+          "then": "an error is thrown and sendPasswordResetEmail resolves to false"
+        }
+      ]
+    },
+    {
+      "name": "getUncachableResendClient connection payload handling",
+      "type": "unit",
+      "cases": [
+        {
+          "id": "email-client-throws-when-connection-items-missing",
+          "given": "fetch returns JSON without items[0]",
+          "when": "client is initialized",
+          "then": "throws 'Resend not connected' and send function returns false"
+        },
+        {
+          "id": "email-client-throws-when-api-key-missing",
+          "given": "fetch returns item but settings.api_key is empty",
+          "when": "client is initialized",
+          "then": "throws 'Resend not connected' and send function returns false"
+        },
+        {
+          "id": "email-client-returns-provider-and-from-email",
+          "given": "fetch returns valid api_key and optional from_email",
+          "when": "client is initialized",
+          "then": "Resend client is created with api_key and from_email is propagated"
+        }
+      ]
+    },
+    {
+      "name": "sendPasswordResetEmail URL selection and encoding",
+      "type": "unit",
+      "cases": [
+        {
+          "id": "email-reset-link-prefers-dev-domain",
+          "given": "REPLIT_DEV_DOMAIN and REPLIT_DEPLOYMENT_URL are both set",
+          "when": "sendPasswordResetEmail is called",
+          "then": "reset link uses https://REPLIT_DEV_DOMAIN"
+        },
+        {
+          "id": "email-reset-link-uses-deployment-url-if-dev-missing",
+          "given": "Only REPLIT_DEPLOYMENT_URL is set",
+          "when": "sendPasswordResetEmail is called",
+          "then": "reset link uses https://REPLIT_DEPLOYMENT_URL"
+        },
+        {
+          "id": "email-reset-link-falls-back-to-localhost",
+          "given": "Neither REPLIT_DEV_DOMAIN nor REPLIT_DEPLOYMENT_URL is set",
+          "when": "sendPasswordResetEmail is called",
+          "then": "reset link uses http://localhost:5000"
+        },
+        {
+          "id": "email-reset-token-is-url-encoded",
+          "given": "reset token contains reserved URL characters",
+          "when": "sendPasswordResetEmail is called",
+          "then": "token is encoded in both HTML and text email content"
+        }
+      ]
+    },
+    {
+      "name": "sendPasswordResetEmail provider payload",
+      "type": "unit",
+      "cases": [
+        {
+          "id": "email-send-uses-connector-from-email-when-available",
+          "given": "connection settings include from_email",
+          "when": "emails.send is called",
+          "then": "payload.from equals connector from_email"
+        },
+        {
+          "id": "email-send-uses-default-from-when-missing",
+          "given": "connection settings omit from_email",
+          "when": "emails.send is called",
+          "then": "payload.from equals 'FlashFusion <noreply@resend.dev>'"
+        },
+        {
+          "id": "email-send-includes-required-fields",
+          "given": "valid invocation",
+          "when": "emails.send is called",
+          "then": "payload includes to, subject, html, and text fields with reset link"
+        }
+      ]
+    },
+    {
+      "name": "sendPasswordResetEmail result contract",
+      "type": "unit",
+      "cases": [
+        {
+          "id": "email-send-returns-true-on-success",
+          "given": "provider send resolves successfully",
+          "when": "sendPasswordResetEmail is called",
+          "then": "function resolves to true"
+        },
+        {
+          "id": "email-send-returns-false-when-fetch-fails",
+          "given": "fetch rejects",
+          "when": "sendPasswordResetEmail is called",
+          "then": "function resolves to false"
+        },
+        {
+          "id": "email-send-returns-false-when-provider-send-fails",
+          "given": "emails.send rejects",
+          "when": "sendPasswordResetEmail is called",
+          "then": "function resolves to false"
+        }
+      ]
+    }
+  ]
+}
