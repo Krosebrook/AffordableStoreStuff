@@ -608,22 +608,39 @@ railway up
 
 ### Production Checklist
 
-Before deploying to production:
+Before deploying to production, complete all items in:
 
+📋 **[PRODUCTION_CHECKLIST.md](./PRODUCTION_CHECKLIST.md)** - Comprehensive pre-deployment checklist
+
+Key requirements:
 - [ ] Set `NODE_ENV=production`
-- [ ] Generate secure `SESSION_SECRET`
-- [ ] Configure production database
-- [ ] Set up SSL/HTTPS
-- [ ] Configure CORS properly
-- [ ] Set up error tracking (e.g., Sentry)
-- [ ] Configure email service
+- [ ] Generate secure `SESSION_SECRET` (min 32 characters)
+- [ ] Configure production database with SSL
+- [ ] Set up HTTPS with automatic redirect
+- [ ] Configure CORS for your domain
+- [ ] Set up rate limiting and security headers
+- [ ] Configure error tracking (e.g., Sentry)
 - [ ] Test all critical paths
-- [ ] Set up monitoring and logging
-- [ ] Configure backups
-- [ ] Review security headers
-- [ ] Optimize assets and bundles
+- [ ] Set up monitoring and health checks
 
-See [DEPLOYMENT_GUIDE.md](./attached_assets/DEPLOYMENT_GUIDE_1769046026910.md) for detailed deployment instructions.
+Additional guides:
+- 🔒 [SECURITY_CONFIGURATION.md](./SECURITY_CONFIGURATION.md) - Security setup guide
+- 📱 [MOBILE_DEPLOYMENT.md](./MOBILE_DEPLOYMENT.md) - Deploy to Google Play Store
+- 📚 [DEPLOYMENT.md](./DEPLOYMENT.md) - Platform-specific deployment
+
+## 📱 Mobile App Deployment
+
+FlashFusion can be deployed as a native Android app on Google Play Store using Trusted Web Activity (TWA).
+
+### Quick Start for Mobile
+
+1. **Deploy web app to production** (Replit recommended)
+2. **Install Bubblewrap**: `npm install -g @bubblewrap/cli`
+3. **Initialize TWA**: `bubblewrap init --manifest https://your-url.com/manifest.json`
+4. **Build and sign**: `bubblewrap build`
+5. **Upload to Play Console**: Upload the `.aab` file
+
+See [MOBILE_DEPLOYMENT.md](./MOBILE_DEPLOYMENT.md) for complete step-by-step instructions.
 
 ## 🤝 Contributing
 
