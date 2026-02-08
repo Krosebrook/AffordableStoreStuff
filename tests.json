@@ -6,7 +6,7 @@
   ],
   "testSuites": [
     {
-      "name": "getUncachableResendClient env-token resolution",
+      "name": "getUncacheableResendClient env-token resolution",
       "type": "unit",
       "cases": [
         {
@@ -30,7 +30,7 @@
       ]
     },
     {
-      "name": "getUncachableResendClient connection payload handling",
+      "name": "getUncacheableResendClient connection payload handling",
       "type": "unit",
       "cases": [
         {

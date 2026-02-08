@@ -28,7 +28,13 @@ function resolveReplitToken(): string {
 }
 
 function buildConnectionUrl(): string {
-  return `https://${process.env.REPLIT_CONNECTORS_HOSTNAME}${CONNECTION_ENDPOINT_PATH}`;
+  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
+
+  if (!hostname) {
+    throw new Error('REPLIT_CONNECTORS_HOSTNAME not found');
+  }
+
+  return `https://${hostname}${CONNECTION_ENDPOINT_PATH}`;
 }
 
 function buildAuthHeaders(): ReplitAuthHeaders {
@@ -38,14 +44,20 @@ function buildAuthHeaders(): ReplitAuthHeaders {
   };
 }
 
-function extractConnectionSettings(payload: { items?: ResendConnectionSettings[] }): ResendConnectionSettings {
+function extractConnectionSettings(payload: { items?: ResendConnectionSettings[] }): {
+  apiKey: string;
+  fromEmail?: string;
+} {
   const connectionSettings = payload.items?.[0];
 
   if (!connectionSettings?.settings?.api_key) {
     throw new Error('Resend not connected');
   }
 
-  return connectionSettings;
+  return {
+    apiKey: connectionSettings.settings.api_key,
+    fromEmail: connectionSettings.settings.from_email,
+  };
 }
 
 function resolveBaseUrl(): string {
@@ -64,17 +76,21 @@ function buildResetLink(resetToken: string): string {
   return `${resolveBaseUrl()}/reset-password?token=${encodeURIComponent(resetToken)}`;
 }
 
-async function getUncachableResendClient() {
+async function getUncacheableResendClient() {
   const response = await fetch(buildConnectionUrl(), {
     headers: buildAuthHeaders(),
   });
 
+  if (!response.ok) {
+    throw new Error(`Failed to fetch connection settings: ${response.status} ${response.statusText}`);
+  }
+
   const payload = (await response.json()) as { items?: ResendConnectionSettings[] };
-  const connectionSettings = extractConnectionSettings(payload);
+  const { apiKey, fromEmail } = extractConnectionSettings(payload);
 
   return {
-    client: new Resend(connectionSettings.settings!.api_key),
-    fromEmail: connectionSettings.settings?.from_email,
+    client: new Resend(apiKey),
+    fromEmail,
   };
 }
 
@@ -127,7 +143,7 @@ If you didn't request this, you can safely ignore this email. Your password will
 
 export async function sendPasswordResetEmail(toEmail: string, resetToken: string): Promise<boolean> {
   try {
-    const { client, fromEmail } = await getUncachableResendClient();
+    const { client, fromEmail } = await getUncacheableResendClient();
     const resetLink = buildResetLink(resetToken);
     const { html, text } = buildEmailContent(resetLink);
 
