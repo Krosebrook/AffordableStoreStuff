@@ -239,6 +239,19 @@ if (error) return <ErrorMessage />;
 ✅ Check resource ownership before modifications
 ✅ Invalidate queries after mutations
 ✅ Log errors with console.error
+
+## Custom Agents
+Use specialized agents for complex tasks:
+- `@ai-integration`: For OpenAI and streaming logic.
+- `@database-drizzle`: For schema and storage layer changes.
+- `@safeguards-validator`: For trademark and moderation logic.
+- `@publishing-pod`: For Printify/Etsy integrations and image processing.
+- `@ui-component-builder`: For Shadcn/UI and Tailwind components.
+- `@api-endpoint-builder`: For Express 5 routes and Zod validation.
+- `@unit-test-writer`: For Vitest server-side tests.
+- `@e2e-test-writer`: For Playwright browser tests.
+- `@state-management`: For TanStack Query patterns.
+- `@pr-description`: For generating standardized PR summaries.
 ✅ Return user-friendly error messages
 
 ## Custom Agents Available

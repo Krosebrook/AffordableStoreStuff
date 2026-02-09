@@ -6,6 +6,10 @@ import {
   orders,
   orderItems,
   passwordResetTokens,
+  publishingQueue,
+  safeguardAuditLog,
+  platformConnections,
+  productConcepts,
   type User,
   type InsertUser,
   type Product,
@@ -20,9 +24,14 @@ import {
   type InsertOrderItem,
   type CartItemWithProduct,
   type OrderWithItems,
+  type PublishingQueueItem,
+  type InsertPublishingQueueItem,
+  type SafeguardAuditEntry,
+  type PlatformConnection,
+  type ProductConcept,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, asc, lte } from "drizzle-orm";
 
 // Password reset token types
 interface PasswordResetToken {
@@ -80,6 +89,20 @@ export interface IStorage {
   markPasswordResetTokenUsed(token: string): Promise<void>;
   deletePasswordResetTokensForUser(userId: string): Promise<void>;
   updateUserPassword(userId: string, hashedPassword: string): Promise<void>;
+
+  // Publishing Queue
+  getPublishingQueue(status?: string): Promise<PublishingQueueItem[]>;
+  getPendingPublishingItems(limit?: number): Promise<PublishingQueueItem[]>;
+  createPublishingQueueItem(item: InsertPublishingQueueItem): Promise<PublishingQueueItem>;
+  updatePublishingQueueItem(id: string, update: Partial<PublishingQueueItem>): Promise<PublishingQueueItem | undefined>;
+
+  // Safeguards & Audits
+  createSafeguardAudit(entry: typeof safeguardAuditLog.$inferInsert): Promise<SafeguardAuditEntry>;
+  getSafeguardAuditLog(productId: string): Promise<SafeguardAuditEntry[]>;
+
+  // Platform Connections
+  getPlatformConnections(userId: string): Promise<PlatformConnection[]>;
+  getPlatformConnection(userId: string, platform: string): Promise<PlatformConnection | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -314,6 +337,56 @@ export class DatabaseStorage implements IStorage {
 
   async updateUserPassword(userId: string, hashedPassword: string): Promise<void> {
     await db.update(users).set({ password: hashedPassword }).where(eq(users.id, userId));
+  }
+
+  // Publishing Queue
+  async getPublishingQueue(status?: string): Promise<PublishingQueueItem[]> {
+    if (status) {
+      return db.select().from(publishingQueue).where(eq(publishingQueue.status, status)).orderBy(desc(publishingQueue.createdAt));
+    }
+    return db.select().from(publishingQueue).orderBy(desc(publishingQueue.createdAt));
+  }
+
+  async getPendingPublishingItems(limit: number = 10): Promise<PublishingQueueItem[]> {
+    return db.select()
+      .from(publishingQueue)
+      .where(and(
+        eq(publishingQueue.status, "pending"),
+        lte(publishingQueue.scheduledFor, new Date())
+      ))
+      .orderBy(desc(publishingQueue.priority), asc(publishingQueue.createdAt))
+      .limit(limit);
+  }
+
+  async createPublishingQueueItem(item: InsertPublishingQueueItem): Promise<PublishingQueueItem> {
+    const [newItem] = await db.insert(publishingQueue).values(item).returning();
+    return newItem;
+  }
+
+  async updatePublishingQueueItem(id: string, update: Partial<PublishingQueueItem>): Promise<PublishingQueueItem | undefined> {
+    const [updated] = await db.update(publishingQueue).set(update).where(eq(publishingQueue.id, id)).returning();
+    return updated || undefined;
+  }
+
+  // Safeguards & Audits
+  async createSafeguardAudit(entry: typeof safeguardAuditLog.$inferInsert): Promise<SafeguardAuditEntry> {
+    const [newEntry] = await db.insert(safeguardAuditLog).values(entry).returning();
+    return newEntry;
+  }
+
+  async getSafeguardAuditLog(productId: string): Promise<SafeguardAuditEntry[]> {
+    return db.select().from(safeguardAuditLog).where(eq(safeguardAuditLog.productId, productId)).orderBy(desc(safeguardAuditLog.assessedAt));
+  }
+
+  // Platform Connections
+  async getPlatformConnections(userId: string): Promise<PlatformConnection[]> {
+    return db.select().from(platformConnections).where(eq(platformConnections.userId, userId));
+  }
+
+  async getPlatformConnection(userId: string, platform: string): Promise<PlatformConnection | undefined> {
+    const [connection] = await db.select().from(platformConnections)
+      .where(and(eq(platformConnections.userId, userId), eq(platformConnections.platform, platform)));
+    return connection || undefined;
   }
 }
 
