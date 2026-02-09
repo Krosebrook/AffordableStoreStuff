@@ -13,6 +13,8 @@ import cartRouter from "./routes/cart-routes";
 import orderRouter from "./routes/order-routes";
 import seedRouter from "./routes/seed-routes";
 import billingRouter from "./routes/billing-routes";
+import publishingQueueRouter from "./routes/publishing-queue-routes";
+import workflowRouter from "./integrations/workflow-routes";
 import ecomTemplatesRouter from "./integrations/ecom-templates";
 
 export async function registerRoutes(
@@ -48,6 +50,8 @@ export async function registerRoutes(
   app.use("/api/orders", orderRouter);
   app.use("/api/seed", seedRouter);
   app.use("/api/billing", billingRouter);
+  app.use("/api/publishing-queue", publishingQueueRouter);
+  app.use("/api/workflows", workflowRouter);
   app.use("/api/integrations/templates", ecomTemplatesRouter);
 
   return httpServer;

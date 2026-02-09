@@ -446,6 +446,489 @@ export function registerIntegrationRoutes(app: Express) {
   });
 
   // ============================================================================
+  // PRINT-ON-DEMAND (POD) - PRINTIFY
+  // ============================================================================
+
+  // Import POD connectors
+  const { printifyConnector } = require('./printify-connector');
+  const { printfulConnector } = require('./printful-connector');
+
+  // Printify OAuth
+  app.get("/api/integrations/pod/printify/oauth/authorize", async (req: Request, res: Response) => {
+    try {
+      const { redirectUri, state } = req.query;
+      const clientId = process.env.PRINTIFY_CLIENT_ID;
+
+      if (!clientId || !redirectUri || !state) {
+        return res.status(400).json({ message: "Missing required parameters" });
+      }
+
+      const authUrl = printifyConnector.generateOAuthUrl({
+        clientId,
+        clientSecret: process.env.PRINTIFY_CLIENT_SECRET || '',
+        redirectUri: String(redirectUri),
+        state: String(state),
+      });
+
+      res.json({ authUrl });
+    } catch (error) {
+      console.error("Printify OAuth authorize error:", error);
+      res.status(500).json({ message: "Failed to generate OAuth URL" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printify/oauth/callback", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { code, redirectUri } = req.body;
+      const clientId = process.env.PRINTIFY_CLIENT_ID;
+      const clientSecret = process.env.PRINTIFY_CLIENT_SECRET;
+
+      if (!clientId || !clientSecret || !code || !redirectUri) {
+        return res.status(400).json({ message: "Missing required parameters" });
+      }
+
+      const tokenData = await printifyConnector.exchangeCodeForToken(
+        { clientId, clientSecret, redirectUri, state: '' },
+        code
+      );
+
+      // Save to database
+      await db
+        .insert(platformConnections)
+        .values({
+          platform: 'printify',
+          accessToken: tokenData.access_token,
+          refreshToken: tokenData.refresh_token,
+          tokenExpiry: new Date(Date.now() + tokenData.expires_in * 1000),
+          status: 'connected',
+        })
+        .onConflictDoUpdate({
+          target: platformConnections.platform,
+          set: {
+            accessToken: tokenData.access_token,
+            refreshToken: tokenData.refresh_token,
+            tokenExpiry: new Date(Date.now() + tokenData.expires_in * 1000),
+            status: 'connected',
+            updatedAt: new Date(),
+          },
+        });
+
+      res.json({ success: true, message: "Printify connected successfully" });
+    } catch (error) {
+      console.error("Printify OAuth callback error:", error);
+      res.status(500).json({ message: "Failed to complete OAuth flow" });
+    }
+  });
+
+  // Printify products
+  app.get("/api/integrations/pod/printify/blueprints", async (_req: Request, res: Response) => {
+    try {
+      const blueprints = await printifyConnector.getBlueprints();
+      res.json(blueprints);
+    } catch (error) {
+      console.error("Get blueprints error:", error);
+      res.status(500).json({ message: "Failed to fetch blueprints" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printify/blueprints/:id/providers", async (req: Request, res: Response) => {
+    try {
+      const blueprintId = parseInt(req.params.id);
+      const providers = await printifyConnector.getPrintProviders(blueprintId);
+      res.json(providers);
+    } catch (error) {
+      console.error("Get print providers error:", error);
+      res.status(500).json({ message: "Failed to fetch print providers" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printify/blueprints/:blueprintId/providers/:providerId/variants", async (req: Request, res: Response) => {
+    try {
+      const blueprintId = parseInt(req.params.blueprintId);
+      const providerId = parseInt(req.params.providerId);
+      const variants = await printifyConnector.getVariants(blueprintId, providerId);
+      res.json(variants);
+    } catch (error) {
+      console.error("Get variants error:", error);
+      res.status(500).json({ message: "Failed to fetch variants" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printify/products", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const product = await printifyConnector.createProduct(req.body);
+      res.status(201).json(product);
+    } catch (error) {
+      console.error("Create Printify product error:", error);
+      res.status(500).json({ message: "Failed to create product" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printify/products", async (_req: Request, res: Response) => {
+    try {
+      const products = await printifyConnector.listProducts();
+      res.json(products);
+    } catch (error) {
+      console.error("List Printify products error:", error);
+      res.status(500).json({ message: "Failed to list products" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printify/products/:id", async (req: Request, res: Response) => {
+    try {
+      const product = await printifyConnector.getProduct(req.params.id);
+      res.json(product);
+    } catch (error) {
+      console.error("Get Printify product error:", error);
+      res.status(500).json({ message: "Failed to fetch product" });
+    }
+  });
+
+  app.put("/api/integrations/pod/printify/products/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const product = await printifyConnector.updateProduct(req.params.id, req.body);
+      res.json(product);
+    } catch (error) {
+      console.error("Update Printify product error:", error);
+      res.status(500).json({ message: "Failed to update product" });
+    }
+  });
+
+  app.delete("/api/integrations/pod/printify/products/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      await printifyConnector.deleteProduct(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Delete Printify product error:", error);
+      res.status(500).json({ message: "Failed to delete product" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printify/products/:id/publish", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const result = await printifyConnector.publishProduct(req.params.id);
+      res.json(result);
+    } catch (error) {
+      console.error("Publish Printify product error:", error);
+      res.status(500).json({ message: "Failed to publish product" });
+    }
+  });
+
+  // Printify image upload
+  app.post("/api/integrations/pod/printify/images", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { imageUrl, fileName } = req.body;
+      const result = await printifyConnector.uploadImage(imageUrl, fileName);
+      res.json(result);
+    } catch (error) {
+      console.error("Upload Printify image error:", error);
+      res.status(500).json({ message: "Failed to upload image" });
+    }
+  });
+
+  // Printify cost calculation
+  app.post("/api/integrations/pod/printify/calculate-costs", async (req: Request, res: Response) => {
+    try {
+      const { blueprintId, printProviderId, variantId, retailPrice } = req.body;
+      const costs = await printifyConnector.calculateCosts(
+        blueprintId,
+        printProviderId,
+        variantId,
+        retailPrice
+      );
+      res.json(costs);
+    } catch (error) {
+      console.error("Calculate costs error:", error);
+      res.status(500).json({ message: "Failed to calculate costs" });
+    }
+  });
+
+  // Printify orders
+  app.post("/api/integrations/pod/printify/orders", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const order = await printifyConnector.createOrder(req.body);
+      res.status(201).json(order);
+    } catch (error) {
+      console.error("Create Printify order error:", error);
+      res.status(500).json({ message: "Failed to create order" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printify/orders/:id", async (req: Request, res: Response) => {
+    try {
+      const order = await printifyConnector.getOrder(req.params.id);
+      res.json(order);
+    } catch (error) {
+      console.error("Get Printify order error:", error);
+      res.status(500).json({ message: "Failed to fetch order" });
+    }
+  });
+
+  app.delete("/api/integrations/pod/printify/orders/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      await printifyConnector.cancelOrder(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Cancel Printify order error:", error);
+      res.status(500).json({ message: "Failed to cancel order" });
+    }
+  });
+
+  // Printify inventory sync
+  app.post("/api/integrations/pod/printify/sync", requireAuth, async (_req: Request, res: Response) => {
+    try {
+      const result = await printifyConnector.syncInventory();
+      res.json(result);
+    } catch (error) {
+      console.error("Printify inventory sync error:", error);
+      res.status(500).json({ message: "Failed to sync inventory" });
+    }
+  });
+
+  // Printify webhooks
+  app.post("/api/integrations/pod/printify/webhooks/register", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { webhookUrl } = req.body;
+      const result = await printifyConnector.registerWebhook(webhookUrl);
+      res.json(result);
+    } catch (error) {
+      console.error("Register Printify webhook error:", error);
+      res.status(500).json({ message: "Failed to register webhook" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printify/webhooks", async (req: Request, res: Response) => {
+    try {
+      await printifyConnector.handleWebhook(req.body);
+      res.status(200).json({ received: true });
+    } catch (error) {
+      console.error("Process Printify webhook error:", error);
+      res.status(500).json({ message: "Failed to process webhook" });
+    }
+  });
+
+  // ============================================================================
+  // PRINT-ON-DEMAND (POD) - PRINTFUL
+  // ============================================================================
+
+  // Printful catalog
+  app.get("/api/integrations/pod/printful/catalog", async (_req: Request, res: Response) => {
+    try {
+      const products = await printfulConnector.getCatalogProducts();
+      res.json(products);
+    } catch (error) {
+      console.error("Get Printful catalog error:", error);
+      res.status(500).json({ message: "Failed to fetch catalog" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printful/catalog/:id", async (req: Request, res: Response) => {
+    try {
+      const productId = parseInt(req.params.id);
+      const product = await printfulConnector.getCatalogProduct(productId);
+      res.json(product);
+    } catch (error) {
+      console.error("Get Printful catalog product error:", error);
+      res.status(500).json({ message: "Failed to fetch catalog product" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printful/catalog/:id/variants", async (req: Request, res: Response) => {
+    try {
+      const productId = parseInt(req.params.id);
+      const variants = await printfulConnector.getCatalogVariants(productId);
+      res.json(variants);
+    } catch (error) {
+      console.error("Get Printful catalog variants error:", error);
+      res.status(500).json({ message: "Failed to fetch catalog variants" });
+    }
+  });
+
+  // Printful sync products
+  app.get("/api/integrations/pod/printful/products", async (_req: Request, res: Response) => {
+    try {
+      const products = await printfulConnector.getSyncProducts();
+      res.json(products);
+    } catch (error) {
+      console.error("List Printful products error:", error);
+      res.status(500).json({ message: "Failed to list products" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printful/products/:id", async (req: Request, res: Response) => {
+    try {
+      const syncProductId = parseInt(req.params.id);
+      const product = await printfulConnector.getSyncProduct(syncProductId);
+      res.json(product);
+    } catch (error) {
+      console.error("Get Printful product error:", error);
+      res.status(500).json({ message: "Failed to fetch product" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printful/products", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const product = await printfulConnector.createSyncProduct(req.body);
+      res.status(201).json(product);
+    } catch (error) {
+      console.error("Create Printful product error:", error);
+      res.status(500).json({ message: "Failed to create product" });
+    }
+  });
+
+  app.put("/api/integrations/pod/printful/products/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const syncProductId = parseInt(req.params.id);
+      const product = await printfulConnector.updateSyncProduct(syncProductId, req.body);
+      res.json(product);
+    } catch (error) {
+      console.error("Update Printful product error:", error);
+      res.status(500).json({ message: "Failed to update product" });
+    }
+  });
+
+  app.delete("/api/integrations/pod/printful/products/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const syncProductId = parseInt(req.params.id);
+      await printfulConnector.deleteSyncProduct(syncProductId);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Delete Printful product error:", error);
+      res.status(500).json({ message: "Failed to delete product" });
+    }
+  });
+
+  // Printful orders
+  app.post("/api/integrations/pod/printful/orders", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const order = await printfulConnector.createOrder(req.body);
+      res.status(201).json(order);
+    } catch (error) {
+      console.error("Create Printful order error:", error);
+      res.status(500).json({ message: "Failed to create order" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printful/orders", async (req: Request, res: Response) => {
+    try {
+      const { status, offset, limit } = req.query;
+      const orders = await printfulConnector.getOrders({
+        status: status as string,
+        offset: offset ? parseInt(offset as string) : undefined,
+        limit: limit ? parseInt(limit as string) : undefined,
+      });
+      res.json(orders);
+    } catch (error) {
+      console.error("List Printful orders error:", error);
+      res.status(500).json({ message: "Failed to list orders" });
+    }
+  });
+
+  app.get("/api/integrations/pod/printful/orders/:id", async (req: Request, res: Response) => {
+    try {
+      const order = await printfulConnector.getOrder(req.params.id);
+      res.json(order);
+    } catch (error) {
+      console.error("Get Printful order error:", error);
+      res.status(500).json({ message: "Failed to fetch order" });
+    }
+  });
+
+  app.delete("/api/integrations/pod/printful/orders/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      await printfulConnector.cancelOrder(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Cancel Printful order error:", error);
+      res.status(500).json({ message: "Failed to cancel order" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printful/orders/estimate", async (req: Request, res: Response) => {
+    try {
+      const estimate = await printfulConnector.estimateOrderCosts(req.body);
+      res.json(estimate);
+    } catch (error) {
+      console.error("Estimate Printful order error:", error);
+      res.status(500).json({ message: "Failed to estimate order costs" });
+    }
+  });
+
+  // Printful shipping rates
+  app.post("/api/integrations/pod/printful/shipping/rates", async (req: Request, res: Response) => {
+    try {
+      const rates = await printfulConnector.calculateShippingRates(req.body);
+      res.json(rates);
+    } catch (error) {
+      console.error("Calculate Printful shipping rates error:", error);
+      res.status(500).json({ message: "Failed to calculate shipping rates" });
+    }
+  });
+
+  // Printful inventory sync
+  app.post("/api/integrations/pod/printful/sync", requireAuth, async (_req: Request, res: Response) => {
+    try {
+      const result = await printfulConnector.syncInventory();
+      res.json(result);
+    } catch (error) {
+      console.error("Printful inventory sync error:", error);
+      res.status(500).json({ message: "Failed to sync inventory" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printful/sync/two-way", requireAuth, async (_req: Request, res: Response) => {
+    try {
+      const result = await printfulConnector.twoWayInventorySync();
+      res.json(result);
+    } catch (error) {
+      console.error("Printful two-way sync error:", error);
+      res.status(500).json({ message: "Failed to perform two-way sync" });
+    }
+  });
+
+  // Printful webhooks
+  app.get("/api/integrations/pod/printful/webhooks", async (_req: Request, res: Response) => {
+    try {
+      const webhooks = await printfulConnector.getWebhooks();
+      res.json(webhooks);
+    } catch (error) {
+      console.error("Get Printful webhooks error:", error);
+      res.status(500).json({ message: "Failed to fetch webhooks" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printful/webhooks/register", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { webhookUrl, types } = req.body;
+      const result = await printfulConnector.registerWebhook(webhookUrl, types);
+      res.json(result);
+    } catch (error) {
+      console.error("Register Printful webhook error:", error);
+      res.status(500).json({ message: "Failed to register webhook" });
+    }
+  });
+
+  app.delete("/api/integrations/pod/printful/webhooks/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      await printfulConnector.deleteWebhook(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Delete Printful webhook error:", error);
+      res.status(500).json({ message: "Failed to delete webhook" });
+    }
+  });
+
+  app.post("/api/integrations/pod/printful/webhooks", async (req: Request, res: Response) => {
+    try {
+      await printfulConnector.handleWebhook(req.body);
+      res.status(200).json({ received: true });
+    } catch (error) {
+      console.error("Process Printful webhook error:", error);
+      res.status(500).json({ message: "Failed to process webhook" });
+    }
+  });
+
+  // ============================================================================
   // INTEGRATION STATS
   // ============================================================================
 
