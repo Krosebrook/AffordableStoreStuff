@@ -156,7 +156,7 @@ Documentation contributions are highly valued! 🙏
 ## 🔄 Last Updated
 
 **Date**: January 30, 2026
-**Version**: 2.2.0
+**Version**: 3.0.1
 **Status**: Complete and up-to-date
 
 ---

@@ -1,8 +1,8 @@
-# FlashFusion v2.2 - AI-Powered E-commerce Hub
+# FlashFusion v3.0.1 - AI-Powered E-commerce Hub
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](https://github.com/Krosebrook/AffordableStoreStuff)
+[![Version](https://img.shields.io/badge/version-3.0.1-blue.svg)](https://github.com/Krosebrook/AffordableStoreStuff)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-blue.svg)](https://www.typescriptlang.org/)
@@ -710,16 +710,19 @@ See [CONTRIBUTING.md](./attached_assets/CONTRIBUTING_1769046026910.md) for detai
 
 ## 🗺️ Roadmap
 
-### Current Version: v2.2.0 (January 2026)
+### Current Version: v3.0.1 (February 2026)
 
 Recent additions:
+- ✅ **Merch Studio**: 31 POD products, style presets, text overlay editor
+- ✅ **Social Media Management**: 5-platform support, scheduling, analytics
+- ✅ **Team Collaboration**: Workspaces, RBAC roles, invite system
+- ✅ **Billing**: Stripe integration with 3 subscription tiers
+- ✅ **AI Layer**: Caching, cost tracking, prompt builder
+- ✅ **Ecom Templates**: 6 platform integrations
 - ✅ PWA with offline support
 - ✅ Complete authentication system
-- ✅ AI content generation
-- ✅ Real-time streaming
-- ✅ Email integration
 
-### Upcoming: v2.3.0 (Q1 2026)
+### Upcoming: v3.1.0 (Q1 2026)
 
 - [ ] Platform integrations (Printify, Etsy, Gumroad)
 - [ ] Workflow automation with n8n

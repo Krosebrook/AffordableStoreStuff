@@ -57,7 +57,7 @@ FlashFusion follows [Semantic Versioning](https://semver.org/):
 - **Minor (2.X.0)**: New features, backward-compatible enhancements
 - **Patch (2.2.X)**: Bug fixes, security patches
 
-**Current Version**: v2.2.0 (January 2026)
+**Current Version**: v3.0.1 (February 2026)
 
 ---
 
@@ -980,7 +980,7 @@ navigator.serviceWorker.getRegistrations().then(function(registrations) {
 
 ## Version History
 
-### v2.2.0 (January 2026)
+### v3.0.1 (February 2026)
 
 **New Features**:
 - Mobile-first futuristic UI with iOS-inspired patterns
@@ -1103,4 +1103,4 @@ export function MyComponent({ prop1, prop2 }: Props) {
 ---
 
 *Last Updated: January 2026*  
-*Documentation Version: 2.2.0*
+*Documentation Version: 3.0.1*
