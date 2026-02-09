@@ -1,4 +1,4 @@
-# FlashFusion v3.0.0 API Reference
+# FlashFusion v3.0.1 API Reference
 
 Base URL: `/api`
 
