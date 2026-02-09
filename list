@@ -1,0 +1,21 @@
+Command name argument expected.
+
+[m[1mAvailable command groups for gcloud ai:[m
+
+[m  [1mVertex AI[m
+      custom-jobs             Manage Vertex AI custom jobs.
+      endpoints               Manage Vertex AI endpoints.
+      hp-tuning-jobs          Manage Vertex AI hyperparameter tuning jobs.
+      index-endpoints         Manage Vertex AI index endpoints.
+      indexes                 Manage Vertex AI indexes.
+      model-garden            Interact with and manage resources in Vertex Model
+                              Garden.
+      model-monitoring-jobs   Manage Vertex AI model monitoring jobs.
+      models                  Manage Vertex AI models.
+      operations              Manage Vertex AI operations.
+      persistent-resources    Create and manage Vertex AI persistent resources.
+      tensorboards            Manage Vertex AI Tensorboards.
+
+[m[1mAvailable commands for gcloud ai:[m
+
+[m
