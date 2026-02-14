@@ -5,7 +5,7 @@
 
 import { db } from "../db";
 import { publishingQueue, products, platformConnections, apiRateLimits } from "@shared/schema";
-import { eq, and, or, lte, desc, asc } from "drizzle-orm";
+import { eq, and, or, lte, desc, asc, isNull } from "drizzle-orm";
 
 export type PublishingStatus = "pending" | "processing" | "published" | "failed" | "rejected";
 export type PublishingPriority = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
@@ -176,7 +176,7 @@ export class PublishingQueueService {
           ),
           or(
             lte(publishingQueue.scheduledFor, now),
-            eq(publishingQueue.scheduledFor, null)
+            isNull(publishingQueue.scheduledFor)
           )
         )
       )
@@ -303,7 +303,7 @@ export class PublishingQueueService {
     }
 
     // Check if window has expired (1 minute)
-    const windowAge = now.getTime() - new Date(limit.windowStart).getTime();
+    const windowAge = limit.windowStart ? now.getTime() - new Date(limit.windowStart).getTime() : 60001;
     const windowExpired = windowAge > 60000;
 
     if (windowExpired) {
@@ -334,7 +334,7 @@ export class PublishingQueueService {
       endpoint,
       requestCount: limit.requestCount || 0,
       limitPerMinute,
-      windowStart: new Date(limit.windowStart),
+      windowStart: limit.windowStart ? new Date(limit.windowStart) : now,
       canMakeRequest,
       retryAfterMs,
     };

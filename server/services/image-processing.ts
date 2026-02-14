@@ -80,8 +80,8 @@ export class ImageProcessingService {
       // Use the existing service's processImage method
       const result = await imageProcessingService.processImage(imageUrl, platform, {
         resize: {
-          width: resizeOptions.width,
-          height: resizeOptions.height,
+          width: resizeOptions.width!,
+          height: resizeOptions.height!,
           fit: resizeOptions.fit,
         },
       });
