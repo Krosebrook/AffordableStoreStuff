@@ -19,6 +19,10 @@ import {
 import { eq, and, desc } from "drizzle-orm";
 import { requireAuth } from "../middleware/auth";
 
+// Helper to safely parse route parameters
+const parseParam = (param: string | string[]): string => 
+  Array.isArray(param) ? param[0] : param;
+
 export function registerIntegrationRoutes(app: Express) {
   // ============================================================================
   // CONNECTOR DISCOVERY
@@ -533,7 +537,7 @@ export function registerIntegrationRoutes(app: Express) {
 
   app.get("/api/integrations/pod/printify/blueprints/:id/providers", async (req: Request, res: Response) => {
     try {
-      const blueprintId = parseInt(req.params.id);
+      const blueprintId = parseInt(parseParam(req.params.id));
       const providers = await printifyConnector.getPrintProviders(blueprintId);
       res.json(providers);
     } catch (error) {
@@ -544,8 +548,8 @@ export function registerIntegrationRoutes(app: Express) {
 
   app.get("/api/integrations/pod/printify/blueprints/:blueprintId/providers/:providerId/variants", async (req: Request, res: Response) => {
     try {
-      const blueprintId = parseInt(req.params.blueprintId);
-      const providerId = parseInt(req.params.providerId);
+      const blueprintId = parseInt(parseParam(req.params.blueprintId));
+      const providerId = parseInt(parseParam(req.params.providerId));
       const variants = await printifyConnector.getVariants(blueprintId, providerId);
       res.json(variants);
     } catch (error) {
@@ -724,7 +728,7 @@ export function registerIntegrationRoutes(app: Express) {
 
   app.get("/api/integrations/pod/printful/catalog/:id", async (req: Request, res: Response) => {
     try {
-      const productId = parseInt(req.params.id);
+      const productId = parseInt(parseParam(req.params.id));
       const product = await printfulConnector.getCatalogProduct(productId);
       res.json(product);
     } catch (error) {
@@ -735,7 +739,7 @@ export function registerIntegrationRoutes(app: Express) {
 
   app.get("/api/integrations/pod/printful/catalog/:id/variants", async (req: Request, res: Response) => {
     try {
-      const productId = parseInt(req.params.id);
+      const productId = parseInt(parseParam(req.params.id));
       const variants = await printfulConnector.getCatalogVariants(productId);
       res.json(variants);
     } catch (error) {
@@ -757,7 +761,7 @@ export function registerIntegrationRoutes(app: Express) {
 
   app.get("/api/integrations/pod/printful/products/:id", async (req: Request, res: Response) => {
     try {
-      const syncProductId = parseInt(req.params.id);
+      const syncProductId = parseInt(parseParam(req.params.id));
       const product = await printfulConnector.getSyncProduct(syncProductId);
       res.json(product);
     } catch (error) {
@@ -778,7 +782,7 @@ export function registerIntegrationRoutes(app: Express) {
 
   app.put("/api/integrations/pod/printful/products/:id", requireAuth, async (req: Request, res: Response) => {
     try {
-      const syncProductId = parseInt(req.params.id);
+      const syncProductId = parseInt(parseParam(req.params.id));
       const product = await printfulConnector.updateSyncProduct(syncProductId, req.body);
       res.json(product);
     } catch (error) {
@@ -789,7 +793,7 @@ export function registerIntegrationRoutes(app: Express) {
 
   app.delete("/api/integrations/pod/printful/products/:id", requireAuth, async (req: Request, res: Response) => {
     try {
-      const syncProductId = parseInt(req.params.id);
+      const syncProductId = parseInt(parseParam(req.params.id));
       await printfulConnector.deleteSyncProduct(syncProductId);
       res.status(204).send();
     } catch (error) {
