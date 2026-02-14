@@ -608,21 +608,7 @@ export const ORDER_FULFILLMENT_AUTOMATION: WorkflowTemplate = {
         fromEmail: '={{$env.NOTIFICATION_EMAIL}}',
         toEmail: '={{$json.buyer_email}}',
         subject: 'Order Confirmation - {{$json.receipt_id}}',
-        text: `Dear {{$json.name}},
-
-Thank you for your order! We're excited to let you know that your order has been received and is being processed.
-
-Order Details:
-Order #: {{$json.receipt_id}}
-Items: {{$json.transactions.length}}
-Total: ${{$json.grandtotal}}
-
-Your order will be printed and shipped within 3-5 business days. You'll receive a tracking number once it ships.
-
-If you have any questions, please don't hesitate to reach out.
-
-Best regards,
-The Team`,
+        text: 'Dear {{$json.name}},\n\nThank you for your order! We\'re excited to let you know that your order has been received and is being processed.\n\nOrder Details:\nOrder #: {{$json.receipt_id}}\nItems: {{$json.transactions.length}}\nTotal: ${{$json.grandtotal}}\n\nYour order will be printed and shipped within 3-5 business days. You\'ll receive a tracking number once it ships.\n\nIf you have any questions, please don\'t hesitate to reach out.\n\nBest regards,\nThe Team',
       },
     },
   ],
