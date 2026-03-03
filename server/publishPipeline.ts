@@ -8,6 +8,8 @@ const openai = new OpenAI({
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
 });
 
+const AI_MODEL = process.env.AI_MODEL || "gpt-4o";
+
 interface PublishPipelineResult {
   listingData: ListingData;
   generatedImages: string[];
@@ -156,7 +158,7 @@ export async function generateListingContent(
   const productContext = buildProductContext(product, brandProfile);
 
   const response = await openai.chat.completions.create({
-    model: "gpt-5.2",
+    model: AI_MODEL,
     messages: [
       { role: "system", content: systemPrompt },
       {
