@@ -1,0 +1,53 @@
+<html><head><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body>thoughtful mini-steps:
+1.  **Analyze the User Request:**
+    *   **App Name:** AffordableStoreStuff.
+    *   **Core Content:** Shopping Cart and Checkout screen.
+    *   **Key Elements:**
+        *   List of added items (with quantity selectors and remove buttons).
+        *   'Apply Promo Code' input field.
+        *   Price breakdown (Subtotal, Shipping, Taxes).
+        *   'Proceed to Checkout' button (large).
+        *   'Saved for Later' section.
+    *   **Platform:** iOS mobile.
+    *   **Style:** Expert frontend designer, beautiful UI, Tailwind CSS, dual-mode (light/dark), Material Icons.
+2.  **Design Strategy (iOS specific):**
+    *   Use a clean, card-based layout or a list view typical of iOS apps (Apple Music/Settings style).
+    *   Font: San Francisco (system-ui).
+    *   Colors: Primary (maybe a friendly blue or teal), background light (gray-50/100), background dark (gray-900).
+    *   Icons: Material Symbols (Outlined or Rounded).
+    *   Navigation: Header with "Cart" or "Your Bag". Bottom navigation bar (optional but good for context).
+3.  **Component Breakdown:**
+    *   **Header:** App name or "My Cart" title.
+    *   **Cart Items List:**
+        *   Product image placeholder.
+        *   Name, price, attributes (color/size).
+        *   Quantity selector (plus/minus buttons).
+        *   Remove icon (trash).
+    *   **Promo Code Section:** Inline input + apply button.
+    *   **Order Summary:** Card with line items and bold total.
+    *   **CTA:** Sticky or large floating-style button at the bottom.
+    *   **Saved for Later:** Horizontal scroll or smaller list below.
+4.  **Tailwind Configuration:**
+    *   `primary`: #2563eb (Blue-600) or maybe something "affordable" looking like a soft green/teal? Let's go with a modern Indigo/Blue for trust.
+    *   `background-light`: #f9fafb (gray-50).
+    *   `background-dark`: #111827 (gray-900).
+    *   `fontFamily`: sans-serif (Inter/system).
+    *   `borderRadius`: `16px` for a modern iOS feel.
+5.  **Drafting the HTML Structure:**
+    *   `` with `bg-background-light dark:bg-background-dark`.
+    *   `Main container` with max-width for mobile phone view simulation.
+    *   `Header` with "Cart" title.
+    *   `Section: Cart Items` -&gt; loop-like divs.
+    *   `Section: Promo Code`.
+    *   `Section: Summary`.
+    *   `Section: Saved for Later`.
+6.  **Refining Details:**
+    *   Quantity selectors: `[-] 1 [+]` inside a small pill-shaped container.
+    *   "Proceed to Checkout" should look like a primary action button.
+    *   Prices should be clear and legible.
+    *   Ensure dark mode contrasts are high (gray-400 for secondary text).</body></html>

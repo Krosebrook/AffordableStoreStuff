@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Upload Tutorial: Lighting and Background</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1754cf",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile look if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex items-center justify-center p-0 sm:p-4">
+<!-- Mobile Container -->
+<div class="relative flex h-full min-h-screen w-full max-w-md flex-col bg-background-light dark:bg-background-dark overflow-hidden shadow-2xl sm:rounded-2xl sm:h-[844px] sm:min-h-0">
+<!-- Header / Navigation -->
+<header class="flex items-center justify-between px-6 pt-6 pb-2 z-10">
+<!-- Progress Indicator -->
+<div class="flex items-center gap-2">
+<div class="h-1.5 w-6 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>
+</div>
+<!-- Skip Button -->
+<button class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white text-sm font-bold transition-colors">
+                Skip
+            </button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col relative">
+<!-- Top Half: Visual Illustration -->
+<div class="flex-1 flex items-center justify-center p-6 pb-0">
+<div class="relative w-full h-full max-h-[400px] bg-slate-200 dark:bg-slate-800 rounded-2xl overflow-hidden shadow-inner flex flex-col items-center justify-end">
+<!-- Decorative background gradient inside the card -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-light dark:from-background-dark/80 to-transparent z-10"></div>
+<!-- Main Image -->
+<div class="w-full h-full bg-cover bg-center" data-alt="Illustration of a clean white shirt hanging on a plain wall being photographed" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCL-cS2zY3hnpQHYKyUct36PEqLS_EO1WyT8syBlCvNCjgIq8C18MXkmk495GqVsbIqZLXrv53j3zoFW61rdPs1HXlKwmOVUTiXUKycSmT3JRig-3BQB3zDYuj--OoUiQH8z0EDNk2jXfIkTy2ZzAJn0oNgHMoABGp0mPkkYPblLhrlnILv8G0tP8pSBxVJ0K9A-FEVYTq9XmfvTWOelDx7DIpvj2bgtSEV3_FR1i2WFS4eY8Ysaj1TX1xr9tDHxw_qxWbMg9lrIFhp');"></div>
+<!-- Floating Phone Overlay Element (Simulating the user taking a photo) -->
+<div class="absolute bottom-6 z-20 bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-xl shadow-lg transform translate-y-2">
+<span class="material-symbols-outlined text-white text-4xl">photo_camera</span>
+</div>
+</div>
+</div>
+<!-- Bottom Half: Instructions -->
+<div class="flex flex-col px-6 pt-8 pb-8 z-20 bg-background-light dark:bg-background-dark rounded-t-3xl -mt-4">
+<!-- Title Section -->
+<div class="mb-6 text-center">
+<p class="text-primary font-bold text-xs uppercase tracking-wider mb-2">Step 1: The Setup</p>
+<h1 class="text-slate-900 dark:text-white text-3xl font-extrabold tracking-tight leading-tight">
+                        Perfect Capture
+                    </h1>
+</div>
+<!-- Instruction List -->
+<div class="space-y-6 mb-8">
+<!-- Item 1 -->
+<div class="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm transition-transform hover:scale-[1.02]">
+<div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 dark:bg-primary/20 text-primary">
+<span class="material-symbols-outlined">light_mode</span>
+</div>
+<div>
+<h3 class="text-slate-900 dark:text-white text-base font-bold mb-1">Find good lighting</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                                Ensure natural, bright lighting so colors look accurate. Avoid harsh shadows.
+                            </p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 shadow-sm transition-transform hover:scale-[1.02]">
+<div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 dark:bg-primary/20 text-primary">
+<span class="material-symbols-outlined">crop_free</span>
+</div>
+<div>
+<h3 class="text-slate-900 dark:text-white text-base font-bold mb-1">Use a neutral background</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                                Place item on a flat surface or hang on a plain wall free of clutter.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full py-4 px-6 bg-primary hover:bg-blue-600 text-white text-lg font-bold rounded-xl shadow-lg shadow-primary/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span>Got it</span>
+<span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Detail - AffordableStoreStuff</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10b981", // Emerald 500 for a trustworthy "budget/savings" feel
+                        "background-light": "#f9fafb",
+                        "background-dark": "#111827",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24">
+<div class="h-11 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 flex items-center justify-between px-6">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex items-center space-x-1.5">
+<span class="material-icons-outlined text-base">signal_cellular_alt</span>
+<span class="material-icons-outlined text-base">wifi</span>
+<span class="material-icons-outlined text-base">battery_full</span>
+</div>
+</div>
+<nav class="flex items-center justify-between px-4 py-2 sticky top-11 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
+<button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800">
+<span class="material-icons-outlined">arrow_back_ios_new</span>
+</button>
+<div class="flex space-x-2">
+<button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800">
+<span class="material-icons-outlined">share</span>
+</button>
+<button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800">
+<span class="material-icons-outlined">favorite_border</span>
+</button>
+</div>
+</nav>
+<div class="relative w-full aspect-square bg-white dark:bg-gray-800 overflow-hidden">
+<div class="flex h-full overflow-x-auto snap-x snap-mandatory no-scrollbar">
+<div class="min-w-full h-full snap-center">
+<img alt="Primary product shot of red sports sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbhxzyd3r_3NHK3giqMp8ievN0R-5UEHMAgvQJAgl0hqK6184M4Tdun5qCe0mB86eEXSFgbbkujKUqd2JDPZSl4BvFJk0_XYbdYoiE35aIsc5v7c3qQTZreXVQEGTZuEM2huX0ix0CPS6jI_aB1mXibUl7EN1mw78tY0dAwamjqkhHOpMfJYNsEvWjYprgBgF5xO53Te2_OKhKn7vsLRhPDJ8YRUtPMUXtRQPbWAXTUMnQTF2WzcjBv0kG1l8-BDEXp2WFEGt6egwR"/>
+</div>
+<div class="min-w-full h-full snap-center">
+<img alt="Detailed side view of sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA5wyBjS-ICcAm-Y7ovd3Wx4rLziZAPTxTPj0u96_KOZ4snQwU0RcSMdsmusoB1MHEhEMYmw0MTNhJ2HICN_fxxrCImDnzx4lWRkFGto1a_drywJJLIXFUyt90IIB2OOOtkDIvnViZeAYgOESMEbGWZyucDxFVU1vKTjXbQpq39Ip9cTOtpUrEhwYyy1A6ZXJAYb5I4Cz3WjQm-2EQhckumh1g9kfbQEnvMrtl7uV_-2RQ27-CeVrIyUIcBDaYmfZuQMut-L0Sj_BG"/>
+</div>
+<div class="min-w-full h-full snap-center">
+<img alt="Bottom sole detail of shoes" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwzcGOerGIlVDsjsbSrFtYiDAcZA7kOJwNsszzLfm7rKhnQrikPhF9YUy9sU5508k-I2ntQ_f1viVpkmYYHzZQIyyIxP0mkIUMmDIhQ2RAlsl65hHzj7x1BPVJJvdiVbo6p-s1cBcFyjlz-QqhxyfS5glkpP3Uf6nxK5wEsasDnLGuHEUir8ooA3JzMRGJnCc1sCeKezrhb34EI5znr7mWfDBXdMjXoEMKO67RW3VMbO1GpLslEQ-lZg1TgQCwEqQjEVyCTsEeTbM5"/>
+</div>
+</div>
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-1.5">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+<div class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+</div>
+</div>
+<section class="p-4 space-y-3 bg-white dark:bg-gray-900 rounded-t-3xl -mt-6 relative z-10 shadow-sm">
+<div class="flex items-center space-x-2">
+<span class="bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Flash Sale</span>
+<span class="text-primary text-sm font-semibold">AffordableStoreStuff Exclusive</span>
+</div>
+<h1 class="text-2xl font-bold leading-tight">Ultra-Comfort Pro Runner Sneakers - V3 Limited Edition</h1>
+<div class="flex items-end space-x-3">
+<span class="text-3xl font-black text-primary">$49.99</span>
+<span class="text-lg text-slate-400 dark:text-slate-500 line-through mb-1">$89.00</span>
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-bold mb-1.5">-44% OFF</span>
+</div>
+<div class="flex items-center space-x-4 pt-1">
+<div class="flex items-center">
+<span class="material-icons-outlined text-yellow-400 text-lg">star</span>
+<span class="font-bold ml-1">4.8</span>
+<span class="text-slate-500 dark:text-slate-400 text-sm ml-1">(2.4k reviews)</span>
+</div>
+<div class="h-4 w-px bg-slate-200 dark:bg-slate-700"></div>
+<div class="flex items-center">
+<span class="material-icons-outlined text-slate-400 text-lg">local_shipping</span>
+<span class="text-sm font-medium ml-1">Free Shipping</span>
+</div>
+</div>
+</section>
+<div class="h-2 bg-slate-100 dark:bg-slate-800"></div>
+<section class="bg-white dark:bg-gray-900">
+<details class="group border-b border-slate-100 dark:border-slate-800" open="">
+<summary class="flex items-center justify-between p-4 cursor-pointer list-none">
+<span class="font-bold text-lg">Product Specifications</span>
+<span class="material-icons-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-4 pb-4 space-y-3">
+<div class="grid grid-cols-2 gap-y-3 text-sm">
+<div class="text-slate-500 dark:text-slate-400">Material</div>
+<div class="font-medium">Breathable Mesh &amp; EVA</div>
+<div class="text-slate-500 dark:text-slate-400">Sole</div>
+<div class="font-medium">Anti-slip Rubber</div>
+<div class="text-slate-500 dark:text-slate-400">Closure</div>
+<div class="font-medium">Lace-up</div>
+<div class="text-slate-500 dark:text-slate-400">Weight</div>
+<div class="font-medium">280g (Size 9)</div>
+<div class="text-slate-500 dark:text-slate-400">Country of Origin</div>
+<div class="font-medium">Vietnam</div>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mt-4">
+                    Engineered for daily performance. The V3 Limited Edition features our patented CloudSole technology providing 20% more energy return than previous models.
+                </p>
+</div>
+</details>
+</section>
+<section class="bg-white dark:bg-gray-900 mt-2">
+<div class="p-4 flex items-center justify-between">
+<h2 class="font-bold text-lg">User Reviews</h2>
+<button class="text-primary font-semibold text-sm">View All</button>
+</div>
+<div class="px-4 flex space-x-2 overflow-x-auto no-scrollbar mb-4">
+<img alt="Customer review photo 1" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxMmGJ4rVpWzfUeyHXhyKCvcWBI1UIuL40Egoi4IebhLqsqILeyLx2afg6BfLBWHmPAZdL2MI4jBxaUyhzd-tclJwL0ZEnYL2UFmLp9V646aK0lgVpZkgvoMLY3Lwei3vDGMQNbHuwS5B1D89AKZ4yGOOwhD2uhPgnH7A-yu-sqPVnOJCWbgdjXOzsbUiixFXYh-sH5pxmp9oYhPocD6JOsHewuZK83R_lDZ8Mfvtz9FKnknY2vkvuyPUS_tu4aCJ5J1W2DCF8ZiOS"/>
+<img alt="Customer review photo 2" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIDZh0dIYXfWeRdZfcei9OQZzjkE7mPjxuukL0d8Rcj7nIy8FqtKNhMhvVIGmTosyewE3ZU5yRV0u_8lPq-O4K3Wyva3OoS84uzUeuD8C8nAnhLsZ35AT-mpmocwrOZg72GbA-ndx8kjK1tWUiW3xeaZXAmzVSSxi1PeNCrTygZ0wk2CrxZ-wPHVgzFP65AmMldbgtl-ZtmdNa2VuubUUpzG81mUtqs2rWh9CGjpWmYvwJI5DfXE55qYavpPx8qQnSBPPBlGh80JvB"/>
+<img alt="Customer review photo 3" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK8qOuJr9vaK-t7JZc9pndZDN16KkfuP4SbnC9P_hq8OHjvbz5R2ReKBU9Go7haZ-nKQJISE7v0buhj03RYpdlq0mBW3b6PO9INg6PNEtDHJa9aMaFiUmGNlPRP0Ei7HkTPAP5e4i1-7dzdeq5uCxCl91_9avVfDrCjFK9nRTKvjOX8Bz30Vb-smat6d9XdrUPrgY4UMcvKKF1f9ZksvhTzMPnRbx1G8EYQ2gnz9rcofkTmKSuFhh62ghWsIXJD6CfD4jn-w5HDcgA"/>
+<div class="w-20 h-20 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+<span class="text-xs font-bold text-slate-500">+128</span>
+</div>
+</div>
+<div class="px-4 pb-6 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-2">
+<img alt="User avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXOrVLKPjfmcjdRWfCEvpXdT-I6Q2ZA7BRNCwwHwZWHh2H3jLIHEsETjGg5vQdaoRFvyODeQ6GQkCVaDQ9qy_QElhBCdq4kL-1dHiFNisKHeqDuTb4PoDbK7-a_s0qa0NY6-hIQG_7Pl6CE1haf8ODah9jYCDiJqPiPqMjSFKijwKI6qeDK9PpnBr3Na9PjH7MDzy4hTiE27gTIz3YoMUNmEsmyRCfQXihkkCG5mgZbDOJNkPk5k668JPqkcqaJS0uE32YJ_SI5HNd"/>
+<div>
+<p class="text-xs font-bold">Alex Johnson</p>
+<div class="flex">
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+</div>
+</div>
+</div>
+<span class="text-slate-400 text-[10px]">2 days ago</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-snug">
+                Incredible quality for the price! I was skeptical because of the "budget" focus of the app, but these feel better than my $150 pairs. Super lightweight.
+            </p>
+</div>
+<div class="px-4 py-6 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-2">
+<img alt="User avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_EbRQ9P66TITQ42H_YiBR3LsSx9ZxYyLxhNJ8-0RzzyJodUQD-pDXfizlqSnEjDxzy7o3IQpt1mn3m6PjaknwK3olHS5a1WnbUc3wXW4zLm_h5o7Lr8r-SeMDPmU3xiKwKvTWl1l8_PqKtjyYrOX29ePr_TS3OnZJhbyCuGI1CJwdKoZfkxmjJT1vbJmntck7-MAffQ7RSyuPcQ-xeGDXSIflDIuBg5kDaBg2BvcnPq0W5sc_TfUH0HcrK0wM2wZG9TqSVBulLVJq"/>
+<div>
+<p class="text-xs font-bold">Sarah M.</p>
+<div class="flex">
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-slate-300 text-[10px]">star</span>
+</div>
+</div>
+</div>
+<span class="text-slate-400 text-[10px]">1 week ago</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-snug">
+                Fits perfectly. Shipping took about 4 days to California. Definitely recommend if you want to save money without sacrificing comfort.
+            </p>
+</div>
+</section>
+<section class="bg-white dark:bg-gray-900 mt-2 p-4">
+<h2 class="font-bold text-lg mb-4">You Might Also Like</h2>
+<div class="flex space-x-4 overflow-x-auto no-scrollbar">
+<div class="min-w-[140px] flex-shrink-0">
+<img alt="Blue sports sneakers" class="w-full h-32 object-cover rounded-xl mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKmukQNbzRRuWh24zktWl7oB1uRR2aVVD4dqyb7pPLy8TZDoTjTTJCZVl76eiEXpP5L-58YBim7BdcfhzQBVt-S8uPmy2l_2ISJ5pv7cSEW1xEvqQHYfmukSDiyWYo67il0HwVGhaQD_O4Tqoj9IeEEmKzjRPSnIdG4T2uRH3PKI4HNBDBxsTN6gBAOT9AMlyWz1oo-aWZxU0tuu655vgI10Wz_UvyTVhaz6YVb32kkQ1UD9iODPganVXONSltdTIiZGqhOHssC-BR"/>
+<p class="text-xs font-bold line-clamp-1">Blue Glide Runner</p>
+<p class="text-primary font-black text-sm">$34.99</p>
+</div>
+<div class="min-w-[140px] flex-shrink-0">
+<img alt="Grey casual sneakers" class="w-full h-32 object-cover rounded-xl mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbn6oT_ss1uekD6ifBC7xWoLgnCpnGMVX4NIt1aQilA63k6H6VLVwz3T6m8AW05VUcnBsAkAjZQfWI7PKz6NqPWd55rvTfn-Nv1I0P8AIkFfHZyfS5xCxlF2tbav0KEltJ_gPbGmJ0laPiVcTFWk0jsy2OeFOTU3ioExK2ligjs7bVEHBiKEnLhR8gI6Y0Vf3XVahGIhpPEayfokwmudYRtsssL7VUOqUZTRUAa36h13Jgr2fw2WgtU1KOIKQBUnR4TIlrVvYSw6Cp"/>
+<p class="text-xs font-bold line-clamp-1">Urban Grey Mesh</p>
+<p class="text-primary font-black text-sm">$29.99</p>
+</div>
+<div class="min-w-[140px] flex-shrink-0">
+<img alt="Black walking shoes" class="w-full h-32 object-cover rounded-xl mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM4pWcM0-o9kYFeccVq_e139t_SxFFGTEXWEbdNrjSx0Aiz0N0ul7dvAVZ9XhKIopkf8SSjOW4fsUZZux6zuI48Mm5uUMfdEKQleukWCeBO9y8iwTr5v--2Pw-UMRicebmIT6vqRWc8DIFFE0zVAgmHPu8LpPW6tcIHfjOmRCQ_ohwQ1POoktN0dtKqd0EJhivD89k7dSM6FtnOEWrt0TRj7Xw6APTTHhweMqyrGJPcSJHkXjl1v4rgwsPDUnnXMruDtGW-8RseFyj"/>
+<p class="text-xs font-bold line-clamp-1">Stealth Walk Pro</p>
+<p class="text-primary font-black text-sm">$52.00</p>
+</div>
+</div>
+</section>
+<div class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-4 py-3 pb-8 z-50 flex items-center space-x-3">
+<button class="flex flex-col items-center justify-center text-slate-500 px-2">
+<span class="material-icons-outlined">store</span>
+<span class="text-[10px] font-bold">Store</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 px-2 relative">
+<span class="material-icons-outlined">shopping_cart</span>
+<span class="text-[10px] font-bold">Cart</span>
+<span class="absolute top-0 right-0 bg-primary text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">2</span>
+</button>
+<button class="flex-1 bg-primary text-white font-bold py-4 rounded-2xl active:scale-95 transition-transform flex items-center justify-center space-x-2">
+<span class="material-icons-outlined">add_shopping_cart</span>
+<span>Add to Cart</span>
+</button>
+</div>
+
+</body></html>

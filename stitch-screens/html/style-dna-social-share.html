@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Style DNA Social Share Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;family=Noto+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7317cf",
+                        "background-light": "#f7f6f8",
+                        "background-dark": "#191121",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom utilities for glassmorphism and safe areas */
+        .glass-panel {
+            background: rgba(25, 17, 33, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-sans antialiased overflow-hidden">
+<!-- App Container -->
+<div class="relative flex flex-col h-screen w-full max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl">
+<!-- Header -->
+<div class="flex items-center justify-between p-4 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-white">close</span>
+</button>
+<h2 class="text-lg font-bold font-display tracking-tight text-slate-900 dark:text-white">Share Your Style</h2>
+<button class="text-primary font-bold text-base px-3 py-1 rounded hover:bg-primary/10 transition-colors">
+                Export
+            </button>
+</div>
+<!-- Main Content: Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col items-center justify-center gap-6">
+<!-- The Share Card (Square Aspect Ratio) -->
+<div class="relative w-full aspect-square rounded-xl overflow-hidden shadow-2xl group border border-slate-200 dark:border-slate-800">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-105" data-alt="High fashion model in urban minimalist setting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAsyIiramEf8oUIUMMgfDFP9iI3mY2RuQZorWpLUIAWGc3zyTVmrIXRG9YIwMQa5Y1TPT29y4KFeuHeDZX7oyRknQ7TdmQoNUmp8w3Ve2y3kqiyv1ZbIkf0PNxEdUcze8nPQroKNz6DcEe2gLzMZHDws63OjMKZ8RuWDMK0ZDu4pfbLh_SH9SVVWIx5f8tVdGBQPLnPZeaZAgy3pu1lpY64zybalhoaLXS_Psnz12Kh-lRn4G2S1m8QFx1rq1kdsPv-Ac8nLDcUJajg');">
+<!-- Dark Gradient Overlay for readability -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/80"></div>
+</div>
+<!-- Card Content -->
+<div class="relative z-10 h-full flex flex-col justify-between p-6">
+<!-- Top: Radar Chart & Branding -->
+<div class="flex justify-between items-start">
+<!-- Mini Radar Chart -->
+<div class="glass-panel p-2 rounded-lg size-24 flex items-center justify-center relative">
+<span class="absolute top-1 left-2 text-[8px] uppercase tracking-widest text-slate-300 font-bold">Style DNA</span>
+<svg class="size-full" fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<!-- Radar Background Grid -->
+<circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.1)" stroke-width="1"></circle>
+<circle cx="50" cy="50" r="25" stroke="rgba(255,255,255,0.1)" stroke-width="1"></circle>
+<!-- Radar Shape -->
+<path d="M50 15 L80 40 L65 80 L35 80 L20 40 Z" fill="rgba(115, 23, 207, 0.4)" stroke="#7317cf" stroke-width="2"></path>
+</svg>
+</div>
+<!-- App Icon/Logo (Small) -->
+<div class="text-white opacity-80">
+<span class="material-symbols-outlined text-3xl">asterisk</span>
+</div>
+</div>
+<!-- Center: Main Typography & Palette -->
+<div class="flex flex-col gap-4">
+<div class="glass-panel p-5 rounded-xl border-l-4 border-l-primary backdrop-blur-xl">
+<p class="text-xs font-bold tracking-[0.2em] text-slate-300 uppercase mb-1">The Archetype</p>
+<h1 class="text-3xl sm:text-4xl font-display font-medium text-white leading-tight mb-2">Urban<br/>Minimalist</h1>
+<p class="text-sm font-sans text-slate-300 font-light tracking-wide border-t border-white/10 pt-2 mt-2">
+                                Curated for <span class="text-white font-medium">Jane Doe</span>
+</p>
+<!-- Color Swatches -->
+<div class="flex items-center gap-2 mt-4">
+<div class="size-6 rounded-full shadow-sm ring-1 ring-white/20" style="background-color: #2D2D2D;"></div>
+<div class="size-6 rounded-full shadow-sm ring-1 ring-white/20" style="background-color: #58636D;"></div>
+<div class="size-6 rounded-full shadow-sm ring-1 ring-white/20" style="background-color: #E2E0D8;"></div>
+<div class="size-6 rounded-full shadow-sm ring-1 ring-white/20" style="background-color: #1A237E;"></div>
+<div class="size-6 rounded-full shadow-sm ring-1 ring-white/20" style="background-color: #FFFFFF;"></div>
+<span class="text-[10px] text-slate-400 ml-1 tracking-wider uppercase">Signature Palette</span>
+</div>
+</div>
+</div>
+<!-- Bottom: Footer / QR -->
+<div class="flex justify-between items-end mt-2">
+<div class="flex flex-col gap-1">
+<p class="text-[10px] uppercase tracking-widest text-slate-400">Powered by AI Stylist</p>
+<div class="h-0.5 w-12 bg-primary rounded-full"></div>
+</div>
+<div class="flex items-center gap-3 bg-black/40 p-1.5 pr-3 rounded-lg backdrop-blur-sm border border-white/5">
+<div class="bg-white p-1 rounded-sm">
+<!-- Simulated QR Code -->
+<div class="size-8 grid grid-cols-3 gap-0.5">
+<div class="bg-black col-span-2 row-span-2"></div>
+<div class="bg-black"></div>
+<div class="bg-black"></div>
+<div class="bg-black col-span-2"></div>
+<div class="bg-black"></div>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] text-slate-300 uppercase tracking-wide leading-tight">Scan to</span>
+<span class="text-[10px] text-white font-bold leading-tight">Discover DNA</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Hint Text -->
+<p class="text-slate-500 text-sm text-center px-8">
+                This card is optimized for Instagram stories and Pinterest pins.
+            </p>
+</div>
+<!-- Bottom Action Bar -->
+<div class="bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 p-4 safe-area-bottom">
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Share</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Save Image</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<div class="size-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">link</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Copy Link</span>
+</button>
+</div>
+<!-- Primary CTA -->
+<button class="w-full mt-6 bg-primary hover:bg-primary/90 text-white font-bold py-3.5 px-6 rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+<span>Post to Instagram Story</span>
+<span class="material-symbols-outlined text-lg">arrow_outward</span>
+</button>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Digital Wardrobe Inventory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-background-light dark:bg-background-dark shadow-2xl">
+<!-- Header -->
+<header class="sticky top-0 z-20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="flex items-center gap-3">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+<h1 class="text-xl font-bold leading-tight tracking-tight">My Wardrobe</h1>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+</button>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="px-4 py-3">
+<label class="flex flex-col min-w-40 h-11 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full bg-slate-200 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700">
+<div class="text-slate-500 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 px-3 text-sm font-medium" placeholder="Search your closet..."/>
+<button class="px-3 text-primary">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</label>
+</div>
+<!-- Filter Pills -->
+<div class="flex gap-2 px-4 pb-4 overflow-x-auto hide-scrollbar">
+<button class="flex h-8 shrink-0 items-center justify-center gap-1 rounded-full bg-primary px-4 text-white">
+<span class="text-xs font-semibold uppercase tracking-wider">All</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-2 rounded-full bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300">
+<span class="text-xs font-semibold">Summer</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-2 rounded-full bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300">
+<span class="text-xs font-semibold">Casual</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-2 rounded-full bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300">
+<span class="text-xs font-semibold">Blue</span>
+<div class="size-3 rounded-full bg-blue-500"></div>
+</button>
+</div>
+<!-- Category Tabs -->
+<div class="px-4">
+<div class="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto hide-scrollbar">
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-primary py-3 px-4" href="#">
+<p class="text-sm font-bold text-primary">Tops</p>
+</a>
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-transparent py-3 px-4 text-slate-500" href="#">
+<p class="text-sm font-bold">Bottoms</p>
+</a>
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-transparent py-3 px-4 text-slate-500" href="#">
+<p class="text-sm font-bold">Shoes</p>
+</a>
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-transparent py-3 px-4 text-slate-500" href="#">
+<p class="text-sm font-bold">More</p>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Grid Content -->
+<main class="flex-1 p-4 pb-24 overflow-y-auto">
+<div class="grid grid-cols-2 gap-4">
+<!-- Clothing Item 1 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="White minimalist t-shirt" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal brightness-110" data-alt="White minimalist t-shirt with transparent background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3Yte8zkNruO1z08bX2js_OJET2b7RmY0dddWcjoXsGBxFnGEgEXaaCdOZXIxRhmCsdzeuL0hLd-nYxghAWdiT89qDjWD9EqD2PI8UW5daxu_SLpBxmcXVpo52vzGLUF70mD4A7rBXfiIXqjQ4QW4oZ3855O_Zfaj55kabV_wehYS-RU8XGLjnNO1ZXgeK6qwJOpAe3N-XXf6W0xwhp4JZvgEd9bpzR9UN6R88_DUuNkvg_LUo0fLlGB8ENxkr2ijAZ4yz0Y4AGpFO"/>
+<div class="absolute top-2 right-2 flex size-6 items-center justify-center rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm text-primary">
+<span class="material-symbols-outlined text-[16px] font-bold">auto_awesome</span>
+</div>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Basic White Tee</h3>
+<p class="text-[10px] text-slate-500 font-medium">Cotton • Casual</p>
+</div>
+</div>
+<!-- Clothing Item 2 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Black linen shirt" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Black linen shirt on clean light background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4KVr3gX7O2BBZb41i4IYN0nbHw6EVCSR3R_11TQePy5Z4fsh5b7dmyFZd9KUv5arzjZfHzvZ-hco5WOl1uFfqwZnrSoLAN5UJOlm16q2XAgrB6jCqnkJ5jfMdARv4-_bF_7WcRSvuUFRjGNxDDpzzmsnxN9UHT-Z1UodjBwzf7W1F8wIPyZZQ0YHwaqE_LgcwYtDFgaFdmeDDqfOsYdeuWk3uX65el4i4gxGbzT02RYbqPShodbikkBqhjpfOVBZmVZGfJQbdmTeh"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Linen Overshirt</h3>
+<p class="text-[10px] text-slate-500 font-medium">Linen • Formal</p>
+</div>
+</div>
+<!-- Clothing Item 3 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Denim blue jacket" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Blue denim jacket centered on clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7S5L2rrMaMQi8QlNh5mzjyBVbgPHGDlhKtvXFkSoQ8eioaiRwFyhCXD-7q5TxVd1IhS1FSRgk94Xtl7Xa-L6tx8yLuxNri9Jk9-EMk0M33Xq8Fgwxx5fzffcELI3aMGqEgMlDxyr3g15SaPpbUc7Dj-dgZLI8iL67TJUvIevAcKutsEgpqcd1DxYyL5ynUqcczzogBtNCBPxwzdRFWlYJ0JpZSNTQPdavP1Nr1qXm7yKyZ5YtQ1RqROi3AjrUUzomCrOlTQLM3AC5"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Vintage Denim</h3>
+<p class="text-[10px] text-slate-500 font-medium">Denim • Fall</p>
+</div>
+</div>
+<!-- Clothing Item 4 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Black high neck sweater" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Black turtleneck sweater neatly folded style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_1S3gxG3LZtp7OqkpuxSbvc6Abh_WhBjuw2C9s1ecoTuZMTl-kMqrh7j4rrLaX9Wl8giXyhzHxcSg8uHl0PDmTe1kW0wcXFtFOOufLGFgCuG1CwHee8kOr1kuUL1bErXQ9rgYSKCkDorHSb34scEwJokV8uUIdoPbxREsOT-jraUDFg0ceyzrTvOgxZJZ2anSmfb224CaQYqvsBTbVjYvroIBFNIRhjTNYdDZswsxmOObakrmiHpX9PV2YIyxYVFBGJlRvU-dPGo0"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-amber-500/90 text-[9px] font-bold text-white uppercase">Trending</div>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Merino Turtleneck</h3>
+<p class="text-[10px] text-slate-500 font-medium">Wool • Winter</p>
+</div>
+</div>
+<!-- Clothing Item 5 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Gray hoodie" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Premium gray cotton hoodie background removed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXZY3AI1cuw4iFrJiqW8HhxvXoXCXAaftAYPdtAgnYo-4PYlJyrqZUH1DtgzL5jDL3aaDaYu0BnOKEUf-eCVlP7lQvY8Q4qvG6O5jaEIIIIfmNUezXcCyuSEFq3fC-4LE--ddm6P_SIVPLf_LcocbzExIBeVckh93xieu7pBCPmedM5bxtCRjku4sZmbIDkdHCmJsp9lHrSnkLQu2TZH1mdE5sLpt0N2w15LIQFxIAXrPNc7wQssa-xaJOZqyo7C-b8feaHeK498Om"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Essential Hoodie</h3>
+<p class="text-[10px] text-slate-500 font-medium">Terry • Casual</p>
+</div>
+</div>
+<!-- Clothing Item 6 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Floral shirt" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Bright floral summer shirt transparent background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVCxetD7A_90RnW-y8s_ZjbyXa60joSZgMrJNBs140_RxKID6pWTuMhjs3vU9WQKZAXTLuV00I-_ReEhj_HrRJnLlqoEn6pXWeAElkuVYykwhTgFkRpEZLU-gNMT7wepdp3GxCWcAqvXfb_-M5Y75ubAbMYVCPMnA6VMmksYNRRUSZuKzfEu6p2Yw7_1alISeky95BPIDHWMzu8nimZhhq9Fo5IZU180YVtbBKAOpVvGCnxoUfvMzD_GVeHXfeqldByEu06YbiOmwm"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Tropical Vibes</h3>
+<p class="text-[10px] text-slate-500 font-medium">Silk • Summer</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 flex size-14 items-center justify-center rounded-full bg-primary text-white shadow-xl shadow-primary/40 ring-4 ring-background-light dark:ring-background-dark z-30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="sticky bottom-0 z-40 bg-white/80 dark:bg-background-dark/80 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800">
+<div class="flex h-20 items-center justify-around px-2 pb-2">
+<a class="flex flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">checkroom</span>
+<span class="text-[10px] font-bold">Closet</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">auto_fix_high</span>
+<span class="text-[10px] font-medium">Stylist</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-medium">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

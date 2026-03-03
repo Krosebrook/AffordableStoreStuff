@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Account Dashboard - AffordableStoreStuff</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#2563eb",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">AffordableStoreStuff</h1>
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-icons text-xl leading-none">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-semibold">
+                JD
+            </div>
+</div>
+</header>
+<main class="px-5 py-6 space-y-6">
+<section class="bg-gradient-to-br from-primary to-blue-700 rounded-3xl p-6 shadow-xl shadow-blue-500/20 text-white">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-blue-100 text-sm font-medium">Welcome back, John!</p>
+<h2 class="text-3xl font-bold mt-1">2,450 <span class="text-lg font-normal text-blue-100">Points</span></h2>
+</div>
+<span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Gold Member</span>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<p class="text-xs text-blue-100">550 more points to Platinum</p>
+<button class="text-sm font-semibold flex items-center">
+                    Redeem <span class="material-icons text-sm ml-1">chevron_right</span>
+</button>
+</div>
+<div class="w-full bg-white/20 h-2 rounded-full mt-3 overflow-hidden">
+<div class="bg-white h-full w-[75%] rounded-full"></div>
+</div>
+</section>
+<section class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 transition-active active:scale-95">
+<span class="material-icons text-primary mb-2">favorite_border</span>
+<span class="text-xs font-medium">Wishlist</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 transition-active active:scale-95">
+<span class="material-icons text-primary mb-2">confirmation_number</span>
+<span class="text-xs font-medium">Coupons</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 transition-active active:scale-95">
+<span class="material-icons text-primary mb-2">account_balance_wallet</span>
+<span class="text-xs font-medium">Payments</span>
+</button>
+</section>
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold">Recent Orders</h3>
+<button class="text-primary text-sm font-semibold">See All</button>
+</div>
+<div class="space-y-4">
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Red Nike Sneaker" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJKRXLAQCzQDILCJE0u3FQxrjeDZoqPDDQoln0QeOFKCsf7kJnT7rEK0dEG8Z5EqE_C2Jeh8kbRne52pWMSnFGDmk_cxIG25TRsibY0MBVXu2X0nFg-ZTzqurP8R6kTry0RcPtRIVzgef3Ijdkfx3AL9xplZFkWCicRiqqLS1HBAK8YJ_PNargylrMOc-eAXv60I5VCWLGtvrDb2CQMFCilrF4SBJtiLkQt1asu-LSN5ce7JjNRi_tn4nTNalEd_2hDoszz1n7uirc"/>
+</div>
+<div>
+<h4 class="text-sm font-semibold">Nike Air Max 270</h4>
+<p class="text-xs text-slate-500">Order #882190</p>
+</div>
+</div>
+<span class="text-primary bg-primary/10 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide">In Transit</span>
+</div>
+<div class="relative mt-4 mb-2">
+<div class="flex justify-between items-center relative z-10">
+<div class="w-3 h-3 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="w-3 h-3 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+</div>
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 dark:bg-slate-700 -translate-y-1/2 -z-0"></div>
+<div class="absolute top-1/2 left-0 w-1/2 h-0.5 bg-primary -translate-y-1/2 -z-0"></div>
+</div>
+<div class="flex justify-between text-[10px] text-slate-500 font-medium uppercase mt-2">
+<span>Ordered</span>
+<span>Shipped</span>
+<span>Delivered</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Mechanical Keyboard" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrf2_c-VpP0AzvphhF1WEnL9FKZ59cfX4_0wGa5s1eR_4XyUKz1XPEy_bAJKbuN8dmcUyQkIVE_Blm2KOyfHj8Fr3kHxExn-rrBogXxA18ED0xw3bhHsC4xJankgV2Dd6vOWcrYvhcMNP_eFM5i7W-fNcuixUWYR2HIs8lwFtap5UcKlm7SkJgM-WyA-GOWq--0sjD5HuKtUH6lEsbhEssbJ3rBPJPIEhAt7XI4ycn_GCRMyJAkHXvS-j_irHY6L6H-N19YwpRtcwi"/>
+</div>
+<div>
+<h4 class="text-sm font-semibold">NuPhy Halo65 Keyboard</h4>
+<p class="text-xs text-slate-500">Order #882045</p>
+</div>
+</div>
+<span class="text-green-600 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide">Delivered</span>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold">Recommended for You</h3>
+<button class="text-primary text-sm font-semibold">View All</button>
+</div>
+<div class="flex overflow-x-auto space-x-4 pb-4 hide-scrollbar -mx-5 px-5">
+<div class="min-w-[160px] bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+<div class="h-32 bg-slate-100 dark:bg-slate-700 relative">
+<img alt="Modern Minimalist Watch" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsdLWPSzavpvbFVXyfrdF3Ee_X9JtZUcb3Sn-qj55TSbeVTMzJdIKG3NWQcTyyD18OhfUofNEp8LDhXWNrj8_zAu6cyjZ4JCCDl0E8asQiBF-qYvXrf7bi--CEJ8EsbHNMdz90B_djG4Y9qURMKSvHzPXGH56LA5HK9gAM5EXznQ35eKxND62PbYq7JaEfEC9R8qTjOdhP_KdkbcrxnoJR_7TDzDaU3RkcjYhL_6U7XNWzzedrkjMjscei7lfmTzzmDhoNnpGmjvP0"/>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur rounded-full shadow-sm">
+<span class="material-icons text-rose-500 text-sm">favorite</span>
+</button>
+</div>
+<div class="p-3">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-tight">Tech</p>
+<h4 class="text-sm font-semibold truncate">Minimal Watch</h4>
+<p class="text-primary font-bold mt-1">$120.00</p>
+</div>
+</div>
+<div class="min-w-[160px] bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+<div class="h-32 bg-slate-100 dark:bg-slate-700 relative">
+<img alt="Wireless Headphones" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqlnYFLdTAAlGr-4JjZmarNt5ykvBRM3Q13XiOhvjmRDQ2LkNQwqovMNQ5OXSDVZd0RUcy4F1JceMLEO1WIe1E1_mzISbg4Uolk1S9SFHgm6tvPsAyfsVDPTCwiMCF33phfdqvDPKDMOYHM678Rc0sw898xxppulXKd6YOAjC7Ls62GY_lp51ns_HsM48haawCmaqUZIcOiShX7vjqV_JInKB4G5t1kMs1z5GXeftYV-A8unKeZ3Msm3tbRRU-2lbipHulpib_uSdg"/>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur rounded-full shadow-sm">
+<span class="material-icons text-slate-400 text-sm">favorite_border</span>
+</button>
+</div>
+<div class="p-3">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-tight">Audio</p>
+<h4 class="text-sm font-semibold truncate">Premium Headset</h4>
+<p class="text-primary font-bold mt-1">$299.50</p>
+</div>
+</div>
+<div class="min-w-[160px] bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+<div class="h-32 bg-slate-100 dark:bg-slate-700 relative">
+<img alt="Classic Sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7JEl-0q_CeEs6aTHghbcJ-ZyJHEfrAp5UpC7HCxEXHEqiXl8iGgEBk9tFPc_jFQG4_ytEhe8wfHfw3hpqpEBBjatC5mFVQCEtUMSiruERRFlHyONbOIF11WJU_1GQcalYnlVGQn3eE4Mk2oRASkpuA0-wzbMitdotKLEE0J9egOXwfWw3cukh6zarEtkIEcjLVeDVxlZyFvLS9TtFKftcZC9yJLq0Cr2ptrL1nX-R6Yqpa7U-ocGxjSrhZsy1RdncKFyIE7vkVAUQ"/>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur rounded-full shadow-sm">
+<span class="material-icons text-slate-400 text-sm">favorite_border</span>
+</button>
+</div>
+<div class="p-3">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-tight">Fashion</p>
+<h4 class="text-sm font-semibold truncate">Canvas Shoes</h4>
+<p class="text-primary font-bold mt-1">$45.00</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700">
+<button class="w-full flex items-center justify-between p-4 active:bg-slate-50 dark:active:bg-slate-700 transition-colors">
+<div class="flex items-center">
+<span class="material-icons text-slate-400 mr-3">person_outline</span>
+<span class="text-sm font-medium">Personal Information</span>
+</div>
+<span class="material-icons text-slate-300">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 active:bg-slate-50 dark:active:bg-slate-700 transition-colors">
+<div class="flex items-center">
+<span class="material-icons text-slate-400 mr-3">lock_open</span>
+<span class="text-sm font-medium">Security &amp; Privacy</span>
+</div>
+<span class="material-icons text-slate-300">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 active:bg-slate-50 dark:active:bg-slate-700 transition-colors">
+<div class="flex items-center">
+<span class="material-icons text-slate-400 mr-3">help_outline</span>
+<span class="text-sm font-medium">Customer Support</span>
+</div>
+<span class="material-icons text-slate-300">chevron_right</span>
+</button>
+</section>
+<button class="w-full py-4 text-rose-500 font-bold text-sm bg-rose-50 dark:bg-rose-950/20 rounded-2xl">
+            Log Out
+        </button>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-6 py-3 pb-8 flex justify-between items-center z-50">
+<button class="flex flex-col items-center space-y-1 text-slate-400">
+<span class="material-icons">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-slate-400">
+<span class="material-icons">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-slate-400">
+<span class="material-icons">shopping_bag</span>
+<span class="text-[10px] font-medium">Cart</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-primary">
+<span class="material-icons">person</span>
+<span class="text-[10px] font-medium">Account</span>
+</button>
+</nav>
+<button class="fixed bottom-24 right-4 bg-slate-800 dark:bg-white text-white dark:text-slate-800 p-3 rounded-full shadow-lg z-50" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-icons text-xl leading-none">dark_mode</span>
+</button>
+
+</body></html>

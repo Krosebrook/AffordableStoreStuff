@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Personalized Style Profile Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Noto+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7317cf",
+                        "background-light": "#f7f6f8",
+                        "background-dark": "#191121",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+        }
+        .font-display {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Main Container -->
+<div class="relative flex h-auto min-h-screen w-full max-w-[480px] mx-auto flex-col bg-background-light dark:bg-background-dark overflow-x-hidden shadow-2xl">
+<!-- Header Navigation -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-primary/10">
+<div class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-primary/10 cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<h2 class="font-display text-lg font-bold leading-tight tracking-tight flex-1 text-center">Style Profile</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-full size-10 bg-transparent text-slate-900 dark:text-slate-100 hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto pb-24">
+<!-- Hero Profile Card -->
+<div class="p-4">
+<div class="relative flex flex-col items-stretch justify-start rounded-xl overflow-hidden shadow-lg bg-white dark:bg-slate-800">
+<div class="w-full bg-center bg-no-repeat aspect-[4/5] bg-cover" data-alt="Elegant fashion model in minimalist urban clothing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBRmgFaSmDdrjuxPKoWKdk_AZcY6dz8ecNgM8fGdo0OvKVKCmnBTYdjSI6fLgyNf_tjFDsx0izLp_Em1jh5hlvFRXvQLkfxkpV4Y6v4EOwx03Iox6e4wfRyqHy4JVPvPA2r_p3D6wtia-OOJXA0OpG2KMy_35YC7rbn1AyU0sxoOruRp8E_8wkibB_484lMet0BeD87eJDSF_3s9NtVVhuMTkFuIRhQ8cxYA7UBUvwhhUccNFT-jLNyKbS2gTi_rbL1uU6S3ofHW4bH");'>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+<p class="text-primary/90 text-xs font-bold tracking-[0.2em] uppercase mb-1">Primary Archetype</p>
+<h1 class="font-display text-white text-3xl font-bold leading-tight mb-2">Urban Minimalist</h1>
+<p class="text-white/80 text-sm leading-relaxed max-w-[80%]">
+                                Your style is defined by clean lines, neutral tones, and effortless sophistication.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Style DNA Section -->
+<section class="px-4 py-6">
+<h3 class="font-display text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span> Style DNA
+                </h3>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-primary/5">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Alignment</p>
+<p class="text-4xl font-display font-bold text-primary">92%</p>
+</div>
+<div class="text-right">
+<p class="text-slate-500 text-xs italic">Based on 142 visual matches</p>
+</div>
+</div>
+<!-- Attributes Visualization -->
+<div class="space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Sophistication</span>
+<span class="text-primary">95%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Comfort</span>
+<span class="text-primary">70%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 70%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Trendiness</span>
+<span class="text-primary">45%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Versatility</span>
+<span class="text-primary">88%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Signature Palette Section -->
+<section class="py-6">
+<h3 class="font-display text-xl font-bold px-4 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">palette</span> Signature Palette
+                </h3>
+<div class="flex gap-4 px-4 overflow-x-auto no-scrollbar pb-2">
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#1A1A1A] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Onyx</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#E5E4E2] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Platinum</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#4A4A4A] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Anthracite</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#F5F5F5] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Bone</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#7317cf]/40 border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Dusty Iris</span>
+</div>
+</div>
+</section>
+<!-- Recommended Brands Section -->
+<section class="py-6">
+<div class="flex items-center justify-between px-4 mb-4">
+<h3 class="font-display text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span> Curated Brands
+                    </h3>
+<a class="text-primary text-sm font-semibold" href="#">View All</a>
+</div>
+<div class="flex gap-4 px-4 overflow-x-auto no-scrollbar">
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">C</span>
+</div>
+<span class="text-sm font-medium">Cos</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">T</span>
+</div>
+<span class="text-sm font-medium">Theory</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">J</span>
+</div>
+<span class="text-sm font-medium">Jil Sander</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">A</span>
+</div>
+<span class="text-sm font-medium">Arket</span>
+</div>
+</div>
+</section>
+<!-- Action Button -->
+<div class="p-6">
+<button class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">refresh</span>
+                    Refine Analysis
+                </button>
+</div>
+</div>
+<!-- Bottom NavBar -->
+<div class="fixed bottom-0 w-full max-w-[480px] bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-primary/10 px-4 pb-6 pt-2 flex justify-around">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Home</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">auto_awesome</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Style</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">checkroom</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Closet</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Profile</p>
+</a>
+</div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</body></html>

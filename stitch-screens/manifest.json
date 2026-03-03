@@ -1,0 +1,158 @@
+{
+  "projectId": "15612392003159116408",
+  "fetchedAt": "2026-02-21T17:41:59.128Z",
+  "screens": [
+    {
+      "id": "088e670f981848e2ae4d54471c1de1bd",
+      "name": "style-quiz-step3-lifestyle",
+      "title": "Style Quiz Step 3: Lifestyle and Occasions",
+      "width": "780",
+      "height": "2190",
+      "success": true
+    },
+    {
+      "id": "198df9846d574afd8794fc4bcca51db2",
+      "name": "digital-wardrobe-inventory",
+      "title": "Digital Wardrobe Inventory",
+      "width": "780",
+      "height": "2394",
+      "success": true
+    },
+    {
+      "id": "30b88036c4174d49b3a27960f9967bbd",
+      "name": "style-quiz-step1-aesthetic",
+      "title": "Style Quiz Step 1: Aesthetic Selection",
+      "width": "780",
+      "height": "2184",
+      "success": true
+    },
+    {
+      "id": "49fd09c5f96e404aa18f0ffb1b2e54f9",
+      "name": "style-dna-social-share",
+      "title": "Style DNA Social Share Card",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "71dcb7dfd3b24a89a9761c7820672c5c",
+      "name": "style-profile-summary",
+      "title": "Your Personalized Style Profile Summary",
+      "width": "780",
+      "height": "3196",
+      "success": true
+    },
+    {
+      "id": "731d5721c77a41fdb57435b7782d5da9",
+      "name": "ai-stylist-chat",
+      "title": "Interactive AI Stylist Chat",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "7fced7d61eba444a98d1497448d3b1a4",
+      "name": "shopping-cart-checkout",
+      "title": "Shopping Cart and Checkout",
+      "width": "780",
+      "height": "1800",
+      "success": true
+    },
+    {
+      "id": "883206a13f004b25bf4f156c3d3c067c",
+      "name": "outfit-planner-calendar",
+      "title": "Outfit Planner Calendar",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "8ce7f6df822b4f80b743af4e9288f78e",
+      "name": "ai-stylist-daily-recommendations",
+      "title": "AI Stylist Daily Recommendations",
+      "width": "780",
+      "height": "2520",
+      "success": true
+    },
+    {
+      "id": "92c9b3a24a384af5948c328f444c58d2",
+      "name": "home-screen",
+      "title": "AffordableStoreStuff Home Screen",
+      "width": "780",
+      "height": "2422",
+      "success": true
+    },
+    {
+      "id": "b628969723584bd1a7229bd618f20490",
+      "name": "ai-style-profile-generation",
+      "title": "AI Style Profile Generation",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "b9109d6b51414f4c9d49031222a03a76",
+      "name": "product-detail-view",
+      "title": "Product Detail View",
+      "width": "780",
+      "height": "3620",
+      "success": true
+    },
+    {
+      "id": "ce17d909b3b54466a83b6bf94182d722",
+      "name": "user-account-dashboard",
+      "title": "User Account Dashboard",
+      "width": "780",
+      "height": "2742",
+      "success": true
+    },
+    {
+      "id": "dc9e796e52544ffd9e1d01634061c6f0",
+      "name": "style-profile-summary-alt",
+      "title": "Your Personalized Style Profile Summary",
+      "width": "780",
+      "height": "3104",
+      "success": true
+    },
+    {
+      "id": "e5d35cbfef7741f39bb5b3b703538d83",
+      "name": "style-quiz-step2-color-pattern",
+      "title": "Style Quiz Step 2: Color and Pattern Preferences",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "c03fc78465f449dc95d53160f54dae2f",
+      "name": "style-dna-social-share-dark",
+      "title": "Style DNA Social Share Card - Dark Mode",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "517481d3eb054143b6c54e65c888e858",
+      "name": "upload-tutorial-lighting",
+      "title": "Upload Tutorial: Lighting and Background",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "e13c94c313504a1487785b904f962094",
+      "name": "upload-tutorial-framing",
+      "title": "Upload Tutorial: Framing the Item",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    },
+    {
+      "id": "c9c94fff318547e28fc41f71f4eb5e14",
+      "name": "upload-tutorial-camera-guide",
+      "title": "Upload Tutorial: AI Camera Guide",
+      "width": "780",
+      "height": "1768",
+      "success": true
+    }
+  ]
+}

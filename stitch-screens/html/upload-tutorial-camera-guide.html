@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Upload Tutorial: AI Camera Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7317cf",
+                        "background-light": "#f7f6f8",
+                        "background-dark": "#191121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom styles for the silhouette overlay */
+        .silhouette-overlay {
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><path d="M50,80 Q30,80 30,120 L30,250 Q30,280 50,280 L150,280 Q170,280 170,250 L170,120 Q170,80 150,80 Q130,80 130,50 Q130,20 100,20 Q70,20 70,50 Q70,80 50,80 Z" fill="black" /></svg>');
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg"><path d="M50,80 Q30,80 30,120 L30,250 Q30,280 50,280 L150,280 Q170,280 170,250 L170,120 Q170,80 150,80 Q130,80 130,50 Q130,20 100,20 Q70,20 70,50 Q70,80 50,80 Z" fill="black" /></svg>');
+            mask-size: contain;
+            -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-position: center;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden h-screen w-screen relative">
+<!-- Camera Feed Background (Simulated) -->
+<div class="absolute inset-0 w-full h-full z-0">
+<img alt="Blurred modern bedroom interior with natural light suitable for clothing photography" class="w-full h-full object-cover filter brightness-[0.6]" data-alt="Blurred modern bedroom interior with natural light suitable for clothing photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh0LXrZZevMHU4Q1oBczJFOvRCFVWw-7Yr_c0CK-sEwyRZSvNrHcQWWVTFE42i_uGkMBhY8cM0OGEmfpX9NdRRVAoiD91rVvE0kP9kLQmSV2l65eHraHMFrCfeomrlOtGm25Zc2QmncA0SSly6ZDMefkn_gTIyNt37xE1fomnfDj16ZmohliKmxeNiUeKSrhux76jG7w-wf2B6iU_yrBHSJ_wDHCTQHXbfBCKLHporba1p1RzSSo9rDaboDjMJ6c9aKcXwGECiPppn"/>
+<!-- Gradient Overlay for legibility -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80"></div>
+</div>
+<!-- Main Content Container -->
+<div class="relative z-10 flex flex-col h-full w-full justify-between pb-8 pt-4 safe-area-inset-top safe-area-inset-bottom">
+<!-- Top Bar -->
+<div class="flex items-center justify-between px-6 pt-2">
+<!-- Close Button -->
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-black/20 backdrop-blur-md text-white hover:bg-black/40 transition">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+<!-- Top Actions -->
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-black/20 backdrop-blur-md text-white hover:bg-black/40 transition">
+<span class="material-symbols-outlined text-[24px]">grid_4x4</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-black/20 backdrop-blur-md text-white hover:bg-black/40 transition">
+<span class="material-symbols-outlined text-[24px]">flash_off</span>
+</button>
+</div>
+</div>
+<!-- Central AI Guide Area -->
+<div class="flex-1 flex flex-col items-center justify-center relative w-full px-8">
+<!-- AI Scanning Animation/Effect -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<!-- Outer glow container -->
+<div class="w-[80%] aspect-[3/4] border-2 border-dashed border-primary/50 rounded-3xl relative animate-pulse">
+<!-- Corner markers -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-xl -mt-[2px] -ml-[2px]"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-xl -mt-[2px] -mr-[2px]"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-xl -mb-[2px] -ml-[2px]"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-xl -mb-[2px] -mr-[2px]"></div>
+<!-- Silhouette SVG Overlay -->
+<div class="absolute inset-0 flex items-center justify-center opacity-30">
+<svg class="w-full h-full p-8 text-white" fill="none" stroke="currentColor" stroke-dasharray="8 4" stroke-width="2" viewbox="0 0 200 300">
+<path d="M100,30 C120,30 135,50 145,70 L170,85 C175,88 175,95 170,100 L160,180 C158,190 155,200 155,220 L155,260 C155,270 145,275 135,275 L65,275 C55,275 45,270 45,260 L45,220 C45,200 42,190 40,180 L30,100 C25,95 25,88 30,85 L55,70 C65,50 80,30 100,30 Z" vector-effect="non-scaling-stroke"></path>
+</svg>
+</div>
+<!-- Scan line animation -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary/80 shadow-[0_0_15px_rgba(115,23,207,0.8)] animate-[scan_3s_ease-in-out_infinite]"></div>
+</div>
+</div>
+<div class="absolute bottom-12 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10">
+<p class="text-white text-sm font-medium tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
+                    Align clothing with the outline
+                </p>
+</div>
+</div>
+<!-- Bottom Controls -->
+<div class="flex flex-col items-center gap-6 pb-6 px-6">
+<!-- Tip Button -->
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 hover:bg-primary/30 text-primary-200 border border-primary/30 backdrop-blur-md transition-colors group">
+<span class="material-symbols-outlined text-primary group-hover:text-white transition-colors text-[20px]">lightbulb</span>
+<span class="text-xs font-bold text-white uppercase tracking-wider">Tips for best lighting</span>
+</button>
+<!-- Main Camera Actions Row -->
+<div class="flex items-center justify-between w-full max-w-sm">
+<!-- Gallery Thumbnail -->
+<button class="w-12 h-12 rounded-lg bg-black/40 border-2 border-white/20 overflow-hidden relative group">
+<img alt="Thumbnail of recent fashion photo in gallery" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition" data-alt="Thumbnail of recent fashion photo in gallery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9EcQsKNMMvK8JtlU-1nV4wCuLAhsMfURStaEQ1xTXaLPJM3StJNGL6HuGAS7QXctATlNAE8fB3Gbj5ge-NJJ01-JAsjwJlsM_p4XA4h3WFo7OfY-I051fSWOcSPhCJcL3w-IoJNpgIPoBmnMBbA4USqRJCeOgsHslGw9aVwt1jPsF54zSWvemtxrf8A-fJsQibymimOYc1kM-RF4MlvpUqAP5AIWCx-o5lov8G5hJDlx1S9q5icYWlPXuoCvl1wC-Lpf96EZoK6Eq"/>
+</button>
+<!-- Shutter Button -->
+<div class="relative group cursor-pointer">
+<!-- Outer Ring -->
+<div class="w-20 h-20 rounded-full border-4 border-white/30 flex items-center justify-center group-hover:border-white/50 transition-all duration-300">
+<!-- Inner Circle -->
+<div class="w-16 h-16 rounded-full bg-white group-active:scale-90 transition-transform duration-100 shadow-[0_0_20px_rgba(255,255,255,0.3)]"></div>
+</div>
+</div>
+<!-- Switch Camera -->
+<button class="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition">
+<span class="material-symbols-outlined text-[24px]">cameraswitch</span>
+</button>
+</div>
+<!-- Don't Show Again Checkbox -->
+<div class="flex items-center gap-3 mt-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer appearance-none w-5 h-5 border-2 border-white/40 rounded bg-transparent checked:bg-primary checked:border-primary transition-all cursor-pointer" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-white opacity-0 peer-checked:opacity-100 pointer-events-none text-[16px] left-[2px] top-[2px]">check</span>
+</div>
+<span class="text-white/70 text-sm font-medium group-hover:text-white transition-colors">Don't show this again</span>
+</label>
+</div>
+</div>
+</div>
+<style>
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+    </style>
+</body></html>

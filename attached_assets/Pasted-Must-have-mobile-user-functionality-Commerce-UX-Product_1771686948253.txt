@@ -1,0 +1,61 @@
+Must-have mobile user functionality (Commerce + UX)
+
+Product browsing: categories, tags, search, product detail pages.
+
+Cart: add/remove/update quantities, persistent cart (even if the app is backgrounded).
+
+Checkout: secure checkout flow and order confirmation.
+
+Orders: view order history, order status, and receipts.
+
+Inventory signals: “in stock / low stock / out of stock” clarity for shoppers.
+
+Must-have account functionality (SaaS-grade)
+
+Authentication: sign up, login, password reset, OAuth (the repo indicates OAuth support).
+
+Profile and session management: multi-device login reliability.
+
+Billing: subscription status, upgrade/downgrade/cancel, invoices/receipts.
+
+Usage/plan enforcement: the app already has “plan limits” concepts; mobile UX should surface “why something is locked” with friendly upgrade paths.
+
+Must-have AI studio functionality (if you keep the AI feature set)
+
+AI Product Creator: generate product title/description/assets in guided steps.
+
+AI Marketing Engine: generate campaign copy variants for different platforms.
+
+Brand voice profiles: save brand settings so output stays consistent.
+
+Content library: save/reuse generated assets, history, and drafts.
+
+Cost/credit transparency: show AI usage as a “meter” so users don’t feel surprised.
+
+Mobile-grade platform expectations (PWA/TWA)
+
+Installable app feel:
+
+App manifest configured (name/icons/theme color/splash behavior).
+
+Smooth navigation and “back” behavior (especially Android back button).
+
+Offline-first behavior:
+
+Cached shell + meaningful offline screens (offline.html exists).
+
+IndexedDB/local persistence for cart + drafts + queued actions.
+
+Background sync for “pending” actions when network returns.
+
+Notifications (optional but common for commerce):
+
+Push-ready plumbing (repo says “push notifications ready”).
+
+Use cases: order updates, abandoned cart nudges, price drops (if you add price alerts), campaign reminders.
+
+Store distribution approach (what “production-ready” means here)
+
+Android: wrap the PWA using Trusted Web Activity (TWA) (the repo includes MOBILE_DEPLOYMENT.md describing this).
+
+iOS: ship as PWA “Add to Home Screen” initially, or wrap later with a native shell if App Store presence becomes a requirement.

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Stylist Daily Recommendations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "soft-cream": "#fdfaf1",
+                        "charcoal-accent": "#1a252f"
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-morph {
+            background: rgba(26, 37, 47, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen flex-col max-w-[480px] mx-auto bg-background-light dark:bg-background-dark shadow-2xl">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 font-semibold">Good Morning</span>
+<h1 class="text-xl font-bold tracking-tight">AI STYLIST</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 dark:bg-charcoal-accent">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary" data-alt="User profile portrait of a stylish woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDGY_MA9zrvkg52TJLQU3_jE4QiddBBI5hRNq2MXyJ075BtJMv8I7MXladH97H9tH1u4KuUkXaNhONyQrcdOTE-Db6v49AEReEg815hm4tzz--AACFB94hN3D6EorNliXZq8qG5WibUfUwqubNHU5u1nsJ7vZqRmU54dzmz1NKNN3EhULqtWSEHdcpyA6OWztz9BiFeQgpClh9hFZm9sAZmpJrhu_896OwLvKQA5fZUYxXbYaGaqk8QB18VjpmS0RBr78lYNKrYYzWk')"></div>
+</div>
+</header>
+<main class="flex-1 pb-24">
+<!-- Daily Hero Card -->
+<section class="px-6 py-2">
+<div class="relative group rounded-2xl overflow-hidden aspect-[3/4] shadow-2xl">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A high fashion minimalist outfit featuring a long beige coat and dark trousers" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBK_bbxQrAHtIcDa-IiK2pcECnOLjeTDaXSS31fwH37jaBPmR23KQCKKD48Y5e55F1Do-ysBcbQPbymMsOpJ5qwUjtQas3PFlaS_YAl9M7IulT3Mj2mYQonQEWyAclI7njYuYhO-0wIBylJjVvz_1mzlPMd3AaDGZVGSGryRo7E2cRpdODCYS3P92QB7M56rgDB0RHGMOP8m8xTznfC3JgF66q2SvrLGMQQtNtUEB8zaVZvYHTQ6dThSQWNsH96uCUabTO04oup_Ka6')">
+</div>
+<!-- Gradient Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-black/20"></div>
+<!-- Weather Widget -->
+<div class="absolute top-4 right-4 glass-morph px-3 py-2 rounded-xl flex items-center gap-2 border border-white/10">
+<span class="material-symbols-outlined text-primary fill-1">cloud_queue</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold leading-none">18°C</span>
+<span class="text-[8px] uppercase tracking-wider text-slate-300">Partly Cloudy</span>
+</div>
+</div>
+<!-- Label -->
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full">Primary Selection</span>
+</div>
+<!-- Content -->
+<div class="absolute bottom-6 left-6 right-6">
+<p class="text-xs text-primary font-bold uppercase tracking-[0.3em] mb-1">Today's Daily Look</p>
+<h2 class="text-3xl font-extrabold leading-tight text-white mb-3">Modern <br/>Minimalism</h2>
+<p class="text-sm text-slate-300 font-light leading-relaxed mb-6 max-w-[80%]">
+                            Crafted for a breezy afternoon. Featuring our signature cashmere blend and tailored silk accents.
+                        </p>
+<div class="flex gap-3">
+<button class="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+<span class="text-sm">Wear Today</span>
+</button>
+<button class="w-14 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-xl flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Alternative Options -->
+<section class="mt-8">
+<div class="flex items-center justify-between px-6 mb-4">
+<h3 class="text-sm font-bold uppercase tracking-widest text-slate-500">Style Alternatives</h3>
+<button class="text-xs font-bold text-primary flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="flex overflow-x-auto gap-4 px-6 no-scrollbar">
+<!-- Option 1 -->
+<div class="min-w-[160px] flex flex-col gap-3">
+<div class="aspect-[4/5] rounded-xl bg-cover bg-center shadow-lg" data-alt="Casual weekend style with a denim jacket and white t-shirt" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMQ1d4yeLzD6cLn4YmslMcl_XuGfSxSpjsklVSD5z_kr-AX2sqsEvIpcXgNJypsh0BvxegBg19Umaw1u3RS3gNLOA8vzdWFY5YgLYJKrW_HpP-jKYjTFgkYVs5HaWILjzDXyXx4De5SWvCsj5EWpzEp7paTM8uH1G7b-JABTvCyhXQl-oeW1KXtB3ing-3N21BUZO80brmfzNdns-kzPckKRTtjOoZuam_T5tqglMhJD9dCfgSGzfYuffs-JbohhIIa6eqTso_SAsV')"></div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter">Casual</p>
+<p class="text-sm font-bold leading-tight truncate">Weekend Comfort</p>
+<p class="text-[11px] text-slate-500">Relaxed Fit</p>
+</div>
+</div>
+<!-- Option 2 -->
+<div class="min-w-[160px] flex flex-col gap-3">
+<div class="aspect-[4/5] rounded-xl bg-cover bg-center shadow-lg" data-alt="Professional office attire with a navy blazer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYYVbtDwzKPoYZUgIaj9OU7ekuefRiRiC1CoZVyl92uP6fVKyeyTt4ko1ywXkRQRb650v8w5rYZZHvij0vPWWsY0cjOjxqXJG7UzG7sAaVE3yYAyX591NMCGwGQnbDEDXMHAg-2S24AVuMjWmifqHu_SwoRYHi0mKMUdvQ3qZSK0BEn3bY4XQHvq15qZ64D0X2_ahT4x2wswWfEe-HLOs5CR81Cdk0Qlk1niAnxnnhD0AG5zWWzIiG6PD-M-vfzjhasxEyhM9TU-FZ')"></div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter">Professional</p>
+<p class="text-sm font-bold leading-tight truncate">Executive Polish</p>
+<p class="text-[11px] text-slate-500">Structured Silhouette</p>
+</div>
+</div>
+<!-- Option 3 -->
+<div class="min-w-[160px] flex flex-col gap-3">
+<div class="aspect-[4/5] rounded-xl bg-cover bg-center shadow-lg" data-alt="Evening dinner dress in elegant black silk" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArcFphQeHU_1mpmrghLcJPJv1k5RQFteUnwcY-uzzg4h-L0gc4mL5BFiVO1xM8gzLxL8oubRE7tCSq_P2rUl0QG6gpuUDfJsZOMZa3_qBkuHAA9rylvVPdEUOusRSzNsqFwqO4zwQJstPwH6FSetl5YbAuj7u2gyZrb2FSJ7NXZWgEqAFMRFWdqOIDdpm87HTQ4JN4tXq3E-3unBAsGsjeOTlOv3dNHG7bEBajn_tbthVThDl2q76g0Ll6V_6wTRIzdlDjbhFSwrsn')"></div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter">Evening</p>
+<p class="text-sm font-bold leading-tight truncate">Noir Soirée</p>
+<p class="text-[11px] text-slate-500">Sophisticated Tones</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Events -->
+<section class="mt-10 px-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-4">Tomorrow's Schedule</h3>
+<div class="space-y-4">
+<!-- Event 1 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-100 dark:bg-charcoal-accent border border-slate-200 dark:border-white/5">
+<div class="h-16 w-16 rounded-xl bg-cover bg-center shrink-0 border border-white/10" data-alt="A smart casual work outfit thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCes-A6AJIMcK0lNaAdq5-PLiC3X2odGfQNEuSvbD7hVh4H6nlT0yPkkTsyDvY9EsWS5L_eGyOfXjzpHO4S_W8iDxXSPiaOp74zfvpMeJPJ7aG_ClQMqroC7Ev8l0jsMFG2aHAXioGVgrg7Le-dQYYftajezOo7LKirYH49YTHLZpmb4A2KHi-3GWFNvCGzS_qlsVFgt7I4QeIIV0D35Opif3pUm-ih1cfS-PvkpiTlIo_Iu4xDha65gJLG-jnTpXTnFHMpFTuK2aZY')"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="text-xs font-bold text-primary">09:30 AM</p>
+<span class="bg-primary/20 text-primary text-[9px] px-2 py-0.5 rounded font-bold uppercase">Work</span>
+</div>
+<h4 class="text-sm font-bold truncate mb-1">Strategic Board Meeting</h4>
+<p class="text-[11px] text-slate-500 flex items-center gap-1 italic">
+<span class="material-symbols-outlined text-[12px]">auto_awesome</span> Suggested: Power Suit
+                            </p>
+</div>
+<button class="h-8 w-8 rounded-full flex items-center justify-center bg-slate-200 dark:bg-white/5">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<!-- Event 2 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-100 dark:bg-charcoal-accent border border-slate-200 dark:border-white/5">
+<div class="h-16 w-16 rounded-xl bg-cover bg-center shrink-0 border border-white/10" data-alt="A casual dinner outfit thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKolXJh-1Kgccm0jTgqpI0A-PFHHgAFMciQyU-YFuAnTr2-QhpIyURYtD-RTM0apj_3O2wQOs0VzULjjGRCHC5GhYvWwo1LwwINbGpopLKNiE0QGBxV0odYc_9_n8qtQ6YyPi4AqdrumQ-0fHEaxGWlbFR5OxGpRL-iwmLJCs9n1Ptt7clPf9YmTH5bp0mqJyBpIaFQ_-2ZBf0ecmMd2eRuHmbfe-qWmx9TVXWL7DzNAvv6s3Vz2dvMYOJNPDeS3LErBJ_7GSXdTVw')"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="text-xs font-bold text-primary">07:00 PM</p>
+<span class="bg-primary/20 text-primary text-[9px] px-2 py-0.5 rounded font-bold uppercase">Social</span>
+</div>
+<h4 class="text-sm font-bold truncate mb-1">Dinner with Julian</h4>
+<p class="text-[11px] text-slate-500 flex items-center gap-1 italic">
+<span class="material-symbols-outlined text-[12px]">auto_awesome</span> Suggested: Smart Casual
+                            </p>
+</div>
+<button class="h-8 w-8 rounded-full flex items-center justify-center bg-slate-200 dark:bg-white/5">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-white/5 px-6 pb-6 pt-3 flex justify-between items-center z-[60]">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-2xl fill-1">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Stylist</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">checkroom</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Wardrobe</span>
+</a>
+<div class="relative -top-8">
+<button class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/40 border-4 border-background-light dark:border-background-dark">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">calendar_month</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Plan</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">person_outline</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Profile</span>
+</a>
+</nav>
+<!-- Background Accent Glow -->
+<div class="fixed top-[-10%] left-[-10%] w-[50%] h-[30%] bg-primary/10 blur-[120px] pointer-events-none rounded-full"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[30%] bg-primary/5 blur-[120px] pointer-events-none rounded-full"></div>
+</div>
+</body></html>

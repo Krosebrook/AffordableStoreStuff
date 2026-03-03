@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Style Quiz - Step 1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Progress Header -->
+<header class="sticky top-0 z-20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 pt-12 pb-4">
+<div class="max-w-md mx-auto">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-bold tracking-widest uppercase text-primary">Style Quiz</span>
+<span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Step 1 of 3</span>
+</div>
+<div class="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 33.33%;"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-md mx-auto w-full px-6 pb-32">
+<!-- Title Section -->
+<section class="mt-8 mb-10">
+<h1 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 mb-3">
+                Define Your Style
+            </h1>
+<p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                Select your favorite aesthetic to help our AI curate your wardrobe.
+            </p>
+</section>
+<!-- Aesthetic Selection Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Minimalist Card (Selected State Example) -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl ring-2 ring-primary">
+<div class="aspect-[3/4] bg-slate-200 dark:bg-slate-800 relative">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Minimalist fashion with clean lines and neutral tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFgMH4wOpqXLP4I2zswUIVEBz2cGSyfM5e26l69Tf1cdnEFF9h4hqvwucQxwlXFEbBU8hr2oL9doxvIJG2SJQlb0RjHZP8_m_ERMqSa-O8QhwWt-V3a2lY7r3NrGaA99JZLM09cipIROdMHXZwSLDzdoPdXUvKfgNTOBX8u6DjC2BFMGDJPruCFyfZ-liciZenBzkLtXo2wJ011TWVOE2sWvriVbocnN0LgIATq6hEZ3g1Ldkdtbf_t6x733rjc66dttUYUa_TuHFW"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute top-3 right-3 bg-primary text-white rounded-full p-1 shadow-lg">
+<span class="material-symbols-outlined text-[18px] block leading-none">check</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="text-white font-bold text-lg leading-tight">Minimalist</p>
+</div>
+</div>
+<!-- Boho-Chic Card -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="aspect-[3/4] bg-slate-200 dark:bg-slate-800 relative">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Boho-Chic clothing with flowy fabrics and patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9KOn26ZyvOK6EUCzpLFnbnLfbbozpUKJRyukrdsYz22RjssNFqOEHQTl6DNpxyTHRUMIqJYlIgTfS_vZZYcHKcOggARWg7IlPtkggKbE3m-F2MKkx47nJKyyxpqmlQ5HBbpK43bu6btwMFNFaNLNoZ82HGX4HEDb_MnkQXun_mnR4A0A8ZEWaGN0JR-jK_25iuCEsBOQkOBfN7wY83FgHSQatp2v3GYki0dqz6eqWs9O5x-YLLOFXUQ3l9SlGqkP-Mtr-ebHqScEs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="text-white font-bold text-lg leading-tight">Boho-Chic</p>
+</div>
+</div>
+<!-- Streetwear Card -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="aspect-[3/4] bg-slate-200 dark:bg-slate-800 relative">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Urban streetwear outfit with oversized hoodie and sneakers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZg3e2FnhDb6tVK6Jm2MlYl-LAsVw-n_H9eObH7TL5biiuyHPtbmpIwJrfKqJzveQzqUEjw6rJddAOAyTEp87wGboXfQ2L1IMmQOgUHG_oW0HzcuwvEuS-4vjppJ8_dEs8uCe64a-Wx2hgyVanf7oINme92NNBqEYqSxph1zqVqPxVuw0xCLuBwkxDDLiCyGks6G1HI_LNeJxCPtOY2GuLe2bImQBLv-RdQ2EU1WGYj581mPw36Ip5ZjdMpWRBA2cvSbSC7rVIrsp9"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="text-white font-bold text-lg leading-tight">Streetwear</p>
+</div>
+</div>
+<!-- Classic Professional Card -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="aspect-[3/4] bg-slate-200 dark:bg-slate-800 relative">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Sophisticated professional tailored blazer and trousers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqTjSzVlwZSCSgT9A5C9GC8fFNUGAGnU8eS1QV4UwDd_vRXytSyAq7g9ya2jBJs2egQOrRnUP3dWeklLiD8ITLW293roccy7ajcfQT90tvxQheg0G5mxkeOExC_hglYt9NMuf6zHRWxuHC6LeOMR9yJby-CX-y-qSrWvefxKVRK34NjBrggvBoTTm02vEvnVLNgWSZ3zonNGHWdMnPqBPuGO4XH4NPVpYtRkqbZGQBudQJuFQ25WXyapQbAp0ZrIX2o-gAXp0v5fmL"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="text-white font-bold text-lg leading-tight">Classic Pro</p>
+</div>
+</div>
+<!-- Artsy / Eclectic Card -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="aspect-[3/4] bg-slate-200 dark:bg-slate-800 relative">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Creative eclectic fashion with bold colors and textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGij-XGUtJ_0BqlsG3NIwAgmj6lSmJ1Vc_u0ze4NKAyM8uj3_d7Sf0aizAo8_CXmKKqGdFBD-hbPVjHrmXvaF6NlEjqbHjl3VP9BIFi2i8kpCCY_sIQZSydDiX7P1fWMHUcrRGcpFKEs0ps57bu1ktTzhbVdTkOJUQT4x35uUztUWIjvBCgxq70lli9J5gSQwtY_HR8PTAc06tL8ZQ6j7vzhRLphF60EHWqxl-d-njc2HXKJ_jEYbtTHKDYlrzUmvQ7NQRSvbQzoLN"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="text-white font-bold text-lg leading-tight">Artsy</p>
+</div>
+</div>
+<!-- Sporty / Athleisure Card -->
+<div class="relative group cursor-pointer overflow-hidden rounded-xl hover:ring-2 hover:ring-primary/50 transition-all">
+<div class="aspect-[3/4] bg-slate-200 dark:bg-slate-800 relative">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Modern athletic wear and functional fitness clothing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTtYHu-de3JUzpj5QZwrcp-F0qV7dDIX94FYmnisuE5rggLL4r9fxEKioK7OmScjjf3FEOyPFC--eQ8PGVU4SQcU5H1aIqyboE1LWQ3lRkpR6aA5PRoFtyXzYUJRCYjxn9cuIzKnvXWgoOCYprykrBg_14-8yy_WpTyTitje8Q6D12Fgu7ExMTopMq9GtTRfShr7UCMJipccFlMpkoAkXaTwFBoB7CQHr9jBzPKqYp3WFczSt5fXWabww2Ktn_RkcmK4ovucDknGY0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+</div>
+<div class="absolute bottom-4 left-4 right-4">
+<p class="text-white font-bold text-lg leading-tight">Sporty</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom Action Area -->
+<footer class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light/95 dark:via-background-dark/95 to-transparent pt-8 pb-10 px-6">
+<div class="max-w-md mx-auto">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl shadow-xl shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span>Continue</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<p class="text-center text-xs text-slate-500 dark:text-slate-500 mt-4">
+                You can change these preferences later in settings.
+            </p>
+</div>
+</footer>
+</body></html>

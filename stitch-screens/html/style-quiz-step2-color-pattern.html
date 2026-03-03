@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Style Quiz - Step 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#11d4b4",
+                        "background-light": "#fdfbf7",
+                        "background-dark": "#10221f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+<div class="relative flex h-screen w-full max-w-[430px] mx-auto flex-col bg-background-light dark:bg-background-dark overflow-hidden">
+<!-- Top Bar -->
+<div class="flex items-center px-4 pt-6 pb-2 justify-between shrink-0">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
+</button>
+<h2 class="text-lg font-bold leading-tight flex-1 text-center pr-10">Style Quiz</h2>
+</div>
+<!-- Progress Bar -->
+<div class="flex flex-col gap-2 px-6 pt-4 shrink-0">
+<div class="flex justify-between items-end">
+<p class="text-slate-900 dark:text-slate-100 text-sm font-semibold">Step 2 of 3</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Color &amp; Patterns</p>
+</div>
+<div class="h-1.5 w-full rounded-full bg-primary/20">
+<div class="h-full rounded-full bg-primary transition-all duration-500" style="width: 66%;"></div>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 overflow-y-auto hide-scrollbar px-6 pb-24">
+<h1 class="text-2xl font-bold leading-tight pt-8 pb-6">Which colors dominate your wardrobe?</h1>
+<!-- Color Palette Section -->
+<div class="grid grid-cols-1 gap-4">
+<!-- Neutrals -->
+<label class="relative flex flex-col gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary transition-all">
+<input checked="" class="hidden peer" type="checkbox"/>
+<div class="flex justify-between items-center">
+<span class="font-bold text-base">Neutrals</span>
+<div class="size-5 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary">
+<span class="material-symbols-outlined text-white text-[14px] leading-none opacity-0 peer-checked:opacity-100">check</span>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="size-8 rounded-full border border-slate-100" style="background-color: #FFFFFF;"></div>
+<div class="size-8 rounded-full" style="background-color: #E5E7EB;"></div>
+<div class="size-8 rounded-full" style="background-color: #374151;"></div>
+<div class="size-8 rounded-full" style="background-color: #000000;"></div>
+<div class="size-8 rounded-full" style="background-color: #D1D5DB;"></div>
+</div>
+</label>
+<!-- Earth Tones -->
+<label class="relative flex flex-col gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary transition-all">
+<input class="hidden peer" type="checkbox"/>
+<div class="flex justify-between items-center">
+<span class="font-bold text-base">Earth Tones</span>
+<div class="size-5 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary">
+<span class="material-symbols-outlined text-white text-[14px] leading-none opacity-0 peer-checked:opacity-100">check</span>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="size-8 rounded-full" style="background-color: #6B705C;"></div>
+<div class="size-8 rounded-full" style="background-color: #A5A58D;"></div>
+<div class="size-8 rounded-full" style="background-color: #CB997E;"></div>
+<div class="size-8 rounded-full" style="background-color: #B7B7A4;"></div>
+<div class="size-8 rounded-full" style="background-color: #7B3F00;"></div>
+</div>
+</label>
+<!-- Pastel -->
+<label class="relative flex flex-col gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary transition-all">
+<input class="hidden peer" type="checkbox"/>
+<div class="flex justify-between items-center">
+<span class="font-bold text-base">Pastels</span>
+<div class="size-5 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary">
+<span class="material-symbols-outlined text-white text-[14px] leading-none opacity-0 peer-checked:opacity-100">check</span>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="size-8 rounded-full" style="background-color: #F8D7DA;"></div>
+<div class="size-8 rounded-full" style="background-color: #D1E7DD;"></div>
+<div class="size-8 rounded-full" style="background-color: #FFF3CD;"></div>
+<div class="size-8 rounded-full" style="background-color: #CFE2FF;"></div>
+<div class="size-8 rounded-full" style="background-color: #E2E3E5;"></div>
+</div>
+</label>
+<!-- Jewel Tones -->
+<label class="relative flex flex-col gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary transition-all">
+<input class="hidden peer" type="checkbox"/>
+<div class="flex justify-between items-center">
+<span class="font-bold text-base">Jewel Tones</span>
+<div class="size-5 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary">
+<span class="material-symbols-outlined text-white text-[14px] leading-none opacity-0 peer-checked:opacity-100">check</span>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="size-8 rounded-full" style="background-color: #0047AB;"></div>
+<div class="size-8 rounded-full" style="background-color: #50C878;"></div>
+<div class="size-8 rounded-full" style="background-color: #9B111E;"></div>
+<div class="size-8 rounded-full" style="background-color: #4B0082;"></div>
+<div class="size-8 rounded-full" style="background-color: #FFD700;"></div>
+</div>
+</label>
+</div>
+<!-- Patterns Section -->
+<h3 class="text-xl font-bold pt-10 pb-4">Patterns you love</h3>
+<div class="grid grid-cols-2 gap-4 pb-12">
+<!-- Solid -->
+<label class="flex flex-col items-center gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 transition-all">
+<input checked="" class="hidden" type="checkbox"/>
+<div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-3xl">check_box_outline_blank</span>
+</div>
+<span class="text-sm font-medium">Solid</span>
+</label>
+<!-- Stripes -->
+<label class="flex flex-col items-center gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 transition-all">
+<input class="hidden" type="checkbox"/>
+<div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-3xl">reorder</span>
+</div>
+<span class="text-sm font-medium">Stripes</span>
+</label>
+<!-- Florals -->
+<label class="flex flex-col items-center gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 transition-all">
+<input class="hidden" type="checkbox"/>
+<div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-3xl">local_florist</span>
+</div>
+<span class="text-sm font-medium">Florals</span>
+</label>
+<!-- Plaid -->
+<label class="flex flex-col items-center gap-3 p-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 transition-all">
+<input class="hidden" type="checkbox"/>
+<div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-3xl">grid_view</span>
+</div>
+<span class="text-sm font-medium">Plaid</span>
+</label>
+</div>
+</div>
+<!-- Footer Button -->
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark">
+<button class="w-full bg-primary hover:bg-primary/90 text-slate-900 font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+                Next
+            </button>
+</div>
+</div>
+</body></html>

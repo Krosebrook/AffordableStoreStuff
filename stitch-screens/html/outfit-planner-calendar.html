@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Outfit Planner Calendar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .bottom-sheet-gradient {
+            background: linear-gradient(to top, rgba(16, 25, 34, 1) 0%, rgba(16, 25, 34, 0.95) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Header -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Smart Calendar</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">October 2023</p>
+</div>
+<div class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
+<span class="material-symbols-outlined">sync</span>
+</div>
+</header>
+<!-- View Toggle -->
+<div class="px-4 py-3 bg-background-light dark:bg-background-dark">
+<div class="flex h-11 items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-800/50 p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-slate-900 dark:has-[:checked]:text-white text-sm font-semibold transition-all">
+<span class="truncate">Monthly</span>
+<input checked="" class="invisible w-0" name="calendar-view" type="radio" value="Monthly"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-slate-900 dark:has-[:checked]:text-white text-sm font-semibold transition-all">
+<span class="truncate">Weekly</span>
+<input class="invisible w-0" name="calendar-view" type="radio" value="Weekly"/>
+</label>
+</div>
+</div>
+<!-- Calendar Grid -->
+<main class="flex-1 overflow-y-auto px-2 pb-60">
+<div class="calendar-grid text-center py-2">
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Sun</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Mon</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Tue</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Wed</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Thu</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Fri</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Sat</div>
+<!-- Empty slots for previous month -->
+<div class="aspect-square p-0.5"></div>
+<div class="aspect-square p-0.5"></div>
+<div class="aspect-square p-0.5"></div>
+<!-- Calendar Days with Outfits -->
+<!-- Day 1 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent group-focus:border-primary overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">1</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A beige wool sweater on a minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBdDDzcCN5KrwMHQCFhCc_QRoOpGYW7M9TxtkpxoL926SpLChgoQWYvtyv1SrqjTmmzxYqhzjC3hXd6tUyIg4IRFXhlFX0vy6XAo0V5u23Bi4wowWhuulAD4KanQwstCr--kNTbGQqXyF-Fd_DgNAkmNDs_kagOqblSFjFGlv3qW5KY6iCjhEumi2Afg7VZ4tjLaq0vhZlKZSf1iiS13YanYkYfsS_uab_sa6AHdIhVPTyoJlUDDQDUt-ZaGPVi3W-Nw6b6VTlKYP_"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-yellow-500">wb_sunny</span>
+</button>
+<!-- Day 2 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">2</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A classic black t-shirt folded neatly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK03IDolZaYqBGUjdwcauGTl4C_YTa1R1mC_Bwry88XwnUP5wqKM26DIT5rrAvWmYok9kZfhdkuyD7ujzsMNpceGGjNqW6X2NU31jtE86qV-7j1Y8CD12f8VsLgTTJcCHuDejE_HY89oZezumIMzR2YCN-WdAXf0y3l5d_cvgUbw2N66oiBMN3MgQcGMdH5FbJo8L96Y6MHSTQON6EwLSh5cy1Kx-9b1bQKaWARL1JLfZeRYKOICc1P8r1_ekfSBkpTRdJYhjW_Aiq"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-slate-400">cloud</span>
+</button>
+<!-- Day 3 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">3</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-600">
+<span class="material-symbols-outlined text-slate-400 text-sm">magic_button</span>
+</div>
+</div>
+</div>
+</button>
+<!-- Day 4 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">4</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A light blue button down shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDElbplBgHBv9FKgfodAxvWoiRW18_tIXHnlPWHYd5M4KZfyGG3PFte-Hy6C5PgbZcplp-AFvyyxAtSwX_IgKNB-rHpfa0I6R9_fX2dUDRhoIGq129gAMCtQlyhyAiTib2KlhdgdfskEHg2G3iep4LqtAmIy9sJSQefEHKY8d6UbYGU6yUR6Cs5faW0D-hRQNoeDxg8vgcl0dudp3MXWUVmeThZ9LNCPwLO62kmevjpD34yJK_oMKhhfV-LuzBO1CIpLTZPjkHKdDjX"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-blue-400">rainy</span>
+</button>
+<!-- Day 5 (Today) -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-primary/10 border-2 border-primary overflow-hidden flex flex-col shadow-lg shadow-primary/20">
+<span class="text-[10px] font-bold pt-1 text-primary">5</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-white dark:bg-slate-700 overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A stylish black leather jacket" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVVcDBLoo1P4ErVRwh0WJ2V3Tu5X3w8-lzCcfc38UsCl1iihm4f0TWo3Bf1Ad7y6NCS0weZlmjykPYhkBgES7s3_mYIs7qyafcy8q5a7W74x_PVz3kx7DKph4UikrdAKzIG8VBuDaA5_f-YE8wlyB0HYR8qbpnqI70kas-wVGRIxHJ6VJj08bmZTwzm3JtTlgPKZs--nk-yPBgD3hWt2vHsmEUmDHEQ83igg-GWGAtHnzVxxgq0V4QPJmjxPiRy1VipsSGNRTMSt0d"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-yellow-500">wb_sunny</span>
+</button>
+<!-- Day 6 to 14 filler -->
+<script>
+                const gridContainer = document.querySelector('.calendar-grid');
+                for (let i = 6; i <= 30; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = "aspect-[1/1.3] p-1 flex flex-col group relative";
+                    const outfitPlaceholder = i % 3 === 0 ? 
+                        `<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden"><img src="https://images.unsplash.com/photo-1602810318383-eef624016144?q=80&w=200&auto=format&fit=crop" data-alt="A pair of dark denim jeans" class="w-full h-full object-cover"></div>` :
+                        `<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-600"><span class="material-symbols-outlined text-slate-400 text-sm">magic_button</span></div>`;
+                    
+                    btn.innerHTML = `
+                        <div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+                            <span class="text-[10px] font-bold pt-1">${i}</span>
+                            <div class="flex-1 flex items-center justify-center p-1">
+                                ${outfitPlaceholder}
+                            </div>
+                        </div>
+                    `;
+                    gridContainer.appendChild(btn);
+                }
+            </script>
+</div>
+</main>
+<!-- Bottom Sheet Details -->
+<div class="fixed inset-x-0 bottom-0 z-40">
+<!-- Backdrop handle -->
+<div class="flex justify-center mb-2">
+<div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.15)] border-t border-slate-200 dark:border-slate-800 p-6 pb-24">
+<!-- Sheet Header / Weather -->
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">Today's Look</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-blue-500 text-lg">event</span>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Meeting at 2:00 PM</p>
+</div>
+</div>
+<div class="bg-primary/10 dark:bg-primary/20 px-4 py-2 rounded-2xl flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">thermostat</span>
+<span class="font-bold text-primary">72°F</span>
+<span class="text-xs font-semibold text-primary/80">Sunny</span>
+</div>
+</div>
+<!-- Full Outfit View -->
+<div class="flex gap-4 items-stretch h-48 mb-6">
+<div class="flex-1 relative rounded-2xl bg-slate-100 dark:bg-slate-800 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Model wearing a complete fall outfit with sweater and trousers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrOMnbFYfh3IIchGqum-672Mv-pYvlhflFbRUHCckOortYa6LoqrGK0WL9RYFhvSdDGkPvq37ysrANBjwXDmogFIi185ng1wO_wG0p7We7yIc6UDa4Egxe0-WFxtdm0Yrlafj_baR83BmlnQTltdmV5So-vcuS7S3a3oeYgXqqZFrbYKG_7O5ZiYYUDcZZ1NlHGwX1yCiM4dDb9ZUQWQxhIBTuCrfMctRQLINyiWeUiyOguqqh1iDNTnqzS-W01PHimUQ_T8qbO051"/>
+<div class="absolute bottom-3 left-3 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-xs">check_circle</span>
+<span class="text-[10px] text-white font-bold uppercase tracking-wider">Ready to Wear</span>
+</div>
+</div>
+<div class="w-32 flex flex-col gap-2">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 overflow-hidden">
+<img class="w-full h-full object-cover rounded-lg" data-alt="Dark denim jeans flat lay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlKjkwN-yXeAtwpUcZbT7Dv_neL0z_1M7Laqz4ukWICyddcs5xDLYDzfcqF0PPhzKubjpAK49uIYP5IZSuq2-gVbGlAwR_eI_By3KOIgf3iuI_xhAvggAwhrBRN9JYFNUUXJs6uAnQXvsyF-R9ayxGann3-M3GgjCjfkW5s-GqHE0ODVlRIAsjWvgjfVbMUtubR7Myu6H14C9kUWwWjftHg-0GYiZl5e4rYijHKVjP3if7mzLrA8CburEsgNyZDbSi3rIZsz37kcT3"/>
+</div>
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 overflow-hidden">
+<img class="w-full h-full object-cover rounded-lg" data-alt="Classic red sneakers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJnDMNht8kQmUY9M5GQiKs6tnlpjfEZmRb_TfR1nqJ8ZZlgzD1oedDViAmLy8u0izAH7bCfbsFa4cHLrTY4Mp2xXIoUsK_52xcYONszWOa6d86ApZ-WgtBMIKxbrmsXrJGzfJlkS4QfZsVBz1qVRIhyUvnwO2NrpzX3rLUYdGCMkxQLvh2wdctkd3b3OoTu-pnaMkLpi6seLaFiNDFKRQI18HSXA0W9GxJBula5vhXqt1KqnutPHJG_xjgqReD3jrWc1MYY3t2qCjQ"/>
+</div>
+</div>
+</div>
+<!-- AI Suggestion Why -->
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-2xl p-4 mb-6 relative overflow-hidden">
+<div class="flex gap-3 relative z-10">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Stylist Note</p>
+<p class="text-xs leading-relaxed text-slate-600 dark:text-slate-400 mt-1">
+                            Lighter fabrics for the 72° forecast. The leather jacket adds a professional edge for your 2 PM sync.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-3">
+<button class="flex-1 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 py-3 rounded-xl font-bold text-sm text-slate-700 dark:text-slate-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">shuffle</span>
+                    Re-style
+                </button>
+<button class="flex-[2] flex items-center justify-center gap-2 bg-primary py-3 rounded-xl font-bold text-sm text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+                    Lock Outfit
+                </button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-6 pb-6 pt-2">
+<div class="flex justify-between items-center max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold">Closet</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">flare</span>
+<span class="text-[10px] font-bold">Stylist</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">calendar_month</span>
+<span class="text-[10px] font-bold">Calendar</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

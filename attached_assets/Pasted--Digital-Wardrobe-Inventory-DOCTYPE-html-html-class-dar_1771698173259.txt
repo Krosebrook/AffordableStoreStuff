@@ -1,0 +1,2178 @@
+<!-- Digital Wardrobe Inventory -->
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Digital Wardrobe Inventory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col max-w-[430px] mx-auto bg-background-light dark:bg-background-dark shadow-2xl">
+<!-- Header -->
+<header class="sticky top-0 z-20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="flex items-center gap-3">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+<h1 class="text-xl font-bold leading-tight tracking-tight">My Wardrobe</h1>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+</button>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="px-4 py-3">
+<label class="flex flex-col min-w-40 h-11 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full bg-slate-200 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700">
+<div class="text-slate-500 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 px-3 text-sm font-medium" placeholder="Search your closet..."/>
+<button class="px-3 text-primary">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</label>
+</div>
+<!-- Filter Pills -->
+<div class="flex gap-2 px-4 pb-4 overflow-x-auto hide-scrollbar">
+<button class="flex h-8 shrink-0 items-center justify-center gap-1 rounded-full bg-primary px-4 text-white">
+<span class="text-xs font-semibold uppercase tracking-wider">All</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-2 rounded-full bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300">
+<span class="text-xs font-semibold">Summer</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-2 rounded-full bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300">
+<span class="text-xs font-semibold">Casual</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-2 rounded-full bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300">
+<span class="text-xs font-semibold">Blue</span>
+<div class="size-3 rounded-full bg-blue-500"></div>
+</button>
+</div>
+<!-- Category Tabs -->
+<div class="px-4">
+<div class="flex border-b border-slate-200 dark:border-slate-800 overflow-x-auto hide-scrollbar">
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-primary py-3 px-4" href="#">
+<p class="text-sm font-bold text-primary">Tops</p>
+</a>
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-transparent py-3 px-4 text-slate-500" href="#">
+<p class="text-sm font-bold">Bottoms</p>
+</a>
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-transparent py-3 px-4 text-slate-500" href="#">
+<p class="text-sm font-bold">Shoes</p>
+</a>
+<a class="flex flex-1 min-w-fit items-center justify-center border-b-2 border-transparent py-3 px-4 text-slate-500" href="#">
+<p class="text-sm font-bold">More</p>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Grid Content -->
+<main class="flex-1 p-4 pb-24 overflow-y-auto">
+<div class="grid grid-cols-2 gap-4">
+<!-- Clothing Item 1 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="White minimalist t-shirt" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal brightness-110" data-alt="White minimalist t-shirt with transparent background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3Yte8zkNruO1z08bX2js_OJET2b7RmY0dddWcjoXsGBxFnGEgEXaaCdOZXIxRhmCsdzeuL0hLd-nYxghAWdiT89qDjWD9EqD2PI8UW5daxu_SLpBxmcXVpo52vzGLUF70mD4A7rBXfiIXqjQ4QW4oZ3855O_Zfaj55kabV_wehYS-RU8XGLjnNO1ZXgeK6qwJOpAe3N-XXf6W0xwhp4JZvgEd9bpzR9UN6R88_DUuNkvg_LUo0fLlGB8ENxkr2ijAZ4yz0Y4AGpFO"/>
+<div class="absolute top-2 right-2 flex size-6 items-center justify-center rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm text-primary">
+<span class="material-symbols-outlined text-[16px] font-bold">auto_awesome</span>
+</div>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Basic White Tee</h3>
+<p class="text-[10px] text-slate-500 font-medium">Cotton • Casual</p>
+</div>
+</div>
+<!-- Clothing Item 2 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Black linen shirt" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Black linen shirt on clean light background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4KVr3gX7O2BBZb41i4IYN0nbHw6EVCSR3R_11TQePy5Z4fsh5b7dmyFZd9KUv5arzjZfHzvZ-hco5WOl1uFfqwZnrSoLAN5UJOlm16q2XAgrB6jCqnkJ5jfMdARv4-_bF_7WcRSvuUFRjGNxDDpzzmsnxN9UHT-Z1UodjBwzf7W1F8wIPyZZQ0YHwaqE_LgcwYtDFgaFdmeDDqfOsYdeuWk3uX65el4i4gxGbzT02RYbqPShodbikkBqhjpfOVBZmVZGfJQbdmTeh"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Linen Overshirt</h3>
+<p class="text-[10px] text-slate-500 font-medium">Linen • Formal</p>
+</div>
+</div>
+<!-- Clothing Item 3 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Denim blue jacket" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Blue denim jacket centered on clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7S5L2rrMaMQi8QlNh5mzjyBVbgPHGDlhKtvXFkSoQ8eioaiRwFyhCXD-7q5TxVd1IhS1FSRgk94Xtl7Xa-L6tx8yLuxNri9Jk9-EMk0M33Xq8Fgwxx5fzffcELI3aMGqEgMlDxyr3g15SaPpbUc7Dj-dgZLI8iL67TJUvIevAcKutsEgpqcd1DxYyL5ynUqcczzogBtNCBPxwzdRFWlYJ0JpZSNTQPdavP1Nr1qXm7yKyZ5YtQ1RqROi3AjrUUzomCrOlTQLM3AC5"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Vintage Denim</h3>
+<p class="text-[10px] text-slate-500 font-medium">Denim • Fall</p>
+</div>
+</div>
+<!-- Clothing Item 4 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Black high neck sweater" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Black turtleneck sweater neatly folded style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_1S3gxG3LZtp7OqkpuxSbvc6Abh_WhBjuw2C9s1ecoTuZMTl-kMqrh7j4rrLaX9Wl8giXyhzHxcSg8uHl0PDmTe1kW0wcXFtFOOufLGFgCuG1CwHee8kOr1kuUL1bErXQ9rgYSKCkDorHSb34scEwJokV8uUIdoPbxREsOT-jraUDFg0ceyzrTvOgxZJZ2anSmfb224CaQYqvsBTbVjYvroIBFNIRhjTNYdDZswsxmOObakrmiHpX9PV2YIyxYVFBGJlRvU-dPGo0"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-amber-500/90 text-[9px] font-bold text-white uppercase">Trending</div>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Merino Turtleneck</h3>
+<p class="text-[10px] text-slate-500 font-medium">Wool • Winter</p>
+</div>
+</div>
+<!-- Clothing Item 5 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Gray hoodie" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Premium gray cotton hoodie background removed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXZY3AI1cuw4iFrJiqW8HhxvXoXCXAaftAYPdtAgnYo-4PYlJyrqZUH1DtgzL5jDL3aaDaYu0BnOKEUf-eCVlP7lQvY8Q4qvG6O5jaEIIIIfmNUezXcCyuSEFq3fC-4LE--ddm6P_SIVPLf_LcocbzExIBeVckh93xieu7pBCPmedM5bxtCRjku4sZmbIDkdHCmJsp9lHrSnkLQu2TZH1mdE5sLpt0N2w15LIQFxIAXrPNc7wQssa-xaJOZqyo7C-b8feaHeK498Om"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Essential Hoodie</h3>
+<p class="text-[10px] text-slate-500 font-medium">Terry • Casual</p>
+</div>
+</div>
+<!-- Clothing Item 6 -->
+<div class="group relative flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900/40 p-2 border border-slate-200 dark:border-slate-800">
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<img alt="Floral shirt" class="h-full w-full object-contain p-4 mix-blend-multiply dark:mix-blend-normal" data-alt="Bright floral summer shirt transparent background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVCxetD7A_90RnW-y8s_ZjbyXa60joSZgMrJNBs140_RxKID6pWTuMhjs3vU9WQKZAXTLuV00I-_ReEhj_HrRJnLlqoEn6pXWeAElkuVYykwhTgFkRpEZLU-gNMT7wepdp3GxCWcAqvXfb_-M5Y75ubAbMYVCPMnA6VMmksYNRRUSZuKzfEu6p2Yw7_1alISeky95BPIDHWMzu8nimZhhq9Fo5IZU180YVtbBKAOpVvGCnxoUfvMzD_GVeHXfeqldByEu06YbiOmwm"/>
+</div>
+<div class="px-1">
+<h3 class="text-xs font-bold truncate">Tropical Vibes</h3>
+<p class="text-[10px] text-slate-500 font-medium">Silk • Summer</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 flex size-14 items-center justify-center rounded-full bg-primary text-white shadow-xl shadow-primary/40 ring-4 ring-background-light dark:ring-background-dark z-30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="sticky bottom-0 z-40 bg-white/80 dark:bg-background-dark/80 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800">
+<div class="flex h-20 items-center justify-around px-2 pb-2">
+<a class="flex flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">checkroom</span>
+<span class="text-[10px] font-bold">Closet</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">auto_fix_high</span>
+<span class="text-[10px] font-medium">Stylist</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-medium">Planner</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+</body></html>
+
+<!-- Your Personalized Style Profile Summary -->
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Personalized Style Profile Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Noto+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7317cf",
+                        "background-light": "#f7f6f8",
+                        "background-dark": "#191121",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+        }
+        .font-display {
+            font-family: 'Noto Serif', serif;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }@keyframes slideUpFade {
+            0% { opacity: 0; transform: translate(-50%, 20px); }
+            100% { opacity: 1; transform: translate(-50%, 0); }
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: none;animation: slideUpFade 0.4s ease-out forwards;
+        }#share-trigger:active ~ .toast-notification,
+        #share-dna-btn:active ~ .toast-notification,
+        #share-trigger:focus ~ .toast-notification,
+        #share-dna-btn:focus ~ .toast-notification {
+            display: flex;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full max-w-[480px] mx-auto flex-col bg-background-light dark:bg-background-dark overflow-x-hidden shadow-2xl">
+<div class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-primary/10">
+<div class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-primary/10 cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<h2 class="font-display text-lg font-bold leading-tight tracking-tight flex-1 text-center">Style Profile</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-full size-10 bg-transparent text-primary hover:bg-primary/10 transition-colors" id="share-trigger">
+<span class="material-symbols-outlined fill-1">ios_share</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto pb-24">
+<div class="p-4 pb-2">
+<div class="relative flex flex-col items-stretch justify-start rounded-xl overflow-hidden shadow-lg bg-white dark:bg-slate-800">
+<div class="w-full bg-center bg-no-repeat aspect-[4/5] bg-cover" data-alt="Elegant fashion model in minimalist urban clothing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBRmgFaSmDdrjuxPKoWKdk_AZcY6dz8ecNgM8fGdo0OvKVKCmnBTYdjSI6fLgyNf_tjFDsx0izLp_Em1jh5hlvFRXvQLkfxkpV4Y6v4EOwx03Iox6e4wfRyqHy4JVPvPA2r_p3D6wtia-OOJXA0OpG2KMy_35YC7rbn1AyU0sxoOruRp8E_8wkibB_484lMet0BeD87eJDSF_3s9NtVVhuMTkFuIRhQ8cxYA7UBUvwhhUccNFT-jLNyKbS2gTi_rbL1uU6S3ofHW4bH");'>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+<p class="text-primary/90 text-xs font-bold tracking-[0.2em] uppercase mb-1">Primary Archetype</p>
+<h1 class="font-display text-white text-3xl font-bold leading-tight mb-2">Urban Minimalist</h1>
+<p class="text-white/80 text-sm leading-relaxed max-w-[80%]">
+                                Your style is defined by clean lines, neutral tones, and effortless sophistication.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 mb-4">
+<button class="w-full py-3 px-4 bg-white dark:bg-slate-800 border border-primary/20 rounded-lg shadow-sm flex items-center justify-center gap-2 hover:bg-primary/5 transition-all group" id="share-dna-btn">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform text-xl">share</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-200">Share Your Style DNA</span>
+</button>
+</div>
+<section class="px-4 py-4">
+<h3 class="font-display text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span> Style DNA
+                </h3>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-primary/5">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Alignment</p>
+<p class="text-4xl font-display font-bold text-primary">92%</p>
+</div>
+<div class="text-right">
+<p class="text-slate-500 text-xs italic">Based on 142 visual matches</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Sophistication</span>
+<span class="text-primary">95%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Comfort</span>
+<span class="text-primary">70%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 70%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Trendiness</span>
+<span class="text-primary">45%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Versatility</span>
+<span class="text-primary">88%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-6">
+<h3 class="font-display text-xl font-bold px-4 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">palette</span> Signature Palette
+                </h3>
+<div class="flex gap-4 px-4 overflow-x-auto no-scrollbar pb-2">
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#1A1A1A] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Onyx</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#E5E4E2] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Platinum</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#4A4A4A] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Anthracite</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#F5F5F5] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Bone</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#7317cf]/40 border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Dusty Iris</span>
+</div>
+</div>
+</section>
+<section class="py-6">
+<div class="flex items-center justify-between px-4 mb-4">
+<h3 class="font-display text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span> Curated Brands
+                    </h3>
+<a class="text-primary text-sm font-semibold" href="#">View All</a>
+</div>
+<div class="flex gap-4 px-4 overflow-x-auto no-scrollbar">
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">C</span>
+</div>
+<span class="text-sm font-medium">Cos</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">T</span>
+</div>
+<span class="text-sm font-medium">Theory</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">J</span>
+</div>
+<span class="text-sm font-medium">Jil Sander</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">A</span>
+</div>
+<span class="text-sm font-medium">Arket</span>
+</div>
+</div>
+</section>
+<div class="p-6">
+<button class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">refresh</span>
+                    Refine Analysis
+                </button>
+</div>
+</div>
+<div class="toast-notification bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-6 py-3 rounded-full shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-green-400 dark:text-green-600 text-xl">check_circle</span>
+<span class="text-sm font-medium">Profile image generated for sharing!</span>
+</div>
+<div class="fixed bottom-0 w-full max-w-[480px] bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-primary/10 px-4 pb-6 pt-2 flex justify-around z-40">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Home</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">auto_awesome</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Style</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">checkroom</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Closet</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Profile</p>
+</a>
+</div>
+</div>
+
+</body></html>
+
+<!-- Interactive AI Stylist Chat -->
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Interactive AI Stylist Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex flex-col h-screen max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl relative">
+<!-- Header -->
+<header class="flex items-center justify-between px-4 py-4 border-b border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-20">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+<span class="material-symbols-outlined text-primary text-2xl">face_6</span>
+</div>
+<div class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-background-dark rounded-full"></div>
+</div>
+<div>
+<h1 class="text-sm font-bold leading-none">Stylist AI</h1>
+<span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Online Concierge</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">search</span>
+</button>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Chat Area -->
+<main class="flex-1 overflow-y-auto p-4 space-y-6 pb-32">
+<!-- Timestamp -->
+<div class="flex justify-center">
+<span class="text-[11px] font-medium text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/50 px-3 py-1 rounded-full uppercase tracking-widest">Today</span>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end gap-1">
+<div class="max-w-[80%] bg-primary text-white px-4 py-3 rounded-2xl rounded-tr-none shadow-sm">
+<p class="text-[15px] leading-relaxed">What should I wear for a beach wedding next Saturday?</p>
+</div>
+<span class="text-[10px] text-slate-400 mt-1">10:42 AM</span>
+</div>
+<!-- AI Response -->
+<div class="flex flex-col items-start gap-3">
+<div class="flex items-end gap-2">
+<div class="size-8 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-slate-700">
+<span class="material-symbols-outlined text-primary text-lg">auto_awesome</span>
+</div>
+<div class="max-w-[85%] bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 px-4 py-3 rounded-2xl rounded-bl-none shadow-sm">
+<p class="text-[15px] leading-relaxed">That sounds lovely! Based on the 28°C forecast in Malibu, here is a breezy, formal look from your closet:</p>
+</div>
+</div>
+<!-- Outfit Board Card -->
+<div class="w-full bg-slate-50 dark:bg-slate-800/40 rounded-3xl p-4 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">style</span>
+                            Beach Wedding Board
+                        </h3>
+<div class="flex items-center gap-1 text-xs font-medium text-slate-500">
+<span class="material-symbols-outlined text-xs">wb_sunny</span>
+                            28°C Clear
+                        </div>
+</div>
+<!-- Outfit Grid -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Item 1 -->
+<div class="relative group aspect-[4/5] rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-md">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-primary/90 text-[9px] text-white px-2 py-0.5 rounded-full font-bold uppercase">Closet</span>
+</div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Light blue linen blazer for summer weddings" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBIb4OEWYhW_BpHg5-jg6RjvOnn8F2YKuYSZ60qyw0VtQvqzuHXkTgzA0HrFogyaI2m1CDP7HXqVLZfKEYs9CJq5DcVug0IDczF7QqBNxjvCj1GjtCsBphGLCHFugOy4sHRqeVKtcKEHtdd3fAmRPORdQz0eWW_NZM54SCd3phfMZGmuz3MzelnvLLgT_Hgd_7qMj5lwo3PfVCP5t57ntyTqEuKid8iMTcs4IIA-tYLIuKntskn70HlOMnkkkcTnU-YdO4DEkKYpf6F')"></div>
+<div class="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+<p class="text-[10px] font-bold text-white leading-tight">Linen Slim Blazer</p>
+<p class="text-[8px] text-slate-300">Sky Blue</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative group aspect-[4/5] rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-md">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-slate-500/90 text-[9px] text-white px-2 py-0.5 rounded-full font-bold uppercase">New Suggestion</span>
+</div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Crisp white cotton button-down shirt" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDodUxtNODnrcaQ7IXLs-j3JsYtyndxmrtZKmpN5yDr9tZrNk-u4FhUZ3Mc-4-g4D7uXAkrfF3otbgEv_42c4-2D1LPoeffCEXigYoq3OyQkhrmBeEOXhLFF8MzIoZNmZ-pvQpCEli20s1d9u55jGspyNfGafJCXAhuQ601t5xJ3lQXNwPi7784T1vfvIBIYXZtI7evx1QZRFP_bmwBbk0fwH1aNbOQhOl_tmP27CdS6RTKTlZ2ArZOo_jtii78vq50Tev_HUwxrRjy')"></div>
+<div class="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+<p class="text-[10px] font-bold text-white leading-tight">Oxford Cotton Shirt</p>
+<p class="text-[8px] text-slate-300">Pure White</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative group aspect-[4/5] rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-md">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-primary/90 text-[9px] text-white px-2 py-0.5 rounded-full font-bold uppercase">Closet</span>
+</div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Tan tailored chinos for formal events" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC8p-E1_uUT1Nd3Yzokpxx3Efi_jSpgJTmaDYsOtfSnV-cKl9m3aH0U2l1QvWaNCSsyIX3WuLvrm95bHAnAhE5jp8_FhOmp8ZwJtxjwW4Uv2NyZTbZkbEAuFRJcqexIHZwF6O7E2KyJoqB5iI_x1rGIzs7GYcjl6v51Bnquf8--ar-3cPO2H8TPWdg091uwLQPyLB1HCanTZLN2cP1TuBE1E-2vTeC6QaODFVM_u1pB0fiUBvq7FxigKEZn9rx2yL8tkHLmRoxbtawy')"></div>
+<div class="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+<p class="text-[10px] font-bold text-white leading-tight">Tailored Chinos</p>
+<p class="text-[8px] text-slate-300">Warm Sand</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="relative group aspect-[4/5] rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-md">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-primary/90 text-[9px] text-white px-2 py-0.5 rounded-full font-bold uppercase">Closet</span>
+</div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Brown leather loafers high quality" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvqBGnoTVlC-JsvPwVXbzJYAhRnM8FnWIlQ6vYmxBs1-s6v0oT-J9z4N5brhVXNH88QtMbLRtAeFQGKK7b-3HD3sMEg0duD_rpMXzFbxCCW8VFvefdEtRSTxp0LbZl9WDSlbxoG82eXgx2AM66t7rXLML3ZqV7DhTDxZziGcENICoDG-iJxOoFpH4Cnqkag9K0tYtnPKNCVObA7qSkxqje9I93T0fP5C3vnzfT1ynfwxRWkbr3ue77J26jwgwZFAQglM2trxCi5te4')"></div>
+<div class="absolute bottom-0 inset-x-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+<p class="text-[10px] font-bold text-white leading-tight">Penny Loafers</p>
+<p class="text-[8px] text-slate-300">Oak Brown</p>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+<p class="text-xs text-slate-500 dark:text-slate-400 italic">
+                            "The linen blazer provides breathability for the 2 PM sun, while the tan chinos keep it formal enough for the sunset dinner."
+                        </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Input Area Container -->
+<div class="fixed bottom-0 inset-x-0 max-w-md mx-auto z-30">
+<!-- Quick Actions -->
+<div class="flex gap-2 px-4 py-2 overflow-x-auto no-scrollbar bg-transparent">
+<button class="shrink-0 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-[11px] font-semibold text-slate-600 dark:text-slate-300 shadow-sm whitespace-nowrap">Show formal</button>
+<button class="shrink-0 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-[11px] font-semibold text-slate-600 dark:text-slate-300 shadow-sm whitespace-nowrap">More colors</button>
+<button class="shrink-0 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-[11px] font-semibold text-slate-600 dark:text-slate-300 shadow-sm whitespace-nowrap">Save outfit</button>
+</div>
+<!-- Message Input Bar -->
+<div class="px-4 pb-6 pt-2 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-2xl p-2 pl-4 border border-slate-200 dark:border-slate-700">
+<button class="flex items-center justify-center p-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-slate-800 dark:text-slate-200 placeholder:text-slate-500" placeholder="Type a message..." type="text"/>
+<button class="size-9 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<div class="flex gap-2 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-4 pb-4 pt-2 shadow-2xl">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1">chat_bubble</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Chat</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-slate-500" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">checkroom</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Closet</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-slate-500" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">calendar_today</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Events</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-slate-500" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">account_circle</span>
+</div>
+<p class="text-[10px] font-bold uppercase tracking-wider">Profile</p>
+</a>
+</div>
+</div>
+</div>
+</body></html>
+
+<!-- Shopping Cart and Checkout -->
+<html><head><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body>thoughtful mini-steps:
+1.  **Analyze the User Request:**
+    *   **App Name:** AffordableStoreStuff.
+    *   **Core Content:** Shopping Cart and Checkout screen.
+    *   **Key Elements:**
+        *   List of added items (with quantity selectors and remove buttons).
+        *   'Apply Promo Code' input field.
+        *   Price breakdown (Subtotal, Shipping, Taxes).
+        *   'Proceed to Checkout' button (large).
+        *   'Saved for Later' section.
+    *   **Platform:** iOS mobile.
+    *   **Style:** Expert frontend designer, beautiful UI, Tailwind CSS, dual-mode (light/dark), Material Icons.
+2.  **Design Strategy (iOS specific):**
+    *   Use a clean, card-based layout or a list view typical of iOS apps (Apple Music/Settings style).
+    *   Font: San Francisco (system-ui).
+    *   Colors: Primary (maybe a friendly blue or teal), background light (gray-50/100), background dark (gray-900).
+    *   Icons: Material Symbols (Outlined or Rounded).
+    *   Navigation: Header with "Cart" or "Your Bag". Bottom navigation bar (optional but good for context).
+3.  **Component Breakdown:**
+    *   **Header:** App name or "My Cart" title.
+    *   **Cart Items List:**
+        *   Product image placeholder.
+        *   Name, price, attributes (color/size).
+        *   Quantity selector (plus/minus buttons).
+        *   Remove icon (trash).
+    *   **Promo Code Section:** Inline input + apply button.
+    *   **Order Summary:** Card with line items and bold total.
+    *   **CTA:** Sticky or large floating-style button at the bottom.
+    *   **Saved for Later:** Horizontal scroll or smaller list below.
+4.  **Tailwind Configuration:**
+    *   `primary`: #2563eb (Blue-600) or maybe something "affordable" looking like a soft green/teal? Let's go with a modern Indigo/Blue for trust.
+    *   `background-light`: #f9fafb (gray-50).
+    *   `background-dark`: #111827 (gray-900).
+    *   `fontFamily`: sans-serif (Inter/system).
+    *   `borderRadius`: `16px` for a modern iOS feel.
+5.  **Drafting the HTML Structure:**
+    *   `` with `bg-background-light dark:bg-background-dark`.
+    *   `Main container` with max-width for mobile phone view simulation.
+    *   `Header` with "Cart" title.
+    *   `Section: Cart Items` -&gt; loop-like divs.
+    *   `Section: Promo Code`.
+    *   `Section: Summary`.
+    *   `Section: Saved for Later`.
+6.  **Refining Details:**
+    *   Quantity selectors: `[-] 1 [+]` inside a small pill-shaped container.
+    *   "Proceed to Checkout" should look like a primary action button.
+    *   Prices should be clear and legible.
+    *   Ensure dark mode contrasts are high (gray-400 for secondary text).</body></html>
+
+<!-- Outfit Planner Calendar -->
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Outfit Planner Calendar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .bottom-sheet-gradient {
+            background: linear-gradient(to top, rgba(16, 25, 34, 1) 0%, rgba(16, 25, 34, 0.95) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Header -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div class="flex flex-col items-center">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Smart Calendar</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">October 2023</p>
+</div>
+<div class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
+<span class="material-symbols-outlined">sync</span>
+</div>
+</header>
+<!-- View Toggle -->
+<div class="px-4 py-3 bg-background-light dark:bg-background-dark">
+<div class="flex h-11 items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-800/50 p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-slate-900 dark:has-[:checked]:text-white text-sm font-semibold transition-all">
+<span class="truncate">Monthly</span>
+<input checked="" class="invisible w-0" name="calendar-view" type="radio" value="Monthly"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400 has-[:checked]:text-slate-900 dark:has-[:checked]:text-white text-sm font-semibold transition-all">
+<span class="truncate">Weekly</span>
+<input class="invisible w-0" name="calendar-view" type="radio" value="Weekly"/>
+</label>
+</div>
+</div>
+<!-- Calendar Grid -->
+<main class="flex-1 overflow-y-auto px-2 pb-60">
+<div class="calendar-grid text-center py-2">
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Sun</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Mon</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Tue</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Wed</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Thu</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Fri</div>
+<div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest py-2">Sat</div>
+<!-- Empty slots for previous month -->
+<div class="aspect-square p-0.5"></div>
+<div class="aspect-square p-0.5"></div>
+<div class="aspect-square p-0.5"></div>
+<!-- Calendar Days with Outfits -->
+<!-- Day 1 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent group-focus:border-primary overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">1</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A beige wool sweater on a minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBdDDzcCN5KrwMHQCFhCc_QRoOpGYW7M9TxtkpxoL926SpLChgoQWYvtyv1SrqjTmmzxYqhzjC3hXd6tUyIg4IRFXhlFX0vy6XAo0V5u23Bi4wowWhuulAD4KanQwstCr--kNTbGQqXyF-Fd_DgNAkmNDs_kagOqblSFjFGlv3qW5KY6iCjhEumi2Afg7VZ4tjLaq0vhZlKZSf1iiS13YanYkYfsS_uab_sa6AHdIhVPTyoJlUDDQDUt-ZaGPVi3W-Nw6b6VTlKYP_"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-yellow-500">wb_sunny</span>
+</button>
+<!-- Day 2 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">2</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A classic black t-shirt folded neatly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK03IDolZaYqBGUjdwcauGTl4C_YTa1R1mC_Bwry88XwnUP5wqKM26DIT5rrAvWmYok9kZfhdkuyD7ujzsMNpceGGjNqW6X2NU31jtE86qV-7j1Y8CD12f8VsLgTTJcCHuDejE_HY89oZezumIMzR2YCN-WdAXf0y3l5d_cvgUbw2N66oiBMN3MgQcGMdH5FbJo8L96Y6MHSTQON6EwLSh5cy1Kx-9b1bQKaWARL1JLfZeRYKOICc1P8r1_ekfSBkpTRdJYhjW_Aiq"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-slate-400">cloud</span>
+</button>
+<!-- Day 3 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">3</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-600">
+<span class="material-symbols-outlined text-slate-400 text-sm">magic_button</span>
+</div>
+</div>
+</div>
+</button>
+<!-- Day 4 -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+<span class="text-[10px] font-bold pt-1">4</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A light blue button down shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDElbplBgHBv9FKgfodAxvWoiRW18_tIXHnlPWHYd5M4KZfyGG3PFte-Hy6C5PgbZcplp-AFvyyxAtSwX_IgKNB-rHpfa0I6R9_fX2dUDRhoIGq129gAMCtQlyhyAiTib2KlhdgdfskEHg2G3iep4LqtAmIy9sJSQefEHKY8d6UbYGU6yUR6Cs5faW0D-hRQNoeDxg8vgcl0dudp3MXWUVmeThZ9LNCPwLO62kmevjpD34yJK_oMKhhfV-LuzBO1CIpLTZPjkHKdDjX"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-blue-400">rainy</span>
+</button>
+<!-- Day 5 (Today) -->
+<button class="aspect-[1/1.3] p-1 flex flex-col group relative">
+<div class="flex-1 rounded-xl bg-primary/10 border-2 border-primary overflow-hidden flex flex-col shadow-lg shadow-primary/20">
+<span class="text-[10px] font-bold pt-1 text-primary">5</span>
+<div class="flex-1 flex items-center justify-center p-1">
+<div class="w-full aspect-square rounded-lg bg-white dark:bg-slate-700 overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A stylish black leather jacket" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVVcDBLoo1P4ErVRwh0WJ2V3Tu5X3w8-lzCcfc38UsCl1iihm4f0TWo3Bf1Ad7y6NCS0weZlmjykPYhkBgES7s3_mYIs7qyafcy8q5a7W74x_PVz3kx7DKph4UikrdAKzIG8VBuDaA5_f-YE8wlyB0HYR8qbpnqI70kas-wVGRIxHJ6VJj08bmZTwzm3JtTlgPKZs--nk-yPBgD3hWt2vHsmEUmDHEQ83igg-GWGAtHnzVxxgq0V4QPJmjxPiRy1VipsSGNRTMSt0d"/>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-[12px] text-yellow-500">wb_sunny</span>
+</button>
+<!-- Day 6 to 14 filler -->
+<script>
+                const gridContainer = document.querySelector('.calendar-grid');
+                for (let i = 6; i <= 30; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = "aspect-[1/1.3] p-1 flex flex-col group relative";
+                    const outfitPlaceholder = i % 3 === 0 ? 
+                        `<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden"><img src="https://images.unsplash.com/photo-1602810318383-eef624016144?q=80&w=200&auto=format&fit=crop" data-alt="A pair of dark denim jeans" class="w-full h-full object-cover"></div>` :
+                        `<div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-600"><span class="material-symbols-outlined text-slate-400 text-sm">magic_button</span></div>`;
+                    
+                    btn.innerHTML = `
+                        <div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800/40 border border-transparent overflow-hidden flex flex-col">
+                            <span class="text-[10px] font-bold pt-1">${i}</span>
+                            <div class="flex-1 flex items-center justify-center p-1">
+                                ${outfitPlaceholder}
+                            </div>
+                        </div>
+                    `;
+                    gridContainer.appendChild(btn);
+                }
+            </script>
+</div>
+</main>
+<!-- Bottom Sheet Details -->
+<div class="fixed inset-x-0 bottom-0 z-40">
+<!-- Backdrop handle -->
+<div class="flex justify-center mb-2">
+<div class="w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.15)] border-t border-slate-200 dark:border-slate-800 p-6 pb-24">
+<!-- Sheet Header / Weather -->
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">Today's Look</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-blue-500 text-lg">event</span>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Meeting at 2:00 PM</p>
+</div>
+</div>
+<div class="bg-primary/10 dark:bg-primary/20 px-4 py-2 rounded-2xl flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">thermostat</span>
+<span class="font-bold text-primary">72°F</span>
+<span class="text-xs font-semibold text-primary/80">Sunny</span>
+</div>
+</div>
+<!-- Full Outfit View -->
+<div class="flex gap-4 items-stretch h-48 mb-6">
+<div class="flex-1 relative rounded-2xl bg-slate-100 dark:bg-slate-800 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Model wearing a complete fall outfit with sweater and trousers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrOMnbFYfh3IIchGqum-672Mv-pYvlhflFbRUHCckOortYa6LoqrGK0WL9RYFhvSdDGkPvq37ysrANBjwXDmogFIi185ng1wO_wG0p7We7yIc6UDa4Egxe0-WFxtdm0Yrlafj_baR83BmlnQTltdmV5So-vcuS7S3a3oeYgXqqZFrbYKG_7O5ZiYYUDcZZ1NlHGwX1yCiM4dDb9ZUQWQxhIBTuCrfMctRQLINyiWeUiyOguqqh1iDNTnqzS-W01PHimUQ_T8qbO051"/>
+<div class="absolute bottom-3 left-3 bg-black/50 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-xs">check_circle</span>
+<span class="text-[10px] text-white font-bold uppercase tracking-wider">Ready to Wear</span>
+</div>
+</div>
+<div class="w-32 flex flex-col gap-2">
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 overflow-hidden">
+<img class="w-full h-full object-cover rounded-lg" data-alt="Dark denim jeans flat lay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlKjkwN-yXeAtwpUcZbT7Dv_neL0z_1M7Laqz4ukWICyddcs5xDLYDzfcqF0PPhzKubjpAK49uIYP5IZSuq2-gVbGlAwR_eI_By3KOIgf3iuI_xhAvggAwhrBRN9JYFNUUXJs6uAnQXvsyF-R9ayxGann3-M3GgjCjfkW5s-GqHE0ODVlRIAsjWvgjfVbMUtubR7Myu6H14C9kUWwWjftHg-0GYiZl5e4rYijHKVjP3if7mzLrA8CburEsgNyZDbSi3rIZsz37kcT3"/>
+</div>
+<div class="flex-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2 overflow-hidden">
+<img class="w-full h-full object-cover rounded-lg" data-alt="Classic red sneakers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJnDMNht8kQmUY9M5GQiKs6tnlpjfEZmRb_TfR1nqJ8ZZlgzD1oedDViAmLy8u0izAH7bCfbsFa4cHLrTY4Mp2xXIoUsK_52xcYONszWOa6d86ApZ-WgtBMIKxbrmsXrJGzfJlkS4QfZsVBz1qVRIhyUvnwO2NrpzX3rLUYdGCMkxQLvh2wdctkd3b3OoTu-pnaMkLpi6seLaFiNDFKRQI18HSXA0W9GxJBula5vhXqt1KqnutPHJG_xjgqReD3jrWc1MYY3t2qCjQ"/>
+</div>
+</div>
+</div>
+<!-- AI Suggestion Why -->
+<div class="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-2xl p-4 mb-6 relative overflow-hidden">
+<div class="flex gap-3 relative z-10">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Stylist Note</p>
+<p class="text-xs leading-relaxed text-slate-600 dark:text-slate-400 mt-1">
+                            Lighter fabrics for the 72° forecast. The leather jacket adds a professional edge for your 2 PM sync.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-3">
+<button class="flex-1 flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 py-3 rounded-xl font-bold text-sm text-slate-700 dark:text-slate-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">shuffle</span>
+                    Re-style
+                </button>
+<button class="flex-[2] flex items-center justify-center gap-2 bg-primary py-3 rounded-xl font-bold text-sm text-white shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+                    Lock Outfit
+                </button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-6 pb-6 pt-2">
+<div class="flex justify-between items-center max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold">Closet</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">flare</span>
+<span class="text-[10px] font-bold">Stylist</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">calendar_month</span>
+<span class="text-[10px] font-bold">Calendar</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>
+
+<!-- AI Stylist Daily Recommendations -->
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Stylist Daily Recommendations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "soft-cream": "#fdfaf1",
+                        "charcoal-accent": "#1a252f"
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-morph {
+            background: rgba(26, 37, 47, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen flex-col max-w-[480px] mx-auto bg-background-light dark:bg-background-dark shadow-2xl">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 font-semibold">Good Morning</span>
+<h1 class="text-xl font-bold tracking-tight">AI STYLIST</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 dark:bg-charcoal-accent">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary" data-alt="User profile portrait of a stylish woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDGY_MA9zrvkg52TJLQU3_jE4QiddBBI5hRNq2MXyJ075BtJMv8I7MXladH97H9tH1u4KuUkXaNhONyQrcdOTE-Db6v49AEReEg815hm4tzz--AACFB94hN3D6EorNliXZq8qG5WibUfUwqubNHU5u1nsJ7vZqRmU54dzmz1NKNN3EhULqtWSEHdcpyA6OWztz9BiFeQgpClh9hFZm9sAZmpJrhu_896OwLvKQA5fZUYxXbYaGaqk8QB18VjpmS0RBr78lYNKrYYzWk')"></div>
+</div>
+</header>
+<main class="flex-1 pb-24">
+<!-- Daily Hero Card -->
+<section class="px-6 py-2">
+<div class="relative group rounded-2xl overflow-hidden aspect-[3/4] shadow-2xl">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A high fashion minimalist outfit featuring a long beige coat and dark trousers" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBK_bbxQrAHtIcDa-IiK2pcECnOLjeTDaXSS31fwH37jaBPmR23KQCKKD48Y5e55F1Do-ysBcbQPbymMsOpJ5qwUjtQas3PFlaS_YAl9M7IulT3Mj2mYQonQEWyAclI7njYuYhO-0wIBylJjVvz_1mzlPMd3AaDGZVGSGryRo7E2cRpdODCYS3P92QB7M56rgDB0RHGMOP8m8xTznfC3JgF66q2SvrLGMQQtNtUEB8zaVZvYHTQ6dThSQWNsH96uCUabTO04oup_Ka6')">
+</div>
+<!-- Gradient Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-black/20"></div>
+<!-- Weather Widget -->
+<div class="absolute top-4 right-4 glass-morph px-3 py-2 rounded-xl flex items-center gap-2 border border-white/10">
+<span class="material-symbols-outlined text-primary fill-1">cloud_queue</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold leading-none">18°C</span>
+<span class="text-[8px] uppercase tracking-wider text-slate-300">Partly Cloudy</span>
+</div>
+</div>
+<!-- Label -->
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full">Primary Selection</span>
+</div>
+<!-- Content -->
+<div class="absolute bottom-6 left-6 right-6">
+<p class="text-xs text-primary font-bold uppercase tracking-[0.3em] mb-1">Today's Daily Look</p>
+<h2 class="text-3xl font-extrabold leading-tight text-white mb-3">Modern <br/>Minimalism</h2>
+<p class="text-sm text-slate-300 font-light leading-relaxed mb-6 max-w-[80%]">
+                            Crafted for a breezy afternoon. Featuring our signature cashmere blend and tailored silk accents.
+                        </p>
+<div class="flex gap-3">
+<button class="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+<span class="text-sm">Wear Today</span>
+</button>
+<button class="w-14 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-xl flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Alternative Options -->
+<section class="mt-8">
+<div class="flex items-center justify-between px-6 mb-4">
+<h3 class="text-sm font-bold uppercase tracking-widest text-slate-500">Style Alternatives</h3>
+<button class="text-xs font-bold text-primary flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="flex overflow-x-auto gap-4 px-6 no-scrollbar">
+<!-- Option 1 -->
+<div class="min-w-[160px] flex flex-col gap-3">
+<div class="aspect-[4/5] rounded-xl bg-cover bg-center shadow-lg" data-alt="Casual weekend style with a denim jacket and white t-shirt" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMQ1d4yeLzD6cLn4YmslMcl_XuGfSxSpjsklVSD5z_kr-AX2sqsEvIpcXgNJypsh0BvxegBg19Umaw1u3RS3gNLOA8vzdWFY5YgLYJKrW_HpP-jKYjTFgkYVs5HaWILjzDXyXx4De5SWvCsj5EWpzEp7paTM8uH1G7b-JABTvCyhXQl-oeW1KXtB3ing-3N21BUZO80brmfzNdns-kzPckKRTtjOoZuam_T5tqglMhJD9dCfgSGzfYuffs-JbohhIIa6eqTso_SAsV')"></div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter">Casual</p>
+<p class="text-sm font-bold leading-tight truncate">Weekend Comfort</p>
+<p class="text-[11px] text-slate-500">Relaxed Fit</p>
+</div>
+</div>
+<!-- Option 2 -->
+<div class="min-w-[160px] flex flex-col gap-3">
+<div class="aspect-[4/5] rounded-xl bg-cover bg-center shadow-lg" data-alt="Professional office attire with a navy blazer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYYVbtDwzKPoYZUgIaj9OU7ekuefRiRiC1CoZVyl92uP6fVKyeyTt4ko1ywXkRQRb650v8w5rYZZHvij0vPWWsY0cjOjxqXJG7UzG7sAaVE3yYAyX591NMCGwGQnbDEDXMHAg-2S24AVuMjWmifqHu_SwoRYHi0mKMUdvQ3qZSK0BEn3bY4XQHvq15qZ64D0X2_ahT4x2wswWfEe-HLOs5CR81Cdk0Qlk1niAnxnnhD0AG5zWWzIiG6PD-M-vfzjhasxEyhM9TU-FZ')"></div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter">Professional</p>
+<p class="text-sm font-bold leading-tight truncate">Executive Polish</p>
+<p class="text-[11px] text-slate-500">Structured Silhouette</p>
+</div>
+</div>
+<!-- Option 3 -->
+<div class="min-w-[160px] flex flex-col gap-3">
+<div class="aspect-[4/5] rounded-xl bg-cover bg-center shadow-lg" data-alt="Evening dinner dress in elegant black silk" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArcFphQeHU_1mpmrghLcJPJv1k5RQFteUnwcY-uzzg4h-L0gc4mL5BFiVO1xM8gzLxL8oubRE7tCSq_P2rUl0QG6gpuUDfJsZOMZa3_qBkuHAA9rylvVPdEUOusRSzNsqFwqO4zwQJstPwH6FSetl5YbAuj7u2gyZrb2FSJ7NXZWgEqAFMRFWdqOIDdpm87HTQ4JN4tXq3E-3unBAsGsjeOTlOv3dNHG7bEBajn_tbthVThDl2q76g0Ll6V_6wTRIzdlDjbhFSwrsn')"></div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter">Evening</p>
+<p class="text-sm font-bold leading-tight truncate">Noir Soirée</p>
+<p class="text-[11px] text-slate-500">Sophisticated Tones</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Events -->
+<section class="mt-10 px-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-4">Tomorrow's Schedule</h3>
+<div class="space-y-4">
+<!-- Event 1 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-100 dark:bg-charcoal-accent border border-slate-200 dark:border-white/5">
+<div class="h-16 w-16 rounded-xl bg-cover bg-center shrink-0 border border-white/10" data-alt="A smart casual work outfit thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCes-A6AJIMcK0lNaAdq5-PLiC3X2odGfQNEuSvbD7hVh4H6nlT0yPkkTsyDvY9EsWS5L_eGyOfXjzpHO4S_W8iDxXSPiaOp74zfvpMeJPJ7aG_ClQMqroC7Ev8l0jsMFG2aHAXioGVgrg7Le-dQYYftajezOo7LKirYH49YTHLZpmb4A2KHi-3GWFNvCGzS_qlsVFgt7I4QeIIV0D35Opif3pUm-ih1cfS-PvkpiTlIo_Iu4xDha65gJLG-jnTpXTnFHMpFTuK2aZY')"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="text-xs font-bold text-primary">09:30 AM</p>
+<span class="bg-primary/20 text-primary text-[9px] px-2 py-0.5 rounded font-bold uppercase">Work</span>
+</div>
+<h4 class="text-sm font-bold truncate mb-1">Strategic Board Meeting</h4>
+<p class="text-[11px] text-slate-500 flex items-center gap-1 italic">
+<span class="material-symbols-outlined text-[12px]">auto_awesome</span> Suggested: Power Suit
+                            </p>
+</div>
+<button class="h-8 w-8 rounded-full flex items-center justify-center bg-slate-200 dark:bg-white/5">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+<!-- Event 2 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-100 dark:bg-charcoal-accent border border-slate-200 dark:border-white/5">
+<div class="h-16 w-16 rounded-xl bg-cover bg-center shrink-0 border border-white/10" data-alt="A casual dinner outfit thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKolXJh-1Kgccm0jTgqpI0A-PFHHgAFMciQyU-YFuAnTr2-QhpIyURYtD-RTM0apj_3O2wQOs0VzULjjGRCHC5GhYvWwo1LwwINbGpopLKNiE0QGBxV0odYc_9_n8qtQ6YyPi4AqdrumQ-0fHEaxGWlbFR5OxGpRL-iwmLJCs9n1Ptt7clPf9YmTH5bp0mqJyBpIaFQ_-2ZBf0ecmMd2eRuHmbfe-qWmx9TVXWL7DzNAvv6s3Vz2dvMYOJNPDeS3LErBJ_7GSXdTVw')"></div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-0.5">
+<p class="text-xs font-bold text-primary">07:00 PM</p>
+<span class="bg-primary/20 text-primary text-[9px] px-2 py-0.5 rounded font-bold uppercase">Social</span>
+</div>
+<h4 class="text-sm font-bold truncate mb-1">Dinner with Julian</h4>
+<p class="text-[11px] text-slate-500 flex items-center gap-1 italic">
+<span class="material-symbols-outlined text-[12px]">auto_awesome</span> Suggested: Smart Casual
+                            </p>
+</div>
+<button class="h-8 w-8 rounded-full flex items-center justify-center bg-slate-200 dark:bg-white/5">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-white/5 px-6 pb-6 pt-3 flex justify-between items-center z-[60]">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-2xl fill-1">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Stylist</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">checkroom</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Wardrobe</span>
+</a>
+<div class="relative -top-8">
+<button class="h-14 w-14 bg-primary text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/40 border-4 border-background-light dark:border-background-dark">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">calendar_month</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Plan</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-2xl">person_outline</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Profile</span>
+</a>
+</nav>
+<!-- Background Accent Glow -->
+<div class="fixed top-[-10%] left-[-10%] w-[50%] h-[30%] bg-primary/10 blur-[120px] pointer-events-none rounded-full"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[30%] bg-primary/5 blur-[120px] pointer-events-none rounded-full"></div>
+</div>
+</body></html>
+
+<!-- AffordableStoreStuff Home Screen -->
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AffordableStoreStuff - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#2563eb", // Vibrant Blue
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="h-12 w-full bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<div class="flex justify-between items-center px-6 h-full">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-icons-round text-base">signal_cellular_alt</span>
+<span class="material-icons-round text-base">wifi</span>
+<span class="material-icons-round text-base rotate-90">battery_full</span>
+</div>
+</div>
+</div>
+<header class="px-4 pb-4 bg-background-light dark:bg-background-dark sticky top-12 z-40">
+<div class="flex items-center justify-between mb-4">
+<h1 class="text-2xl font-bold tracking-tight">AffordableStore<span class="text-primary">Stuff</span></h1>
+<div class="relative">
+<span class="material-icons-round p-2 bg-slate-100 dark:bg-slate-800 rounded-full">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</div>
+</div>
+<div class="relative group">
+<span class="material-icons-round absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-800 border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary transition-all text-sm" placeholder="Search budget deals..." type="text"/>
+</div>
+</header>
+<main class="pb-24">
+<section class="px-4 mb-8">
+<div class="relative w-full aspect-[21/9] rounded-3xl overflow-hidden shadow-lg group">
+<img alt="Special Promo Banner" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzKAagns8O925BoOD0pPp2-A_LI0jyOu2TqwuRiO5QPf7axIB45rkLINYC9pNhBNtgRpsGKzf7fJXbBFTKlPEWvo7VOn7iLhoK_Zoz2QNJAUjyc3zXQieGlH1lOmep7GeM5kEvp13tN53ngadc4v4BrbuUO9Lw9Gr2TdHB8iElnfTesUlUiURtckWd-XTYiQI_TcIMQhyLiPTvVdC7AP-931s7DptZqaLbZKryK7OM2xQ0NfUjxe3cm6qgO4lokZscuG9Evs6BlFVT"/>
+<div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex flex-col justify-center px-6">
+<span class="text-white/80 text-xs font-bold tracking-widest uppercase mb-1">Weekly Special</span>
+<h2 class="text-white text-2xl font-bold mb-2">Save up to 70%<br/>on Tech Essentials</h2>
+<button class="bg-primary text-white text-xs font-bold py-2 px-4 rounded-full w-fit">SHOP NOW</button>
+</div>
+<div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+<div class="h-1.5 w-4 bg-white rounded-full"></div>
+<div class="h-1.5 w-1.5 bg-white/50 rounded-full"></div>
+<div class="h-1.5 w-1.5 bg-white/50 rounded-full"></div>
+</div>
+</div>
+</section>
+<section class="mb-8">
+<div class="flex items-center justify-between px-4 mb-4">
+<h3 class="font-bold text-lg">Categories</h3>
+<button class="text-primary text-sm font-medium">See All</button>
+</div>
+<div class="flex overflow-x-auto gap-4 px-4 no-scrollbar">
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
+<span class="material-icons-round text-primary text-2xl">devices</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Electronics</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center">
+<span class="material-icons-round text-green-600 text-2xl">checkroom</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Clothing</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-2xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center">
+<span class="material-icons-round text-orange-600 text-2xl">weekend</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Home</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center">
+<span class="material-icons-round text-purple-600 text-2xl">fitness_center</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Sport</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-2xl bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center">
+<span class="material-icons-round text-rose-600 text-2xl">face</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Beauty</span>
+</div>
+</div>
+</section>
+<section class="px-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-lg">Flash Sales</h3>
+<div class="flex items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-0.5 rounded text-xs font-bold">
+<span class="material-icons-round text-xs">timer</span>
+<span>04:22:18</span>
+</div>
+</div>
+<button class="text-primary text-sm font-medium">View More</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 relative">
+<div class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
+                        -45%
+                    </div>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm rounded-full z-10">
+<span class="material-icons-round text-slate-600 dark:text-slate-200 text-sm">favorite_border</span>
+</button>
+<div class="aspect-square bg-slate-50 dark:bg-slate-700 overflow-hidden">
+<img alt="Wireless Headphones" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6k4sKqyq9H3srODLeeyTIsLQxO3tMvKdBH87Z0lsOYSDKttEzIrJogIuuXmjjtA1qdh0VyuqyhqeytKMbW_zQAOCOa0cxA7iLYvqaWGhMszT2Ntyhcem7XWK3HCSxLnK1KN3yUrAZgk02QAQpMhjMiha4rtnCFEwLMnqF2sgHh8dqD3SPbojC-8qwxpZ9NEuoa0CAWbsguvPkSJfAhNevU0H-gC8yVv00sGz2OcgpEYOm3elUKZg2f7U1MQtVLXuK4LTPb6GS5_L1"/>
+</div>
+<div class="p-3">
+<h4 class="text-sm font-medium mb-1 truncate">Wireless Headphones Pro</h4>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-primary font-bold text-lg">$24.99</span>
+<span class="text-slate-400 text-xs line-through">$45.00</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-icons-round text-yellow-400 text-xs">star</span>
+<span class="text-[10px] text-slate-500 font-medium">4.8 (1.2k sold)</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 relative">
+<div class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
+                        -30%
+                    </div>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm rounded-full z-10">
+<span class="material-icons-round text-slate-600 dark:text-slate-200 text-sm">favorite_border</span>
+</button>
+<div class="aspect-square bg-slate-50 dark:bg-slate-700 overflow-hidden">
+<img alt="Minimalist Watch" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQztKWATPXTtkxEfvgwi1GWyGwr5-TQzI12rjd36rdvrivb0xtIQfbgISdj0uWp79e1lrqy9O3_STOpiTKyTUfa0YLUbU81LJeWva_iWBwD9g9DmUZFoXDuFquq9A36llj2DExrZGIZYOKiQwma7LOMANoS4yY7QJfMs1QzmaOHlSdRnuEC8W_rHBcpyyJ67rMC7gMTepkrLWlpcL08JMFBncCoVYb58Y8VMby_zlkblK2midJAK5SFDVG9Hc0dFixhJrMyrPrirrB"/>
+</div>
+<div class="p-3">
+<h4 class="text-sm font-medium mb-1 truncate">Smart Minimalist Watch</h4>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-primary font-bold text-lg">$18.50</span>
+<span class="text-slate-400 text-xs line-through">$26.00</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-icons-round text-yellow-400 text-xs">star</span>
+<span class="text-[10px] text-slate-500 font-medium">4.5 (850 sold)</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 relative">
+<div class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
+                        -60%
+                    </div>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm rounded-full z-10">
+<span class="material-icons-round text-slate-600 dark:text-slate-200 text-sm">favorite_border</span>
+</button>
+<div class="aspect-square bg-slate-50 dark:bg-slate-700 overflow-hidden">
+<img alt="Designer Sunglasses" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPr_ntJZuhTisvBAxZjsb5tue8WOvGIiLreILs8k0mBu_7P52aGnrK4W2c-udBEVbBHXzUINTJWxoyjEWau2cfMNga_nXR1suJZH5dZ--tPELZ2F7gpx7AJXD9VZFkqqGLw-8reOYXZjpWzZUGUeXqw-E_EIUDvPdArHcrsu0naNDYizwzk5gFuA9D4BLYsmMJRYW1JCTYyy7AUo3aHYOr3z3NtAOTBbXi9c_xgetvzq2N0zRNBP3b9fyopLhiFlxpjj9NBilgFti5"/>
+</div>
+<div class="p-3">
+<h4 class="text-sm font-medium mb-1 truncate">Retro Sunglasses</h4>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-primary font-bold text-lg">$9.99</span>
+<span class="text-slate-400 text-xs line-through">$24.00</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-icons-round text-yellow-400 text-xs">star</span>
+<span class="text-[10px] text-slate-500 font-medium">4.9 (2.1k sold)</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 relative">
+<div class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
+                        -25%
+                    </div>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm rounded-full z-10">
+<span class="material-icons-round text-slate-600 dark:text-slate-200 text-sm">favorite_border</span>
+</button>
+<div class="aspect-square bg-slate-50 dark:bg-slate-700 overflow-hidden">
+<img alt="Running Shoes" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjneKeN9fGWfF-wbb-vnsdxaSm2RTvCI9l2oa-13FxQu6IBY1DfYx4iy62iyKVIWlOSlGNVZWEZmcfuqTgK26v3ciYD9Z3t1Fk56XKdCcqNjzB8kXrnqh9_cT0yFuIdyV7fBeTSkk9_28r1uUIkwpKGbcpBzZTZri3MLHmRA3obuF6hBhJDMvHcRyHp8oaVh_3mT8wim0Ajt21pwk5x5S3ulFmk4n0wNqnBDS2C39UYSw0MtrlmNiSt_xUB_w_Zr54MdSqrl4DQms4"/>
+</div>
+<div class="p-3">
+<h4 class="text-sm font-medium mb-1 truncate">Cloud Run V2 Shoes</h4>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-primary font-bold text-lg">$35.00</span>
+<span class="text-slate-400 text-xs line-through">$48.00</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-icons-round text-yellow-400 text-xs">star</span>
+<span class="text-[10px] text-slate-500 font-medium">4.7 (540 sold)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 pb-8 pt-3 px-6 z-50">
+<div class="flex justify-between items-center">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500">
+<span class="material-icons-round">grid_view</span>
+<span class="text-[10px] font-medium">Catalog</span>
+</div>
+<div class="flex flex-col items-center -mt-8">
+<div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white shadow-lg shadow-primary/40 border-4 border-background-light dark:border-background-dark">
+<span class="material-icons-round text-2xl">shopping_cart</span>
+</div>
+<span class="text-[10px] font-medium text-slate-400 mt-1">Cart</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500">
+<span class="material-icons-round">favorite_border</span>
+<span class="text-[10px] font-medium">Wishlist</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500">
+<span class="material-icons-round">person_outline</span>
+<span class="text-[10px] font-medium">Profile</span>
+</div>
+</div>
+</nav>
+
+</body></html>
+
+<!-- Product Detail View -->
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Detail - AffordableStoreStuff</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10b981", // Emerald 500 for a trustworthy "budget/savings" feel
+                        "background-light": "#f9fafb",
+                        "background-dark": "#111827",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24">
+<div class="h-11 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 flex items-center justify-between px-6">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex items-center space-x-1.5">
+<span class="material-icons-outlined text-base">signal_cellular_alt</span>
+<span class="material-icons-outlined text-base">wifi</span>
+<span class="material-icons-outlined text-base">battery_full</span>
+</div>
+</div>
+<nav class="flex items-center justify-between px-4 py-2 sticky top-11 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md">
+<button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800">
+<span class="material-icons-outlined">arrow_back_ios_new</span>
+</button>
+<div class="flex space-x-2">
+<button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800">
+<span class="material-icons-outlined">share</span>
+</button>
+<button class="p-2 rounded-full bg-gray-100 dark:bg-gray-800">
+<span class="material-icons-outlined">favorite_border</span>
+</button>
+</div>
+</nav>
+<div class="relative w-full aspect-square bg-white dark:bg-gray-800 overflow-hidden">
+<div class="flex h-full overflow-x-auto snap-x snap-mandatory no-scrollbar">
+<div class="min-w-full h-full snap-center">
+<img alt="Primary product shot of red sports sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbhxzyd3r_3NHK3giqMp8ievN0R-5UEHMAgvQJAgl0hqK6184M4Tdun5qCe0mB86eEXSFgbbkujKUqd2JDPZSl4BvFJk0_XYbdYoiE35aIsc5v7c3qQTZreXVQEGTZuEM2huX0ix0CPS6jI_aB1mXibUl7EN1mw78tY0dAwamjqkhHOpMfJYNsEvWjYprgBgF5xO53Te2_OKhKn7vsLRhPDJ8YRUtPMUXtRQPbWAXTUMnQTF2WzcjBv0kG1l8-BDEXp2WFEGt6egwR"/>
+</div>
+<div class="min-w-full h-full snap-center">
+<img alt="Detailed side view of sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA5wyBjS-ICcAm-Y7ovd3Wx4rLziZAPTxTPj0u96_KOZ4snQwU0RcSMdsmusoB1MHEhEMYmw0MTNhJ2HICN_fxxrCImDnzx4lWRkFGto1a_drywJJLIXFUyt90IIB2OOOtkDIvnViZeAYgOESMEbGWZyucDxFVU1vKTjXbQpq39Ip9cTOtpUrEhwYyy1A6ZXJAYb5I4Cz3WjQm-2EQhckumh1g9kfbQEnvMrtl7uV_-2RQ27-CeVrIyUIcBDaYmfZuQMut-L0Sj_BG"/>
+</div>
+<div class="min-w-full h-full snap-center">
+<img alt="Bottom sole detail of shoes" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwzcGOerGIlVDsjsbSrFtYiDAcZA7kOJwNsszzLfm7rKhnQrikPhF9YUy9sU5508k-I2ntQ_f1viVpkmYYHzZQIyyIxP0mkIUMmDIhQ2RAlsl65hHzj7x1BPVJJvdiVbo6p-s1cBcFyjlz-QqhxyfS5glkpP3Uf6nxK5wEsasDnLGuHEUir8ooA3JzMRGJnCc1sCeKezrhb34EI5znr7mWfDBXdMjXoEMKO67RW3VMbO1GpLslEQ-lZg1TgQCwEqQjEVyCTsEeTbM5"/>
+</div>
+</div>
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-1.5">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+<div class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+</div>
+</div>
+<section class="p-4 space-y-3 bg-white dark:bg-gray-900 rounded-t-3xl -mt-6 relative z-10 shadow-sm">
+<div class="flex items-center space-x-2">
+<span class="bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">Flash Sale</span>
+<span class="text-primary text-sm font-semibold">AffordableStoreStuff Exclusive</span>
+</div>
+<h1 class="text-2xl font-bold leading-tight">Ultra-Comfort Pro Runner Sneakers - V3 Limited Edition</h1>
+<div class="flex items-end space-x-3">
+<span class="text-3xl font-black text-primary">$49.99</span>
+<span class="text-lg text-slate-400 dark:text-slate-500 line-through mb-1">$89.00</span>
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-bold mb-1.5">-44% OFF</span>
+</div>
+<div class="flex items-center space-x-4 pt-1">
+<div class="flex items-center">
+<span class="material-icons-outlined text-yellow-400 text-lg">star</span>
+<span class="font-bold ml-1">4.8</span>
+<span class="text-slate-500 dark:text-slate-400 text-sm ml-1">(2.4k reviews)</span>
+</div>
+<div class="h-4 w-px bg-slate-200 dark:bg-slate-700"></div>
+<div class="flex items-center">
+<span class="material-icons-outlined text-slate-400 text-lg">local_shipping</span>
+<span class="text-sm font-medium ml-1">Free Shipping</span>
+</div>
+</div>
+</section>
+<div class="h-2 bg-slate-100 dark:bg-slate-800"></div>
+<section class="bg-white dark:bg-gray-900">
+<details class="group border-b border-slate-100 dark:border-slate-800" open="">
+<summary class="flex items-center justify-between p-4 cursor-pointer list-none">
+<span class="font-bold text-lg">Product Specifications</span>
+<span class="material-icons-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-4 pb-4 space-y-3">
+<div class="grid grid-cols-2 gap-y-3 text-sm">
+<div class="text-slate-500 dark:text-slate-400">Material</div>
+<div class="font-medium">Breathable Mesh &amp; EVA</div>
+<div class="text-slate-500 dark:text-slate-400">Sole</div>
+<div class="font-medium">Anti-slip Rubber</div>
+<div class="text-slate-500 dark:text-slate-400">Closure</div>
+<div class="font-medium">Lace-up</div>
+<div class="text-slate-500 dark:text-slate-400">Weight</div>
+<div class="font-medium">280g (Size 9)</div>
+<div class="text-slate-500 dark:text-slate-400">Country of Origin</div>
+<div class="font-medium">Vietnam</div>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mt-4">
+                    Engineered for daily performance. The V3 Limited Edition features our patented CloudSole technology providing 20% more energy return than previous models.
+                </p>
+</div>
+</details>
+</section>
+<section class="bg-white dark:bg-gray-900 mt-2">
+<div class="p-4 flex items-center justify-between">
+<h2 class="font-bold text-lg">User Reviews</h2>
+<button class="text-primary font-semibold text-sm">View All</button>
+</div>
+<div class="px-4 flex space-x-2 overflow-x-auto no-scrollbar mb-4">
+<img alt="Customer review photo 1" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxMmGJ4rVpWzfUeyHXhyKCvcWBI1UIuL40Egoi4IebhLqsqILeyLx2afg6BfLBWHmPAZdL2MI4jBxaUyhzd-tclJwL0ZEnYL2UFmLp9V646aK0lgVpZkgvoMLY3Lwei3vDGMQNbHuwS5B1D89AKZ4yGOOwhD2uhPgnH7A-yu-sqPVnOJCWbgdjXOzsbUiixFXYh-sH5pxmp9oYhPocD6JOsHewuZK83R_lDZ8Mfvtz9FKnknY2vkvuyPUS_tu4aCJ5J1W2DCF8ZiOS"/>
+<img alt="Customer review photo 2" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIDZh0dIYXfWeRdZfcei9OQZzjkE7mPjxuukL0d8Rcj7nIy8FqtKNhMhvVIGmTosyewE3ZU5yRV0u_8lPq-O4K3Wyva3OoS84uzUeuD8C8nAnhLsZ35AT-mpmocwrOZg72GbA-ndx8kjK1tWUiW3xeaZXAmzVSSxi1PeNCrTygZ0wk2CrxZ-wPHVgzFP65AmMldbgtl-ZtmdNa2VuubUUpzG81mUtqs2rWh9CGjpWmYvwJI5DfXE55qYavpPx8qQnSBPPBlGh80JvB"/>
+<img alt="Customer review photo 3" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK8qOuJr9vaK-t7JZc9pndZDN16KkfuP4SbnC9P_hq8OHjvbz5R2ReKBU9Go7haZ-nKQJISE7v0buhj03RYpdlq0mBW3b6PO9INg6PNEtDHJa9aMaFiUmGNlPRP0Ei7HkTPAP5e4i1-7dzdeq5uCxCl91_9avVfDrCjFK9nRTKvjOX8Bz30Vb-smat6d9XdrUPrgY4UMcvKKF1f9ZksvhTzMPnRbx1G8EYQ2gnz9rcofkTmKSuFhh62ghWsIXJD6CfD4jn-w5HDcgA"/>
+<div class="w-20 h-20 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0">
+<span class="text-xs font-bold text-slate-500">+128</span>
+</div>
+</div>
+<div class="px-4 pb-6 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-2">
+<img alt="User avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXOrVLKPjfmcjdRWfCEvpXdT-I6Q2ZA7BRNCwwHwZWHh2H3jLIHEsETjGg5vQdaoRFvyODeQ6GQkCVaDQ9qy_QElhBCdq4kL-1dHiFNisKHeqDuTb4PoDbK7-a_s0qa0NY6-hIQG_7Pl6CE1haf8ODah9jYCDiJqPiPqMjSFKijwKI6qeDK9PpnBr3Na9PjH7MDzy4hTiE27gTIz3YoMUNmEsmyRCfQXihkkCG5mgZbDOJNkPk5k668JPqkcqaJS0uE32YJ_SI5HNd"/>
+<div>
+<p class="text-xs font-bold">Alex Johnson</p>
+<div class="flex">
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+</div>
+</div>
+</div>
+<span class="text-slate-400 text-[10px]">2 days ago</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-snug">
+                Incredible quality for the price! I was skeptical because of the "budget" focus of the app, but these feel better than my $150 pairs. Super lightweight.
+            </p>
+</div>
+<div class="px-4 py-6 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center space-x-2">
+<img alt="User avatar" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_EbRQ9P66TITQ42H_YiBR3LsSx9ZxYyLxhNJ8-0RzzyJodUQD-pDXfizlqSnEjDxzy7o3IQpt1mn3m6PjaknwK3olHS5a1WnbUc3wXW4zLm_h5o7Lr8r-SeMDPmU3xiKwKvTWl1l8_PqKtjyYrOX29ePr_TS3OnZJhbyCuGI1CJwdKoZfkxmjJT1vbJmntck7-MAffQ7RSyuPcQ-xeGDXSIflDIuBg5kDaBg2BvcnPq0W5sc_TfUH0HcrK0wM2wZG9TqSVBulLVJq"/>
+<div>
+<p class="text-xs font-bold">Sarah M.</p>
+<div class="flex">
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-yellow-400 text-[10px]">star</span>
+<span class="material-icons-outlined text-slate-300 text-[10px]">star</span>
+</div>
+</div>
+</div>
+<span class="text-slate-400 text-[10px]">1 week ago</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-snug">
+                Fits perfectly. Shipping took about 4 days to California. Definitely recommend if you want to save money without sacrificing comfort.
+            </p>
+</div>
+</section>
+<section class="bg-white dark:bg-gray-900 mt-2 p-4">
+<h2 class="font-bold text-lg mb-4">You Might Also Like</h2>
+<div class="flex space-x-4 overflow-x-auto no-scrollbar">
+<div class="min-w-[140px] flex-shrink-0">
+<img alt="Blue sports sneakers" class="w-full h-32 object-cover rounded-xl mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKmukQNbzRRuWh24zktWl7oB1uRR2aVVD4dqyb7pPLy8TZDoTjTTJCZVl76eiEXpP5L-58YBim7BdcfhzQBVt-S8uPmy2l_2ISJ5pv7cSEW1xEvqQHYfmukSDiyWYo67il0HwVGhaQD_O4Tqoj9IeEEmKzjRPSnIdG4T2uRH3PKI4HNBDBxsTN6gBAOT9AMlyWz1oo-aWZxU0tuu655vgI10Wz_UvyTVhaz6YVb32kkQ1UD9iODPganVXONSltdTIiZGqhOHssC-BR"/>
+<p class="text-xs font-bold line-clamp-1">Blue Glide Runner</p>
+<p class="text-primary font-black text-sm">$34.99</p>
+</div>
+<div class="min-w-[140px] flex-shrink-0">
+<img alt="Grey casual sneakers" class="w-full h-32 object-cover rounded-xl mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbn6oT_ss1uekD6ifBC7xWoLgnCpnGMVX4NIt1aQilA63k6H6VLVwz3T6m8AW05VUcnBsAkAjZQfWI7PKz6NqPWd55rvTfn-Nv1I0P8AIkFfHZyfS5xCxlF2tbav0KEltJ_gPbGmJ0laPiVcTFWk0jsy2OeFOTU3ioExK2ligjs7bVEHBiKEnLhR8gI6Y0Vf3XVahGIhpPEayfokwmudYRtsssL7VUOqUZTRUAa36h13Jgr2fw2WgtU1KOIKQBUnR4TIlrVvYSw6Cp"/>
+<p class="text-xs font-bold line-clamp-1">Urban Grey Mesh</p>
+<p class="text-primary font-black text-sm">$29.99</p>
+</div>
+<div class="min-w-[140px] flex-shrink-0">
+<img alt="Black walking shoes" class="w-full h-32 object-cover rounded-xl mb-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM4pWcM0-o9kYFeccVq_e139t_SxFFGTEXWEbdNrjSx0Aiz0N0ul7dvAVZ9XhKIopkf8SSjOW4fsUZZux6zuI48Mm5uUMfdEKQleukWCeBO9y8iwTr5v--2Pw-UMRicebmIT6vqRWc8DIFFE0zVAgmHPu8LpPW6tcIHfjOmRCQ_ohwQ1POoktN0dtKqd0EJhivD89k7dSM6FtnOEWrt0TRj7Xw6APTTHhweMqyrGJPcSJHkXjl1v4rgwsPDUnnXMruDtGW-8RseFyj"/>
+<p class="text-xs font-bold line-clamp-1">Stealth Walk Pro</p>
+<p class="text-primary font-black text-sm">$52.00</p>
+</div>
+</div>
+</section>
+<div class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-4 py-3 pb-8 z-50 flex items-center space-x-3">
+<button class="flex flex-col items-center justify-center text-slate-500 px-2">
+<span class="material-icons-outlined">store</span>
+<span class="text-[10px] font-bold">Store</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 px-2 relative">
+<span class="material-icons-outlined">shopping_cart</span>
+<span class="text-[10px] font-bold">Cart</span>
+<span class="absolute top-0 right-0 bg-primary text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900">2</span>
+</button>
+<button class="flex-1 bg-primary text-white font-bold py-4 rounded-2xl active:scale-95 transition-transform flex items-center justify-center space-x-2">
+<span class="material-icons-outlined">add_shopping_cart</span>
+<span>Add to Cart</span>
+</button>
+</div>
+
+</body></html>
+
+<!-- User Account Dashboard -->
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Account Dashboard - AffordableStoreStuff</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#2563eb",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">AffordableStoreStuff</h1>
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-icons text-xl leading-none">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-semibold">
+                JD
+            </div>
+</div>
+</header>
+<main class="px-5 py-6 space-y-6">
+<section class="bg-gradient-to-br from-primary to-blue-700 rounded-3xl p-6 shadow-xl shadow-blue-500/20 text-white">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-blue-100 text-sm font-medium">Welcome back, John!</p>
+<h2 class="text-3xl font-bold mt-1">2,450 <span class="text-lg font-normal text-blue-100">Points</span></h2>
+</div>
+<span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Gold Member</span>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<p class="text-xs text-blue-100">550 more points to Platinum</p>
+<button class="text-sm font-semibold flex items-center">
+                    Redeem <span class="material-icons text-sm ml-1">chevron_right</span>
+</button>
+</div>
+<div class="w-full bg-white/20 h-2 rounded-full mt-3 overflow-hidden">
+<div class="bg-white h-full w-[75%] rounded-full"></div>
+</div>
+</section>
+<section class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 transition-active active:scale-95">
+<span class="material-icons text-primary mb-2">favorite_border</span>
+<span class="text-xs font-medium">Wishlist</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 transition-active active:scale-95">
+<span class="material-icons text-primary mb-2">confirmation_number</span>
+<span class="text-xs font-medium">Coupons</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 transition-active active:scale-95">
+<span class="material-icons text-primary mb-2">account_balance_wallet</span>
+<span class="text-xs font-medium">Payments</span>
+</button>
+</section>
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold">Recent Orders</h3>
+<button class="text-primary text-sm font-semibold">See All</button>
+</div>
+<div class="space-y-4">
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Red Nike Sneaker" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJKRXLAQCzQDILCJE0u3FQxrjeDZoqPDDQoln0QeOFKCsf7kJnT7rEK0dEG8Z5EqE_C2Jeh8kbRne52pWMSnFGDmk_cxIG25TRsibY0MBVXu2X0nFg-ZTzqurP8R6kTry0RcPtRIVzgef3Ijdkfx3AL9xplZFkWCicRiqqLS1HBAK8YJ_PNargylrMOc-eAXv60I5VCWLGtvrDb2CQMFCilrF4SBJtiLkQt1asu-LSN5ce7JjNRi_tn4nTNalEd_2hDoszz1n7uirc"/>
+</div>
+<div>
+<h4 class="text-sm font-semibold">Nike Air Max 270</h4>
+<p class="text-xs text-slate-500">Order #882190</p>
+</div>
+</div>
+<span class="text-primary bg-primary/10 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide">In Transit</span>
+</div>
+<div class="relative mt-4 mb-2">
+<div class="flex justify-between items-center relative z-10">
+<div class="w-3 h-3 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="w-3 h-3 rounded-full bg-primary ring-4 ring-primary/20"></div>
+<div class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+</div>
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 dark:bg-slate-700 -translate-y-1/2 -z-0"></div>
+<div class="absolute top-1/2 left-0 w-1/2 h-0.5 bg-primary -translate-y-1/2 -z-0"></div>
+</div>
+<div class="flex justify-between text-[10px] text-slate-500 font-medium uppercase mt-2">
+<span>Ordered</span>
+<span>Shipped</span>
+<span>Delivered</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Mechanical Keyboard" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrf2_c-VpP0AzvphhF1WEnL9FKZ59cfX4_0wGa5s1eR_4XyUKz1XPEy_bAJKbuN8dmcUyQkIVE_Blm2KOyfHj8Fr3kHxExn-rrBogXxA18ED0xw3bhHsC4xJankgV2Dd6vOWcrYvhcMNP_eFM5i7W-fNcuixUWYR2HIs8lwFtap5UcKlm7SkJgM-WyA-GOWq--0sjD5HuKtUH6lEsbhEssbJ3rBPJPIEhAt7XI4ycn_GCRMyJAkHXvS-j_irHY6L6H-N19YwpRtcwi"/>
+</div>
+<div>
+<h4 class="text-sm font-semibold">NuPhy Halo65 Keyboard</h4>
+<p class="text-xs text-slate-500">Order #882045</p>
+</div>
+</div>
+<span class="text-green-600 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide">Delivered</span>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold">Recommended for You</h3>
+<button class="text-primary text-sm font-semibold">View All</button>
+</div>
+<div class="flex overflow-x-auto space-x-4 pb-4 hide-scrollbar -mx-5 px-5">
+<div class="min-w-[160px] bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+<div class="h-32 bg-slate-100 dark:bg-slate-700 relative">
+<img alt="Modern Minimalist Watch" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsdLWPSzavpvbFVXyfrdF3Ee_X9JtZUcb3Sn-qj55TSbeVTMzJdIKG3NWQcTyyD18OhfUofNEp8LDhXWNrj8_zAu6cyjZ4JCCDl0E8asQiBF-qYvXrf7bi--CEJ8EsbHNMdz90B_djG4Y9qURMKSvHzPXGH56LA5HK9gAM5EXznQ35eKxND62PbYq7JaEfEC9R8qTjOdhP_KdkbcrxnoJR_7TDzDaU3RkcjYhL_6U7XNWzzedrkjMjscei7lfmTzzmDhoNnpGmjvP0"/>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur rounded-full shadow-sm">
+<span class="material-icons text-rose-500 text-sm">favorite</span>
+</button>
+</div>
+<div class="p-3">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-tight">Tech</p>
+<h4 class="text-sm font-semibold truncate">Minimal Watch</h4>
+<p class="text-primary font-bold mt-1">$120.00</p>
+</div>
+</div>
+<div class="min-w-[160px] bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+<div class="h-32 bg-slate-100 dark:bg-slate-700 relative">
+<img alt="Wireless Headphones" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqlnYFLdTAAlGr-4JjZmarNt5ykvBRM3Q13XiOhvjmRDQ2LkNQwqovMNQ5OXSDVZd0RUcy4F1JceMLEO1WIe1E1_mzISbg4Uolk1S9SFHgm6tvPsAyfsVDPTCwiMCF33phfdqvDPKDMOYHM678Rc0sw898xxppulXKd6YOAjC7Ls62GY_lp51ns_HsM48haawCmaqUZIcOiShX7vjqV_JInKB4G5t1kMs1z5GXeftYV-A8unKeZ3Msm3tbRRU-2lbipHulpib_uSdg"/>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur rounded-full shadow-sm">
+<span class="material-icons text-slate-400 text-sm">favorite_border</span>
+</button>
+</div>
+<div class="p-3">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-tight">Audio</p>
+<h4 class="text-sm font-semibold truncate">Premium Headset</h4>
+<p class="text-primary font-bold mt-1">$299.50</p>
+</div>
+</div>
+<div class="min-w-[160px] bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
+<div class="h-32 bg-slate-100 dark:bg-slate-700 relative">
+<img alt="Classic Sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7JEl-0q_CeEs6aTHghbcJ-ZyJHEfrAp5UpC7HCxEXHEqiXl8iGgEBk9tFPc_jFQG4_ytEhe8wfHfw3hpqpEBBjatC5mFVQCEtUMSiruERRFlHyONbOIF11WJU_1GQcalYnlVGQn3eE4Mk2oRASkpuA0-wzbMitdotKLEE0J9egOXwfWw3cukh6zarEtkIEcjLVeDVxlZyFvLS9TtFKftcZC9yJLq0Cr2ptrL1nX-R6Yqpa7U-ocGxjSrhZsy1RdncKFyIE7vkVAUQ"/>
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur rounded-full shadow-sm">
+<span class="material-icons text-slate-400 text-sm">favorite_border</span>
+</button>
+</div>
+<div class="p-3">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-tight">Fashion</p>
+<h4 class="text-sm font-semibold truncate">Canvas Shoes</h4>
+<p class="text-primary font-bold mt-1">$45.00</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700">
+<button class="w-full flex items-center justify-between p-4 active:bg-slate-50 dark:active:bg-slate-700 transition-colors">
+<div class="flex items-center">
+<span class="material-icons text-slate-400 mr-3">person_outline</span>
+<span class="text-sm font-medium">Personal Information</span>
+</div>
+<span class="material-icons text-slate-300">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 active:bg-slate-50 dark:active:bg-slate-700 transition-colors">
+<div class="flex items-center">
+<span class="material-icons text-slate-400 mr-3">lock_open</span>
+<span class="text-sm font-medium">Security &amp; Privacy</span>
+</div>
+<span class="material-icons text-slate-300">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 active:bg-slate-50 dark:active:bg-slate-700 transition-colors">
+<div class="flex items-center">
+<span class="material-icons text-slate-400 mr-3">help_outline</span>
+<span class="text-sm font-medium">Customer Support</span>
+</div>
+<span class="material-icons text-slate-300">chevron_right</span>
+</button>
+</section>
+<button class="w-full py-4 text-rose-500 font-bold text-sm bg-rose-50 dark:bg-rose-950/20 rounded-2xl">
+            Log Out
+        </button>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-6 py-3 pb-8 flex justify-between items-center z-50">
+<button class="flex flex-col items-center space-y-1 text-slate-400">
+<span class="material-icons">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-slate-400">
+<span class="material-icons">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-slate-400">
+<span class="material-icons">shopping_bag</span>
+<span class="text-[10px] font-medium">Cart</span>
+</button>
+<button class="flex flex-col items-center space-y-1 text-primary">
+<span class="material-icons">person</span>
+<span class="text-[10px] font-medium">Account</span>
+</button>
+</nav>
+<button class="fixed bottom-24 right-4 bg-slate-800 dark:bg-white text-white dark:text-slate-800 p-3 rounded-full shadow-lg z-50" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-icons text-xl leading-none">dark_mode</span>
+</button>
+
+</body></html>
+
+<!-- Your Personalized Style Profile Summary -->
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Personalized Style Profile Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Noto+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7317cf",
+                        "background-light": "#f7f6f8",
+                        "background-dark": "#191121",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+        }
+        .font-display {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Main Container -->
+<div class="relative flex h-auto min-h-screen w-full max-w-[480px] mx-auto flex-col bg-background-light dark:bg-background-dark overflow-x-hidden shadow-2xl">
+<!-- Header Navigation -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-primary/10">
+<div class="text-slate-900 dark:text-slate-100 flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-primary/10 cursor-pointer">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</div>
+<h2 class="font-display text-lg font-bold leading-tight tracking-tight flex-1 text-center">Style Profile</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex items-center justify-center rounded-full size-10 bg-transparent text-slate-900 dark:text-slate-100 hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto pb-24">
+<!-- Hero Profile Card -->
+<div class="p-4">
+<div class="relative flex flex-col items-stretch justify-start rounded-xl overflow-hidden shadow-lg bg-white dark:bg-slate-800">
+<div class="w-full bg-center bg-no-repeat aspect-[4/5] bg-cover" data-alt="Elegant fashion model in minimalist urban clothing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBRmgFaSmDdrjuxPKoWKdk_AZcY6dz8ecNgM8fGdo0OvKVKCmnBTYdjSI6fLgyNf_tjFDsx0izLp_Em1jh5hlvFRXvQLkfxkpV4Y6v4EOwx03Iox6e4wfRyqHy4JVPvPA2r_p3D6wtia-OOJXA0OpG2KMy_35YC7rbn1AyU0sxoOruRp8E_8wkibB_484lMet0BeD87eJDSF_3s9NtVVhuMTkFuIRhQ8cxYA7UBUvwhhUccNFT-jLNyKbS2gTi_rbL1uU6S3ofHW4bH");'>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+<p class="text-primary/90 text-xs font-bold tracking-[0.2em] uppercase mb-1">Primary Archetype</p>
+<h1 class="font-display text-white text-3xl font-bold leading-tight mb-2">Urban Minimalist</h1>
+<p class="text-white/80 text-sm leading-relaxed max-w-[80%]">
+                                Your style is defined by clean lines, neutral tones, and effortless sophistication.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Style DNA Section -->
+<section class="px-4 py-6">
+<h3 class="font-display text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span> Style DNA
+                </h3>
+<div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-primary/5">
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Alignment</p>
+<p class="text-4xl font-display font-bold text-primary">92%</p>
+</div>
+<div class="text-right">
+<p class="text-slate-500 text-xs italic">Based on 142 visual matches</p>
+</div>
+</div>
+<!-- Attributes Visualization -->
+<div class="space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Sophistication</span>
+<span class="text-primary">95%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Comfort</span>
+<span class="text-primary">70%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 70%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Trendiness</span>
+<span class="text-primary">45%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-sm font-medium">
+<span>Versatility</span>
+<span class="text-primary">88%</span>
+</div>
+<div class="h-2 w-full bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Signature Palette Section -->
+<section class="py-6">
+<h3 class="font-display text-xl font-bold px-4 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">palette</span> Signature Palette
+                </h3>
+<div class="flex gap-4 px-4 overflow-x-auto no-scrollbar pb-2">
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#1A1A1A] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Onyx</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#E5E4E2] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Platinum</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#4A4A4A] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Anthracite</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#F5F5F5] border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Bone</span>
+</div>
+<div class="flex flex-col items-center gap-2 shrink-0">
+<div class="size-16 rounded-full bg-[#7317cf]/40 border-2 border-white shadow-md"></div>
+<span class="text-[10px] font-bold uppercase text-slate-500">Dusty Iris</span>
+</div>
+</div>
+</section>
+<!-- Recommended Brands Section -->
+<section class="py-6">
+<div class="flex items-center justify-between px-4 mb-4">
+<h3 class="font-display text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span> Curated Brands
+                    </h3>
+<a class="text-primary text-sm font-semibold" href="#">View All</a>
+</div>
+<div class="flex gap-4 px-4 overflow-x-auto no-scrollbar">
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">C</span>
+</div>
+<span class="text-sm font-medium">Cos</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">T</span>
+</div>
+<span class="text-sm font-medium">Theory</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">J</span>
+</div>
+<span class="text-sm font-medium">Jil Sander</span>
+</div>
+<div class="w-32 shrink-0 bg-white dark:bg-slate-800 p-4 rounded-lg border border-primary/5 flex flex-col items-center gap-3 shadow-sm">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+<span class="font-bold text-lg">A</span>
+</div>
+<span class="text-sm font-medium">Arket</span>
+</div>
+</div>
+</section>
+<!-- Action Button -->
+<div class="p-6">
+<button class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">refresh</span>
+                    Refine Analysis
+                </button>
+</div>
+</div>
+<!-- Bottom NavBar -->
+<div class="fixed bottom-0 w-full max-w-[480px] bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-primary/10 px-4 pb-6 pt-2 flex justify-around">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Home</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">auto_awesome</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Style</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">checkroom</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Closet</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Profile</p>
+</a>
+</div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</body></html>
