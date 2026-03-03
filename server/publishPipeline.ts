@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { generateImageBuffer } from "./replit_integrations/image/client";
+import { generateImageBuffer } from "./services/image-generation";
 import { ObjectStorageService } from "./objectStorage";
 import type { Product, BrandProfile, ListingData } from "../shared/schema";
 
