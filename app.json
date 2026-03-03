@@ -20,6 +20,14 @@
     "android": {
       "package": "com.affordablestorestuff",
       "versionCode": 1,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [{ "scheme": "https", "host": "affordablestorestuff.com" }],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#10B981",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
