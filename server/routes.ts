@@ -29,6 +29,8 @@ const aiRateLimit = rateLimit(20, 60_000); // 20 requests per minute per IP
 const chatRateLimit = rateLimit(30, 60_000); // 30 requests per minute per IP
 // Strict limit on auth endpoints to prevent brute-force attacks
 const authRateLimit = rateLimit(10, 60_000); // 10 requests per minute per IP
+// General API rate limit applied to all authenticated routes
+const apiRateLimit = rateLimit(200, 60_000); // 200 requests per minute per IP
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // -----------------------------------------------------------------------
@@ -40,7 +42,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (!req.path.startsWith("/api/")) return next();
 
     const publicPaths = [
-      "/api/auth/", // registration & login
+      "/api/auth/", // registration & login (rate-limited per-endpoint)
       "/api/shop/", // guest shopping (session-based)
       "/api/billing/webhook", // verified via Stripe signature instead
     ];
@@ -57,7 +59,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return next();
     }
 
-    return authMiddleware(req, res, next);
+    // Apply both rate limiting and JWT verification to all protected routes
+    apiRateLimit(req, res, () => authMiddleware(req, res, next));
   });
 
   app.get("/api/products", async (_req, res) => {
