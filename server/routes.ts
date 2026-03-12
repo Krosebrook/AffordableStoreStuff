@@ -5,17 +5,7 @@ import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { ObjectStorageService } from "./objectStorage";
 import { runPublishPipeline, generateListingContent } from "./publishPipeline";
-import {
-  authMiddleware,
-  createToken,
-  rateLimit,
-  type AuthenticatedRequest,
-} from "./auth";
-import {
-  createCheckoutSession,
-  createCustomer,
-  constructWebhookEvent,
-} from "./services/stripe-service";
+import { constructWebhookEvent } from "./services/stripe-service";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -835,52 +825,32 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
   });
 
   app.post("/api/billing/webhook", async (req, res) => {
+    const sig = req.headers["stripe-signature"] as string;
+    if (!sig) {
+      return res.status(400).json({ error: "Missing stripe-signature header" });
+    }
     try {
-      const sig = req.headers["stripe-signature"] as string | undefined;
-      if (!sig) {
-        return res.status(400).json({ error: "Missing Stripe signature header" });
+      // req.rawBody is populated by the `verify` callback in setupBodyParsing() (server/index.ts).
+      // It holds the raw Buffer before JSON parsing, which Stripe requires for signature verification.
+      const rawBody = req.rawBody as Buffer | undefined;
+      if (!rawBody) {
+        return res.status(400).json({ error: "Raw body unavailable for webhook verification" });
       }
-      // rawBody is set by the express.json verify callback in server/index.ts
-      const payload = (req as any).rawBody as Buffer;
-      if (!payload) {
-        return res.status(400).json({ error: "Missing raw body" });
-      }
-
-      let event;
-      try {
-        event = await constructWebhookEvent(payload, sig);
-      } catch (err) {
-        console.error("Stripe webhook signature verification failed:", err);
-        return res.status(400).json({ error: "Webhook signature verification failed" });
-      }
-
-      // Handle relevant subscription lifecycle events
+      const event = await constructWebhookEvent(rawBody, sig);
+      // Handle specific Stripe event types
       switch (event.type) {
         case "customer.subscription.created":
-        case "customer.subscription.updated": {
-          const sub = event.data.object as {
-            id: string;
-            customer: string;
-            status: string;
-            current_period_end: number;
-            cancel_at_period_end: boolean;
-          };
-          console.log(`Stripe subscription ${event.type}:`, sub.id, sub.status);
+        case "customer.subscription.updated":
+        case "customer.subscription.deleted":
+          // TODO: sync subscription status with database
           break;
-        }
-        case "customer.subscription.deleted": {
-          const sub = event.data.object as { id: string; customer: string };
-          console.log("Stripe subscription cancelled:", sub.id);
-          break;
-        }
         default:
           break;
       }
-
       res.json({ received: true });
     } catch (error) {
-      console.error("Webhook processing error:", error);
-      res.status(500).json({ error: "Webhook processing failed" });
+      console.error("Webhook signature verification failed:", error);
+      res.status(400).json({ error: "Webhook signature verification failed" });
     }
   });
 

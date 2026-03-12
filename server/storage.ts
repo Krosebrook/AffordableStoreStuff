@@ -1,4 +1,4 @@
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, sql, count, sum, inArray } from "drizzle-orm";
 import { db } from "./db";
 import {
   users, products, marketplaceListings, orders, brandProfiles,
@@ -210,18 +210,29 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAiUsageStats(): Promise<{ totalGenerations: number; totalTokens: number }> {
-    const all = await db.select().from(aiGenerations);
+    const [result] = await db
+      .select({
+        totalGenerations: count(aiGenerations.id),
+        totalTokens: sum(aiGenerations.tokensUsed),
+      })
+      .from(aiGenerations);
     return {
-      totalGenerations: all.length,
-      totalTokens: all.reduce((sum, g) => sum + g.tokensUsed, 0),
+      // count() always returns a number (never null/undefined)
+      totalGenerations: Number(result?.totalGenerations ?? 0),
+      // sum() returns a string in pg driver; Number() handles null/undefined for empty tables
+      totalTokens: Number(result?.totalTokens ?? 0),
     };
   }
 
   async getCartItems(sessionId: string): Promise<(CartItem & { product: Product })[]> {
     const items = await db.select().from(cartItems).where(eq(cartItems.sessionId, sessionId)).orderBy(desc(cartItems.createdAt));
-    const result = [];
+    if (items.length === 0) return [];
+    const productIds = [...new Set(items.map((i) => i.productId))];
+    const productRows = await db.select().from(products).where(inArray(products.id, productIds));
+    const productMap = new Map(productRows.map((p) => [p.id, p]));
+    const result: (CartItem & { product: Product })[] = [];
     for (const item of items) {
-      const [product] = await db.select().from(products).where(eq(products.id, item.productId));
+      const product = productMap.get(item.productId);
       if (product) {
         result.push({ ...item, product });
       }
@@ -323,12 +334,22 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPublishingQueueStats(): Promise<{ pending: number; processing: number; published: number; failed: number }> {
-    const all = await db.select().from(publishingQueue);
+    const rows = await db
+      .select({
+        status: publishingQueue.status,
+        cnt: count(publishingQueue.id),
+      })
+      .from(publishingQueue)
+      .groupBy(publishingQueue.status);
+    const counts: Record<string, number> = {};
+    for (const row of rows) {
+      if (row.status) counts[row.status] = row.cnt;
+    }
     return {
-      pending: all.filter(i => i.status === "pending").length,
-      processing: all.filter(i => i.status === "processing").length,
-      published: all.filter(i => i.status === "published").length,
-      failed: all.filter(i => i.status === "failed").length,
+      pending: counts["pending"] ?? 0,
+      processing: counts["processing"] ?? 0,
+      published: counts["published"] ?? 0,
+      failed: counts["failed"] ?? 0,
     };
   }
 

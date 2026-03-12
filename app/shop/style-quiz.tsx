@@ -117,7 +117,7 @@ export default function StyleQuizScreen() {
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {step === 1 && (
           <View style={styles.stepContent}>
-            <Text style={styles.stepTitle}>What's your style aesthetic?</Text>
+            <Text style={styles.stepTitle}>What&apos;s your style aesthetic?</Text>
             <Text style={styles.stepDesc}>Select all that resonate with you</Text>
             <View style={styles.optionsGrid}>
               {AESTHETICS.map(a => (

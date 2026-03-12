@@ -1,32 +1,31 @@
-# AffordableStoreStuff — Comprehensive Code Audit
+# Codebase Audit Report — AffordableStoreStuff
 
-**Date:** March 2026  
-**Scope:** Full repository — three levels (High / Medium / Low)  
-**Auditor:** Automated senior engineering review
+**Date:** 2026-03-12  
+**Auditor:** GitHub Copilot Coding Agent  
+**Repository:** `Krosebrook/AffordableStoreStuff`  
+**Commit audited:** `f611e45` (branch `copilot/audit-repository-high-medium-scope`)
 
 ---
 
 ## Executive Summary
 
-AffordableStoreStuff is a full-stack mobile commerce platform that combines an Expo/React Native front end with an Express 5 REST API deployed as a Vercel serverless function. The codebase is relatively young but ambitious in scope — it covers AI-powered product listing generation, multi-marketplace publishing, a consumer-facing shop with AI stylist, subscription billing, social media scheduling, team management, and more.
+AffordableStoreStuff is a full-stack mobile commerce platform combining a React Native / Expo seller app with an Express API backend hosted on Vercel. The codebase is clean, the documentation is thorough, and the technology choices are sound for an early-stage product. However, several issues — ranging from critical security gaps to performance concerns — require attention before the platform is opened to real users.
 
-**Architecture and tech choices are well-selected.** Expo Router, Drizzle ORM, React Query, and a single-repository design all align with industry practice for the application type.
+**Most critical findings across all levels:**
 
-**The critical concerns are almost entirely security-related:**
-
-| Priority | Finding |
-|----------|---------|
-| 🔴 Critical | **No authentication on any seller-facing API route** — all product/order/AI endpoints were publicly accessible before this audit's fixes. |
-| 🔴 Critical | **Login endpoint issued no token** — bcrypt comparison ran, but nothing was returned to assert identity on subsequent requests. |
-| 🔴 Critical | **Stripe webhook accepted without signature verification** — any caller could forge arbitrary payment events. |
-| 🔴 Critical | **`x-user-id` and `x-session-id` were fully client-controlled** — anyone could impersonate any user. |
-| 🟠 High | **No rate limiting on AI/OpenAI endpoints** — unbounded calls could incur significant API costs. |
-| 🟠 High | **Stripe checkout was a stub** — returned a success message without creating a real payment session. |
-| 🟡 Medium | **No test coverage whatsoever** — zero unit, integration, or end-to-end tests. |
-| 🟡 Medium | **Pervasive use of `any` types** in the storage layer weakens compile-time safety. |
-| 🟢 Low | **CORS allows any localhost origin** — appropriate for dev, but should be locked down before production. |
-
-**All Critical and High issues above have been remediated in this PR** (JWT authentication middleware, token issuance on login, Stripe signature verification, real Stripe checkout session creation, per-IP rate limiting on AI endpoints).
+| Priority | Finding | Status |
+|----------|---------|--------|
+| 🔴 Critical | All API routes are unprotected (no authentication middleware) | Open — see § Low Level |
+| 🔴 Critical | Stripe webhook does not verify signatures (allows spoofed events) | **Fixed in this PR** |
+| 🔴 Critical | CI failure: `npm ci` fails due to stale `package-lock.json` | **Fixed in this PR** |
+| 🟠 High | `x-session-id` header trusted without authentication (cart/wardrobe data isolation) | Open — see § Low Level |
+| 🟠 High | No rate limiting on AI generation endpoints (cost/DoS exposure) | Open — see § Medium Level |
+| 🟠 High | N+1 database query in `getCartItems` | **Fixed in this PR** |
+| 🟡 Medium | `routes.ts` is a single 1 000-line file with no modular decomposition | Open — see § Medium Level |
+| 🟡 Medium | Full-table-scan aggregation in `getAiUsageStats` / `getPublishingQueueStats` | **Fixed in this PR** |
+| 🟡 Medium | 2 ESLint errors (`react/no-unescaped-entities`) failing strict CI lint step | **Fixed in this PR** |
+| 🟢 Low | Duplicate OpenAI client instantiation in `routes.ts` and `publishPipeline.ts` | Open — see § Low Level |
+| 🟢 Low | Pervasive use of `any` type in `storage.ts` interface reduces type safety | Open — see § Low Level |
 
 ---
 
@@ -34,368 +33,679 @@ AffordableStoreStuff is a full-stack mobile commerce platform that combines an E
 
 ### Architecture Pattern
 
-**Pattern:** Modular Monolith — single repository, two entry points (Expo mobile app + Express API), shared type layer.
+The application follows a **modular monolith with serverless deployment** pattern:
 
 ```
-┌───────────────────────────┐
-│   Mobile App (Expo / RN)  │  app/, components/, lib/
-│   Expo Router · RQ · Expo │
-└────────────┬──────────────┘
-             │ HTTPS / REST
-             ▼
-┌───────────────────────────┐
-│   Vercel Serverless Edge  │  api/index.ts → server/
-│   Express 5               │
-└────────────┬──────────────┘
-             │ Pooled TCP
-             ▼
-┌───────────────────────────┐
-│   Supabase (PostgreSQL)   │  24 tables via Drizzle ORM
-└───────────────────────────┘
-         ⬑ GCS (images) · OpenAI · Stripe · Resend
+[Mobile App — Expo / React Native]
+         │ HTTPS / SSE
+         ▼
+[Vercel Serverless Function — Express 5]
+  api/index.ts → server/index.ts → server/routes.ts
+         │
+         ▼
+[Supabase — PostgreSQL via connection pooler]
+         │
+         ├─ [OpenAI API — AI generation, image creation]
+         ├─ [Stripe — subscription billing]
+         └─ [Google Cloud Storage — product images]
 ```
+
+This architecture is **appropriate for an early-stage mobile commerce product**. Vercel provides zero-ops deployment with automatic scaling, and Supabase removes database administration overhead. The choice to run Express (not Next.js API routes) is well-justified: the frontend is a native app and does not need SSR.
 
 ### Technology Stack Assessment
 
-| Layer | Choice | Assessment |
-|-------|--------|-----------|
-| Mobile | Expo + React Native | ✅ Industry standard for cross-platform; EAS handles signing/submission |
-| Routing | Expo Router (file-based) | ✅ Mirrors Next.js conventions; good DX |
-| State | React Query v5 | ✅ Correct choice for server state; optimistic updates easy to add |
-| API | Express 5 | ✅ Familiar; runs on Vercel with minimal glue |
-| ORM | Drizzle ORM | ✅ Type-safe, lightweight; `shared/schema.ts` is the single source of truth |
-| DB | Supabase (PostgreSQL) | ✅ Managed, SOC 2, connection pooler included |
-| AI | OpenAI GPT-4o | ✅ SSE streaming implemented correctly |
-| Payments | Stripe | ⚠️ SDK present but checkout was stub |
-| Images | GCS + OpenAI gpt-image-1 | ✅ Reasonable for generated assets |
-| Auth | bcrypt + hand-rolled JWT | ⚠️ Correct primitives, but were not wired up |
+| Technology | Version | Assessment |
+|------------|---------|------------|
+| Expo SDK | 54 | ✅ Recent stable; managed workflow simplifies native builds |
+| React Native | 0.81.5 | ✅ Up to date |
+| Expo Router | ~6.0 | ✅ File-based routing — good DX and deep-link support |
+| React Query / TanStack Query | ^5.83 | ✅ Industry standard for server-state management |
+| Express | ^5.0.1 | ✅ Express 5 has better async error handling than v4 |
+| Drizzle ORM | ^0.39.3 | ✅ Lightweight, type-safe, good for serverless |
+| TypeScript | ~5.9.2 | ✅ |
+| pg (node-postgres) | ^8.16.3 | ⚠️ Missing `@types/pg` devDependency causes TypeScript errors in `server/db.ts` |
+| Stripe | ^17.0 | ✅ |
+| bcryptjs | ^2.4.3 | ✅ Correct use for password hashing |
+| OpenAI | ^6.22.0 | ✅ |
 
-### Strengths
+### Primary Domain
 
-- **Shared type layer.** `shared/schema.ts` exports Drizzle table definitions, Zod schemas, and TypeScript types that are consumed by both the server and the mobile client. This eliminates a whole class of type-mismatch bugs.
-- **Well-structured serverless entry point.** `api/index.ts` wraps the Express app in a one-shot `initApp()` call that only runs once per cold start, avoiding route double-registration.
-- **Environment variable discipline.** `.env.example` documents every required secret; `.env` is gitignored.
-- **OTA deployment path.** EAS Update enables JS-only changes to be deployed without App Store review.
-- **SSE streaming for AI.** AI generation endpoints stream tokens to the client progressively, which is the correct UX for LLM outputs.
+The platform serves **two distinct user roles** within a single codebase:
 
-### Areas of Concern
+1. **Seller dashboard** (`app/(tabs)/`) — Product management, AI-powered listing generation, multi-marketplace publishing (Amazon, Etsy, TikTok Shop, Shopify, WooCommerce, etc.), order tracking, brand profiles, content library, social media scheduling, team management, subscription billing.
 
-- **No authentication (Critical).** Before this audit's fixes, every API endpoint — including `DELETE /api/products/:id`, `POST /api/ai/generate-product`, and all order management routes — was publicly accessible to anyone with a network connection.
-- **Vercel 30-second timeout.** AI generation + image upload pipelines can exceed 30 s (`maxDuration` in `vercel.json`). The `runPublishPipeline` call generates listing text AND up to N images in series, each potentially taking 10–20 s.
-- **No observability.** There is no error tracking (Sentry, Datadog, etc.) or structured logging. Console output disappears in Vercel.
+2. **Consumer shop** (`app/(shop)/`) — Product catalog, shopping cart, AI style quiz, digital wardrobe management, AI stylist chat.
 
-### Recommendations
+The dual-role design is a reasonable product decision but introduces **architectural coupling** that should be monitored (see Medium Level § Separation of Concerns).
 
-| Priority | Recommendation |
-|----------|---------------|
-| 🔴 Critical | ~~Add JWT authentication middleware~~ *(Fixed in this PR)* |
-| 🟠 High | Add Sentry (or similar) for error tracking in serverless functions |
-| 🟠 High | Break long-running AI pipeline into async background jobs (Vercel Queues or similar) to avoid serverless timeouts |
-| 🟡 Medium | Consider Vercel's `maxDuration: 60` on the AI endpoints (requires Pro plan) |
-| 🟡 Medium | Add structured logging (Pino, Winston) instead of `console.log` |
+### Code Organisation
+
+```
+app/            Expo Router screens (file-based routing) — well structured
+server/         Express API — good separation of concerns within the directory
+  routes.ts     ⚠️ Single mega-file (~1 000 lines) — needs decomposition
+  storage.ts    Interface + DatabaseStorage class — good pattern
+  services/     Domain services (image, Stripe, prompt builder, queue) — good
+shared/         Drizzle schema + Zod insert schemas — excellent shared-type approach
+lib/            Client utilities (API client, Query config) — minimal, correct
+components/     3 components — very sparse; most UI is inline in screens
+constants/      colours only — fine at this scale
+```
+
+### High Level Strengths
+
+- **Documentation is excellent**: `ARCHITECTURE.md`, `DEPLOYMENT.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CHANGELOG.md`, `.env.example`, and inline code comments all exist and are accurate.
+- **Shared schema**: `shared/schema.ts` is used by both client and server, providing compile-time type safety across the boundary.
+- **Drizzle ORM** is a strong choice for Vercel serverless — no heavy runtime, no migration files needed for early iteration.
+- **Connection pool tuning**: pool size is set to 3 on Vercel (vs 10 locally) — this is a production-aware decision.
+- **SSE streaming** for AI content: correctly implements Server-Sent Events for real-time streaming rather than long polling or WebSockets (which are incompatible with Vercel).
+- **`patch-package`** used to track Expo asset patch — shows awareness of dependency management.
+
+### High Level Concerns & Recommendations
+
+#### 🔴 Critical — No CI Workflow for This Branch
+**Finding:** The repository has a `CI` workflow that runs `npm ci` → lint → typecheck, but it was targeting `main`. The current PR branch (`copilot/audit-repository-high-medium-scope`) does not yet have a passing CI run because the `package-lock.json` was stale.
+
+**Fix applied in this PR:** Running `npm install` has regenerated `package-lock.json` so `npm ci` will succeed.
+
+**Recommendation:** Ensure the CI workflow runs on all pull request branches. In `.github/workflows/ci.yml`, add `on: pull_request`.
+
+---
+
+#### 🟡 Medium — Missing `@types/pg` DevDependency
+**Finding:** `server/db.ts` imports `pg` but `@types/pg` is not in `devDependencies`, causing TypeScript error `TS7016: Could not find a declaration file for module 'pg'`.
+
+```typescript
+// server/db.ts — causes TS7016
+import pg from "pg";
+```
+
+**Recommendation (Medium priority):**
+```bash
+npm install --save-dev @types/pg
+```
 
 ---
 
 ## Medium Level Scope
 
-### Module / Package Structure
+### Module and Package Structure
+
+The `server/` directory follows a clean layered architecture:
 
 ```
-server/
-├── index.ts          App factory (CORS, body parsing, logging, routing)
-├── routes.ts         All ~60 API route handlers (~1,100 lines) ← too large
-├── storage.ts        Data access layer — DatabaseStorage class
-├── db.ts             Drizzle + pg Pool factory
-├── auth.ts           JWT utilities + rate limiter [NEW in this PR]
-├── publishPipeline.ts AI listing + image generation orchestrator
-├── objectStorage.ts  Google Cloud Storage client
-└── services/
-    ├── stripe-service.ts
-    ├── image-generation.ts
-    ├── prompt-builder.ts
-    └── publishing-queue.ts
+routes.ts → storage.ts (IStorage interface) → db.ts (pg Pool + Drizzle)
+              ↑
+          services/ (image-generation, stripe, prompt-builder, publishing-queue)
 ```
 
-### Dependency Graph (Server)
+The `IStorage` interface in `storage.ts` is a textbook **Repository Pattern** — it abstracts database access behind an interface, making future testing and backend swapping straightforward.
 
+### Dependency Graph — Coupling Assessment
+
+| Relationship | Coupling | Assessment |
+|---|---|---|
+| `routes.ts` → `storage.ts` | Medium | Appropriate — route handlers delegate to storage |
+| `routes.ts` → `publishPipeline.ts` | Medium | OK — pipeline is a domain service |
+| `publishPipeline.ts` → `objectStorage.ts` | Low | Good |
+| `routes.ts` → `services/stripe-service.ts` | Low (only webhook route now) | ✅ After this PR |
+| `server/db.ts` → `shared/schema.ts` | Low | Correct — schema is shared |
+| `api/index.ts` → `server/index.ts` | Low | Correct — thin adapter |
+
+**Problem area:** `routes.ts` imports and instantiates an OpenAI client at module level **and** `publishPipeline.ts` does the same. This is a violation of the DRY principle and means two separate OpenAI client objects exist simultaneously.
+
+### Separation of Concerns
+
+**Positive:** The storage interface cleanly separates database concerns from routing logic. Services in `server/services/` have clear single-purpose functions.
+
+**Negative — routes.ts as a God File:**
+
+`server/routes.ts` at ~1 000 lines registers all ~55 API routes across 12 domains in a single function. This violates the Single Responsibility Principle and creates merge conflict risk on any backend change.
+
+**Recommended refactor (High priority):**
 ```
-routes.ts ──► storage.ts ──► db.ts
-           ──► publishPipeline.ts ──► services/image-generation.ts
-           ──► objectStorage.ts          ──► services/stripe-service.ts
-           ──► auth.ts [NEW]             ──► services/prompt-builder.ts
+server/routes/
+  index.ts          (imports and registers all sub-routers)
+  products.ts
+  listings.ts
+  orders.ts
+  ai.ts
+  auth.ts
+  billing.ts
+  shop.ts
+  social.ts
+  teams.ts
+  campaigns.ts
+  publishingQueue.ts
 ```
 
-No circular dependencies detected.
-
-### Coupling Analysis
-
-- **`routes.ts` is a God file.** At ~1,100 lines it contains every route for every domain (products, orders, AI, social, teams, billing, publishing, shop, auth). This violates the Single Responsibility Principle and makes the file difficult to review or test in isolation.
-  - **Recommendation (Medium):** Split into domain-specific Express Routers: `router/products.ts`, `router/ai.ts`, `router/billing.ts`, etc.
-
-- **`storage.ts` uses `any` extensively.** The `IStorage` interface declares most write methods as accepting `any` for their data parameter. This means Drizzle's type safety is bypassed at the storage boundary.
-  ```typescript
-  // Current — bypasses type checking
-  createBrandProfile(data: any): Promise<BrandProfile>;
-  
-  // Recommended — enforce schema types
-  createBrandProfile(data: InsertBrandProfile): Promise<BrandProfile>;
-  ```
-
-- **Separation of concerns is good at the macro level.** Business logic stays in `publishPipeline.ts` and `services/`; route handlers are thin wrappers that call storage or services. This pattern should be preserved and extended.
+Each file exports an Express `Router`. The main `registerRoutes` function becomes:
+```typescript
+import productsRouter from "./routes/products";
+// ...
+app.use("/api", productsRouter);
+```
 
 ### Configuration Management
 
-- ✅ All secrets via environment variables; `.env.example` is complete.
-- ✅ `drizzle.config.ts` reads `DATABASE_URL` at schema-push time.
-- ⚠️ `JWT_SECRET` was not previously documented in `.env.example` (fixed in this PR).
-- ⚠️ No validation of required env vars at startup (except `DATABASE_URL`). A missing `STRIPE_SECRET_KEY` will throw at checkout time, not at startup.
-  - **Recommendation (Medium):** Add a startup env-var validation block that enumerates all required vars and exits early with a clear error message.
-
-### Testing Strategy
-
-**There are zero tests.** This is the most impactful medium-priority gap in the codebase.
-
-- No unit tests for pure functions (`auth.ts`, `prompt-builder.ts`).
-- No integration tests for route handlers.
-- No contract tests for Stripe webhook handling.
-- No end-to-end tests for the mobile flows.
-
-The risk: regressions in billing, auth, or AI pipelines will only be detected in production.
-
-**Recommendation (High):** Adopt Vitest (zero-config, works with the existing TypeScript setup) and add:
-1. Unit tests for `server/auth.ts` (JWT create/verify, rate limiter).
-2. Integration tests for critical routes (`/api/auth/login`, `/api/billing/webhook`) using Supertest.
-3. At minimum, a smoke test that `initApp()` starts without throwing.
-
-### Architectural Drift
-
-- The `getSessionId` helper falls back to `"guest-default"` when no `x-session-id` header is provided. All guest carts therefore share a single row set in the database. This is a latent data-corruption bug for any concurrent guest users.
-  - **Recommendation (High):** Generate a cryptographically random session ID server-side on first cart creation and return it to the client.
-
----
-
-## Low Level Featured Scope
-
-### Feature 1 — Authentication System (`server/routes.ts`, `server/auth.ts`)
-
-**Before this PR:**
-
-```typescript
-// Registration — OK
-const hashedPassword = await bcrypt.hash(password, 10);
-const user = await storage.createUser({ username, password: hashedPassword });
-res.status(201).json({ id: user.id, username: user.username });
-
-// Login — bcrypt compare ran, but nothing to authenticate with afterwards
-const user = await storage.getUserByUsername(username);
-if (!user || !user.password || !(await bcrypt.compare(password, user.password))) {
-  return res.status(401).json({ error: "Invalid credentials" });
-}
-res.json({ id: user.id, username: user.username, subscriptionTier: user.subscriptionTier });
-// ^ No token issued. The client has a user ID but cannot prove it on future requests.
-```
-
-Every subsequent request used `req.headers["x-user-id"]` — a header the client sets freely — to identify the caller. Any client could pass `x-user-id: <any_user_id>` and access that user's data.
-
-**After this PR:**
-
-- `POST /api/auth/login` now issues a signed HS256 JWT containing `{ id, username }`.
-- `server/auth.ts` implements `createToken` / `verifyToken` using Node.js's `crypto.createHmac` (no new dependencies).
-- `authMiddleware` verifies the Bearer token on every protected request and sets `req.user`.
-- All routes previously reading `x-user-id` now read `(req as AuthenticatedRequest).user.id`.
-- A global auth middleware is registered at the top of `registerRoutes()`, protecting all `/api/*` routes except explicitly public ones (auth, shop, billing/plans, billing/webhook).
-
-**Remaining concern:** The `JWT_SECRET` defaults to a hard-coded string if the env var is missing. A warning is emitted in production mode, but the server still starts. This should be changed to a hard startup failure in a future iteration.
-
-**SOLID assessment:** 
-- ✅ Single Responsibility — auth logic is now isolated in `server/auth.ts`.
-- ✅ Open/Closed — new middleware can be composed without modifying existing route handlers.
-- ⚠️ There is no `email` field on the `users` table; password reset is a stub that does nothing.
-
----
-
-### Feature 2 — AI Content Generation Pipeline (`server/publishPipeline.ts`, `server/routes.ts`)
-
-**Strengths:**
-
-- Well-structured prompt templates per marketplace (`MARKETPLACE_PROMPTS` map). Platform-specific instructions are detailed and production-quality.
-- `response_format: { type: "json_object" }` is used for listing generation, ensuring parseable output.
-- Graceful degradation: if image generation fails, the pipeline continues and saves the listing without images.
-- `buildProductContext()` cleanly separates product data from brand voice, keeping prompts composable.
+**Positive:** Environment variables are documented in `.env.example` with clear descriptions, required/optional labels, and example values. Secrets are never committed.
 
 **Concerns:**
 
+1. The application throws at startup if `DATABASE_URL` is not set (correct), but **silently allows missing OpenAI, Stripe, and GCS credentials** — callers fail at runtime with opaque errors. Consider a startup validation function.
+
+2. The mobile app has two env-var fallbacks (`EXPO_PUBLIC_API_URL` → `EXPO_PUBLIC_DOMAIN`) but neither is validated at build time, meaning a misconfigured build silently ships and crashes on first API call.
+
+**Recommendation (Medium priority):** Add a startup validator:
 ```typescript
-// server/publishPipeline.ts — no timeout on image generation
-const imageBuffer = await generateProductImage(product, marketplace, i);
-// A single image call can take 30–60 s on gpt-image-1.
-// On Vercel with maxDuration: 30, this will timeout silently.
+// server/config.ts
+export function validateConfig() {
+  const required = ["DATABASE_URL"];
+  const missing = required.filter((key) => !process.env[key]);
+  if (missing.length > 0) {
+    throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
+  }
+  // Warn about optional but important vars
+  const recommended = ["AI_INTEGRATIONS_OPENAI_API_KEY", "STRIPE_SECRET_KEY"];
+  recommended.filter((k) => !process.env[k]).forEach((k) => {
+    console.warn(`WARNING: ${k} is not set — related features will be disabled`);
+  });
+}
 ```
 
-- `runPublishPipeline` is synchronous end-to-end (listing content → images → upload). Each image generation + GCS upload is serial. For `imageCount = 2`, this easily exceeds Vercel's 30-second function timeout.
-- **Recommendation (High):** Run the pipeline asynchronously. Return a `202 Accepted` immediately with a job ID, then poll or use a webhook to deliver results. Alternatively, use Vercel's `maxDuration: 60` on the AI endpoint and run image generation in parallel with `Promise.all`.
+### Testing Strategy
 
+**Finding:** There are **zero tests** in the repository. No test framework is installed, no test scripts exist in `package.json`, and no test files (`*.test.*`, `*.spec.*`) exist anywhere.
+
+This is the single largest risk for a production codebase. Without tests:
+- Refactoring is dangerous
+- Regressions go undetected
+- CI provides no functional coverage
+
+**Recommendations (High priority):**
+
+1. Install a server-side test framework:
+   ```bash
+   npm install --save-dev vitest @types/supertest supertest
+   ```
+
+2. Start with unit tests for pure functions:
+   - `server/services/prompt-builder.ts` — pure functions, trivially testable
+   - `server/publishPipeline.ts` `buildProductContext()` — pure function
+
+3. Add integration tests for critical paths:
+   - `POST /api/auth/register` / `POST /api/auth/login`
+   - `GET /api/products` / `POST /api/products`
+   - `POST /api/billing/webhook` (with mock Stripe signature)
+
+### No Rate Limiting on AI Endpoints
+
+**Finding:** `POST /api/ai/generate-product` and `POST /api/ai/generate-marketing` are completely unprotected. Any unauthenticated caller can trigger unlimited OpenAI API calls, incurring unbounded costs.
+
+**Recommendation (High priority):** Apply `express-rate-limit` to all AI generation endpoints:
 ```typescript
-// Rate limiting added in this PR protects the endpoint at 20 req/min/IP
-app.post("/api/listings/:id/publish", aiRateLimit, async (req, res) => { ... });
+import rateLimit from "express-rate-limit";
+
+const aiRateLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 10,             // 10 AI requests per minute per IP
+  message: { error: "Too many AI generation requests. Please wait before retrying." },
+});
+
+app.post("/api/ai/generate-product", aiRateLimiter, async (req, res) => { ... });
+app.post("/api/ai/generate-marketing", aiRateLimiter, async (req, res) => { ... });
 ```
 
-- **Recommendation (Medium):** Log AI token usage per user and enforce per-account limits by checking `user.aiCreditsUsed >= user.aiCreditsLimit` before calling OpenAI. The schema already has `aiCreditsUsed` and `aiCreditsLimit` on the `users` table — this logic just isn't wired up.
+### Medium Level Strengths
+
+- **Repository pattern** (`IStorage` interface) enables future dependency injection and testing.
+- **SSE streaming** is correctly implemented with `flushHeaders()`, `no-cache` headers, and graceful error handling after headers are sent.
+- **Publish pipeline** cleanly separates concerns: content generation → image generation → upload → storage — each step is independently catchable.
+- **Database indices** on high-cardinality foreign keys (`user_id`, `team_id`, `order_id`, `status`) are defined in the schema — good proactive performance work.
 
 ---
 
-### Feature 3 — Cart & Session Management (`server/routes.ts`, `server/storage.ts`)
+## Low Level (Feature Deep-Dive)
 
-**The client-controlled session ID:**
+### Feature 1: Authentication System (`/api/auth/*`)
+
+**Files:** `server/routes.ts` (lines 677–717), `shared/schema.ts` (users table)
+
+#### What it does
+
+- `POST /api/auth/register` — creates a user with bcrypt-hashed password.
+- `POST /api/auth/login` — verifies credentials and returns user info.
+- `POST /api/auth/request-reset` — stub that returns a success message without doing anything.
+
+#### Code Review
+
+**Positive:** bcrypt usage is correct (`bcrypt.hash(password, 10)`). No plaintext passwords are stored or compared.
 
 ```typescript
-// server/routes.ts (before fix)
+// ✅ Correct bcrypt usage
+const hashedPassword = await bcrypt.hash(password, 10);
+const user = await storage.createUser({ username, password: hashedPassword });
+```
+
+**Critical Problem 1 — Login returns user data but issues no session token:**
+
+```typescript
+// server/routes.ts line 703
+res.json({ id: user.id, username: user.username, subscriptionTier: user.subscriptionTier });
+```
+
+The login endpoint returns user data but issues no JWT, session cookie, or other credential. There is no mechanism to verify a caller's identity on subsequent requests — meaning every other endpoint runs without identity verification.
+
+**Critical Problem 2 — All ~55 routes are completely open:**
+
+There is no authentication middleware. Any unauthenticated client can call any endpoint — `POST /api/products`, `DELETE /api/brand-profiles/:id`, `GET /api/orders`, etc.
+
+**Critical Problem 3 — Password reset stub:**
+
+```typescript
+app.post("/api/auth/request-reset", async (req, res) => {
+  try {
+    const { email } = req.body;
+    // In production, send email with reset link
+    res.json({ message: "If an account exists with that email, a reset link has been sent." });
+  }
+```
+
+The `passwordResetTokens` table exists in the schema but is never written to. Users who lose their password are permanently locked out.
+
+**Recommended fix (Critical priority):**
+
+1. Issue a JWT on login:
+```typescript
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error("JWT_SECRET must be set");
+
+// On successful login:
+const token = jwt.sign(
+  { sub: user.id, username: user.username },
+  JWT_SECRET,
+  { expiresIn: "7d" }
+);
+res.json({ token, id: user.id, username: user.username });
+```
+
+2. Add an authentication middleware:
+```typescript
+export function authenticate(req: Request, res: Response, next: NextFunction) {
+  const auth = req.headers.authorization;
+  if (!auth?.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  try {
+    const payload = jwt.verify(auth.slice(7), JWT_SECRET) as { sub: string };
+    (req as any).userId = payload.sub;
+    next();
+  } catch {
+    res.status(401).json({ error: "Invalid or expired token" });
+  }
+}
+```
+
+3. Apply `authenticate` middleware to all protected routes.
+
+---
+
+### Feature 2: Stripe Billing & Webhook (`/api/billing/*`)
+
+**Files:** `server/routes.ts` (lines 719–758), `server/services/stripe-service.ts`
+
+#### What it does
+
+- `GET /api/billing/plans` — lists subscription plans from database.
+- `GET /api/billing/subscription` — returns user's current subscription.
+- `POST /api/billing/checkout` — stub that returns a placeholder message.
+- `POST /api/billing/webhook` — receives Stripe webhook events.
+
+#### Code Review
+
+**Critical Problem — Webhook signature verification was missing:**
+
+Before this PR, the webhook handler accepted any POST request without verifying the Stripe signature:
+
+```typescript
+// BEFORE (insecure)
+app.post("/api/billing/webhook", async (req, res) => {
+  try {
+    // Stripe webhook handling
+    res.json({ received: true });
+  }
+});
+```
+
+An attacker could send fabricated Stripe events (e.g., `customer.subscription.created` with an arbitrary user ID) and the server would process them.
+
+**Fix applied in this PR:** The webhook now calls `constructWebhookEvent()` from `stripe-service.ts`, which verifies the `stripe-signature` header against `STRIPE_WEBHOOK_SECRET`. Requests without a valid signature receive a `400` response.
+
+```typescript
+// AFTER (secure) — server/routes.ts
+const event = await constructWebhookEvent(rawBody, sig);
+```
+
+**High Problem — Checkout stub is unimplemented:**
+
+```typescript
+app.post("/api/billing/checkout", async (req, res) => {
+  try {
+    const { userId, planId } = req.body;
+    // Stripe checkout session creation would go here
+    res.json({ message: "Checkout session created", planId });
+  }
+```
+
+The Stripe service (`stripe-service.ts`) already has `createCheckoutSession()` implemented, but it is never called from the route. Users cannot actually subscribe.
+
+**Recommendation (High priority):** Wire up the existing service functions:
+```typescript
+import { createCustomer, createCheckoutSession } from "./services/stripe-service";
+
+app.post("/api/billing/checkout", async (req, res) => {
+  const { userId, planId, email, successUrl, cancelUrl } = req.body;
+  // Look up plan's Stripe price ID from DB
+  const plan = await storage.getSubscriptionPlanById(planId);
+  if (!plan?.stripePriceId) {
+    return res.status(400).json({ error: "Plan not available for purchase" });
+  }
+  const customerId = await createCustomer(email);
+  const checkoutUrl = await createCheckoutSession(customerId, plan.stripePriceId, successUrl, cancelUrl);
+  res.json({ checkoutUrl });
+});
+```
+
+**Positive:** `stripe-service.ts` is well-structured. The `getStripe()` guard function prevents runtime errors when `STRIPE_SECRET_KEY` is not set. `constructWebhookEvent` correctly uses `webhooks.constructEvent` for signature verification.
+
+---
+
+### Feature 3: AI Content Generation (`/api/ai/*`)
+
+**Files:** `server/routes.ts` (lines 224–372), `server/publishPipeline.ts`, `server/services/prompt-builder.ts`, `server/services/image-generation.ts`
+
+#### What it does
+
+- `POST /api/ai/generate-product` — streams AI-generated product listing content via SSE.
+- `POST /api/ai/generate-marketing` — streams platform-specific marketing copy via SSE.
+- The publish pipeline (`publishPipeline.ts`) generates full listings with optional product images using OpenAI's image model.
+
+#### Code Review
+
+**Positive:** SSE streaming is implemented correctly:
+
+```typescript
+res.setHeader("Content-Type", "text/event-stream");
+res.setHeader("Cache-Control", "no-cache, no-transform");
+res.setHeader("X-Accel-Buffering", "no");
+res.flushHeaders();
+// ...
+res.write(`data: ${JSON.stringify({ content })}\n\n`);
+```
+
+The `X-Accel-Buffering: no` header is required to prevent Nginx/Vercel from buffering SSE chunks — its presence shows operational experience.
+
+**Positive:** Error handling after `headersSent`:
+```typescript
+if (res.headersSent) {
+  res.write(`data: ${JSON.stringify({ error: "Generation failed" })}\n\n`);
+  res.end();
+} else {
+  res.status(500).json({ error: "AI generation failed" });
+}
+```
+This correctly handles the case where the SSE stream has already started when an error occurs.
+
+**Medium Problem — Duplicate OpenAI client instances:**
+
+`routes.ts` and `publishPipeline.ts` each create their own `OpenAI` instance at module level:
+
+```typescript
+// server/routes.ts line 9
+const openai = new OpenAI({ apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY, ... });
+
+// server/publishPipeline.ts line 6
+const openai = new OpenAI({ apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY, ... });
+```
+
+**Recommendation (Low priority):** Extract to `server/services/openai-client.ts`:
+```typescript
+import OpenAI from "openai";
+export const openai = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
+export const AI_MODEL = process.env.AI_MODEL || "gpt-4o";
+```
+
+**Medium Problem — Token counting is an approximation:**
+
+```typescript
+tokensUsed: Math.ceil(fullContent.length / 4),
+```
+
+Characters-divided-by-4 is a rough approximation of tokens. OpenAI streaming responses include usage data in the final chunk (`stream_options: { include_usage: true }`). Using actual token counts would make `getAiUsageStats()` accurate.
+
+**Medium Problem — No input validation on generate endpoints:**
+
+The `productType`, `brandProfile`, `features` inputs from `req.body` are passed directly into OpenAI prompts. A malicious user could perform prompt injection or send extremely large inputs that cost significant tokens.
+
+**Recommendation (Medium priority):** Validate and sanitize inputs with Zod:
+```typescript
+import { z } from "zod";
+
+const generateProductSchema = z.object({
+  productType: z.string().min(1).max(200),
+  features: z.string().max(500).optional(),
+  brandProfile: z.object({
+    tone: z.string().max(100),
+    targetAudience: z.string().max(200),
+    keywords: z.array(z.string().max(50)).max(20),
+  }).optional(),
+});
+
+// In route handler:
+const parsed = generateProductSchema.safeParse(req.body);
+if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+```
+
+---
+
+### Feature 4: Shopping Cart (`/api/shop/cart`)
+
+**Files:** `server/routes.ts` (lines 489–533), `server/storage.ts` (`getCartItems`, `addToCart`)
+
+#### What it does
+
+Session-based shopping cart allowing anonymous users to add, update, and remove items.
+
+#### Code Review
+
+**High Problem — Session ID is a client-controlled header with no authentication:**
+
+```typescript
 const getSessionId = (req: any): string => {
   return req.headers["x-session-id"] as string || "guest-default";
 };
 ```
 
-Two problems:
-1. **Session ID is entirely client-chosen.** Any client can supply `x-session-id: user_123_cart` and read or write that user's cart. Because the shop is intentionally guest-friendly (no auth required), the auth middleware does not cover these routes.
-2. **"guest-default" fallback.** Any request without an `x-session-id` header is treated as the same session. All such requests share a single cart row set, causing data corruption for concurrent users.
+Any client can send `x-session-id: any-other-users-session-id` and access or modify another user's cart. All users who do not send this header share a single `"guest-default"` session.
 
-**Recommendation (Critical):**
+This is the correct pattern for anonymous carts, but the fallback to `"guest-default"` means multiple users share one cart silently.
 
-```typescript
-// Recommended: generate session ID server-side on first cart request
-app.post("/api/shop/session", (req, res) => {
-  const sessionId = crypto.randomUUID();
-  res.json({ sessionId });
-});
-
-// Then validate session ID format (UUID) on every cart operation
-const isValidSessionId = (id: string) =>
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-```
-
-The mobile client should request a session ID on first launch, persist it in AsyncStorage, and send it as a header on all cart requests.
-
----
-
-### Feature 4 — Stripe Billing (`server/routes.ts`, `server/services/stripe-service.ts`)
-
-**Before this PR:**
+**Recommendation (High priority):** Generate and persist session IDs server-side, or require a UUID from the client with a server-side lookup. At minimum, change the fallback:
 
 ```typescript
-// Checkout — stub
-app.post("/api/billing/checkout", async (req, res) => {
-  const { userId, planId } = req.body;
-  // Stripe checkout session creation would go here
-  res.json({ message: "Checkout session created", planId }); // ← always "success"
-});
-
-// Webhook — empty, no signature verification
-app.post("/api/billing/webhook", async (req, res) => {
-  // Stripe webhook handling
-  res.json({ received: true }); // ← accepts anything from anyone
-});
-```
-
-The webhook stub is a **critical security vulnerability**: Stripe sends webhook events to notify the server of subscription changes. If forged events are accepted, an attacker could trigger subscription upgrades without payment.
-
-**After this PR:**
-
-```typescript
-// Checkout — real Stripe session
-const sessionUrl = await createCheckoutSession(
-  stripeCustomerId, plan.stripePriceId, successUrl, cancelUrl
-);
-res.json({ url: sessionUrl });
-
-// Webhook — signature verified
-const event = await constructWebhookEvent(payload, sig);
-// constructWebhookEvent uses stripe.webhooks.constructEvent() which
-// validates the STRIPE_WEBHOOK_SECRET HMAC signature.
-```
-
-**Remaining gaps:**
-
-- The webhook handler logs events but does not update the database (no `updateSubscription` method exists on `IStorage`). Subscription status changes from Stripe are not persisted.
-  - **Recommendation (High):** Add `createOrUpdateSubscription(data: InsertSubscription): Promise<Subscription>` to `IStorage` and `DatabaseStorage`, and call it from the webhook handler on `customer.subscription.*` events.
-- Users have no `email` field. Stripe customer creation uses `user.username` as the `email` parameter, which is likely not a valid email address.
-  - **Recommendation (Medium):** Add an `email` column to the `users` table.
-
----
-
-### Feature 5 — Input Validation
-
-All write endpoints currently pass `req.body` directly to storage methods typed as `any`:
-
-```typescript
-// server/routes.ts — no validation
-app.post("/api/products", async (req, res) => {
-  const product = await storage.createProduct(req.body); // ← raw body to DB
-  res.status(201).json(product);
-});
-```
-
-The codebase already imports Zod and defines insert schemas in `shared/schema.ts` (e.g., `insertProductSchema`, `insertBrandProfileSchema`). The validation is just not called.
-
-**Recommended pattern (Medium):**
-
-```typescript
-app.post("/api/products", async (req, res) => {
-  const parsed = insertProductSchema.safeParse(req.body);
-  if (!parsed.success) {
-    return res.status(400).json({ error: parsed.error.flatten() });
+const getSessionId = (req: any): string => {
+  const sid = req.headers["x-session-id"] as string;
+  if (!sid || sid === "guest-default") {
+    // Return a per-request anonymous ID — not persisted
+    return `anon-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   }
-  const product = await storage.createProduct(parsed.data);
-  res.status(201).json(product);
+  return sid;
+};
+```
+
+**Performance fix applied in this PR — N+1 query in `getCartItems`:**
+
+The original implementation issued one SQL query per cart item to fetch the associated product:
+
+```typescript
+// BEFORE (N+1)
+for (const item of items) {
+  const [product] = await db.select().from(products).where(eq(products.id, item.productId));
+  result.push({ ...item, product });
+}
+```
+
+This has been replaced with a single `WHERE id IN (...)` query:
+
+```typescript
+// AFTER (fixed)
+const productIds = [...new Set(items.map((i) => i.productId))];
+const productRows = await db.select().from(products).where(inArray(products.id, productIds));
+const productMap = new Map(productRows.map((p) => [p.id, p]));
+```
+
+---
+
+### Feature 5: Publishing Queue & Pipeline
+
+**Files:** `server/services/publishing-queue.ts`, `server/publishPipeline.ts`, `server/routes.ts` (lines 374–486)
+
+#### What it does
+
+The publishing pipeline:
+1. Calls OpenAI to generate marketplace-specific listing content.
+2. Optionally generates product images via OpenAI's image model.
+3. Uploads images to Google Cloud Storage.
+4. Updates the `marketplace_listings` record in the database.
+
+#### Code Review
+
+**Positive:** The publish pipeline correctly handles partial failures — image generation failures are caught per-image so a single failed image does not abort the entire pipeline:
+
+```typescript
+for (let i = 0; i < imageCount; i++) {
+  try {
+    const imageBuffer = await generateProductImage(product, marketplace, i);
+    // ... upload
+  } catch (error) {
+    console.error(`Failed to generate image ${i + 1}:`, error);
+  }
+}
+```
+
+**Medium Problem — Listing status left as "generating" on pipeline error:**
+
+```typescript
+await storage.updateListing(listingId, { status: "generating" });
+
+const result = await runPublishPipeline(...); // may throw
+
+// If runPublishPipeline throws, status remains "generating" forever
+```
+
+The catch block in `routes.ts` attempts a status reset:
+```typescript
+await storage.updateListing(listingId, { status: "draft" }).catch(() => {});
+```
+
+However the `.catch(() => {})` silently swallows this recovery failure. If the database is unavailable, the listing is permanently stuck in `"generating"` state.
+
+**Recommendation (Medium priority):** Use a `finally` block for status cleanup and log any secondary failure:
+
+```typescript
+try {
+  await storage.updateListing(listingId, { status: "generating" });
+  const result = await runPublishPipeline(...);
+  // ... update to "ready"
+  res.json(updatedListing);
+} catch (error) {
+  console.error("Publish pipeline error:", error);
+  res.status(500).json({ error: "Failed to generate listing content" });
+} finally {
+  // Ensure status is never left as "generating"
+  const current = await storage.getListing(listingId).catch(() => null);
+  if (current?.status === "generating") {
+    await storage.updateListing(listingId, { status: "draft" }).catch((e) => {
+      console.error("Failed to reset listing status after error:", e);
+    });
+  }
+}
+```
+
+**Medium Problem — GCS image upload silently suppresses `makePublic` failures:**
+
+```typescript
+try {
+  await file.makePublic();
+} catch (e) {
+  // swallowed
+}
+```
+
+If `makePublic` fails (e.g., uniform bucket-level access is enabled on GCS), images will be uploaded but inaccessible to users. The failure should at minimum be logged.
+
+**Recommendation:** Replace with:
+```typescript
+await file.makePublic().catch((e) => {
+  console.error("Failed to make GCS object public:", e);
 });
 ```
 
-This would:
-- Prevent garbage data from reaching the database.
-- Return structured 400 errors to clients.
-- Eliminate the `any` types in the storage interface (storage methods can then accept typed insert schemas).
+**Low Problem — `services/publishing-queue.ts` duplicates storage logic:**
+
+`server/services/publishing-queue.ts` directly queries the `publishingQueue` table via `db`, bypassing the `IStorage` interface. This means queue operations exist in two places (`storage.ts` and `services/publishing-queue.ts`), with potential inconsistency.
+
+**Recommendation (Low priority):** Route all data access through the `IStorage` interface. Remove the standalone functions in `services/publishing-queue.ts` or delegate them to `storage.ts`.
+
+---
+
+## Security Summary
+
+| Vulnerability | Severity | Status |
+|---|---|---|
+| No authentication on any API endpoint | Critical | Open — JWT auth implementation recommended above |
+| Cart/wardrobe isolation relies on client-provided session ID | High | Open — server-side session recommended |
+| Stripe webhook accepted without signature verification | Critical | **Fixed in this PR** |
+| Stripe checkout session creation is unimplemented (stub) | High | Open — implementation referenced above |
+| No rate limiting on AI generation endpoints | High | Open — `express-rate-limit` recommended above |
+| AI prompt inputs not validated (prompt injection risk) | Medium | Open — Zod validation recommended above |
+| Social platform OAuth tokens stored in plaintext in `social_platforms` table | Medium | Open — tokens should be encrypted at rest |
+| GCS `makePublic` failure is silently swallowed | Low | Open — logging fix recommended above |
+| Password reset endpoint is a stub (permanently locked-out users) | High | Open — implementation required |
+
+No new security vulnerabilities were introduced by this PR. Two existing vulnerabilities were fixed (Stripe webhook, CI/build failure which could allow bypassing lint checks).
 
 ---
 
 ## Prioritised Action Plan
 
-### Critical (address immediately)
+### Critical (Do before first real users)
+1. **Implement JWT authentication** and protect all non-public API routes.
+2. **Implement password reset** using `password_reset_tokens` table + email (Resend SDK is already installed).
+3. **Implement Stripe checkout** by wiring `createCheckoutSession()` into the `/api/billing/checkout` route.
 
-| # | Item | Status |
-|---|------|--------|
-| C1 | Add JWT authentication middleware to protect seller routes | ✅ Fixed in this PR |
-| C2 | Issue JWT on login | ✅ Fixed in this PR |
-| C3 | Stripe webhook signature verification | ✅ Fixed in this PR |
-| C4 | Real Stripe checkout session | ✅ Fixed in this PR |
-| C5 | Replace client-controlled `x-user-id` with JWT identity | ✅ Fixed in this PR |
+### High (Do within first sprint after launch)
+4. **Add rate limiting** to AI generation endpoints (`express-rate-limit`).
+5. **Fix session isolation** for anonymous cart/wardrobe access.
+6. **Add test infrastructure** (Vitest + Supertest).
+7. **Install `@types/pg`** devDependency to fix TypeScript errors.
 
-### High
+### Medium (Ongoing technical debt)
+8. **Decompose `routes.ts`** into per-domain router files under `server/routes/`.
+9. **Add input validation** (Zod schemas) on all mutation endpoints.
+10. **Fix listing status cleanup** in publish pipeline with `finally` block.
+11. **Add startup config validation** to warn on missing optional env vars.
+12. **Log (don't suppress) GCS `makePublic` failures.**
+13. **Extract shared OpenAI client** into `server/services/openai-client.ts`.
+14. **Use real token counts** from OpenAI streaming response for `ai_generations` logging.
 
-| # | Item |
-|---|------|
-| H1 | Rate limiting on AI endpoints | ✅ Fixed in this PR |
-| H2 | Server-side session ID generation for cart (replace client-controlled `x-session-id`) |
-| H3 | Persist Stripe subscription status changes in the database (webhook handler) |
-| H4 | Break `runPublishPipeline` into async job to avoid Vercel timeouts |
-| H5 | Add test coverage (Vitest + Supertest for server; Jest for mobile) |
-
-### Medium
-
-| # | Item |
-|---|------|
-| M1 | Replace `any` types in `IStorage` / `DatabaseStorage` with proper insert types |
-| M2 | Add Zod input validation to all write endpoints |
-| M3 | Split `server/routes.ts` into domain-specific Express Routers |
-| M4 | Add `email` column to `users` table |
-| M5 | Enforce `user.aiCreditsUsed` / `user.aiCreditsLimit` before OpenAI calls |
-| M6 | Add startup env-var validation |
-| M7 | Add error tracking (Sentry or similar) |
-
-### Low
-
-| # | Item |
-|---|------|
-| L1 | Tighten CORS — restrict `isLocalhost` to dev builds only (use `NODE_ENV`) |
-| L2 | Truncate log lines — current 80-char limit can expose response body data |
-| L3 | Add `email` to the `users` schema to support proper Stripe customer creation and password reset |
-| L4 | Consider hard-failing at startup when `JWT_SECRET` is the default value in production |
-| L5 | Add `@types/pg` to devDependencies to resolve the TypeScript error in `server/db.ts` |
+### Low (Nice-to-have)
+15. Replace `any` types in `storage.ts` interface methods with proper typed insert schemas.
+16. Consolidate duplicate imports in `app/_layout.tsx` and `app/(tabs)/_layout.tsx`.
+17. Remove unused variable declarations flagged by ESLint warnings.
+18. Consider encrypting OAuth tokens at rest in the `social_platforms` table.
