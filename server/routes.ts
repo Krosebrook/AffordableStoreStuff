@@ -14,7 +14,45 @@ const openai = new OpenAI({
 
 const AI_MODEL = process.env.AI_MODEL || "gpt-4o";
 
+// Rate limiters for expensive/AI endpoints
+const aiRateLimit = rateLimit(20, 60_000); // 20 requests per minute per IP
+const chatRateLimit = rateLimit(30, 60_000); // 30 requests per minute per IP
+// Strict limit on auth endpoints to prevent brute-force attacks
+const authRateLimit = rateLimit(10, 60_000); // 10 requests per minute per IP
+// General API rate limit applied to all authenticated routes
+const apiRateLimit = rateLimit(200, 60_000); // 200 requests per minute per IP
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // -----------------------------------------------------------------------
+  // Global authentication guard
+  // All /api/* routes require a valid Bearer JWT **except** the paths listed
+  // below, which are intentionally public or secured by another mechanism.
+  // -----------------------------------------------------------------------
+  app.use((req, res, next) => {
+    if (!req.path.startsWith("/api/")) return next();
+
+    const publicPaths = [
+      "/api/auth/", // registration & login (rate-limited per-endpoint)
+      "/api/shop/", // guest shopping (session-based)
+      "/api/billing/webhook", // verified via Stripe signature instead
+    ];
+    if (publicPaths.some((p) => req.path.startsWith(p))) return next();
+
+    // Read-only catalog endpoints are intentionally public
+    if (
+      req.method === "GET" &&
+      (req.path.startsWith("/api/products") ||
+        req.path.startsWith("/api/listings") ||
+        req.path.startsWith("/api/categories") ||
+        req.path === "/api/billing/plans")
+    ) {
+      return next();
+    }
+
+    // Apply both rate limiting and JWT verification to all protected routes
+    apiRateLimit(req, res, () => authMiddleware(req, res, next));
+  });
+
   app.get("/api/products", async (_req, res) => {
     try {
       const products = await storage.getAllProducts();
@@ -222,7 +260,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/ai/generate-product", async (req, res) => {
+  app.post("/api/ai/generate-product", aiRateLimit, async (req, res) => {
     try {
       const { productType, brandProfile, features } = req.body;
       
@@ -293,7 +331,7 @@ Return a JSON object with these fields:
     }
   });
 
-  app.post("/api/ai/generate-marketing", async (req, res) => {
+  app.post("/api/ai/generate-marketing", aiRateLimit, async (req, res) => {
     try {
       const { productTitle, productDescription, platform, brandProfile } = req.body;
 
@@ -372,9 +410,9 @@ Return a JSON object with:
     }
   });
 
-  app.post("/api/listings/:id/publish", async (req, res) => {
+  app.post<{ id: string }>("/api/listings/:id/publish", aiRateLimit, async (req, res) => {
     try {
-      const listingId = parseInt(req.params.id);
+      const listingId = parseInt(req.params.id, 10);
       const listing = await storage.getListing(listingId);
       if (!listing) return res.status(404).json({ error: "Listing not found" });
 
@@ -420,7 +458,7 @@ Return a JSON object with:
       res.json(updatedListing);
     } catch (error) {
       console.error("Publish pipeline error:", error);
-      const listingId = parseInt(req.params.id);
+      const listingId = parseInt(req.params.id, 10);
       await storage.updateListing(listingId, { status: "draft" }).catch(() => {});
       res.status(500).json({ error: "Failed to generate listing content" });
     }
@@ -554,7 +592,7 @@ Return a JSON object with:
     }
   });
 
-  app.post("/api/shop/stylist-chat", async (req, res) => {
+  app.post("/api/shop/stylist-chat", chatRateLimit, async (req, res) => {
     try {
       const { message, history = [] } = req.body;
 
@@ -675,7 +713,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   // === Auth & Password Reset Routes ===
 
-  app.post("/api/auth/register", async (req, res) => {
+  app.post("/api/auth/register", authRateLimit, async (req, res) => {
     try {
       const { username, password } = req.body;
       if (!username || !password) {
@@ -694,20 +732,24 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
     }
   });
 
-  app.post("/api/auth/login", async (req, res) => {
+  app.post("/api/auth/login", authRateLimit, async (req, res) => {
     try {
       const { username, password } = req.body;
+      if (!username || !password) {
+        return res.status(400).json({ error: "Username and password are required" });
+      }
       const user = await storage.getUserByUsername(username);
       if (!user || !user.password || !(await bcrypt.compare(password, user.password))) {
         return res.status(401).json({ error: "Invalid credentials" });
       }
-      res.json({ id: user.id, username: user.username, subscriptionTier: user.subscriptionTier });
+      const token = createToken({ id: user.id, username: user.username });
+      res.json({ id: user.id, username: user.username, subscriptionTier: user.subscriptionTier, token });
     } catch (error) {
       res.status(500).json({ error: "Login failed" });
     }
   });
 
-  app.post("/api/auth/request-reset", async (req, res) => {
+  app.post("/api/auth/request-reset", authRateLimit, async (req, res) => {
     try {
       const { email } = req.body;
       // In production, send email with reset link
@@ -730,8 +772,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   app.get("/api/billing/subscription", async (req, res) => {
     try {
-      const userId = req.headers["x-user-id"] as string;
-      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+      const userId = (req as AuthenticatedRequest).user.id;
       const subscription = await storage.getUserSubscription(userId);
       res.json(subscription || null);
     } catch (error) {
@@ -741,11 +782,45 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   app.post("/api/billing/checkout", async (req, res) => {
     try {
-      const { userId, planId } = req.body;
-      // Stripe checkout session creation would go here
-      res.json({ message: "Checkout session created", planId });
+      const userId = (req as AuthenticatedRequest).user.id;
+      const { planId } = req.body;
+      if (!planId) return res.status(400).json({ error: "planId is required" });
+
+      const plans = await storage.getSubscriptionPlans();
+      const plan = plans.find((p) => p.id === planId);
+      if (!plan) return res.status(404).json({ error: "Plan not found" });
+      if (!plan.stripePriceId) {
+        return res.status(422).json({ error: "Plan is not configured for billing" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) return res.status(404).json({ error: "User not found" });
+
+      // Reuse an existing Stripe customer if one was created during a prior checkout.
+      // TODO (M4): Once an `email` column is added to the `users` table, pass the
+      // real email here instead of username. See AUDIT.md recommendation M4.
+      const existingSub = await storage.getUserSubscription(userId);
+      let stripeCustomerId = existingSub?.stripeCustomerId ?? null;
+      if (!stripeCustomerId) {
+        stripeCustomerId = await createCustomer(user.username);
+      }
+
+      const baseUrl =
+        process.env.APP_URL ||
+        (process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : "http://localhost:5000");
+      const sessionUrl = await createCheckoutSession(
+        stripeCustomerId,
+        plan.stripePriceId,
+        `${baseUrl}/billing?success=true`,
+        `${baseUrl}/billing?cancelled=true`
+      );
+
+      res.json({ url: sessionUrl });
     } catch (error) {
-      res.status(500).json({ error: "Failed to create checkout" });
+      console.error("Checkout error:", error);
+      res.status(500).json({ error: "Failed to create checkout session" });
     }
   });
 
@@ -870,7 +945,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   app.get("/api/social/platforms", async (req, res) => {
     try {
-      const userId = req.headers["x-user-id"] as string;
+      const userId = (req as AuthenticatedRequest).user.id;
       const platforms = await storage.getSocialPlatforms(userId);
       res.json(platforms);
     } catch (error) {
@@ -889,7 +964,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   app.get("/api/social/content", async (req, res) => {
     try {
-      const userId = req.headers["x-user-id"] as string;
+      const userId = (req as AuthenticatedRequest).user.id;
       const content = await storage.getSocialContent(userId);
       res.json(content);
     } catch (error) {
@@ -899,7 +974,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   app.get("/api/social/analytics", async (req, res) => {
     try {
-      const userId = req.headers["x-user-id"] as string;
+      const userId = (req as AuthenticatedRequest).user.id;
       const analytics = await storage.getSocialAnalytics(userId);
       res.json(analytics);
     } catch (error) {
@@ -911,7 +986,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   app.get("/api/teams", async (req, res) => {
     try {
-      const userId = req.headers["x-user-id"] as string;
+      const userId = (req as AuthenticatedRequest).user.id;
       const userTeams = await storage.getUserTeams(userId);
       res.json(userTeams);
     } catch (error) {

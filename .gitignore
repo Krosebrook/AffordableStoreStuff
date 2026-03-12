@@ -40,3 +40,4 @@ yarn-error.*
 
 .env
 play-store-key.json
+server_dist/
