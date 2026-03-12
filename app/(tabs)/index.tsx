@@ -56,7 +56,7 @@ export default function DashboardScreen() {
     <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: webTopInset }]}>
       <View style={styles.greeting}>
         <Text style={styles.greetingText}>Welcome back</Text>
-        <Text style={styles.greetingSubtext}>Here's your store overview</Text>
+        <Text style={styles.greetingSubtext}>Here&apos;s your store overview</Text>
       </View>
 
       <View style={styles.statsGrid}>

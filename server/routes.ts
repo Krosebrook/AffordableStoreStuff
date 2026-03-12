@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { ObjectStorageService } from "./objectStorage";
 import { runPublishPipeline, generateListingContent } from "./publishPipeline";
+import { constructWebhookEvent } from "./services/stripe-service";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -749,11 +750,32 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
   });
 
   app.post("/api/billing/webhook", async (req, res) => {
+    const sig = req.headers["stripe-signature"] as string;
+    if (!sig) {
+      return res.status(400).json({ error: "Missing stripe-signature header" });
+    }
     try {
-      // Stripe webhook handling
+      // req.rawBody is populated by the `verify` callback in setupBodyParsing() (server/index.ts).
+      // It holds the raw Buffer before JSON parsing, which Stripe requires for signature verification.
+      const rawBody = req.rawBody as Buffer | undefined;
+      if (!rawBody) {
+        return res.status(400).json({ error: "Raw body unavailable for webhook verification" });
+      }
+      const event = await constructWebhookEvent(rawBody, sig);
+      // Handle specific Stripe event types
+      switch (event.type) {
+        case "customer.subscription.created":
+        case "customer.subscription.updated":
+        case "customer.subscription.deleted":
+          // TODO: sync subscription status with database
+          break;
+        default:
+          break;
+      }
       res.json({ received: true });
     } catch (error) {
-      res.status(500).json({ error: "Webhook processing failed" });
+      console.error("Webhook signature verification failed:", error);
+      res.status(400).json({ error: "Webhook signature verification failed" });
     }
   });
 
