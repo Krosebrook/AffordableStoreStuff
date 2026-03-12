@@ -27,6 +27,8 @@ const AI_MODEL = process.env.AI_MODEL || "gpt-4o";
 // Rate limiters for expensive/AI endpoints
 const aiRateLimit = rateLimit(20, 60_000); // 20 requests per minute per IP
 const chatRateLimit = rateLimit(30, 60_000); // 30 requests per minute per IP
+// Strict limit on auth endpoints to prevent brute-force attacks
+const authRateLimit = rateLimit(10, 60_000); // 10 requests per minute per IP
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // -----------------------------------------------------------------------
@@ -718,7 +720,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   // === Auth & Password Reset Routes ===
 
-  app.post("/api/auth/register", async (req, res) => {
+  app.post("/api/auth/register", authRateLimit, async (req, res) => {
     try {
       const { username, password } = req.body;
       if (!username || !password) {
@@ -737,7 +739,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
     }
   });
 
-  app.post("/api/auth/login", async (req, res) => {
+  app.post("/api/auth/login", authRateLimit, async (req, res) => {
     try {
       const { username, password } = req.body;
       if (!username || !password) {
@@ -754,7 +756,7 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
     }
   });
 
-  app.post("/api/auth/request-reset", async (req, res) => {
+  app.post("/api/auth/request-reset", authRateLimit, async (req, res) => {
     try {
       const { email } = req.body;
       // In production, send email with reset link
