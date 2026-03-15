@@ -9,6 +9,7 @@ export const users = pgTable("users", {
     .default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
+  email: text("email").unique(),
   subscriptionTier: text("subscription_tier").notNull().default("free"),
   aiCreditsUsed: integer("ai_credits_used").notNull().default(0),
   aiCreditsLimit: integer("ai_credits_limit").notNull().default(100),
@@ -444,6 +445,9 @@ export const teamMembersRelations = relations(teamMembers, ({ one }) => ({
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
+  email: true,
+}).extend({
+  email: z.string().email().optional(),
 });
 
 export const insertProductSchema = createInsertSchema(products).omit({
