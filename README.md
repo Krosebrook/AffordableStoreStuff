@@ -12,7 +12,7 @@ Vercel (Express API - serverless functions)
 Supabase (Database)
 ```
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed design decisions and data flow.
+See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed design decisions and data flow.
 
 ## Tech Stack
 
@@ -63,7 +63,7 @@ npm run dev
 
 ## Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for full deployment instructions covering:
+See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for full deployment instructions covering:
 - Supabase database setup
 - Vercel API deployment
 - EAS mobile builds
@@ -251,10 +251,10 @@ scripts/                Build scripts
 
 | Document | Description |
 |----------|-------------|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | System design, data flow, tech decisions |
-| [DEPLOYMENT.md](DEPLOYMENT.md) | Full deployment guide (Vercel, EAS, Play Store) |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Development workflow and code style |
-| [SECURITY.md](SECURITY.md) | Security practices and vulnerability reporting |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, data flow, tech decisions |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Full deployment guide (Vercel, EAS, Play Store) |
+| [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) | Development workflow and code style |
+| [.github/SECURITY.md](.github/SECURITY.md) | Security practices and vulnerability reporting |
 | [CHANGELOG.md](CHANGELOG.md) | Version history and release notes |
 | [.env.example](.env.example) | Environment variable reference |
 
