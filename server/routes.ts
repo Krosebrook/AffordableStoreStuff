@@ -1,18 +1,20 @@
 import type { Express } from "express";
 import { createServer, type Server } from "node:http";
-import OpenAI from "openai";
+import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { ObjectStorageService } from "./objectStorage";
 import { runPublishPipeline, generateListingContent } from "./publishPipeline";
 import { constructWebhookEvent } from "./services/stripe-service";
-
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
-
-const AI_MODEL = process.env.AI_MODEL || "gpt-4o";
+import { createCustomer, createCheckoutSession } from "./services/stripe-service";
+import { openai, AI_MODEL } from "./services/openai-client";
+import { sendPasswordResetEmail } from "./services/email-service";
+import {
+  createToken,
+  authMiddleware,
+  rateLimit,
+  type AuthenticatedRequest,
+} from "./auth";
 
 // Rate limiters for expensive/AI endpoints
 const aiRateLimit = rateLimit(20, 60_000); // 20 requests per minute per IP
@@ -411,8 +413,8 @@ Return a JSON object with:
   });
 
   app.post<{ id: string }>("/api/listings/:id/publish", aiRateLimit, async (req, res) => {
+    const listingId = parseInt(req.params.id, 10);
     try {
-      const listingId = parseInt(req.params.id, 10);
       const listing = await storage.getListing(listingId);
       if (!listing) return res.status(404).json({ error: "Listing not found" });
 
@@ -431,13 +433,32 @@ Return a JSON object with:
 
       await storage.updateListing(listingId, { status: "generating" });
 
-      const result = await runPublishPipeline(
-        product,
-        listing.marketplace,
-        brandProfile || undefined,
-        generateImages,
-        imageCount
-      );
+      let result;
+      let pipelineSucceeded = false;
+      try {
+        result = await runPublishPipeline(
+          product,
+          listing.marketplace,
+          brandProfile || undefined,
+          generateImages,
+          imageCount
+        );
+        pipelineSucceeded = true;
+      } catch (pipelineError) {
+        console.error("Publish pipeline error:", pipelineError);
+        res.status(500).json({ error: "Failed to generate listing content" });
+        return;
+      } finally {
+        // Ensure status is never permanently stuck as "generating"
+        if (!pipelineSucceeded) {
+          const current = await storage.getListing(listingId).catch(() => null);
+          if (current?.status === "generating") {
+            await storage.updateListing(listingId, { status: "draft" }).catch((e) => {
+              console.error("Failed to reset listing status after pipeline error:", e);
+            });
+          }
+        }
+      }
 
       const updatedListing = await storage.updateListing(listingId, {
         listingData: result.listingData,
@@ -457,9 +478,7 @@ Return a JSON object with:
 
       res.json(updatedListing);
     } catch (error) {
-      console.error("Publish pipeline error:", error);
-      const listingId = parseInt(req.params.id, 10);
-      await storage.updateListing(listingId, { status: "draft" }).catch(() => {});
+      console.error("Publish route error:", error);
       res.status(500).json({ error: "Failed to generate listing content" });
     }
   });
@@ -716,15 +735,26 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
   app.post("/api/auth/register", authRateLimit, async (req, res) => {
     try {
       const { username, password } = req.body;
+      const rawEmail: unknown = req.body.email;
       if (!username || !password) {
         return res.status(400).json({ error: "Username and password are required" });
       }
+      if (rawEmail !== undefined && (typeof rawEmail !== "string" || !rawEmail.includes("@"))) {
+        return res.status(400).json({ error: "Invalid email address" });
+      }
+      const normalizedEmail = typeof rawEmail === "string" ? rawEmail.toLowerCase().trim() : null;
       const existingUser = await storage.getUserByUsername(username);
       if (existingUser) {
         return res.status(409).json({ error: "Username already exists" });
       }
+      if (normalizedEmail) {
+        const existingEmail = await storage.getUserByEmail(normalizedEmail);
+        if (existingEmail) {
+          return res.status(409).json({ error: "Email already registered" });
+        }
+      }
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await storage.createUser({ username, password: hashedPassword });
+      const user = await storage.createUser({ username, password: hashedPassword, email: normalizedEmail ?? undefined });
       res.status(201).json({ id: user.id, username: user.username });
     } catch (error) {
       console.error("Registration error:", error);
@@ -751,11 +781,67 @@ Be friendly, enthusiastic, and specific with your recommendations. Use fashion t
 
   app.post("/api/auth/request-reset", authRateLimit, async (req, res) => {
     try {
-      const { email } = req.body;
-      // In production, send email with reset link
-      res.json({ message: "If an account exists with that email, a reset link has been sent." });
+      const rawEmail: unknown = req.body.email;
+      if (!rawEmail || typeof rawEmail !== "string") {
+        return res.status(400).json({ error: "Email is required" });
+      }
+      const email = rawEmail.toLowerCase().trim();
+
+      // Always respond with a generic message to prevent user enumeration
+      const genericResponse = { message: "If an account exists with that email, a reset link has been sent." };
+
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.json(genericResponse);
+      }
+
+      // Generate a cryptographically secure reset token (32 random bytes → 64 hex chars)
+      const rawToken = crypto.randomBytes(32).toString("hex");
+      const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+      await storage.createPasswordResetToken(user.id, rawToken, expiresAt);
+
+      // Send the email — if this fails, surface a 500 (don't swallow email errors silently)
+      try {
+        await sendPasswordResetEmail(email, rawToken, user.username);
+      } catch (emailError) {
+        console.error("Failed to send password reset email:", emailError);
+        return res.status(500).json({ error: "Failed to send reset email. Please try again later." });
+      }
+
+      res.json(genericResponse);
     } catch (error) {
+      console.error("Password reset request error:", error);
       res.status(500).json({ error: "Failed to process reset request" });
+    }
+  });
+
+  app.post("/api/auth/reset-password", authRateLimit, async (req, res) => {
+    try {
+      const { token, newPassword } = req.body;
+      if (!token || typeof token !== "string") {
+        return res.status(400).json({ error: "Reset token is required" });
+      }
+      if (!newPassword || typeof newPassword !== "string" || newPassword.length < 8) {
+        return res.status(400).json({ error: "New password must be at least 8 characters" });
+      }
+
+      const resetToken = await storage.getPasswordResetToken(token);
+      if (!resetToken) {
+        return res.status(400).json({ error: "Invalid or already-used reset token" });
+      }
+      if (new Date() > resetToken.expiresAt) {
+        return res.status(400).json({ error: "Reset token has expired. Please request a new one." });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await storage.updateUserPassword(resetToken.userId, hashedPassword);
+      await storage.markPasswordResetTokenUsed(resetToken.id);
+
+      res.json({ message: "Password has been reset successfully. You can now log in with your new password." });
+    } catch (error) {
+      console.error("Password reset error:", error);
+      res.status(500).json({ error: "Failed to reset password" });
     }
   });
 

@@ -1,14 +1,7 @@
-import OpenAI from "openai";
 import { generateImageBuffer } from "./services/image-generation";
 import { ObjectStorageService } from "./objectStorage";
 import type { Product, BrandProfile, ListingData } from "../shared/schema";
-
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
-
-const AI_MODEL = process.env.AI_MODEL || "gpt-4o";
+import { openai, AI_MODEL } from "./services/openai-client";
 
 interface PublishPipelineResult {
   listingData: ListingData;
@@ -245,6 +238,7 @@ export async function uploadImageToStorage(
   try {
     await file.makePublic();
   } catch (e) {
+    console.error("Failed to make GCS object public:", e);
   }
 
   return `product-images/${fileName}`;

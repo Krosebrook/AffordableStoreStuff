@@ -1,23 +1,26 @@
-import { eq, desc, and, sql, count, sum, inArray } from "drizzle-orm";
+import { eq, desc, and, sql, count, sum, inArray, isNull } from "drizzle-orm";
 import { db } from "./db";
 import {
   users, products, marketplaceListings, orders, brandProfiles,
   contentLibrary, aiGenerations, cartItems, styleProfiles, wardrobeItems,
   categories, orderItems, subscriptionPlans, subscriptions,
   publishingQueue, socialPlatforms, socialContent, socialAnalytics,
-  teams, teamMembers, marketingCampaigns,
+  teams, teamMembers, marketingCampaigns, passwordResetTokens,
   type User, type InsertUser, type Product, type InsertProduct,
   type MarketplaceListing, type Order, type BrandProfile, type ContentLibraryItem,
   type CartItem, type StyleProfile, type WardrobeItem,
   type Category, type OrderItem, type SubscriptionPlan, type Subscription,
   type PublishingQueueItem, type SocialPlatform, type SocialContentItem,
   type SocialAnalyticsSnapshot, type Team, type TeamMember, type MarketingCampaign,
+  type PasswordResetToken,
 } from "../shared/schema";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserPassword(userId: string, hashedPassword: string): Promise<void>;
   getAllProducts(): Promise<Product[]>;
   getProduct(id: number): Promise<Product | undefined>;
   createProduct(product: InsertProduct): Promise<Product>;
@@ -83,6 +86,11 @@ export interface IStorage {
   createCampaign(data: any): Promise<MarketingCampaign>;
   updateCampaign(id: string, data: any): Promise<MarketingCampaign | undefined>;
   deleteCampaign(id: string): Promise<void>;
+
+  // Password Reset
+  createPasswordResetToken(userId: string, token: string, expiresAt: Date): Promise<PasswordResetToken>;
+  getPasswordResetToken(token: string): Promise<PasswordResetToken | undefined>;
+  markPasswordResetTokenUsed(tokenId: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -96,9 +104,18 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
+
   async createUser(insertUser: InsertUser): Promise<User> {
     const [user] = await db.insert(users).values(insertUser).returning();
     return user;
+  }
+
+  async updateUserPassword(userId: string, hashedPassword: string): Promise<void> {
+    await db.update(users).set({ password: hashedPassword }).where(eq(users.id, userId));
   }
 
   async getAllProducts(): Promise<Product[]> {
@@ -452,6 +469,29 @@ export class DatabaseStorage implements IStorage {
 
   async deleteCampaign(id: string): Promise<void> {
     await db.delete(marketingCampaigns).where(eq(marketingCampaigns.id, id));
+  }
+
+  async createPasswordResetToken(userId: string, token: string, expiresAt: Date): Promise<PasswordResetToken> {
+    const [resetToken] = await db
+      .insert(passwordResetTokens)
+      .values({ userId, token, expiresAt })
+      .returning();
+    return resetToken;
+  }
+
+  async getPasswordResetToken(token: string): Promise<PasswordResetToken | undefined> {
+    const [resetToken] = await db
+      .select()
+      .from(passwordResetTokens)
+      .where(and(eq(passwordResetTokens.token, token), isNull(passwordResetTokens.usedAt)));
+    return resetToken || undefined;
+  }
+
+  async markPasswordResetTokenUsed(tokenId: string): Promise<void> {
+    await db
+      .update(passwordResetTokens)
+      .set({ usedAt: new Date() })
+      .where(eq(passwordResetTokens.id, tokenId));
   }
 }
 

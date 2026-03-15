@@ -226,10 +226,27 @@ function setupErrorHandler(app: express.Application) {
   });
 }
 
+function validateConfig() {
+  const recommended: Array<{ key: string; feature: string }> = [
+    { key: "AI_INTEGRATIONS_OPENAI_API_KEY", feature: "AI content generation" },
+    { key: "STRIPE_SECRET_KEY", feature: "Stripe payments" },
+    { key: "STRIPE_WEBHOOK_SECRET", feature: "Stripe webhooks" },
+    { key: "RESEND_API_KEY", feature: "password-reset emails" },
+  ];
+
+  const missing = recommended.filter(({ key }) => !process.env[key]);
+  if (missing.length > 0) {
+    for (const { key, feature } of missing) {
+      console.warn(`[CONFIG] WARNING: ${key} is not set — ${feature} will not work.`);
+    }
+  }
+}
+
 export async function initApp() {
   setupCors(app);
   setupBodyParsing(app);
   setupRequestLogging(app);
+  validateConfig();
 
   if (!process.env.VERCEL) {
     configureExpoAndLanding(app);

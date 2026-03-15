@@ -89,7 +89,8 @@ eas submit --platform android --profile production
 |--------|----------|-------------|
 | POST | `/api/auth/register` | Register a new user |
 | POST | `/api/auth/login` | Login with username/password |
-| POST | `/api/auth/request-reset` | Request password reset |
+| POST | `/api/auth/request-reset` | Request password reset email |
+| POST | `/api/auth/reset-password` | Complete password reset with token |
 
 ### Products
 
