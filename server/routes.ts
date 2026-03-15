@@ -5,16 +5,24 @@ import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { ObjectStorageService } from "./objectStorage";
 import { runPublishPipeline, generateListingContent } from "./publishPipeline";
-import { constructWebhookEvent } from "./services/stripe-service";
-import { createCustomer, createCheckoutSession } from "./services/stripe-service";
-import { openai, AI_MODEL } from "./services/openai-client";
-import { sendPasswordResetEmail } from "./services/email-service";
 import {
-  createToken,
+  constructWebhookEvent,
+  createCustomer,
+  createCheckoutSession,
+} from "./services/stripe-service";
+import {
   authMiddleware,
   rateLimit,
+  createToken,
   type AuthenticatedRequest,
 } from "./auth";
+
+const openai = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
+
+const AI_MODEL = process.env.AI_MODEL || "gpt-4o";
 
 // Rate limiters for expensive/AI endpoints
 const aiRateLimit = rateLimit(20, 60_000); // 20 requests per minute per IP
